@@ -1,4 +1,4 @@
-name: Deploy
+name: Deploy Hugo site
 
 on:
   push:
@@ -6,11 +6,16 @@ on:
       - master
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3.1.0
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
           submodules: recursive
           fetch-depth: 0
@@ -18,7 +23,7 @@ jobs:
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v2
         with:
-          hugo-version: '0.92.2'
+          hugo-version: "0.92.2"
           extended: true
 
       - name: Build
@@ -32,10 +37,9 @@ jobs:
           skip_external: true
 
       - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
+        uses: peaceiris/actions-gh-pages@v4
         with:
-          external_repository: tom0727/tom0727.github.io
-          personal_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./public
-          publish_branch: publish
+          publish_branch: gh-pages
           commit_message: ${{ github.event.head_commit.message }}
