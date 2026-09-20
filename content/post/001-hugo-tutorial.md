@@ -25,7 +25,7 @@
 
 注： blog的源代码和网页内容并不是一个东西!
 
-1. 源代码: 是`hugo-blog/` ��除了`hugo-blog/public/`以外的内容，包含了 `content/`, `config.toml` 之类的文件。
+1. 源代码: 是`hugo-blog/` 下除了`hugo-blog/public/`以外的内容，包含了 `content/`, `config.toml` 之类的文件。
 2. 网页内容：只是 `hugo-blog/public/`内的内容，有了源代码就可以用`hugo`生成网页内容，但是反之就不可以！
 
 既然两者有别，就要分开管理，我把它们放在同一个repository里，分成2个branch。源代码就放在了`master`里，网页内容就放在`publish`上了。
