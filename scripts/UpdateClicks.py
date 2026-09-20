@@ -18,13 +18,13 @@ def getClicks(url):
         "Referer": url,
         "Cookie": "busuanziId=ranking"
     })
-    return int(re.compile(r'(?<="page_pv":)\d+').search(res.text).group())
+    return int(re.compile(r'(?<=\"page_pv\":)\d+').search(res.text).group())
 
 
 with open("public/sitemap.xml", "r") as sitemap:
     urls = re.compile(r'(?<=<loc>).+?(?=</loc>)').findall(sitemap.read())
     for url in urls:
-        clicks = getClicks(url) + getClicks(url.replace("https://tom0727.github.io", "https://tom0727.gitee.io"))
+        clicks = getClicks(url)
         print(clicks, url)
         data["pages"].append({"url": url, "clicks": clicks})
 

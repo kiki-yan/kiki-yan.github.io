@@ -3,11 +3,11 @@ title = 'About'
 date = 2021-01-31T22:57:58+08:00
 +++
 
-### Hello, this is Tom!
+### Hello, this is kiki_yan!
 
-If you have trouble visiting this site (especially for mainland China users), please try visit 
+If you have trouble visiting this site, please try visit
 
-https://tom0727.gitee.io/
+https://kiki-yan.github.io/
 
 # About me
 
