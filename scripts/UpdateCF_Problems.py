@@ -1,7 +1,6 @@
 import argparse
 import json
 import os
-import sys
 import time
 
 import requests
@@ -17,23 +16,19 @@ contest_id_dict = {}
 
 
 def process(problem):
-    problem = {
+    result = {
         key: value
         for key, value in problem.items()
-        if key in ["contestId", "index", "name", "rating"]
+        if key in ("contestId", "index", "name", "rating")
     }
-    problem["solved"] = 0
-    problem["attempted"] = 0
-    problem["sub"] = 0
-    return problem
+    result.update(solved=0, attempted=0, sub=0)
+    return result
 
 
 def load_contest_json():
     global contest_id_dict
     if not os.path.exists(FILE_PATH):
-        print(f"Data file does not exist: {FILE_PATH}")
-        return
-    print(f"Current file size = {os.path.getsize(FILE_PATH)}")
+        raise FileNotFoundError(f"Data file does not exist: {FILE_PATH}")
     with open(FILE_PATH, encoding="utf-8") as infile:
         contest_list = json.load(infile)
     contest_id_dict = {
@@ -41,25 +36,33 @@ def load_contest_json():
         for contest in contest_list
         if contest and "id" in contest
     }
+    print(f"Current file size = {os.path.getsize(FILE_PATH)}")
 
 
 def load_contest_by_id(contest_id):
-    print(f"Loading contest {contest_id}...")
     url = (
         "https://codeforces.com/api/contest.standings"
         f"?contestId={contest_id}&showUnofficial=false"
     )
-    response = requests.get(url, timeout=30)
-    response.raise_for_status()
-    info = response.json()
-    if info.get("status") != "OK":
+    try:
+        response = requests.get(url, timeout=30)
+        if response.status_code != 200:
+            print(f"Skipping contest {contest_id}: API returned {response.status_code}")
+            return None
+        info = response.json()
+        if info.get("status") != "OK":
+            print(f"Skipping contest {contest_id}: {info.get('comment', 'API error')}")
+            return None
+    except (requests.RequestException, ValueError) as error:
+        print(f"Skipping contest {contest_id}: {error}")
         return None
 
     result = info["result"]
     name = result["contest"]["name"]
-    stripped_name = "".join(name.split())
-    problems = [process(problem) for problem in result["problems"]]
+    compact_name = "".join(name.split())
+    problems = [process(problem) for problem in result.get("problems", [])]
     if not problems or any("rating" not in problem for problem in problems):
+        print(f"Skipping contest {contest_id}: incomplete problem data")
         return None
 
     unique_indexes = {
@@ -69,25 +72,25 @@ def load_contest_by_id(contest_id):
     problem_count = len(unique_indexes)
 
     contest_type = "Others"
-    if "Global" in stripped_name:
+    if "Global" in compact_name:
         contest_type = "Global"
-    elif "Educational" in stripped_name:
+    elif "Educational" in compact_name:
         contest_type = "Educational"
     elif problem_count >= 10:
         contest_type = "ICPC"
-    elif "Div.1+Div.2" in stripped_name:
+    elif "Div.1+Div.2" in compact_name:
         contest_type = "Div1 + Div2"
-    elif "Div.1" in stripped_name and problem_count <= 8:
+    elif "Div.1" in compact_name and problem_count <= 8:
         contest_type = "Div1"
-    elif "Div.2" in stripped_name and problem_count <= 8:
+    elif "Div.2" in compact_name and problem_count <= 8:
         contest_type = "Div2"
-    elif "Div.3" in stripped_name:
+    elif "Div.3" in compact_name:
         contest_type = "Div3"
-    elif "Div.4" in stripped_name:
+    elif "Div.4" in compact_name:
         contest_type = "Div4"
 
     for row in result.get("rows", []):
-        for index, problem_result in enumerate(row["problemResults"]):
+        for index, problem_result in enumerate(row.get("problemResults", [])):
             if index >= len(problems):
                 continue
             if problem_result.get("points", 0) > 0:
@@ -102,6 +105,7 @@ def load_contest_by_id(contest_id):
         "problems": problems,
         "name": name,
         "problem_cnt": problem_count,
+        "sub": int(any(len(problem["index"]) > 1 for problem in problems)),
     }
 
 
@@ -119,7 +123,7 @@ def load_contest_all(force=False):
             contest_info = response.json()
             break
         except (requests.RequestException, ValueError) as error:
-            print(f"Attempt {attempt + 1}/5 failed: {error}")
+            print(f"Contest list attempt {attempt + 1}/5 failed: {error}")
             if attempt == 4:
                 raise
             time.sleep(10)
@@ -140,10 +144,6 @@ def load_contest_all(force=False):
                 contest_id_dict[contest_id] = contest_obj
 
         if contest_obj:
-            contest_obj.setdefault(
-                "sub",
-                int(any(len(problem["index"]) > 1 for problem in contest_obj["problems"])),
-            )
             contests.append(contest_obj)
 
     with open(FILE_PATH, "w", encoding="utf-8") as outfile:
@@ -154,6 +154,6 @@ def load_contest_all(force=False):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--force", "-f", action="store_true")
-    arguments = parser.parse_args()
+    args = parser.parse_args()
     load_contest_json()
-    load_contest_all(arguments.force)
+    load_contest_all(args.force)
