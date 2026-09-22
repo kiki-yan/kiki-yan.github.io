@@ -1,188 +1,159 @@
+import argparse
 import json
 import os
 import sys
 import time
+
 import requests
-import argparse
 
-FILE_PATH = "public/contests.json"
-INVALID_ID = {1597, 1596, 1595, 1410, 1414, 1412, 1258, 1226, 1224, 1222, 1094, 1050, 1049, 1048, 905, 885, 874, 857, 826, 728, 726, 693, 630
-, 345, 76, 48, 38, 22, 17, 6}
+FILE_PATH = "static/contests.json"
+INVALID_ID = {
+    1597, 1596, 1595, 1410, 1414, 1412, 1258, 1226, 1224, 1222,
+    1094, 1050, 1049, 1048, 905, 885, 874, 857, 826, 728, 726, 693,
+    630, 345, 76, 48, 38, 22, 17, 6,
+}
 
-
-'''
-Format of contest_list_all (list): 
-    Each Element is a dict, containing the following:
-    "id": The id of contest (e.g. 1536)
-    "type": The type of the contest (e.g. "Div. 1", "Div. 1 + Div. 2", "Global", "Others")
-    "name": The name of the contest
-    "problems": A list, each element is of format: 
-        {"contestId": 1536, "index": "B", "name": "Omkar and Bad Story", "rating":1200, "Solved": 1234, "Attempted": 5555}
-        (rating might be optional)
-    "sub": Boolean, whether it has some problem (1) or not (0).
-'''
+contest_id_dict = {}
 
 
-contest_id_dict = dict()
-
-
-def process(p):
-    p = {k : v for k,v in p.items() if k in ["contestId", "index", "name", "rating"]}
-    p["solved"] = 0
-    p["attempted"] = 0
-    p["sub"] = 0
-    return p
+def process(problem):
+    problem = {
+        key: value
+        for key, value in problem.items()
+        if key in ["contestId", "index", "name", "rating"]
+    }
+    problem["solved"] = 0
+    problem["attempted"] = 0
+    problem["sub"] = 0
+    return problem
 
 
 def load_contest_json():
-    print(f"Current file size = {os.path.getsize(FILE_PATH)}")
     global contest_id_dict
-    contest_list_all = json.load(open(FILE_PATH))
-    for contest_info in contest_list_all:
-        if not contest_info:  # if it contains some None value
-            print("none")
-            continue
-        id = contest_info["id"]
-        contest_id_dict[id] = contest_info
+    if not os.path.exists(FILE_PATH):
+        print(f"Data file does not exist: {FILE_PATH}")
+        return
+    print(f"Current file size = {os.path.getsize(FILE_PATH)}")
+    with open(FILE_PATH, encoding="utf-8") as infile:
+        contest_list = json.load(infile)
+    contest_id_dict = {
+        contest["id"]: contest
+        for contest in contest_list
+        if contest and "id" in contest
+    }
 
-def load_contest_byid(id):
-    print(f"loading contest {id}...")
-    url = f"https://codeforces.com/api/contest.standings?contestId={id}&showUnofficial=false"
-    res = requests.get(url)
-    if not res:
-        print(f"Error loading contest {id}, status code = {res.status_code}")
+
+def load_contest_by_id(contest_id):
+    print(f"Loading contest {contest_id}...")
+    url = (
+        "https://codeforces.com/api/contest.standings"
+        f"?contestId={contest_id}&showUnofficial=false"
+    )
+    response = requests.get(url, timeout=30)
+    response.raise_for_status()
+    info = response.json()
+    if info.get("status") != "OK":
         return None
-    info = res.json()
 
-    name = info["result"]["contest"]["name"]
+    result = info["result"]
+    name = result["contest"]["name"]
     stripped_name = "".join(name.split())
-
-    problem_list = info["result"]["problems"]
-    problem_list = list(map(process, problem_list))
-    index_set = set()
-    for problem in problem_list:
-        if len(problem["index"]) > 1:
-            index_set.add(problem["index"][0])
-        else:
-            index_set.add(problem["index"])
-    unique_problem_cnt = len(index_set)
-
-    type = "Others"
-    if "Global" in stripped_name:
-        type = "Global"
-    elif "Educational" in stripped_name:
-        type = "Educational"
-    elif unique_problem_cnt >= 10:
-        type = "ICPC"
-    elif "Div.1+Div.2" in stripped_name:
-        type = "Div1 + Div2"
-    elif "Div.1" in stripped_name and unique_problem_cnt <= 8:
-        type = "Div1"
-    elif "Div.2" in stripped_name and unique_problem_cnt <= 8:
-        type = "Div2"
-    elif "Div.3" in stripped_name:
-        type = "Div3"
-    elif "Div.4" in stripped_name:
-        type = "Div4"
-
-    if len(problem_list) == 0 or any("rating" not in x for x in problem_list):
+    problems = [process(problem) for problem in result["problems"]]
+    if not problems or any("rating" not in problem for problem in problems):
         return None
 
-    for row in info["result"]["rows"]:
-        problem_result = row["problemResults"]
-        for i in range(len(problem_result)):
-            if (problem_result[i]["points"] > 0):
-                problem_list[i]["attempted"] += 1 + problem_result[i]["rejectedAttemptCount"]
-                problem_list[i]["solved"] += 1
-    
-    contest_obj = dict()
-    contest_obj["id"] = id
-    contest_obj["type"] = type
-    contest_obj["problems"] = problem_list
-    contest_obj["name"] = name
-    contest_obj["problem_cnt"] = unique_problem_cnt  # only consider unique problems
+    unique_indexes = {
+        problem["index"][0] if len(problem["index"]) > 1 else problem["index"]
+        for problem in problems
+    }
+    problem_count = len(unique_indexes)
 
-    return contest_obj
+    contest_type = "Others"
+    if "Global" in stripped_name:
+        contest_type = "Global"
+    elif "Educational" in stripped_name:
+        contest_type = "Educational"
+    elif problem_count >= 10:
+        contest_type = "ICPC"
+    elif "Div.1+Div.2" in stripped_name:
+        contest_type = "Div1 + Div2"
+    elif "Div.1" in stripped_name and problem_count <= 8:
+        contest_type = "Div1"
+    elif "Div.2" in stripped_name and problem_count <= 8:
+        contest_type = "Div2"
+    elif "Div.3" in stripped_name:
+        contest_type = "Div3"
+    elif "Div.4" in stripped_name:
+        contest_type = "Div4"
 
-
-def filter_contest_helper(contest_result):
-
-    if contest_result["phase"] == "FINISHED":
-        if contest_result["type"] == "CF":
-            return True
-        # if contest_result["type"] == "ICPC" and ("Div. 3" in contest_result["name"] or "Div.3" in contest_result["name"]):
-        #     return True
-        # if contest_result["type"] == "ICPC" and ("Div. 4" in contest_result["name"] or "Div.4" in contest_result["name"]):
-        #     return True
-        # if contest_result["type"] == "ICPC" and "Educational" in contest_result["name"]:
-        #     return True
-        if contest_result["type"] == "ICPC":
-            return True
-
-        return False
-
-    return False
-
-
-
-def load_contest_all(args):
-    try_count = 0
-
-    while try_count < 5:
-        try:
-            url = "https://codeforces.com/api/contest.list"
-            res = requests.get(url)
-            contest_all_info = res.json()
-            break
-        except ValueError as e:
-            try_count += 1
-            print(f"An error occurred, Error msg: {e}")
-            time.sleep(60)  # wait for 1 minutes
-    else:
-        sys.exit(0)
-
-    contest_list_all = []
-    if contest_all_info["status"] == "OK":
-        contest_all_info = contest_all_info["result"]
-        # contest_all_info = list(filter((lambda obj : obj["phase"] == "FINISHED" and (obj["type"] == "CF" or (obj["type"] == "ICPC" and "Div. 3" in obj["name"]))), contest_all_info))
-        contest_all_info = list(filter(filter_contest_helper, contest_all_info))
-        for contest in contest_all_info:
-            id = contest["id"]
-            if id in INVALID_ID:  # ignore all invalid ID
+    for row in result.get("rows", []):
+        for index, problem_result in enumerate(row["problemResults"]):
+            if index >= len(problems):
                 continue
+            if problem_result.get("points", 0) > 0:
+                problems[index]["attempted"] += 1 + problem_result.get(
+                    "rejectedAttemptCount", 0
+                )
+                problems[index]["solved"] += 1
 
-            if id not in contest_id_dict or args.force:
-                contest_obj = load_contest_byid(id)
-                if contest_obj:   # load the contest only if it exists
-                    contest_id_dict[id] = contest_obj
-            else:
-                contest_obj = contest_id_dict[id]  # directly load the contest object from contest.json
+    return {
+        "id": contest_id,
+        "type": contest_type,
+        "problems": problems,
+        "name": name,
+        "problem_cnt": problem_count,
+    }
 
 
-            if contest_obj:   # only append valid info
-                problem_cnt = 0
-                if "sub" not in contest_obj:
-                    sub = 0
-                    for problem in contest_obj["problems"]:
-                        if len(problem["index"]) > 1:
-                            sub = 1
-                    contest_obj["sub"] = sub
-                
+def is_finished_contest(contest):
+    return contest.get("phase") == "FINISHED" and contest.get("type") in {"CF", "ICPC"}
 
-                contest_list_all.append(contest_obj)
 
-        with open(FILE_PATH, "w") as outfile:
-            json.dump(contest_list_all, outfile)
+def load_contest_all(force=False):
+    for attempt in range(5):
+        try:
+            response = requests.get(
+                "https://codeforces.com/api/contest.list", timeout=30
+            )
+            response.raise_for_status()
+            contest_info = response.json()
+            break
+        except (requests.RequestException, ValueError) as error:
+            print(f"Attempt {attempt + 1}/5 failed: {error}")
+            if attempt == 4:
+                raise
+            time.sleep(10)
 
-        print(f"After update, file size = {os.path.getsize(FILE_PATH)}")
+    if contest_info.get("status") != "OK":
+        raise RuntimeError("Loading Codeforces contest list failed")
 
-    else:
-        raise Exception("Load contest list failed.")
+    contests = []
+    for contest in filter(is_finished_contest, contest_info["result"]):
+        contest_id = contest["id"]
+        if contest_id in INVALID_ID:
+            continue
+
+        contest_obj = contest_id_dict.get(contest_id)
+        if contest_obj is None or force:
+            contest_obj = load_contest_by_id(contest_id)
+            if contest_obj:
+                contest_id_dict[contest_id] = contest_obj
+
+        if contest_obj:
+            contest_obj.setdefault(
+                "sub",
+                int(any(len(problem["index"]) > 1 for problem in contest_obj["problems"])),
+            )
+            contests.append(contest_obj)
+
+    with open(FILE_PATH, "w", encoding="utf-8") as outfile:
+        json.dump(contests, outfile, ensure_ascii=False)
+    print(f"After update, file size = {os.path.getsize(FILE_PATH)}")
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--force", "-f", action="store_true", help="Force update all contest")  # path for images dir
-    args = parser.parse_args()
+    parser.add_argument("--force", "-f", action="store_true")
+    arguments = parser.parse_args()
     load_contest_json()
-    load_contest_all(args)
+    load_contest_all(arguments.force)
