@@ -16,26 +16,15 @@
 {{ end }}
 {{ end }}
 {{ end }}
-{{- $paginator := .Paginate $pages .Site.Params.archivePaginate -}}
+
 <section id="archive" class="archive">
     <div class="archive-title">
         <p>
             点击量及排名更新于：{{ dateFormat (.Site.Params.dateFormatToUse | default "2006-01-02") .Site.Data.clicks.date }}
         </p>
     </div>
-    {{ if not $paginator.HasPrev -}}
-    {{ if eq .Data.Plural "tags" -}}
-    <div class="archive-title tag">
-        <h2 class="archive-name">{{ .Title }}</h2>
-    </div>
-    {{- else if eq .Data.Plural "categories" -}}
-    <div class="archive-title category">
-        <h2 class="archive-name">{{ .Title }}</h2>
-    </div>
-    {{- end }}
-    {{- end }}
 
-    {{ range $paginator.Pages -}}
+    {{ range $pages -}}
     <div class="archive-post">
         <span class="archive-post-time">
             {{ .Date.Format (.Site.Params.dateFormatToUse | default "2006-01-02") }}
@@ -48,19 +37,4 @@
     </div>
     {{- end }}
 </section>
-<!-- pagination -->
-<nav class="pagination">
-    {{ with $paginator.Prev -}}
-    <a class="prev" href="{{ .URL }}">
-        <i class="iconfont icon-left"></i>
-        <span class="prev-text">{{ T "prevPage" }}</span>
-    </a>
-    {{- end }}
-    {{ with $paginator.Next -}}
-    <a class="next" href="{{ .URL }}">
-        <span class="next-text">{{ T "nextPage" }}</span>
-        <i class="iconfont icon-right"></i>
-    </a>
-    {{- end }}
-</nav>
 {{- end }}

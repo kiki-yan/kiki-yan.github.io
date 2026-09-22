@@ -16,8 +16,11 @@ contest_id_dict = {}
 
 
 def process(problem):
-    result = {key: value for key, value in problem.items()
-              if key in ("contestId", "index", "name", "rating")}
+    result = {
+        key: value
+        for key, value in problem.items()
+        if key in ("contestId", "index", "name", "rating")
+    }
     result.update(solved=0, attempted=0, sub=0)
     return result
 
@@ -28,14 +31,19 @@ def load_contest_json():
         raise FileNotFoundError(f"Data file does not exist: {FILE_PATH}")
     with open(FILE_PATH, encoding="utf-8") as infile:
         contest_list = json.load(infile)
-    contest_id_dict = {contest["id"]: contest for contest in contest_list
-                       if contest and "id" in contest}
+    contest_id_dict = {
+        contest["id"]: contest
+        for contest in contest_list
+        if contest and "id" in contest
+    }
     print(f"Current file size = {os.path.getsize(FILE_PATH)}")
 
 
 def load_contest_by_id(contest_id):
-    url = ("https://codeforces.com/api/contest.standings"
-           f"?contestId={contest_id}&showUnofficial=false")
+    url = (
+        "https://codeforces.com/api/contest.standings"
+        f"?contestId={contest_id}&showUnofficial=false"
+    )
     try:
         response = requests.get(url, timeout=30)
         if response.status_code != 200:
@@ -57,9 +65,12 @@ def load_contest_by_id(contest_id):
         print(f"Skipping contest {contest_id}: incomplete problem data")
         return None
 
-    unique_indexes = {problem["index"][0] if len(problem["index"]) > 1
-                      else problem["index"] for problem in problems}
+    unique_indexes = {
+        problem["index"][0] if len(problem["index"]) > 1 else problem["index"]
+        for problem in problems
+    }
     problem_count = len(unique_indexes)
+
     contest_type = "Others"
     if "Global" in compact_name:
         contest_type = "Global"
@@ -80,25 +91,37 @@ def load_contest_by_id(contest_id):
 
     for row in result.get("rows", []):
         for index, problem_result in enumerate(row.get("problemResults", [])):
-            if index < len(problems) and problem_result.get("points", 0) > 0:
+            if index >= len(problems):
+                continue
+            if problem_result.get("points", 0) > 0:
                 problems[index]["attempted"] += 1 + problem_result.get(
-                    "rejectedAttemptCount", 0)
+                    "rejectedAttemptCount", 0
+                )
                 problems[index]["solved"] += 1
 
-    return {"id": contest_id, "type": contest_type, "problems": problems,
-            "name": name, "problem_cnt": problem_count,
-            "sub": int(any(len(problem["index"]) > 1 for problem in problems))}
+    return {
+        "id": contest_id,
+        "type": contest_type,
+        "problems": problems,
+        "name": name,
+        "problem_cnt": problem_count,
+        "sub": int(any(len(problem["index"]) > 1 for problem in problems)),
+    }
 
 
 def is_relevant_contest(contest):
-    return (contest.get("type") in {"CF", "ICPC"} and
-            contest.get("phase") in {"FINISHED", "SYSTEM_TEST", "CODING"})
+    """Include finished and currently active contests so the site always shows newest CF rounds."""
+    if contest.get("type") not in {"CF", "ICPC"}:
+        return False
+    return contest.get("phase") in ALLOWED_CONTEST_PHASES
 
 
 def load_contest_all(force=False):
     for attempt in range(5):
         try:
-            response = requests.get("https://codeforces.com/api/contest.list", timeout=30)
+            response = requests.get(
+                "https://codeforces.com/api/contest.list", timeout=30
+            )
             response.raise_for_status()
             contest_info = response.json()
             break
@@ -116,11 +139,13 @@ def load_contest_all(force=False):
         contest_id = contest["id"]
         if contest_id in INVALID_ID:
             continue
+
         contest_obj = contest_id_dict.get(contest_id)
         if contest_obj is None or force:
             contest_obj = load_contest_by_id(contest_id)
             if contest_obj:
                 contest_id_dict[contest_id] = contest_obj
+
         if contest_obj:
             contests.append(contest_obj)
 
