@@ -1,22 +1,20 @@
 {{ define "title" }}{{ .Title }} - {{ .Site.Title }}{{ end }}
 
 {{- define "content" -}}
-{{ $pages := slice }}
-{{ $clickMap := dict }}
-{{ $pageMap := dict }}
-
+{{ $pageForUrl := dict }}
 {{ range .Site.Pages }}
-  {{ $path := (urls.Parse .RelPermalink).Path }}
-  {{ $pageMap = merge $pageMap (dict $path .) }}
+  {{ $pageForUrl = merge $pageForUrl (dict (urls.Parse .RelPermalink).Path .) }}
 {{ end }}
 
+{{ $pages := slice }}
+{{ $clicks := dict }}
 {{ range .Site.Data.clicks.pages }}
-  {{ $url := .url }}
-  {{ $path := (urls.Parse $url).Path }}
-  {{ with index $pageMap $path }}
+  {{ $ranking := . }}
+  {{ $path := (urls.Parse $ranking.url).Path }}
+  {{ with index $pageForUrl $path }}
     {{ if and (eq .Type "post") (eq .Kind "page") }}
       {{ $pages = $pages | append . }}
-      {{ $clickMap = merge $clickMap (dict .RelPermalink .clicks) }}
+      {{ $clicks = merge $clicks (dict .RelPermalink $ranking.clicks) }}
     {{ end }}
   {{ end }}
 {{ end }}
@@ -35,7 +33,7 @@
       </span>
       <span class="archive-post-title">
         <a href="{{ .RelPermalink }}" class="archive-post-link">
-          {{ .Title }} ({{ index $clickMap .RelPermalink }})
+          {{ .Title }} ({{ index $clicks .RelPermalink }})
         </a>
       </span>
     </div>
