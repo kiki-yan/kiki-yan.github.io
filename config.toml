@@ -1,14 +1,13 @@
 newContentEditor = ""
 baseURL = "https://kiki-yan.github.io"
-languageCode = "en"
-defaultContentLanguage = "en"
+languageCode = "zh-cn"
+defaultContentLanguage = "zh-cn"
 title = "kiki_yan"
 preserveTaxonomyNames = true
 enableRobotsTXT = true
 enableEmoji = true
 theme = ["hugo-video", "even"]
 enableGitInfo = true
-
 hasCJKLanguage = true
 paginate = 10
 
@@ -19,22 +18,23 @@ copyright = ""
 [author]
   name = "kiki_yan"
 
-[sitemap]
-  changefreq = "weekly"
-  priority = 0.5
-  filename = "sitemap.xml"
-
 [[menu.main]]
-  name = "Home"
+  name = "首页"
   weight = 10
   identifier = "home"
   url = "/"
+[[menu.main]]
+  name = "CF Problems"
+  weight = 20
+  identifier = "cf-problems"
+  url = "/cf-problems/"
 
 [params]
-  since = "2021"
+  version = "4.x"
+  since = "2026"
   gitRepo = "https://github.com/kiki-yan/kiki-yan.github.io"
-  keywords = ["kiki_yan", "blog"]
-  description = "Site under maintenance"
+  keywords = ["kiki_yan", "blog", "Codeforces"]
+  description = "kiki_yan 的新博客"
   highlightInClient = true
   toc = true
   autoCollapseToc = true
@@ -53,7 +53,6 @@ copyright = ""
     pagePV = false
 
   [params.social]
-    a-email = "mailto:huzhenweitom@gmail.com"
     b-github = "https://github.com/kiki-yan"
 
 [privacy]
