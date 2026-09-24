@@ -11,15 +11,16 @@ INVALID_ID = {
     1094, 1050, 1049, 1048, 905, 885, 874, 857, 826, 728, 726, 693,
     630, 345, 76, 48, 38, 22, 17, 6,
 }
-ALLOWED_CONTEST_PHASES = {"FINISHED", "SYSTEM_TEST", "CODING"}
+ALLOWED_CONTEST_PHASES = {"FINISHED", "PENDING_SYSTEM_TEST", "SYSTEM_TEST", "CODING"}
 contest_id_dict = {}
 
 
 def process(problem):
     result = {
-        key: value
-        for key, value in problem.items()
-        if key in ("contestId", "index", "name", "rating")
+        "contestId": problem.get("contestId"),
+        "index": problem.get("index"),
+        "name": problem.get("name"),
+        "rating": problem.get("rating", 0),
     }
     result.update(solved=0, attempted=0, sub=0)
     return result
@@ -60,13 +61,19 @@ def load_contest_by_id(contest_id):
     result = info["result"]
     name = result["contest"]["name"]
     compact_name = "".join(name.split())
-    problems = [process(problem) for problem in result.get("problems", [])]
-    if not problems or any("rating" not in problem for problem in problems):
-        print(f"Skipping contest {contest_id}: incomplete problem data")
+    problems = []
+    for problem in result.get("problems", []):
+        if not problem.get("index") or not problem.get("name"):
+            continue
+        processed = process(problem)
+        problems.append(processed)
+
+    if not problems:
+        print(f"Skipping contest {contest_id}: no valid problem data")
         return None
 
     unique_indexes = {
-        problem["index"][0] if len(problem["index"]) > 1 else problem["index"]
+        problem["index"][0] if isinstance(problem["index"], str) and len(problem["index"]) > 1 else problem["index"]
         for problem in problems
     }
     problem_count = len(unique_indexes)
@@ -105,7 +112,7 @@ def load_contest_by_id(contest_id):
         "problems": problems,
         "name": name,
         "problem_cnt": problem_count,
-        "sub": int(any(len(problem["index"]) > 1 for problem in problems)),
+        "sub": int(any(isinstance(problem["index"], str) and len(problem["index"]) > 1 for problem in problems)),
     }
 
 
