@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>exgcd/中国剩余定理介绍 - kiki_yan</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="kiki_yan" /><meta name="description" content="扩展欧几里得 (exgcd) 这是 CRT 的前置知识，用于解决如下问题： 题意 给定方程 ax &#43; by = c，其中 $a,b,c$ 为已知的正整数，求一组正整数解 $x,y$？ Follow up: 如果解不存在，" /><meta name="keywords" content="kiki_yan, blog, Codeforces" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
+
+
+<link rel="canonical" href="https://kiki-yan.github.io/post/003-crt/" />
+<link rel="manifest" href="/manifest.json">
+
+
+
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="exgcd/中国剩余定理介绍" />
+<meta property="og:description" content="扩展欧几里得 (exgcd) 这是 CRT 的前置知识，用于解决如下问题： 题意 给定方程 ax &#43; by = c，其中 $a,b,c$ 为已知的正整数，求一组正整数解 $x,y$？ Follow up: 如果解不存在，" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kiki-yan.github.io/post/003-crt/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2021-02-06T10:46:42+08:00" />
+<meta property="article:modified_time" content="2026-09-24T14:30:49+08:00" />
+
+<meta itemprop="name" content="exgcd/中国剩余定理介绍">
+<meta itemprop="description" content="扩展欧几里得 (exgcd) 这是 CRT 的前置知识，用于解决如下问题： 题意 给定方程 ax &#43; by = c，其中 $a,b,c$ 为已知的正整数，求一组正整数解 $x,y$？ Follow up: 如果解不存在，"><meta itemprop="datePublished" content="2021-02-06T10:46:42+08:00" />
+<meta itemprop="dateModified" content="2026-09-24T14:30:49+08:00" />
+<meta itemprop="wordCount" content="2421">
+<meta itemprop="keywords" content="数学,中国剩余定理,crt,exgcd," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="exgcd/中国剩余定理介绍"/>
+<meta name="twitter:description" content="扩展欧几里得 (exgcd) 这是 CRT 的前置知识，用于解决如下问题： 题意 给定方程 ax &#43; by = c，其中 $a,b,c$ 为已知的正整数，求一组正整数解 $x,y$？ Follow up: 如果解不存在，"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">kiki_yan</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF Problems</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">kiki_yan</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF Problems</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">exgcd/中国剩余定理介绍</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2021-02-06 10:46:42 &#43;0800 &#43;0800"> 2021-02-06 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
+            </div>
+        
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#扩展欧几里得-exgcd">扩展欧几里得 (exgcd)</a></li>
+        <li><a href="#中国剩余定理-crt">中国剩余定理 (crt)</a>
+          <ul>
+            <li><a href="#定义">定义</a></li>
+            <li><a href="#结论">结论</a></li>
+            <li><a href="#证明">证明</a></li>
+            <li><a href="#证明推导过程">证明推导过程</a></li>
+            <li><a href="#例题">例题</a></li>
+            <li><a href="#快速乘">快速乘</a></li>
+            <li><a href="#模版">模版</a></li>
+            <li><a href="#参考链接">参考链接</a></li>
+          </ul>
+        </li>
+        <li><a href="#拓展中国剩余定理-excrt">拓展中国剩余定理 (excrt)</a>
+          <ul>
+            <li><a href="#定义-1">定义</a></li>
+            <li><a href="#intuition">Intuition</a></li>
+            <li><a href="#推导">推导</a></li>
+            <li><a href="#模版-1">模版</a></li>
+            <li><a href="#注意事项">注意事项</a></li>
+            <li><a href="#参考链接-1">参考链接</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="扩展欧几里得-exgcd">扩展欧几里得 (exgcd)</h2>
+<p>这是 CRT 的前置知识，用于解决如下问题：</p>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定方程 ax + by = c，其中 $a,b,c$ 为已知的正整数，求一组正整数解 $x,y$？</p>
+<p>Follow up:</p>
+<ol>
+<li>如果解不存在，输出 $-1$。</li>
+<li>如果解存在，但没有正整数解（正整数解表示 $x,y$ 均 $&gt;0$）求出所有整数解中，$x,y$ 的最小正整数值。</li>
+<li>如果解存在，并且有正整数解，求出正整数解的数量，并求出 $x,y$ 在所有正整数解中，可能的最大最小值。</li>
+</ol>
+</div>
+<p>推导过程如下：</p>
+<p>首先判断是否有解，只要知道 $c$ 是否为 $\gcd(a,b)$ 的倍数即可。</p>
+<p>以下，我们设 $c=k * \gcd(a,b)$，那么我们只要先求出 $ax+by = \gcd(a,b)$ 的一组可行解 $x,y$，求出原方程的 $x,y$ 只要乘上 $\frac{c}{\gcd(a,b)}$ 即可。</p>
+<p>$$ax_1 + by_1 = \gcd(a,b)$$</p>
+<p>$$bx_2 + (a\% b)y_2 = \gcd(a,b)$$</p>
+<p>注意到 $a \% b = a - \frac{a}{b} * b$，所以化简有：</p>
+<p>$$ay_2 + b(x_2 - \frac{a}{b}y_2) = \gcd(a,b)$$</p>
+<p>对比第一个式子的系数 $ax_1 + by_1 = \gcd(a,b)$ 可得</p>
+<p>$$x_1 = y_2, y_1 = x_2 - \frac{a}{b} y_2$$</p>
+<p>递归求解即可，base case为 $x = 1, y = 0$。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">ll <span style="color:#a6e22e">exgcd</span>(ll a, ll b, ll<span style="color:#f92672">&amp;</span> x, ll<span style="color:#f92672">&amp;</span> y) {
+    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>b) {
+        x <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, y <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        <span style="color:#66d9ef">return</span> a;  <span style="color:#75715e">// 这是 gcd(a,b)
+</span><span style="color:#75715e"></span>    }
+    ll g <span style="color:#f92672">=</span> exgcd(b, a<span style="color:#f92672">%</span>b, x, y);
+    ll x2 <span style="color:#f92672">=</span> x, y2 <span style="color:#f92672">=</span> y;
+    x <span style="color:#f92672">=</span> y2, y <span style="color:#f92672">=</span> x2 <span style="color:#f92672">-</span> a<span style="color:#f92672">/</span>b <span style="color:#f92672">*</span> y2;
+    <span style="color:#66d9ef">return</span> g;  <span style="color:#75715e">// 这是 gcd(a,b)
+</span><span style="color:#75715e"></span>}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    ll a,b; cin <span style="color:#f92672">&gt;&gt;</span> a <span style="color:#f92672">&gt;&gt;</span> b;
+    ll x,y;  <span style="color:#75715e">// 无需定义，exgcd结束后 x,y 即为所求的 ax+by = gcd(a,b) 中的x,y值
+</span><span style="color:#75715e"></span>    exgcd(a, b, x, y);
+}
+</code></pre></div><details class="admonition note"><summary class="admonition-title">Follow Up</summary>
+<ol>
+<li>判断是否有解，只要判断 $c$ 是否为 $\gcd(a,b)$ 的倍数即可。</li>
+</ol>
+<p>在考虑剩下两个问题之前，我们先将 $a,b,c$ 同除以 $\gcd(a,b)$，这样保证 $\gcd(a,b) = 1$，以下均遵循这个假设（主要是为了保证 $a,b$ 尽可能小）</p>
+<ol start="2">
+<li>
+<p>要求 $x,y$ 的最小正整数解 $x_{min}, y_{min}$，注意到：
+$$a(x\pm kb) + b(y \mp ka) = c$$
+其中 $k$ 是任意整数。
+并且 $x$ 越小，$y$ 越大，反之亦然。</p>
+<p>所以要求 $x_{min}$，只要保证 $k$ 的值使得 $(x+kb) &gt; 0$ 并且尽可能小即可，此时 $y$ 的值取到所有正整数解（若存在）中的最大值，如果这个最大值仍然 $\leq 0$ 说明对于 $x_{min}$ 正整数解不存在。对于 $y_{min}$ 也要check一下，如果两种情况下都不存在正整数解，我们即可得出结论原方程无正整数解。</p>
+<p>• 注意到上面让 $a = \frac{a}{\gcd(a,b)}, b = \frac{b}{\gcd(a,b)}$ 使得 $a,b$ 尽可能小，保证了 $x_{min}, y_{min}$ 的正确性。</p>
+</li>
+<li>
+<p>如果存在正整数解，那么根据上面的描述，解的数量和最大最小值就很容易得出了。</p>
+</li>
+</ol>
+</details>
+<h2 id="中国剩余定理-crt">中国剩余定理 (crt)</h2>
+<h3 id="定义">定义</h3>
+<p>给定方程组：
+$$\begin{cases}
+x\equiv a_1 (\text{mod }m_1) \\
+x\equiv a_2 (\text{mod }m_2) \\
+&hellip; \\
+x\equiv a_k (\text{mod }m_k) \\
+\end{cases}$$</p>
+<p>其中 $a_i \geq 0, m_i &gt; 0, a_i,m_i \in \mathbb{Z}$, 且 $m_i$ 之间<strong>两两互质</strong>。</p>
+<p>求满足条件的<strong>最小非负整数解</strong> $x$ ？</p>
+<h3 id="结论">结论</h3>
+<p>令 $M = m_1 \cdot m_2 ~&hellip; ~m_k$, $M_i = \frac{M}{m_i}$</p>
+<p>令 $M_i^{-1}$ 为 $M_i$ 在 $\color{red} \text{mod }m_i$ 意义下的逆元</p>
+<p>则，答案为: $x = \sum\limits_{i=1}^{k}a_iM_iM_i^{-1} ~ (\text{mod }M)$</p>
+<h3 id="证明">证明</h3>
+<p>因为 $\forall i \neq j, M_i \equiv 0 ~(\text{mod } m_j)$</p>
+<p>所以 $\forall i \neq j, a_iM_iM_i^{-1} \equiv 0~ (\text{mod } m_j)$</p>
+<p>所以 $\forall i, x \equiv \sum\limits_{i=1}^{k}a_iM_iM_i^{-1} \equiv a_iM_iM_i^{-1} ~ (\bmod ~m_i)$</p>
+<p>又因为 $\forall i, M_iM_i^{-1} \equiv 1 ~(\text{mod } m_i)$</p>
+<p>所以 $\forall i, x \equiv a_iM_iM_i^{-1} \equiv a_i ~ (\text{mod } m_i)$</p>
+<h3 id="证明推导过程">证明推导过程</h3>
+<details class="admonition note"><summary class="admonition-title">证明推导过程</summary>
+<p>这里直接放参考链接一中的片段：</p>
+<blockquote>
+<p><img src="/images/003/1.png" alt="image"></p>
+<p>由于 $M = 3\times5\times7 = 105$</p>
+<p>所以最后的解就是 $x = (n_1 + n_2 + n_3) ~\bmod ~ 105 = 233 ~ \bmod 105 = 23$</p>
+</blockquote>
+</details>
+<h3 id="例题">例题</h3>
+<ol>
+<li><a href="https://www.luogu.com.cn/problem/P3868" target="_blank">https://www.luogu.com.cn/problem/P3868</a></li>
+</ol>
+<h3 id="快速乘">快速乘</h3>
+<p>在题目中，有可能出现 $\bmod$ 接近 $1e18$ 的情况，有可能会爆 long long，所以在计算大数乘法时，要用快速乘（原理类似于快速幂）：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">ll <span style="color:#a6e22e">qmul</span>(ll a, ll b) {
+    ll ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">while</span> (b) {
+        <span style="color:#66d9ef">if</span> (b <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">1</span>) ans <span style="color:#f92672">=</span> (ans <span style="color:#f92672">+</span> a) <span style="color:#f92672">%</span> mod;
+        b <span style="color:#f92672">&gt;&gt;=</span> <span style="color:#ae81ff">1</span>;
+        a <span style="color:#f92672">=</span> (a <span style="color:#f92672">+</span> a) <span style="color:#f92672">%</span> mod;
+    }
+    <span style="color:#66d9ef">return</span> ans;
+}
+</code></pre></div><h3 id="模版">模版</h3>
+<details class="admonition note"><summary class="admonition-title">luogu-P3868-AC代码</summary>
+<p>题目链接: <a href="https://www.luogu.com.cn/problem/P3868" target="_blank">https://www.luogu.com.cn/problem/P3868</a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span> 
+<span style="color:#75715e">#define fastio ios::sync_with_stdio(false); cin.tie(0);
+</span><span style="color:#75715e">#define ll long long
+</span><span style="color:#75715e"></span>
+ll M <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+
+ll <span style="color:#a6e22e">qmul</span>(ll a, ll b) {
+    ll ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">while</span> (b) {
+        <span style="color:#66d9ef">if</span> (b <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">1</span>) ans <span style="color:#f92672">=</span> (ans <span style="color:#f92672">+</span> a) <span style="color:#f92672">%</span> M;
+        b <span style="color:#f92672">&gt;&gt;=</span> <span style="color:#ae81ff">1</span>;
+        a <span style="color:#f92672">=</span> (a <span style="color:#f92672">+</span> a) <span style="color:#f92672">%</span> M;
+    }
+    <span style="color:#66d9ef">return</span> ans;
+}
+
+ll <span style="color:#a6e22e">exgcd</span>(ll a, ll b, ll<span style="color:#f92672">&amp;</span> x, ll<span style="color:#f92672">&amp;</span> y) {
+    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>b) {
+        x <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, y <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        <span style="color:#66d9ef">return</span> a;
+    }
+    ll g <span style="color:#f92672">=</span> exgcd(b, a<span style="color:#f92672">%</span>b, x, y);
+    ll curx <span style="color:#f92672">=</span> y;
+    ll cury <span style="color:#f92672">=</span> x <span style="color:#f92672">-</span> (a<span style="color:#f92672">/</span>b) <span style="color:#f92672">*</span> y;
+    x <span style="color:#f92672">=</span> curx; y <span style="color:#f92672">=</span> cury;
+    <span style="color:#66d9ef">return</span> g;
+}
+
+ll a[<span style="color:#ae81ff">15</span>], b[<span style="color:#ae81ff">15</span>];
+<span style="color:#66d9ef">int</span> k;
+
+ll <span style="color:#a6e22e">crt</span>() {
+    ll ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> k; i<span style="color:#f92672">++</span>) {
+        ll m <span style="color:#f92672">=</span> M <span style="color:#f92672">/</span> b[i];
+        ll x,y;
+        exgcd(m, b[i], x, y);
+        <span style="color:#66d9ef">if</span> (x <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) x <span style="color:#f92672">+=</span> b[i];
+
+        ans <span style="color:#f92672">=</span> (ans <span style="color:#f92672">+</span> qmul(qmul(a[i], m), x)) <span style="color:#f92672">%</span> M;
+    }
+    <span style="color:#66d9ef">return</span> ans;
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    fastio;
+
+    cin <span style="color:#f92672">&gt;&gt;</span> k;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> k; i<span style="color:#f92672">++</span>) cin <span style="color:#f92672">&gt;&gt;</span> a[i];
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> k; i<span style="color:#f92672">++</span>) cin <span style="color:#f92672">&gt;&gt;</span> b[i], M <span style="color:#f92672">*=</span> b[i];
+
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> k; i<span style="color:#f92672">++</span>) {
+        a[i] <span style="color:#f92672">-=</span> (a[i]<span style="color:#f92672">/</span>b[i]) <span style="color:#f92672">*</span> b[i];  <span style="color:#75715e">//将a[i]变成正数
+</span><span style="color:#75715e"></span>        a[i] <span style="color:#f92672">+=</span> b[i];
+        a[i] <span style="color:#f92672">%=</span> b[i];
+    }
+    cout <span style="color:#f92672">&lt;&lt;</span> crt() <span style="color:#f92672">&lt;&lt;</span> endl;
+}
+</code></pre></div></details>
+<h3 id="参考链接">参考链接</h3>
+<ol>
+<li><a href="https://zhuanlan.zhihu.com/p/103394468" target="_blank">https://zhuanlan.zhihu.com/p/103394468</a></li>
+</ol>
+<h2 id="拓展中国剩余定理-excrt">拓展中国剩余定理 (excrt)</h2>
+<h3 id="定义-1">定义</h3>
+<p>用于 $m_1,m_2,&hellip;,m_k$ 并<strong>不互质</strong>的情况</p>
+<p>给定方程组：
+$$\begin{cases}
+x\equiv a_1 (\text{mod }m_1) \\
+x\equiv a_2 (\text{mod }m_2) \\
+&hellip; \\
+x\equiv a_k (\text{mod }m_k) \\
+\end{cases}$$</p>
+<p>其中 $a_i \geq 0, m_i &gt; 0, a_i,m_i \in \mathbb{Z}$，（$m_i$ 之间无特殊关联）</p>
+<p>求满足条件的<strong>最小非负整数解</strong> $x$ ？</p>
+<h3 id="intuition">Intuition</h3>
+<p>先看一些简单的例子：</p>
+<p>$$\begin{cases}
+x\equiv 2 ~(\text{mod }4) \\<br>
+\\
+x\equiv 4 ~(\text{mod }6) \\
+\end{cases}\Longrightarrow
+x \equiv 10 ~(\text{mod } 12)$$</p>
+<p>$$\begin{cases}
+x\equiv 4 ~(\text{mod }6) \\<br>
+\\
+x\equiv 3 ~(\text{mod }5) \\
+\end{cases}\Longrightarrow
+~\varnothing$$</p>
+<p>可以看出几个特点：</p>
+<ol>
+<li>答案的 $\text{mod}$ 为 $\text{lcm}(m_1, m_2)$</li>
+<li>有可能无解 （若$m_1,m_2$互质则必然有解）</li>
+</ol>
+<h3 id="推导">推导</h3>
+<p>考虑 $x$ 满足：</p>
+<p>$$\begin{cases}
+x\equiv a_1 ~(\text{mod }m_1) \\<br>
+\\
+x\equiv a_2 ~(\text{mod }m_2) \\
+\end{cases}$$</p>
+<p>则有 $x = k_1m_1 + a_1 = k_2m_2 + a_2$</p>
+<blockquote>
+<p>即：$k_1m_1 - k_2m_2 = a_2 - a_1$</p>
+<p>这个<strong>方程有解</strong> $\iff \gcd(m_1,m_2) | (a_2 - a_1)$ （即 $(a_2 - a_1)$ 是 $\gcd(m_1,m_2)$ 的倍数）。</p>
+</blockquote>
+<p>如果无解，就直接退出。</p>
+<p>如果有解，就用 $exgcd(m_1, m_2, x', y')$ 解出 $k_1$ 的值。</p>
+<p>设 $\gcd(m_1, m_2) = g$，则 $k_1 = x' \cdot\frac{a_2 - a_1}{g}$</p>
+<p>然后将 $k_1$ 代入 $x = k_1m_1 + a_1$，得到 $x$ 的值，答案就是 $x \equiv (k_1m_1 + a_1) (\text{mod  ~lcm}(m_1,m_2))$</p>
+<p>这样，$2$个同余方程就转化为了$1$个，用同样的方法继续进行下去，即可化为一个同余方程。</p>
+<p>最终的 $\text{mod}$ 数就是 $M = \text{lcm}(m_1, m_2, m_3 &hellip; , m_n)$</p>
+<h3 id="模版-1">模版</h3>
+<details class="admonition note"><summary class="admonition-title">luogu-P4777-AC代码</summary>
+<p>题目链接: <a href="https://www.luogu.com.cn/problem/P4777" target="_blank">https://www.luogu.com.cn/problem/P4777</a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">#define ll long long
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e5</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>;
+
+ll <span style="color:#a6e22e">exgcd</span>(ll a, ll b, ll<span style="color:#f92672">&amp;</span> x, ll<span style="color:#f92672">&amp;</span> y) {
+    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>b) {
+        x <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, y <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        <span style="color:#66d9ef">return</span> a;
+    }
+    ll g <span style="color:#f92672">=</span> exgcd(b, a<span style="color:#f92672">%</span>b, x, y);
+    ll x2 <span style="color:#f92672">=</span> x, y2 <span style="color:#f92672">=</span> y;
+    x <span style="color:#f92672">=</span> y2, y <span style="color:#f92672">=</span> x2 <span style="color:#f92672">-</span> a<span style="color:#f92672">/</span>b <span style="color:#f92672">*</span> y2;
+    <span style="color:#66d9ef">return</span> g;
+}
+
+ll <span style="color:#a6e22e">mul</span>(ll a, ll b, ll mod) {
+    ll res <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">while</span> (b) {
+        <span style="color:#66d9ef">if</span> (b<span style="color:#f92672">&amp;</span><span style="color:#ae81ff">1</span>) (res <span style="color:#f92672">+=</span> a) <span style="color:#f92672">%=</span> mod;
+        (a <span style="color:#f92672">+=</span> a) <span style="color:#f92672">%=</span> mod;
+        b <span style="color:#f92672">&gt;&gt;=</span> <span style="color:#ae81ff">1</span>;
+    }
+    <span style="color:#66d9ef">return</span> res;
+}
+
+<span style="color:#66d9ef">int</span> n;
+ll a[maxn], m[maxn];
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    fastio;
+
+    cin <span style="color:#f92672">&gt;&gt;</span> n;
+
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) cin <span style="color:#f92672">&gt;&gt;</span> m[i] <span style="color:#f92672">&gt;&gt;</span> a[i];
+    ll cura <span style="color:#f92672">=</span> a[<span style="color:#ae81ff">1</span>], curm <span style="color:#f92672">=</span> m[<span style="color:#ae81ff">1</span>];
+
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        <span style="color:#75715e">/* m1 = curm, m2 = m[i], a1 = cura, a2 = a[i] */</span>
+        ll x,y;
+        ll g <span style="color:#f92672">=</span> exgcd(curm, m[i], x, y);  <span style="color:#75715e">// g = gcd(curm, m[i])
+</span><span style="color:#75715e"></span>        ll c <span style="color:#f92672">=</span> a[i] <span style="color:#f92672">-</span> cura;  <span style="color:#75715e">// c = a2 - a1
+</span><span style="color:#75715e"></span>        c <span style="color:#f92672">=</span> ((c <span style="color:#f92672">%</span> m[i]) <span style="color:#f92672">+</span> m[i]) <span style="color:#f92672">%</span> m[i];  <span style="color:#75715e">// 处理负数，注意是 mod m2 (即 m[i])
+</span><span style="color:#75715e"></span>
+        <span style="color:#66d9ef">if</span> (c <span style="color:#f92672">%</span> g) {  <span style="color:#75715e">// 无解
+</span><span style="color:#75715e"></span>            cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+            <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+        }
+
+        ll M <span style="color:#f92672">=</span> (m[i] <span style="color:#f92672">*</span> (curm <span style="color:#f92672">/</span> g));  <span style="color:#75715e">// M = lcm(m1, m2)
+</span><span style="color:#75715e"></span>        ll k <span style="color:#f92672">=</span> mul(x, c <span style="color:#f92672">/</span> g, M);  <span style="color:#75715e">// k1 = x&#39; * (a2-a1) / g
+</span><span style="color:#75715e"></span>
+        cura <span style="color:#f92672">=</span> (mul(k, curm, M) <span style="color:#f92672">+</span> cura) <span style="color:#f92672">%</span> M;  <span style="color:#75715e">// x = k1m1 + a1
+</span><span style="color:#75715e"></span>        curm <span style="color:#f92672">=</span> M;
+    }
+    cout <span style="color:#f92672">&lt;&lt;</span> (cura <span style="color:#f92672">%</span> curm <span style="color:#f92672">+</span> curm) <span style="color:#f92672">%</span> curm <span style="color:#f92672">&lt;&lt;</span> endl;
+}
+</code></pre></div></details>
+<h3 id="注意事项">注意事项</h3>
+<ol>
+<li>
+<p>我们需要处理可能出现的负数！（比如在快速乘的时候，如果 $b$ 为负数就会炸）</p>
+<ol>
+<li>在 $exgcd(a,b,x',y')$ 中，$x'$ 有可能为负数。</li>
+<li>$c = a_2 - a_1$，则 $c$ 也有可能为负数。</li>
+</ol>
+<p>那么如何处理负数？我们<strong>需要找到这个负数对应的</strong> $\text{mod}$为多少，我们可以在等式 $k_1m_1 - k_2m_2 = a_2 - a_1$ 中找到！</p>
+<p>因为我们要求的是 $k_1$ 的值，实际上 $k_1m_1 = (a_2-a_1) + k_2m_2$，即 $k_1m_1 \equiv (a_2-a_1) \text{ (mod } m_2)$</p>
+<p>所以无论是 $k_1 = x' \cdot\frac{a_2 - a_1}{g}$ 还是 $(a_2-a_1)$，都取一个 $\text{mod } m_2$ 即可！</p>
+<p>代码段：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"> ll c <span style="color:#f92672">=</span> a[i] <span style="color:#f92672">-</span> cura;
+ c <span style="color:#f92672">=</span> ((c <span style="color:#f92672">%</span> m[i]) <span style="color:#f92672">+</span> m[i]) <span style="color:#f92672">%</span> m[i];  <span style="color:#75715e">// 处理负数，注意是 mod m2 (即 m[i])
+</span><span style="color:#75715e"></span>
+ ll k <span style="color:#f92672">=</span> mul(x, c <span style="color:#f92672">/</span> g, M);
+ <span style="color:#75715e">// k = ((k % m[i]) + m[i]) % m[i];  可以处理，但是没有必要，因为快速乘中的 a 可以为负数
+</span></code></pre></div></li>
+<li>
+<p>注意快速乘过程中的 $\text{mod}$ ！因为快速乘求的实际上是 $x$ 的值，所以 $\text{mod } M$，其中 <code>M = lcm(curm, m[i])</code></p>
+</li>
+<li>
+<p>我们用 <code>cura, curm</code> 来维护当前的 同余方程，之后记得更新一下 <code>curm = lcm(curm, m[i])</code></p>
+</li>
+</ol>
+<h3 id="参考链接-1">参考链接</h3>
+<ol>
+<li><a href="https://www.luogu.com.cn/blog/blue/kuo-zhan-zhong-guo-sheng-yu-ding-li" target="_blank">https://www.luogu.com.cn/blog/blue/kuo-zhan-zhong-guo-sheng-yu-ding-li</a></li>
+</ol>
+
+    </div>
+
+    
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E6%95%B0%E5%AD%A6/">数学</a>
+          <a href="/tags/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/">中国剩余定理</a>
+          <a href="/tags/crt/">crt</a>
+          <a href="/tags/exgcd/">exgcd</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/004-euler-function/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">欧拉函数</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/002-%E7%88%AC%E8%99%AB/">
+            <span class="next-text nav-default">初学爬虫小记</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://github.com/kiki-yan" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://kiki-yan.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2026
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/kiki-yan/kiki-yan.github.io" target="_blank"></a>
+    </span> 
+    <span class="author">kiki_yan</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/base16/tomorrow.min.css" rel="stylesheet">
+  
+  <script>hljs.configure({tabReplace: '    '});</script><script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

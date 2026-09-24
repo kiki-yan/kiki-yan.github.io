@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>点分治 - kiki_yan</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="kiki_yan" /><meta name="description" content="介绍 点分治用于处理 树上的路径问题。 点分治的主要思想是，对于一棵子树，子树内的所有路径只有两种情况： 不经过根节点 经过根节点 对于第一种，我们可以" /><meta name="keywords" content="kiki_yan, blog, Codeforces" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
+
+
+<link rel="canonical" href="https://kiki-yan.github.io/post/090-%E7%82%B9%E5%88%86%E6%B2%BB/" />
+<link rel="manifest" href="/manifest.json">
+
+
+
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="点分治" />
+<meta property="og:description" content="介绍 点分治用于处理 树上的路径问题。 点分治的主要思想是，对于一棵子树，子树内的所有路径只有两种情况： 不经过根节点 经过根节点 对于第一种，我们可以" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kiki-yan.github.io/post/090-%E7%82%B9%E5%88%86%E6%B2%BB/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2022-12-29T16:07:08-06:00" />
+<meta property="article:modified_time" content="2022-12-29T16:07:08-06:00" />
+
+<meta itemprop="name" content="点分治">
+<meta itemprop="description" content="介绍 点分治用于处理 树上的路径问题。 点分治的主要思想是，对于一棵子树，子树内的所有路径只有两种情况： 不经过根节点 经过根节点 对于第一种，我们可以"><meta itemprop="datePublished" content="2022-12-29T16:07:08-06:00" />
+<meta itemprop="dateModified" content="2022-12-29T16:07:08-06:00" />
+<meta itemprop="wordCount" content="2286">
+<meta itemprop="keywords" content=",," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="点分治"/>
+<meta name="twitter:description" content="介绍 点分治用于处理 树上的路径问题。 点分治的主要思想是，对于一棵子树，子树内的所有路径只有两种情况： 不经过根节点 经过根节点 对于第一种，我们可以"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">kiki_yan</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF Problems</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">kiki_yan</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF Problems</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">点分治</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2022-12-29 16:07:08 -0600 -0600"> 2022-12-29 </span>
+        <div class="post-category">
+            <a href="/categories//">  </a>
+            </div>
+        
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#介绍">介绍</a></li>
+        <li><a href="#例题">例题</a>
+          <ul>
+            <li><a href="#例1-洛谷p3806-点分治1httpswwwluogucomcnproblemp3806">例1 洛谷P3806 <a href="https://www.luogu.com.cn/problem/P3806">点分治1</a></a></li>
+            <li><a href="#例2-洛谷p4178-treehttpswwwluogucomcnproblemp4178">例2 洛谷P4178 <a href="https://www.luogu.com.cn/problem/P4178">Tree</a></a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="介绍">介绍</h2>
+<p>点分治用于处理 <strong>树上的路径问题</strong>。</p>
+<p>点分治的主要思想是，对于一棵子树，子树内的所有路径只有两种情况：</p>
+<ol>
+<li>不经过根节点</li>
+<li>经过根节点</li>
+</ol>
+<p>对于第一种，我们可以在处理其他子树的时候再讨论。</p>
+<p>对于第二种，注意到一个经过根节点的路径，可以被拆分成从根节点出发的一条路径，合并上另外一条从根节点出发的路径。</p>
+<p>所以点分治的核心思想就是对于每一个子树，都只考虑从根节点出发的路径，这些路径有 $O(n)$ 条。</p>
+<p>但极端情况下，比如一条链，这样的复杂度可能来到 $O(n^2)$，所以在寻找一个子树的根时，应该将这个子树的<strong>重心</strong>作为根，这样递归的时候深度最多就是 $O(\log n)$。</p>
+<p>总体上来说复杂度就是 $O(n \log n)$。</p>
+<details class="admonition note"><summary class="admonition-title">模版</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">int</span> n, m;
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Edge</span> {
+    <span style="color:#66d9ef">int</span> to, nxt, w;
+} edges[maxn<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>];
+<span style="color:#66d9ef">int</span> head[maxn], ecnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, queries[maxn];  
+<span style="color:#66d9ef">bool</span> ans[maxn], has_dis[maxm];  <span style="color:#75715e">// has_dis[i]: 当前子树中存在到根距离为i的节点
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">addEdge</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> v, <span style="color:#66d9ef">int</span> w) {
+    Edge e <span style="color:#f92672">=</span> {v, head[u], w};
+    head[u] <span style="color:#f92672">=</span> ecnt;
+    edges[ecnt<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> e;
+}
+
+<span style="color:#66d9ef">int</span> sz[maxn], dis[maxn], q[maxn], hd <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, tail <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+<span style="color:#66d9ef">bool</span> vis[maxn];
+vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> tmp;
+<span style="color:#66d9ef">int</span> cursz, rt;
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">find_centroid</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> p) {
+    sz[u] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">int</span> mx <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> e <span style="color:#f92672">=</span> head[u]; e; e <span style="color:#f92672">=</span> edges[e].nxt) {
+        <span style="color:#66d9ef">int</span> v <span style="color:#f92672">=</span> edges[e].to;
+        <span style="color:#66d9ef">if</span> (v <span style="color:#f92672">==</span> p <span style="color:#f92672">||</span> vis[v]) <span style="color:#66d9ef">continue</span>;
+        find_centroid(v, u);
+        sz[u] <span style="color:#f92672">+=</span> sz[v];
+        mx <span style="color:#f92672">=</span> max(mx, sz[v]);
+    }
+    mx <span style="color:#f92672">=</span> max(mx, cursz <span style="color:#f92672">-</span> sz[u]);
+    <span style="color:#66d9ef">if</span> (mx <span style="color:#f92672">&lt;=</span> cursz <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>) rt <span style="color:#f92672">=</span> u;
+}
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">get_cursz</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> p) {
+    sz[u] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> e <span style="color:#f92672">=</span> head[u]; e; e <span style="color:#f92672">=</span> edges[e].nxt) {
+        <span style="color:#66d9ef">int</span> v <span style="color:#f92672">=</span> edges[e].to;
+        <span style="color:#66d9ef">if</span> (vis[v] <span style="color:#f92672">||</span> v <span style="color:#f92672">==</span> p) <span style="color:#66d9ef">continue</span>;
+        get_cursz(v, u);
+        sz[u] <span style="color:#f92672">+=</span> sz[v];
+    }
+}
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">getdis</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> p) {
+    q[<span style="color:#f92672">++</span>tail] <span style="color:#f92672">=</span> dis[u];
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> e <span style="color:#f92672">=</span> head[u]; e; e <span style="color:#f92672">=</span> edges[e].nxt) {
+        <span style="color:#66d9ef">int</span> v <span style="color:#f92672">=</span> edges[e].to;
+        <span style="color:#66d9ef">if</span> (v <span style="color:#f92672">==</span> p <span style="color:#f92672">||</span> vis[v]) <span style="color:#66d9ef">continue</span>;
+        dis[v] <span style="color:#f92672">=</span> dis[u] <span style="color:#f92672">+</span> edges[e].w;
+        getdis(v, u);
+    }
+}
+
+<span style="color:#75715e">// 计算 u 为根，所有以 u 出发的路径带来的贡献
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">calc</span>(<span style="color:#66d9ef">int</span> u) {
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> e <span style="color:#f92672">=</span> head[u]; e; e <span style="color:#f92672">=</span> edges[e].nxt) {
+        <span style="color:#66d9ef">int</span> v <span style="color:#f92672">=</span> edges[e].to;
+        <span style="color:#66d9ef">if</span> (vis[v]) <span style="color:#66d9ef">continue</span>;
+        hd <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, tail <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;  <span style="color:#75715e">// 清空 v 的子树信息
+</span><span style="color:#75715e"></span>        dis[v] <span style="color:#f92672">=</span> dis[u] <span style="color:#f92672">+</span> edges[e].w;
+        getdis(v, u);
+        <span style="color:#75715e">// 将子树 v 的贡献加进 ans
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> p <span style="color:#f92672">=</span> hd; p <span style="color:#f92672">&lt;=</span> tail; p<span style="color:#f92672">++</span>) {   <span style="color:#75715e">// 遍历子树 v 的节点
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; k <span style="color:#f92672">&lt;=</span> m; k<span style="color:#f92672">++</span>) {  <span style="color:#75715e">// 遍历每一个询问
+</span><span style="color:#75715e"></span>                <span style="color:#66d9ef">int</span> q_dis <span style="color:#f92672">=</span> queries[k];
+                <span style="color:#66d9ef">if</span> (q_dis <span style="color:#f92672">&gt;=</span> q[p]) {
+                    ans[k] <span style="color:#f92672">|=</span> has_dis[q_dis <span style="color:#f92672">-</span> q[p]];
+                }
+            }
+        }
+        <span style="color:#75715e">// 考虑完子树 v 以后，将子树 v 的信息储存进去
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> p <span style="color:#f92672">=</span> hd; p <span style="color:#f92672">&lt;=</span> tail; p<span style="color:#f92672">++</span>) {
+            has_dis[q[p]] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+            tmp.push_back(q[p]);
+        }
+    }
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> d : tmp) has_dis[d] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;  <span style="color:#75715e">// 清空 u 的子树信息
+</span><span style="color:#75715e"></span>    tmp.clear();
+}
+
+<span style="color:#75715e">// 分治 u
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">solve</span>(<span style="color:#66d9ef">int</span> u) {
+    vis[u] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; dis[u] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; 
+    has_dis[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;  <span style="color:#75715e">// 初始情况
+</span><span style="color:#75715e"></span>    calc(u);
+    <span style="color:#75715e">// 处理答案
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> e <span style="color:#f92672">=</span> head[u]; e; e <span style="color:#f92672">=</span> edges[e].nxt) {
+        <span style="color:#66d9ef">int</span> v <span style="color:#f92672">=</span> edges[e].to;
+        <span style="color:#66d9ef">if</span> (vis[v]) <span style="color:#66d9ef">continue</span>;
+        get_cursz(v, <span style="color:#ae81ff">0</span>);
+        cursz <span style="color:#f92672">=</span> sz[v];
+        find_centroid(v, u);
+        solve(rt);  <span style="color:#75715e">// 子树
+</span><span style="color:#75715e"></span>    }
+}
+
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> m;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">int</span> u, v, w; cin <span style="color:#f92672">&gt;&gt;</span> u <span style="color:#f92672">&gt;&gt;</span> v <span style="color:#f92672">&gt;&gt;</span> w;
+        addEdge(u, v, w); addEdge(v, u, w);
+    }
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> m; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">int</span> k; cin <span style="color:#f92672">&gt;&gt;</span> k;
+        queries[i] <span style="color:#f92672">=</span> k;
+    }
+    
+    find_centroid(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>);
+    solve(rt);
+
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> m; i<span style="color:#f92672">++</span>) {
+        cout <span style="color:#f92672">&lt;&lt;</span> (ans[i] <span style="color:#f92672">?</span> <span style="color:#e6db74">&#34;AYE&#34;</span> <span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;NAY&#34;</span>) <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+    }
+}
+</code></pre></div></details>
+<p>在模版中，主要修改的部分就是 <code>calc(u)</code> 函数，这个函数代表着题目要求计算什么样的路径。</p>
+<h2 id="例题">例题</h2>
+<h3 id="例1-洛谷p3806-点分治1httpswwwluogucomcnproblemp3806">例1 洛谷P3806 <a href="https://www.luogu.com.cn/problem/P3806" target="_blank">点分治1</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一棵有 $n$ 个点的树，边有权值。</p>
+<p>有 $m$ 次询问，每次询问树上距离为 $k$ 的点对是否存在。</p>
+<p>其中，$n \leq 10^4, m \leq 100, 1 \leq k \leq 10^7, 1 \leq w \leq 10^4$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>注意到 $k \leq 10^7$，所以可以开一个数组来储存长度为 $x$ 的路径（从根出发）是否存在。</p>
+<p>然后就是点分治的模版了，有几个点可能需要注意：</p>
+<ol>
+<li>点分治的 <code>calc(u)</code> 过程里，枚举了每个子树 $v$，枚举一个 $v$ 得到子树信息以后，先将信息贡献给 <code>ans[]</code>，然后才储存进当前子树内。这是为了防止出现非法的情况，比如一个路径，两个端点都在同一个子树 $v$ 内，这也类似于树形 DP 的思想。</li>
+<li>使用了一个队列 <code>q</code> 来储存子树 $v$ 的信息。</li>
+<li>使用了一个 <code>vector&lt;&gt; tmp</code> 来储存整个 $u$ 子树的节点，<code>calc()</code> 结束以后用来清空信息，避免 memset 导致复杂度变成 $O(n^2)$。</li>
+<li>记得根节点 $u$ 的信息在一开始要先储存进去（或者后续贡献 <code>ans[]</code> 时单独考虑）。</li>
+</ol>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">2e5</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxm <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e8</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>;
+
+<span style="color:#66d9ef">int</span> n, m;
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Edge</span> {
+    <span style="color:#66d9ef">int</span> to, nxt, w;
+} edges[maxn<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>];
+<span style="color:#66d9ef">int</span> head[maxn], ecnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, queries[maxn];  
+<span style="color:#66d9ef">bool</span> ans[maxn], has_dis[maxm];  <span style="color:#75715e">// has_dis[i]: 当前子树中存在到根距离为i的节点
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">addEdge</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> v, <span style="color:#66d9ef">int</span> w) {
+    Edge e <span style="color:#f92672">=</span> {v, head[u], w};
+    head[u] <span style="color:#f92672">=</span> ecnt;
+    edges[ecnt<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> e;
+}
+
+<span style="color:#66d9ef">int</span> sz[maxn], dis[maxn], q[maxn], hd <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, tail <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+<span style="color:#66d9ef">bool</span> vis[maxn];
+vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> tmp;
+<span style="color:#66d9ef">int</span> cursz, rt;
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">find_centroid</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> p) {
+    sz[u] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">int</span> mx <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> e <span style="color:#f92672">=</span> head[u]; e; e <span style="color:#f92672">=</span> edges[e].nxt) {
+        <span style="color:#66d9ef">int</span> v <span style="color:#f92672">=</span> edges[e].to;
+        <span style="color:#66d9ef">if</span> (v <span style="color:#f92672">==</span> p <span style="color:#f92672">||</span> vis[v]) <span style="color:#66d9ef">continue</span>;
+        find_centroid(v, u);
+        sz[u] <span style="color:#f92672">+=</span> sz[v];
+        mx <span style="color:#f92672">=</span> max(mx, sz[v]);
+    }
+    mx <span style="color:#f92672">=</span> max(mx, cursz <span style="color:#f92672">-</span> sz[u]);
+    <span style="color:#66d9ef">if</span> (mx <span style="color:#f92672">&lt;=</span> cursz <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>) rt <span style="color:#f92672">=</span> u;
+}
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">get_cursz</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> p) {
+    sz[u] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> e <span style="color:#f92672">=</span> head[u]; e; e <span style="color:#f92672">=</span> edges[e].nxt) {
+        <span style="color:#66d9ef">int</span> v <span style="color:#f92672">=</span> edges[e].to;
+        <span style="color:#66d9ef">if</span> (vis[v] <span style="color:#f92672">||</span> v <span style="color:#f92672">==</span> p) <span style="color:#66d9ef">continue</span>;
+        get_cursz(v, u);
+        sz[u] <span style="color:#f92672">+=</span> sz[v];
+    }
+}
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">getdis</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> p) {
+    q[<span style="color:#f92672">++</span>tail] <span style="color:#f92672">=</span> dis[u];
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> e <span style="color:#f92672">=</span> head[u]; e; e <span style="color:#f92672">=</span> edges[e].nxt) {
+        <span style="color:#66d9ef">int</span> v <span style="color:#f92672">=</span> edges[e].to;
+        <span style="color:#66d9ef">if</span> (v <span style="color:#f92672">==</span> p <span style="color:#f92672">||</span> vis[v]) <span style="color:#66d9ef">continue</span>;
+        dis[v] <span style="color:#f92672">=</span> dis[u] <span style="color:#f92672">+</span> edges[e].w;
+        getdis(v, u);
+    }
+}
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">calc</span>(<span style="color:#66d9ef">int</span> u) {
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> e <span style="color:#f92672">=</span> head[u]; e; e <span style="color:#f92672">=</span> edges[e].nxt) {
+        <span style="color:#66d9ef">int</span> v <span style="color:#f92672">=</span> edges[e].to;
+        <span style="color:#66d9ef">if</span> (vis[v]) <span style="color:#66d9ef">continue</span>;
+        hd <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, tail <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;  <span style="color:#75715e">// 清空 v 的子树信息
+</span><span style="color:#75715e"></span>        dis[v] <span style="color:#f92672">=</span> dis[u] <span style="color:#f92672">+</span> edges[e].w;
+        getdis(v, u);
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> p <span style="color:#f92672">=</span> hd; p <span style="color:#f92672">&lt;=</span> tail; p<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; k <span style="color:#f92672">&lt;=</span> m; k<span style="color:#f92672">++</span>) {  <span style="color:#75715e">// 遍历询问
+</span><span style="color:#75715e"></span>                <span style="color:#66d9ef">int</span> q_dis <span style="color:#f92672">=</span> queries[k];
+                <span style="color:#66d9ef">if</span> (q_dis <span style="color:#f92672">&gt;=</span> q[p]) {
+                    ans[k] <span style="color:#f92672">|=</span> has_dis[q_dis <span style="color:#f92672">-</span> q[p]];
+                }
+            }
+        }
+
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> p <span style="color:#f92672">=</span> hd; p <span style="color:#f92672">&lt;=</span> tail; p<span style="color:#f92672">++</span>) {
+            has_dis[q[p]] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+            tmp.push_back(q[p]);
+        }
+    }
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> d : tmp) has_dis[d] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;  <span style="color:#75715e">// 清空 u 的子树信息
+</span><span style="color:#75715e"></span>    tmp.clear();
+}
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">solve</span>(<span style="color:#66d9ef">int</span> u) {
+    vis[u] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; dis[u] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; 
+    has_dis[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;  <span style="color:#75715e">// 初始情况
+</span><span style="color:#75715e"></span>    calc(u);
+    <span style="color:#75715e">// 处理答案
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> e <span style="color:#f92672">=</span> head[u]; e; e <span style="color:#f92672">=</span> edges[e].nxt) {
+        <span style="color:#66d9ef">int</span> v <span style="color:#f92672">=</span> edges[e].to;
+        <span style="color:#66d9ef">if</span> (vis[v]) <span style="color:#66d9ef">continue</span>;
+        get_cursz(v, <span style="color:#ae81ff">0</span>);
+        cursz <span style="color:#f92672">=</span> sz[v];
+        find_centroid(v, u);
+        solve(rt);  <span style="color:#75715e">// 子树
+</span><span style="color:#75715e"></span>    }
+}
+
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> m;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">int</span> u, v, w; cin <span style="color:#f92672">&gt;&gt;</span> u <span style="color:#f92672">&gt;&gt;</span> v <span style="color:#f92672">&gt;&gt;</span> w;
+        addEdge(u, v, w); addEdge(v, u, w);
+    }
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> m; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">int</span> k; cin <span style="color:#f92672">&gt;&gt;</span> k;
+        queries[i] <span style="color:#f92672">=</span> k;
+    }
+    
+    find_centroid(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>);
+    solve(rt);
+
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> m; i<span style="color:#f92672">++</span>) {
+        cout <span style="color:#f92672">&lt;&lt;</span> (ans[i] <span style="color:#f92672">?</span> <span style="color:#e6db74">&#34;AYE&#34;</span> <span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;NAY&#34;</span>) <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+    }
+}
+</code></pre></div></details>
+<h3 id="例2-洛谷p4178-treehttpswwwluogucomcnproblemp4178">例2 洛谷P4178 <a href="https://www.luogu.com.cn/problem/P4178" target="_blank">Tree</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一棵有 $n$ 个点的树，边有权值。</p>
+<p>求出树上两点距离小于等于 $k$ 的点对数量。</p>
+<p>其中，$n \leq 4 \times 10^4, w \in [0, 10^3], k \in [0, 2 \times 10^4]$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>小于等于 $k$ 的话，用树状数组维护一下就可以了，剩下的和上一题几乎没区别。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">BIT</span> {
+    <span style="color:#66d9ef">int</span> n, tr[maxn];
+    <span style="color:#66d9ef">inline</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">lowbit</span>(<span style="color:#66d9ef">int</span> x) { <span style="color:#66d9ef">return</span> x <span style="color:#f92672">&amp;</span> <span style="color:#f92672">-</span>x; }
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">update</span>(<span style="color:#66d9ef">int</span> p, <span style="color:#66d9ef">int</span> val) {
+        <span style="color:#66d9ef">while</span> (p <span style="color:#f92672">&lt;=</span> n) {
+            tr[p] <span style="color:#f92672">+=</span> val;
+            p <span style="color:#f92672">+=</span> lowbit(p);
+        }
+    }
+    <span style="color:#75715e">// return sum[1...p]
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">query</span>(<span style="color:#66d9ef">int</span> p) {
+        <span style="color:#66d9ef">int</span> ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        <span style="color:#66d9ef">while</span> (p <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
+            ans <span style="color:#f92672">+=</span> tr[p];
+            p <span style="color:#f92672">-=</span> lowbit(p);
+        }
+        <span style="color:#66d9ef">return</span> ans;
+    }
+} tr;
+
+<span style="color:#66d9ef">int</span> n, k;
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Edge</span> {
+    <span style="color:#66d9ef">int</span> to, nxt, w;
+} edges[maxn<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>];
+<span style="color:#66d9ef">int</span> head[maxn], ecnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, queries[maxn];  
+ll ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">addEdge</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> v, <span style="color:#66d9ef">int</span> w) {
+    Edge e <span style="color:#f92672">=</span> {v, head[u], w};
+    head[u] <span style="color:#f92672">=</span> ecnt;
+    edges[ecnt<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> e;
+}
+
+<span style="color:#66d9ef">int</span> sz[maxn], dis[maxn], q[maxn], hd <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, tail <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+<span style="color:#66d9ef">bool</span> vis[maxn];
+vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> tmp;
+<span style="color:#66d9ef">int</span> cursz, rt;
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">find_centroid</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> p) {
+    sz[u] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">int</span> mx <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> e <span style="color:#f92672">=</span> head[u]; e; e <span style="color:#f92672">=</span> edges[e].nxt) {
+        <span style="color:#66d9ef">int</span> v <span style="color:#f92672">=</span> edges[e].to;
+        <span style="color:#66d9ef">if</span> (v <span style="color:#f92672">==</span> p <span style="color:#f92672">||</span> vis[v]) <span style="color:#66d9ef">continue</span>;
+        find_centroid(v, u);
+        sz[u] <span style="color:#f92672">+=</span> sz[v];
+        mx <span style="color:#f92672">=</span> max(mx, sz[v]);
+    }
+    mx <span style="color:#f92672">=</span> max(mx, cursz <span style="color:#f92672">-</span> sz[u]);
+    <span style="color:#66d9ef">if</span> (mx <span style="color:#f92672">&lt;=</span> cursz <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>) rt <span style="color:#f92672">=</span> u;
+}
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">get_cursz</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> p) {
+    sz[u] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> e <span style="color:#f92672">=</span> head[u]; e; e <span style="color:#f92672">=</span> edges[e].nxt) {
+        <span style="color:#66d9ef">int</span> v <span style="color:#f92672">=</span> edges[e].to;
+        <span style="color:#66d9ef">if</span> (vis[v] <span style="color:#f92672">||</span> v <span style="color:#f92672">==</span> p) <span style="color:#66d9ef">continue</span>;
+        get_cursz(v, u);
+        sz[u] <span style="color:#f92672">+=</span> sz[v];
+    }
+}
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">getdis</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> p) {
+    q[<span style="color:#f92672">++</span>tail] <span style="color:#f92672">=</span> dis[u];
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> e <span style="color:#f92672">=</span> head[u]; e; e <span style="color:#f92672">=</span> edges[e].nxt) {
+        <span style="color:#66d9ef">int</span> v <span style="color:#f92672">=</span> edges[e].to;
+        <span style="color:#66d9ef">if</span> (v <span style="color:#f92672">==</span> p <span style="color:#f92672">||</span> vis[v]) <span style="color:#66d9ef">continue</span>;
+        dis[v] <span style="color:#f92672">=</span> dis[u] <span style="color:#f92672">+</span> edges[e].w;
+        getdis(v, u);
+    }
+}
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">calc</span>(<span style="color:#66d9ef">int</span> u) {
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> e <span style="color:#f92672">=</span> head[u]; e; e <span style="color:#f92672">=</span> edges[e].nxt) {
+        <span style="color:#66d9ef">int</span> v <span style="color:#f92672">=</span> edges[e].to;
+        <span style="color:#66d9ef">if</span> (vis[v]) <span style="color:#66d9ef">continue</span>;
+        hd <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, tail <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;  <span style="color:#75715e">// 清空 v 的子树信息
+</span><span style="color:#75715e"></span>        dis[v] <span style="color:#f92672">=</span> dis[u] <span style="color:#f92672">+</span> edges[e].w;
+        getdis(v, u);
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> p <span style="color:#f92672">=</span> hd; p <span style="color:#f92672">&lt;=</span> tail; p<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">int</span> d <span style="color:#f92672">=</span> q[p];
+            <span style="color:#75715e">// d + x &lt;= k 说明 x &lt;= k - d
+</span><span style="color:#75715e"></span>
+            <span style="color:#66d9ef">if</span> (d <span style="color:#f92672">&lt;=</span> k) {
+                ans <span style="color:#f92672">+=</span> tr.query(k <span style="color:#f92672">-</span> d);
+                ans<span style="color:#f92672">++</span>;  <span style="color:#75715e">// 到根节点
+</span><span style="color:#75715e"></span>            }
+        }
+
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> p <span style="color:#f92672">=</span> hd; p <span style="color:#f92672">&lt;=</span> tail; p<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">if</span> (q[p] <span style="color:#f92672">&lt;=</span> k) {
+                tr.update(q[p], <span style="color:#ae81ff">1</span>);
+                tmp.push_back(q[p]);
+            }
+        }
+    }
+    <span style="color:#75715e">// printf(&#34;u = %d, ans = %lld\n&#34;,u,ans);
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> d : tmp) tr.update(d, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>);
+    tmp.clear();
+}
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">solve</span>(<span style="color:#66d9ef">int</span> u) {
+    vis[u] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; dis[u] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; 
+    calc(u);
+    <span style="color:#75715e">// 处理答案
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> e <span style="color:#f92672">=</span> head[u]; e; e <span style="color:#f92672">=</span> edges[e].nxt) {
+        <span style="color:#66d9ef">int</span> v <span style="color:#f92672">=</span> edges[e].to;
+        <span style="color:#66d9ef">if</span> (vis[v]) <span style="color:#66d9ef">continue</span>;
+        get_cursz(v, <span style="color:#ae81ff">0</span>);
+        cursz <span style="color:#f92672">=</span> sz[v];
+        find_centroid(v, u);
+        solve(rt);  <span style="color:#75715e">// 子树
+</span><span style="color:#75715e"></span>    }
+}
+
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    tr.n <span style="color:#f92672">=</span> <span style="color:#ae81ff">2e4</span>;
+    cin <span style="color:#f92672">&gt;&gt;</span> n;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">int</span> u, v, w; cin <span style="color:#f92672">&gt;&gt;</span> u <span style="color:#f92672">&gt;&gt;</span> v <span style="color:#f92672">&gt;&gt;</span> w;
+        addEdge(u, v, w); addEdge(v, u, w);
+    }
+    cin <span style="color:#f92672">&gt;&gt;</span> k;
+    
+    find_centroid(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>);
+    solve(rt);
+    cout <span style="color:#f92672">&lt;&lt;</span> ans <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+}
+</code></pre></div></details>
+
+    </div>
+
+    
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags//"></a>
+          <a href="/tags//"></a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/091-%E5%AE%B9%E6%96%A5%E5%8E%9F%E7%90%86/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">容斥原理</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/089-%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84%E4%BA%8C%E5%88%86/">
+            <span class="next-text nav-default">树状数组二分</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://github.com/kiki-yan" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://kiki-yan.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2026
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/kiki-yan/kiki-yan.github.io" target="_blank"></a>
+    </span> 
+    <span class="author">kiki_yan</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/base16/tomorrow.min.css" rel="stylesheet">
+  
+  <script>hljs.configure({tabReplace: '    '});</script><script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

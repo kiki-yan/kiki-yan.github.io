@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>高斯消元 - kiki_yan</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="kiki_yan" /><meta name="description" content="板子 代码 struct GaussianElimination { int n, m; // n: 行 （方程个数）, m: 列 (变量个数) double A[1002][1002]; GaussianElimination(int n, int m) : n(n), m(m) {} vector&amp;lt;double&amp;gt; solve(int B = (int)1e6) { // B: band 大小，指对于任意 A(i,j) != 0，若 i2-i &amp;gt; B || j2-i &amp;gt; B 则任意" /><meta name="keywords" content="kiki_yan, blog, Codeforces" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
+
+
+<link rel="canonical" href="https://kiki-yan.github.io/post/049-%E9%AB%98%E6%96%AF%E6%B6%88%E5%85%83/" />
+<link rel="manifest" href="/manifest.json">
+
+
+
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="高斯消元" />
+<meta property="og:description" content="板子 代码 struct GaussianElimination { int n, m; // n: 行 （方程个数）, m: 列 (变量个数) double A[1002][1002]; GaussianElimination(int n, int m) : n(n), m(m) {} vector&lt;double&gt; solve(int B = (int)1e6) { // B: band 大小，指对于任意 A(i,j) != 0，若 i2-i &gt; B || j2-i &gt; B 则任意" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kiki-yan.github.io/post/049-%E9%AB%98%E6%96%AF%E6%B6%88%E5%85%83/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2021-09-10T22:00:43+08:00" />
+<meta property="article:modified_time" content="2021-09-10T22:00:43+08:00" />
+
+<meta itemprop="name" content="高斯消元">
+<meta itemprop="description" content="板子 代码 struct GaussianElimination { int n, m; // n: 行 （方程个数）, m: 列 (变量个数) double A[1002][1002]; GaussianElimination(int n, int m) : n(n), m(m) {} vector&lt;double&gt; solve(int B = (int)1e6) { // B: band 大小，指对于任意 A(i,j) != 0，若 i2-i &gt; B || j2-i &gt; B 则任意"><meta itemprop="datePublished" content="2021-09-10T22:00:43+08:00" />
+<meta itemprop="dateModified" content="2021-09-10T22:00:43+08:00" />
+<meta itemprop="wordCount" content="5387">
+<meta itemprop="keywords" content="," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="高斯消元"/>
+<meta name="twitter:description" content="板子 代码 struct GaussianElimination { int n, m; // n: 行 （方程个数）, m: 列 (变量个数) double A[1002][1002]; GaussianElimination(int n, int m) : n(n), m(m) {} vector&lt;double&gt; solve(int B = (int)1e6) { // B: band 大小，指对于任意 A(i,j) != 0，若 i2-i &gt; B || j2-i &gt; B 则任意"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">kiki_yan</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF Problems</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">kiki_yan</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF Problems</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">高斯消元</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2021-09-10 22:00:43 &#43;0800 &#43;0800"> 2021-09-10 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
+            </div>
+        
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#板子">板子</a></li>
+        <li><a href="#介绍">介绍</a></li>
+        <li><a href="#步骤">步骤</a>
+          <ul>
+            <li><a href="#无解或多解">无解或多解</a></li>
+          </ul>
+        </li>
+        <li><a href="#带状矩阵优化">带状矩阵优化</a>
+          <ul>
+            <li><a href="#带状矩阵的注意事项">带状矩阵的注意事项</a></li>
+          </ul>
+        </li>
+        <li><a href="#01矩阵优化">01矩阵优化</a>
+          <ul>
+            <li><a href="#模版-p3389-模板高斯消元法httpswwwluogucomcnproblemp3389">模版 <a href="https://www.luogu.com.cn/problem/P3389">P3389 【模板】高斯消元法</a></a></li>
+          </ul>
+        </li>
+        <li><a href="#例题">例题</a>
+          <ul>
+            <li><a href="#例1-洛谷p2447sdoi2010外星千足虫httpswwwluogucomcnproblemp2447">例1 洛谷P2447<a href="https://www.luogu.com.cn/problem/P2447">[SDOI2010]外星千足虫</a></a></li>
+            <li><a href="#例2-洛谷p4035-jsoi2008球形空间产生器httpswwwluogucomcnproblemp4035">例2 <a href="https://www.luogu.com.cn/problem/P4035">洛谷P4035 [JSOI2008]球形空间产生器</a></a></li>
+            <li><a href="#例3-naq2016-b-arcadehttpsopenkattiscomproblemsarcadetabmetadata">例3 NAQ2016 B. <a href="https://open.kattis.com/problems/arcade?tab=metadata">Arcade!</a></a></li>
+            <li><a href="#例4-naq2016i-primonimohttpsopenkattiscomproblemsprimonimo">例4 NAQ2016I. <a href="https://open.kattis.com/problems/primonimo">Primonimo</a></a></li>
+            <li><a href="#例5-cf24d-broken-robothttpscodeforcescomproblemsetproblem24d">例5 CF24D <a href="https://codeforces.com/problemset/problem/24/D">Broken robot</a></a></li>
+          </ul>
+        </li>
+        <li><a href="#参考链接">参考链接</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="板子">板子</h2>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">GaussianElimination</span> {
+    <span style="color:#66d9ef">int</span> n, m;  <span style="color:#75715e">// n: 行 （方程个数）, m: 列 (变量个数)
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">double</span> A[<span style="color:#ae81ff">1002</span>][<span style="color:#ae81ff">1002</span>];
+    GaussianElimination(<span style="color:#66d9ef">int</span> n, <span style="color:#66d9ef">int</span> m) <span style="color:#f92672">:</span> n(n), m(m) {}
+    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">double</span><span style="color:#f92672">&gt;</span> solve(<span style="color:#66d9ef">int</span> B <span style="color:#f92672">=</span> (<span style="color:#66d9ef">int</span>)<span style="color:#ae81ff">1e6</span>) {    
+        <span style="color:#75715e">// B: band 大小，指对于任意 A(i,j) != 0，若 i2-i &gt; B || j2-i &gt; B 则任意 A(i2,j2) = 0；若 B = 1e6 则无此限制
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// 返回 x_1, x_2, ..., x_m (注意返回的长度为 m+1)，所以 x_1 = ans[1]
+</span><span style="color:#75715e"></span>        vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">double</span><span style="color:#f92672">&gt;</span> ans(m<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>);
+        vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> var, free_var;  <span style="color:#75715e">// 主元，自由元
+</span><span style="color:#75715e"></span>
+        <span style="color:#66d9ef">int</span> row <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> col <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; col <span style="color:#f92672">&lt;=</span> m; col<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">int</span> maxrow <span style="color:#f92672">=</span> row;
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> row<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> min(n, row<span style="color:#f92672">+</span><span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>B); i<span style="color:#f92672">++</span>) {
+                <span style="color:#66d9ef">if</span> (abs(A[i][col]) <span style="color:#f92672">&gt;</span> abs(A[maxrow][col])) {  <span style="color:#75715e">// 在 mod 情况下找到一个非0即可
+</span><span style="color:#75715e"></span>                    maxrow <span style="color:#f92672">=</span> i;
+                }
+            }
+            <span style="color:#66d9ef">if</span> (abs(A[maxrow][col]) <span style="color:#f92672">&lt;</span> eps) {
+                <span style="color:#75715e">// 自由元, 跳过这个 col，但row不变
+</span><span style="color:#75715e"></span>                free_var.push_back(col);
+                <span style="color:#66d9ef">continue</span>;
+            } <span style="color:#66d9ef">else</span> {  <span style="color:#75715e">// 主元
+</span><span style="color:#75715e"></span>                var.push_back(col);
+            }
+
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> max(<span style="color:#ae81ff">1</span>, col<span style="color:#f92672">-</span><span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>B); j <span style="color:#f92672">&lt;=</span> min(m, col<span style="color:#f92672">+</span><span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>B); j<span style="color:#f92672">++</span>) swap(A[row][j], A[maxrow][j]);
+            swap(A[row][m<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>], A[maxrow][m<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>]);
+
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> row<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> min(n, row<span style="color:#f92672">+</span><span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>B); i<span style="color:#f92672">++</span>) {
+                <span style="color:#66d9ef">if</span> (i <span style="color:#f92672">==</span> row) <span style="color:#66d9ef">continue</span>;
+                <span style="color:#66d9ef">double</span> in <span style="color:#f92672">=</span> A[i][col] <span style="color:#f92672">/</span> A[row][col];
+                <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> max(<span style="color:#ae81ff">1</span>, col<span style="color:#f92672">-</span><span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>B); j <span style="color:#f92672">&lt;=</span> min(m, col<span style="color:#f92672">+</span><span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>B); j<span style="color:#f92672">++</span>) {
+                    A[i][j] <span style="color:#f92672">-=</span> (in <span style="color:#f92672">*</span> A[row][j]);
+                }
+                A[i][m<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">-=</span> (in <span style="color:#f92672">*</span> A[row][m<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>]);
+            }
+            row<span style="color:#f92672">++</span>;  <span style="color:#75715e">// 增加 row
+</span><span style="color:#75715e"></span>        }
+
+        row<span style="color:#f92672">--</span>;  <span style="color:#75715e">// 因为row是从1开始的，所以会多加一次 (现在 [1,row] 代表了主元)
+</span><span style="color:#75715e"></span>        assert(row <span style="color:#f92672">==</span> var.size());
+        <span style="color:#66d9ef">if</span> (row <span style="color:#f92672">&lt;</span> n) {  <span style="color:#75715e">// 要么无解，要么有无数多个解
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> row <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+                <span style="color:#66d9ef">if</span> (abs(A[i][m<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>]) <span style="color:#f92672">&gt;</span> eps) <span style="color:#66d9ef">return</span> {};  <span style="color:#75715e">// 无解
+</span><span style="color:#75715e"></span>            }
+            <span style="color:#75715e">// 否则，有无数多个解，将自由元设为 0，输出主元的解
+</span><span style="color:#75715e"></span>        } 
+
+        <span style="color:#75715e">// 有解 和 无数个解 都输出了
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> row; i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">1</span>; i<span style="color:#f92672">--</span>) {
+            <span style="color:#75715e">// 此时，主元是 var[i-1]
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> var[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>];
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> k<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;=</span> min(m, k<span style="color:#f92672">+</span><span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>B); j<span style="color:#f92672">++</span>) {
+                A[i][m<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">-=</span> A[i][j] <span style="color:#f92672">*</span> ans[j];
+                A[i][j] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+            }
+            ans[k] <span style="color:#f92672">=</span> A[i][m<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">/</span> A[i][k];
+        }
+        <span style="color:#66d9ef">return</span> ans;
+    }
+};
+</code></pre></div></details>
+<h2 id="介绍">介绍</h2>
+<p>高斯消元是矩阵操作里最基础的一个，主要用于解形如 $a_1x_1 + a_2x_2 + a_3x_3 = b_1$ 之类的线性方程组。</p>
+<h2 id="步骤">步骤</h2>
+<ol>
+<li>按 column 进行遍历</li>
+<li>遍历到第 $k$ 个 column 时，在这个column中，寻找一个 $maxrow$ 使得 $A[maxrow][k]$ 最大（注意这个 <code>maxrow &gt; k</code>），因为消元时，在 $k$ 行上面的所有行都被消成 unit vector 的形式了。</li>
+<li>将第 $k$ 行 与 第 $maxrow$ 行进行交换。</li>
+<li>交换后，以第 $k$ 行作为pivot，消去第 $k$ 列它<strong>下方</strong>所有行上的数字。</li>
+<li>最后会得到一个 triangular matrix，左下方的所有值为 $0$，然后从右下方开始回代，即可得到 $\vec{b}$。</li>
+</ol>
+<p>复杂度：$O(n^3)$</p>
+<p>• 然而上述是针对 $n \times n$ 的矩阵，并且保证有唯一解时的做法。</p>
+<h3 id="无解或多解">无解或多解</h3>
+<p>假设我们给定 $n \times m$ 的矩阵，代表 $n$ 个方程和 $m$ 个变量。</p>
+<p>我们用 <code>row</code> 和 <code>col</code> 来记录当前的行和列。</p>
+<p>如果在第 $2$ 步，找不到 maxrow（即当前行下方的所有行 <code>row</code> 的 <code>col</code> 对应的值 <code>A[row][col]</code> 均为 $0$），则说明无唯一解。</p>
+<p>这个时候，我们保证当前行不变，继续下一列。</p>
+<p>那么最后 <code>row</code> 所在的位置就是 <strong>主元</strong> 的个数，而 $m-row$ 则为自由元的个数。</p>
+<p>这样的话，相当于把所有自由元放在了最后几个全为 $0$ 的空行中。</p>
+<p>例如遇到自由元 $x_3$ 时，跳过第 $3$ 列，保持 <code>row</code> 不变，那么第 $3$ 行保留的主元实际上是 $x_4$，而第 $4$ 行保留的主元是 $x_5$。</p>
+<p>• 最后，在 <code>[row+1, n]</code> 之间的所有行必定为空行，我们只要看这一行的最右侧系数 $c$ 是否均为 $0$，如果均为 $0$ 就是无数个解，否则无解。</p>
+<h2 id="带状矩阵优化">带状矩阵优化</h2>
+<p>在很多题目中（尤其是一些 dp 题），矩阵是带状的，</p>
+<div style='max-width:50%'>
+<p><img src="/images/049/1.png" alt="img"></p>
+</div>
+<p>• 图上用 $d$ 表示了带状矩阵的宽，下文用 $B$ 来表示。</p>
+<p>如图，仅有橙色部分非 $0$。更严谨的定义：</p>
+<div class='align-center'>
+<p>对于任何 $A_{i,j} \neq 0$，$\forall (i',j')$，若 $|i-i'| &gt; B$，或者 $|j-j'| &gt; B$，则 $A_{i',j'} = 0$。</p>
+</div>
+<p>对于这样的矩阵，可以注意到在消元时，只需要往上和往下消 $B$ 行即可，同样，在减去一行/交换一行时，也最多只用往左和往右延伸 $B$ 格。</p>
+<p>复杂度：$O(n B^2)$</p>
+<h3 id="带状矩阵的注意事项">带状矩阵的注意事项</h3>
+<ol>
+<li>在换行时，可能会导致带状矩阵的形状被破坏，不过由于换行只会考虑下方的 $B$ 行，将其换上来，所以最坏情况也就是带状矩阵的宽变成了 $2B$，所以实现的时候，需要考虑 $[i-2B, i+2B]$ 的行。</li>
+</ol>
+<div style='max-width:50%'>
+<p><img src="/images/049/2.png" alt="img"></p>
+</div>
+<ol start="2">
+<li>由于带状矩阵的性质，不能用高斯-约旦消元（即，消元时不能往上消，只能往下消），最后得到一个 triangular matrix 再回代才行。</li>
+</ol>
+<h2 id="01矩阵优化">01矩阵优化</h2>
+<p>在矩阵中的值只有 $0,1$ 的情况下，所有的值之间的加法和减法可以统一用 XOR 来表示，这样得到的就是一个异或方程组了。</p>
+<p>所以可以将每一行表示为一个 <code>bitset</code>，然后行之间相减就直接用 <code>bs[i] ^ bs[j]</code> 即可。</p>
+<p>这样的复杂度是 $O(\frac{n^3}{w})$ 的。</p>
+<p>• 注意，在 <code>bitset</code> 中，一行是反过来排列的（index $0$ 从右边开始）。</p>
+<p>代码见 <a href="/post/049-%E9%AB%98%E6%96%AF%E6%B6%88%E5%85%83/#%E4%BE%8B1-%E6%B4%9B%E8%B0%B7p2447sdoi2010%E5%A4%96%E6%98%9F%E5%8D%83%E8%B6%B3%E8%99%ABhttpswwwluogucomcnproblemp2447">例1</a></p>
+<h3 id="模版-p3389-模板高斯消元法httpswwwluogucomcnproblemp3389">模版 <a href="https://www.luogu.com.cn/problem/P3389" target="_blank">P3389 【模板】高斯消元法</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个线性方程组，进行求解。</p>
+<p>输入一个 $n \times (n+1)$ 的矩阵，每一行为 $a_1, a_2, &hellip;, a_n, b_k$，代表一组方程。</p>
+</div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span> 
+<span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">double</span> eps <span style="color:#f92672">=</span> (<span style="color:#66d9ef">double</span>)<span style="color:#ae81ff">1e-6</span>;
+
+<span style="color:#66d9ef">double</span> A[maxn][maxn];
+<span style="color:#66d9ef">int</span> n; 
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">solve</span>() {
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; k <span style="color:#f92672">&lt;=</span> n; k<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">int</span> maxrow <span style="color:#f92672">=</span> k;  <span style="color:#75715e">// 当前行初始情况下为：当前列对应的行数
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> k<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {  <span style="color:#75715e">// 从当前行往下找 (因为 i &lt; k 的话，A[i][i] != 0 但其他位置 = 0)
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">if</span> (abs(A[i][k]) <span style="color:#f92672">&gt;</span> abs(A[maxrow][k])) maxrow <span style="color:#f92672">=</span> i;
+        }
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>; i<span style="color:#f92672">++</span>) swap(A[k][i], A[maxrow][i]);  <span style="color:#75715e">//交换两行, 保证A[k][k]最大
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> (abs(A[k][k]) <span style="color:#f92672">&lt;</span> eps) {
+            cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Infinite solutions.&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;  <span style="color:#75715e">// 出现一行全是 0 的情况，一般说明有无数个解
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">return</span>;
+        } 
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">if</span> (i <span style="color:#f92672">==</span> k) <span style="color:#66d9ef">continue</span>;
+            <span style="color:#66d9ef">double</span> m <span style="color:#f92672">=</span> A[i][k] <span style="color:#f92672">/</span> A[k][k];
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;=</span> n<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>; j<span style="color:#f92672">++</span>) {  <span style="color:#75715e">//更新上下的行
+</span><span style="color:#75715e"></span>                A[i][j] <span style="color:#f92672">-=</span> (m <span style="color:#f92672">*</span> A[k][j]); 
+            }
+        }
+    }
+
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        A[i][n<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">/=</span> A[i][i];  <span style="color:#75715e">// 最后除以斜线上的系数
+</span><span style="color:#75715e"></span>        A[i][i] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1.0</span>;
+        printf(<span style="color:#e6db74">&#34;%.2f</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, A[i][n<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>]);
+    }
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> n;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;=</span> n<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>; j<span style="color:#f92672">++</span>) {
+            cin <span style="color:#f92672">&gt;&gt;</span> A[i][j];  <span style="color:#75715e">// 输入矩阵，j=n+1 代表 b
+</span><span style="color:#75715e"></span>        }
+    }
+    solve();
+}
+</code></pre></div><h2 id="例题">例题</h2>
+<h3 id="例1-洛谷p2447sdoi2010外星千足虫httpswwwluogucomcnproblemp2447">例1 洛谷P2447<a href="https://www.luogu.com.cn/problem/P2447" target="_blank">[SDOI2010]外星千足虫</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>有 $n$ 个虫子，每只虫子来自地球或者火星。来自地球的虫子有偶数个脚，火星的虫子有奇数个脚。</p>
+<p>现在给定 $m$ 个方程，代表已知哪些虫子的脚数量之和为奇数或者偶数。</p>
+<p>求每个虫子的归属地（地球或者火星）。</p>
+<p>如果有解，输出最小的 $k \leq n$ 使得仅用前 $k$ 个方程即可得到结果。</p>
+<p>如果无解，则输出 Cannot Determine。</p>
+<p>其中，$1 \leq n \leq 10^3, 1 \leq m \leq 2 \times 10^3$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>高斯消元即可。现在有几个问题：</p>
+<p>Q1. 如果有解，如何求出 $k$？</p>
+<p>A1. 注意到高斯消元的第二步是寻找一个 $maxrow$。然而这个题中，矩阵中的数要么为 $0$，要么为 $1$。所以只要找到 $1$，就不需要再往下找了。</p>
+<p>所以在寻找 $1$ 的过程中记录一下用到的 row number 的最大值即可，一旦找到就立刻break。</p>
+<hr>
+<p>Q2. 高斯消元是 $O(n^3)$ 的，复杂度不对？</p>
+<p>A2. 再次注意到这个矩阵仅由 $0,1$ 组成，可以用 <code>bitset</code> 进行优化。优化幅度为 $\frac{1}{w}$，其中 $w=32$。</p>
+<p>所以复杂度为 $O(\frac{n^2m}{w})$，足以通过本题。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e3</span><span style="color:#f92672">+</span><span style="color:#ae81ff">2</span>;
+
+bitset<span style="color:#f92672">&lt;</span>maxn<span style="color:#f92672">&gt;</span> A[maxn<span style="color:#f92672">+</span>maxn];
+<span style="color:#66d9ef">int</span> ans;
+<span style="color:#66d9ef">int</span> n,m; 
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">solve</span>() {
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; k <span style="color:#f92672">&lt;=</span> n; k<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">int</span> maxrow <span style="color:#f92672">=</span> k;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> k; i <span style="color:#f92672">&lt;=</span> m; i<span style="color:#f92672">++</span>) {
+            ans <span style="color:#f92672">=</span> max(ans, i);
+            <span style="color:#66d9ef">if</span> (A[i][n<span style="color:#f92672">-</span>k<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>]) {  <span style="color:#75715e">// 注意 bitset 是反过来的
+</span><span style="color:#75715e"></span>                maxrow <span style="color:#f92672">=</span> i;
+                <span style="color:#66d9ef">break</span>;
+            }
+        }
+        swap(A[k], A[maxrow]);
+        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>A[k][n<span style="color:#f92672">-</span>k<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>]) {  <span style="color:#75715e">// 说明这一列全是 0
+</span><span style="color:#75715e"></span>            cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Cannot Determine</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+            <span style="color:#66d9ef">return</span>;
+        }
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> m; i<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">if</span> (i <span style="color:#f92672">==</span> k) <span style="color:#66d9ef">continue</span>;
+            <span style="color:#66d9ef">if</span> (A[i][n<span style="color:#f92672">-</span>k<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>])
+                A[i] <span style="color:#f92672">^=</span> A[k];
+        }
+    }
+    cout <span style="color:#f92672">&lt;&lt;</span> ans <span style="color:#f92672">&lt;&lt;</span> endl;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">if</span> (A[i][<span style="color:#ae81ff">0</span>]) cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;?y7M#</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;  <span style="color:#75715e">// 注意bitset是反过来的，所以最右边代表解的那个值，实际上是 A[i][0]
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">else</span> cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Earth</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+    }
+}
+
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> m;
+    <span style="color:#66d9ef">if</span> (m <span style="color:#f92672">&lt;</span> n) {
+        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Cannot Determine</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+    }
+    ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> m; i<span style="color:#f92672">++</span>) {
+        string s1,s2; cin <span style="color:#f92672">&gt;&gt;</span> s1 <span style="color:#f92672">&gt;&gt;</span> s2;  <span style="color:#75715e">// input: 01110 1
+</span><span style="color:#75715e"></span>        A[i] <span style="color:#f92672">=</span> bitset<span style="color:#f92672">&lt;</span>maxn<span style="color:#f92672">&gt;</span>(s1 <span style="color:#f92672">+</span> s2);  <span style="color:#75715e">// 将解放在右边 (A[i][0])
+</span><span style="color:#75715e"></span>    }
+
+    solve();
+}
+</code></pre></div></details>
+<h3 id="例2-洛谷p4035-jsoi2008球形空间产生器httpswwwluogucomcnproblemp4035">例2 <a href="https://www.luogu.com.cn/problem/P4035" target="_blank">洛谷P4035 [JSOI2008]球形空间产生器</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>在 $n$ 维空间中，有一个球体。现在已知该球面上 $(n+1)$ 个点的坐标，求出球心坐标？</p>
+<p>其中，$1 \leq n \leq 10$，数据保证有唯一解。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>设球心坐标为 $(b_1,b_2,&hellip;,b_n)$，那么就可以列出 $(n+1)$ 个方程：</p>
+<p>$(b_1 - a_{11})^2 + (b_2 - a_{12})^2 + &hellip; + (b_n - a_{1n})^2 = R^2$ &hellip;</p>
+<p>但是这并不是线性方程组。</p>
+<p>为了使其成为线性方程组，将 $(n+1)$ 个方程进行相减，得到</p>
+<ol>
+<li>方程 $2$ 减去方程 $1$</li>
+<li>方程 $3$ 减去方程 $1$ &hellip;</li>
+</ol>
+<p>即可得到 $n$ 个线性方程。</p>
+<p>然后用高斯消元即可。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">12</span>;
+
+<span style="color:#66d9ef">double</span> A[maxn][maxn], arr[maxn][maxn];
+<span style="color:#66d9ef">int</span> n; 
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">solve</span>() {
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; k <span style="color:#f92672">&lt;=</span> n; k<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">int</span> maxrow <span style="color:#f92672">=</span> k;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> k<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">if</span> (abs(A[i][k]) <span style="color:#f92672">&gt;</span> abs(A[maxrow][k])) maxrow <span style="color:#f92672">=</span> i;
+        }
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>; i<span style="color:#f92672">++</span>) swap(A[k][i], A[maxrow][i]);  <span style="color:#75715e">//交换两行, 保证A[k][k]最大
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> (abs(A[k][k]) <span style="color:#f92672">&lt;</span> eps) {
+            cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;No Solution&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+            <span style="color:#66d9ef">return</span>;
+        } 
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">if</span> (i <span style="color:#f92672">==</span> k) <span style="color:#66d9ef">continue</span>;
+            <span style="color:#66d9ef">double</span> m <span style="color:#f92672">=</span> A[i][k] <span style="color:#f92672">/</span> A[k][k];
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;=</span> n<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>; j<span style="color:#f92672">++</span>) {  <span style="color:#75715e">//更新上下的行
+</span><span style="color:#75715e"></span>                A[i][j] <span style="color:#f92672">-=</span> (m <span style="color:#f92672">*</span> A[k][j]); 
+            }
+        }
+    }
+
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        A[i][n<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">/=</span> A[i][i];  <span style="color:#75715e">// 最后除以斜线上的系数
+</span><span style="color:#75715e"></span>        A[i][i] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1.0</span>;
+        printf(<span style="color:#e6db74">&#34;%.3f &#34;</span>, A[i][n<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>]);
+    }
+}
+
+<span style="color:#66d9ef">double</span> <span style="color:#a6e22e">sq</span>(<span style="color:#66d9ef">double</span> a) {
+    <span style="color:#66d9ef">return</span> a<span style="color:#f92672">*</span>a;
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> n;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;=</span> n; j<span style="color:#f92672">++</span>) {
+            cin <span style="color:#f92672">&gt;&gt;</span> arr[i][j];
+        }
+    }
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;=</span> n; j<span style="color:#f92672">++</span>) {
+            A[i][j] <span style="color:#f92672">=</span> arr[i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>][j] <span style="color:#f92672">-</span> arr[i][j];
+        }
+
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; k <span style="color:#f92672">&lt;=</span> n; k<span style="color:#f92672">++</span>) {
+            A[i][n<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">+=</span> sq(arr[i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>][k]) <span style="color:#f92672">-</span> sq(arr[i][k]); 
+        }
+        A[i][n<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">/=</span> <span style="color:#ae81ff">2</span>;
+    }
+    solve();
+}
+</code></pre></div></details>
+<h3 id="例3-naq2016-b-arcadehttpsopenkattiscomproblemsarcadetabmetadata">例3 NAQ2016 B. <a href="https://open.kattis.com/problems/arcade?tab=metadata" target="_blank">Arcade!</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个金字塔形的棋盘，有 $n$ 行，第 $i$ 行有 $i$ 个洞。</p>
+<p>一个球在一个洞时，有 $p_0,p_1,p_2,p_3$ 的概率分别往左上，右上，左下，右下的洞跳。也有 $p_4$ 的概率掉入当前这个洞，获得 $v_i$ 的收益，并且游戏结束，如果某个操作不合法，那么对应的概率为 $0$。</p>
+<p>从洞 $1$ 出发，求最终的收益期望？</p>
+<p><img src="/images/049/3.png" alt="img"></p>
+<p>其中，$n \leq 32, p_0+p_1+p_2+p_3+p_4 = 1$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>对于一个洞来说，设从它出发的最终收益期望为 $E$，那么有</p>
+<p>$$E = E_0p_0 + E_1p_1 + E_2p_2 + E_3p_3 + vp_4$$</p>
+<p>其中，$E_0$ 到 $E_3$ 分别代表四个方位的最终收益。</p>
+<p>这样，可以列出来一个 $N \times N$ 的方程组，其中 $N = \frac{n(n+1)}{2}$。</p>
+<p>高斯消元即可。</p>
+<p>• 这个只能求收益期望，而不能求出最终掉入每个洞的概率。因为掉入每个洞的概率与 “从哪出发” 有关，所以需要两个维度来表示 dp 的状态（从哪出发 + 掉入哪个洞）。而收益期望仅和 ”从哪出发“ 有关，所以只需要一个维度。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">GaussianElimination</span> {
+    <span style="color:#66d9ef">int</span> n, m;  <span style="color:#75715e">// n: 行 （方程个数）, m: 列 (变量个数)
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">double</span> A[<span style="color:#ae81ff">531</span>][<span style="color:#ae81ff">531</span>];
+    GaussianElimination(<span style="color:#66d9ef">int</span> n, <span style="color:#66d9ef">int</span> m) <span style="color:#f92672">:</span> n(n), m(m) {}
+    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">double</span><span style="color:#f92672">&gt;</span> solve(<span style="color:#66d9ef">int</span> B <span style="color:#f92672">=</span> (<span style="color:#66d9ef">int</span>)<span style="color:#ae81ff">1e6</span>) {    
+        <span style="color:#75715e">// B: band 大小，指对于任意 A(i,j) != 0，若 i2-i &gt; B || j2-i &gt; B 则任意 A(i2,j2) = 0；若 B = 1e6 则无此限制
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// 返回 x_1, x_2, ..., x_m (注意返回的长度为 m+1)，所以 x_1 = ans[1]
+</span><span style="color:#75715e"></span>        vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">double</span><span style="color:#f92672">&gt;</span> ans(m<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>);
+        vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> var, free_var;  <span style="color:#75715e">// 主元，自由元
+</span><span style="color:#75715e"></span>
+        <span style="color:#66d9ef">int</span> row <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> col <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; col <span style="color:#f92672">&lt;=</span> m; col<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">int</span> maxrow <span style="color:#f92672">=</span> row;
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> row<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> min(n, row<span style="color:#f92672">+</span><span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>B); i<span style="color:#f92672">++</span>) {
+                <span style="color:#66d9ef">if</span> (abs(A[i][col]) <span style="color:#f92672">&gt;</span> abs(A[maxrow][col])) {  <span style="color:#75715e">// 在 mod 情况下找到一个非0即可
+</span><span style="color:#75715e"></span>                    maxrow <span style="color:#f92672">=</span> i;
+                }
+            }
+            <span style="color:#66d9ef">if</span> (abs(A[maxrow][col]) <span style="color:#f92672">&lt;</span> eps) {
+                <span style="color:#75715e">// 自由元, 跳过这个 col，但row不变
+</span><span style="color:#75715e"></span>                free_var.push_back(col);
+                <span style="color:#66d9ef">continue</span>;
+            } <span style="color:#66d9ef">else</span> {  <span style="color:#75715e">// 主元
+</span><span style="color:#75715e"></span>                var.push_back(col);
+            }
+
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> max(<span style="color:#ae81ff">1</span>, col<span style="color:#f92672">-</span><span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>B); j <span style="color:#f92672">&lt;=</span> min(m, col<span style="color:#f92672">+</span><span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>B); j<span style="color:#f92672">++</span>) swap(A[row][j], A[maxrow][j]);
+            swap(A[row][m<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>], A[maxrow][m<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>]);
+
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> row<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> min(n, row<span style="color:#f92672">+</span><span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>B); i<span style="color:#f92672">++</span>) {
+                <span style="color:#66d9ef">if</span> (i <span style="color:#f92672">==</span> row) <span style="color:#66d9ef">continue</span>;
+                <span style="color:#66d9ef">double</span> in <span style="color:#f92672">=</span> A[i][col] <span style="color:#f92672">/</span> A[row][col];
+                <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> max(<span style="color:#ae81ff">1</span>, col<span style="color:#f92672">-</span><span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>B); j <span style="color:#f92672">&lt;=</span> min(m, col<span style="color:#f92672">+</span><span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>B); j<span style="color:#f92672">++</span>) {
+                    A[i][j] <span style="color:#f92672">-=</span> (in <span style="color:#f92672">*</span> A[row][j]);
+                }
+                A[i][m<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">-=</span> (in <span style="color:#f92672">*</span> A[row][m<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>]);
+            }
+            <span style="color:#75715e">// printall();
+</span><span style="color:#75715e"></span>
+            row<span style="color:#f92672">++</span>;  <span style="color:#75715e">// 增加 row
+</span><span style="color:#75715e"></span>        }
+
+        row<span style="color:#f92672">--</span>;  <span style="color:#75715e">// 因为row是从1开始的，所以会多加一次 (现在 [1,row] 代表了主元)
+</span><span style="color:#75715e"></span>        assert(row <span style="color:#f92672">==</span> var.size());
+        <span style="color:#66d9ef">if</span> (row <span style="color:#f92672">&lt;</span> n) {  <span style="color:#75715e">// 要么无解，要么有无数多个解
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> row <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+                <span style="color:#66d9ef">if</span> (abs(A[i][m<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>]) <span style="color:#f92672">&gt;</span> eps) <span style="color:#66d9ef">return</span> {};  <span style="color:#75715e">// 无解
+</span><span style="color:#75715e"></span>            }
+            <span style="color:#75715e">// 否则，有无数多个解，将自由元设为 0，输出主元的解
+</span><span style="color:#75715e"></span>        } 
+
+        <span style="color:#75715e">// 有解 和 无数个解 都输出了
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> row; i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">1</span>; i<span style="color:#f92672">--</span>) {
+            <span style="color:#75715e">// 此时，主元是 var[i-1]
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> var[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>];
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> k<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;=</span> min(m, k<span style="color:#f92672">+</span><span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>B); j<span style="color:#f92672">++</span>) {
+                A[i][m<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">-=</span> A[i][j] <span style="color:#f92672">*</span> ans[j];
+                A[i][j] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+            }
+            ans[k] <span style="color:#f92672">=</span> A[i][m<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">/</span> A[i][k];
+        }
+        <span style="color:#66d9ef">return</span> ans;
+    }
+};
+
+<span style="color:#66d9ef">int</span> n, id[<span style="color:#ae81ff">33</span>][<span style="color:#ae81ff">33</span>], v[<span style="color:#ae81ff">33</span><span style="color:#f92672">*</span><span style="color:#ae81ff">33</span>];
+vector<span style="color:#f92672">&lt;</span>pii<span style="color:#f92672">&gt;</span> dir {{<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>,<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>}, {<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">0</span>}, {<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">0</span>}, {<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>}};
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> n;
+    <span style="color:#66d9ef">int</span> N <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;=</span> i; j<span style="color:#f92672">++</span>) {
+            id[i][j] <span style="color:#f92672">=</span> <span style="color:#f92672">++</span>N;
+            cin <span style="color:#f92672">&gt;&gt;</span> v[N];
+        }
+    }
+    GaussianElimination ge(N, N);
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;=</span> i; j<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">int</span> u <span style="color:#f92672">=</span> id[i][j];
+
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> o <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; o <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">4</span>; o<span style="color:#f92672">++</span>) {
+                <span style="color:#66d9ef">double</span> p; cin <span style="color:#f92672">&gt;&gt;</span> p;
+                <span style="color:#66d9ef">int</span> pi <span style="color:#f92672">=</span> i <span style="color:#f92672">+</span> dir[o].first, pj <span style="color:#f92672">=</span> j <span style="color:#f92672">+</span> dir[o].second;
+                <span style="color:#66d9ef">if</span> (pi <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&amp;&amp;</span> pi <span style="color:#f92672">&lt;=</span> n <span style="color:#f92672">&amp;&amp;</span> pj <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&amp;&amp;</span> pj <span style="color:#f92672">&lt;=</span> n) {
+                    <span style="color:#66d9ef">int</span> v <span style="color:#f92672">=</span> id[pi][pj];
+                    ge.A[u][v] <span style="color:#f92672">=</span> p;
+                }
+            }
+            ge.A[u][u] <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+            <span style="color:#66d9ef">double</span> p; cin <span style="color:#f92672">&gt;&gt;</span> p;
+            ge.A[u][N<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#f92672">-</span>p <span style="color:#f92672">*</span> v[u];
+        }
+    }
+    <span style="color:#66d9ef">auto</span> ans <span style="color:#f92672">=</span> ge.solve(N<span style="color:#f92672">*</span><span style="color:#ae81ff">2</span><span style="color:#f92672">+</span><span style="color:#ae81ff">2</span>);
+    printf(<span style="color:#e6db74">&#34;%.10f</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, ans[<span style="color:#ae81ff">1</span>]);
+}
+</code></pre></div></details>
+<h3 id="例4-naq2016i-primonimohttpsopenkattiscomproblemsprimonimo">例4 NAQ2016I. <a href="https://open.kattis.com/problems/primonimo" target="_blank">Primonimo</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个 $n \times m$ 的矩阵，和一个质数 $p$。</p>
+<p>矩阵中每一个数在 $[1,p]$ 之间。</p>
+<p>现在可以进行若干次操作，每次操作选择一个位置 $(i,j)$，然后给第 $i$ 行上的所有数字 + 1，并且给第 $j$ 列上的所有数字 + 1，其中 $(i,j)$ 本身也只加一次。</p>
+<p>如果数字 $p$ 再加1，则它会变回 $1$。</p>
+<p>求是否存在一种方案，使得所有的数都变成 $p$，输出这个方案，如果有多种，输出任意方案。</p>
+<p>其中，$n,m \leq 20, p \in [2,97]$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>对于每一个格子 $(x,y)$，我们可以知道它需要被加多少次，设它为 $c_{x,y}$。</p>
+<p>我们设 $f_{x,y}$ 为我们需要对位置 $(x,y)$ 进行的操作次数，那么有</p>
+<p>$$\sum\limits_{i=1}^n f_{i,y} + \sum\limits_{j=1}^m f_{x,j} - f_{x,y} = c_{x,y}$$</p>
+<p>这样又可以列出一个 $N \times N$ 的方程，其中 $N= n \times m$。</p>
+<p>• 不过这个方程是在mod意义下的，但不影响，正常来解即可。除法就变成乘逆元。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">int</span> P, g[<span style="color:#ae81ff">21</span>][<span style="color:#ae81ff">21</span>], n, m, id[<span style="color:#ae81ff">21</span>][<span style="color:#ae81ff">21</span>], cid <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">GaussianElimination</span> {
+    <span style="color:#66d9ef">int</span> n, m;  <span style="color:#75715e">// n: 行 （方程个数）, m: 列 (变量个数)
+</span><span style="color:#75715e"></span>    Z A[<span style="color:#ae81ff">403</span>][<span style="color:#ae81ff">403</span>];
+    GaussianElimination(<span style="color:#66d9ef">int</span> n, <span style="color:#66d9ef">int</span> m) <span style="color:#f92672">:</span> n(n), m(m) {}
+    vector<span style="color:#f92672">&lt;</span>Z<span style="color:#f92672">&gt;</span> solve(<span style="color:#66d9ef">int</span> B <span style="color:#f92672">=</span> (<span style="color:#66d9ef">int</span>)<span style="color:#ae81ff">1e6</span>) {    
+        <span style="color:#75715e">// B: band 大小，指对于任意 A(i,j) != 0，若 i2-i &gt; B || j2-i &gt; B 则任意 A(i2,j2) = 0；若 B = 1e6 则无此限制
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// 返回 x_1, x_2, ..., x_m (注意返回的长度为 m+1)，所以 x_1 = ans[1]
+</span><span style="color:#75715e"></span>        vector<span style="color:#f92672">&lt;</span>Z<span style="color:#f92672">&gt;</span> ans(m<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>);
+        vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> var, free_var;  <span style="color:#75715e">// 主元，自由元
+</span><span style="color:#75715e"></span>
+        <span style="color:#66d9ef">int</span> row <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> col <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; col <span style="color:#f92672">&lt;=</span> m; col<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">int</span> maxrow <span style="color:#f92672">=</span> row;
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> row<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> min(n, row<span style="color:#f92672">+</span><span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>B); i<span style="color:#f92672">++</span>) {
+                <span style="color:#66d9ef">if</span> (A[i][col].val()) {  <span style="color:#75715e">// 在 mod 情况下找到一个非0即可
+</span><span style="color:#75715e"></span>                    maxrow <span style="color:#f92672">=</span> i;
+                    <span style="color:#66d9ef">break</span>;
+                }
+            }
+            <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>A[maxrow][col].val()) {
+                <span style="color:#75715e">// 自由元, 跳过这个 col，但row不变
+</span><span style="color:#75715e"></span>                free_var.push_back(col);
+                <span style="color:#66d9ef">continue</span>;
+            } <span style="color:#66d9ef">else</span> {  <span style="color:#75715e">// 主元
+</span><span style="color:#75715e"></span>                var.push_back(col);
+            }
+
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> max(<span style="color:#ae81ff">1</span>, col<span style="color:#f92672">-</span><span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>B); j <span style="color:#f92672">&lt;=</span> min(m, col<span style="color:#f92672">+</span><span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>B); j<span style="color:#f92672">++</span>) swap(A[row][j], A[maxrow][j]);
+            swap(A[row][m<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>], A[maxrow][m<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>]);
+
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> row<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> min(n, row<span style="color:#f92672">+</span><span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>B); i<span style="color:#f92672">++</span>) {
+                <span style="color:#66d9ef">if</span> (i <span style="color:#f92672">==</span> row) <span style="color:#66d9ef">continue</span>;
+                Z in <span style="color:#f92672">=</span> A[i][col] <span style="color:#f92672">/</span> A[row][col];
+                <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> max(<span style="color:#ae81ff">1</span>, col<span style="color:#f92672">-</span><span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>B); j <span style="color:#f92672">&lt;=</span> min(m, col<span style="color:#f92672">+</span><span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>B); j<span style="color:#f92672">++</span>) {
+                    A[i][j] <span style="color:#f92672">-=</span> (in <span style="color:#f92672">*</span> A[row][j]);
+                }
+                A[i][m<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">-=</span> (in <span style="color:#f92672">*</span> A[row][m<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>]);
+            }
+
+            row<span style="color:#f92672">++</span>;  <span style="color:#75715e">// 增加 row
+</span><span style="color:#75715e"></span>        }
+
+        row<span style="color:#f92672">--</span>;  <span style="color:#75715e">// 因为row是从1开始的，所以会多加一次 (现在 [1,row] 代表了主元)
+</span><span style="color:#75715e"></span>        assert(row <span style="color:#f92672">==</span> var.size());
+        <span style="color:#66d9ef">if</span> (row <span style="color:#f92672">&lt;</span> n) {  <span style="color:#75715e">// 要么无解，要么有无数多个解
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> row <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+                <span style="color:#66d9ef">if</span> (A[i][m<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>].val()) <span style="color:#66d9ef">return</span> {};  <span style="color:#75715e">// 无解
+</span><span style="color:#75715e"></span>            }
+            <span style="color:#75715e">// 否则，有无数多个解，将自由元设为 0，输出主元的解
+</span><span style="color:#75715e"></span>        } 
+
+        <span style="color:#75715e">// 有解 和 无数个解 都输出了
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> row; i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">1</span>; i<span style="color:#f92672">--</span>) {
+            <span style="color:#75715e">// 此时，主元是 var[i-1]
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> var[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>];
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> k<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;=</span> min(m, k<span style="color:#f92672">+</span><span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>B); j<span style="color:#f92672">++</span>) {
+                A[i][m<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">-=</span> A[i][j] <span style="color:#f92672">*</span> ans[j];
+                A[i][j] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+            }
+            ans[k] <span style="color:#f92672">=</span> A[i][m<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">/</span> A[i][k];
+        }
+
+        <span style="color:#66d9ef">return</span> ans;
+    }
+};
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> m <span style="color:#f92672">&gt;&gt;</span> mod;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;=</span> m; j<span style="color:#f92672">++</span>) {
+            cin <span style="color:#f92672">&gt;&gt;</span> g[i][j];
+            id[i][j] <span style="color:#f92672">=</span> <span style="color:#f92672">++</span>cid;
+        }
+    }
+    GaussianElimination ge(n<span style="color:#f92672">*</span>m, n<span style="color:#f92672">*</span>m);
+
+    cid <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> a <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; a <span style="color:#f92672">&lt;=</span> n; a<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> b <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; b <span style="color:#f92672">&lt;=</span> m; b<span style="color:#f92672">++</span>) {
+            <span style="color:#f92672">++</span>cid;
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+                ge.A[cid][id[i][b]] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+            }
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;=</span> m; j<span style="color:#f92672">++</span>) {
+                ge.A[cid][id[a][j]] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+            }
+            ge.A[cid][n<span style="color:#f92672">*</span>m<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> (Z)(mod <span style="color:#f92672">-</span> g[a][b]);
+        }
+    }
+    vector<span style="color:#f92672">&lt;</span>Z<span style="color:#f92672">&gt;</span> ans <span style="color:#f92672">=</span> ge.solve();
+    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>ans.size()) {
+        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+    }
+    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> res;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> cid; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> ans[i].val();
+        <span style="color:#66d9ef">while</span> (j<span style="color:#f92672">--</span>) {
+            res.push_back(i);
+        }
+    }
+    cout <span style="color:#f92672">&lt;&lt;</span> res.size() <span style="color:#f92672">&lt;&lt;</span> endl;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> x : res) cout <span style="color:#f92672">&lt;&lt;</span> x <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; &#34;</span>;
+    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+}
+</code></pre></div></details>
+<h3 id="例5-cf24d-broken-robothttpscodeforcescomproblemsetproblem24d">例5 CF24D <a href="https://codeforces.com/problemset/problem/24/D" target="_blank">Broken robot</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个 $n \times m$ 的矩阵，初始在 $(x,y)$，每次等概率的往左，右，下走或原地不动，但不能走出去（非法操作的话概率为 0），问走到最后一行期望的步数。</p>
+<p>其中，$n,m \leq 10^3$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>$n,m \leq 10^3$，不能直接列方程，否则有 $N=10^6$ 个方程，复杂度是 $O(N^3)$ 的。</p>
+<p>不过注意到，只能往下走，不能往上走。所以第 $i$ 行的每个格子的期望只与第 $i+1$ 行有关。</p>
+<p>从下往上推，在 第 $i$ 行时，第 $i+1$ 行都是常量了。</p>
+<p>所以高斯消元只有 $m$ 个变量和 $m$ 个方程，但 $O(m^3)$ 仍然接受不了。</p>
+<p>可以发现这是一个带状矩阵，每个变量只与它附近的两个变量有关，所以 $B=2$，可以 $O(mB^2)$ 进行一次高斯消元。</p>
+<p>要进行 $n$ 次高斯消元，所以总复杂度是 $O(nmB^2)$。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">int</span> n, m, x, y;
+<span style="color:#66d9ef">double</span> dp[maxn][maxn];
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> m <span style="color:#f92672">&gt;&gt;</span> x <span style="color:#f92672">&gt;&gt;</span> y;
+    GaussianElimination ge(m, m);
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> n<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&gt;=</span> x; i<span style="color:#f92672">--</span>) {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;=</span> m; j<span style="color:#f92672">++</span>) {
+            ge.A[j][j] <span style="color:#f92672">=</span> ge.A[j][m<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        }
+ 
+        <span style="color:#66d9ef">if</span> (m <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">1</span>) {
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;=</span> m; j<span style="color:#f92672">++</span>) {
+                <span style="color:#66d9ef">if</span> (j <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>) {
+                    ge.A[j][j] <span style="color:#f92672">=</span> <span style="color:#ae81ff">2.0</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">3</span>, ge.A[j][j<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1.0</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">3</span>, ge.A[j][m<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> dp[i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>][j] <span style="color:#f92672">/</span> <span style="color:#ae81ff">3</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+                } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (j <span style="color:#f92672">==</span> m) {
+                    ge.A[j][j] <span style="color:#f92672">=</span> <span style="color:#ae81ff">2.0</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">3</span>, ge.A[j][j<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1.0</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">3</span>, ge.A[j][m<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> dp[i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>][j] <span style="color:#f92672">/</span> <span style="color:#ae81ff">3</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+                } <span style="color:#66d9ef">else</span> {
+                    ge.A[j][j] <span style="color:#f92672">=</span> <span style="color:#ae81ff">3.0</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">4</span>, ge.A[j][j<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1.0</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">4</span>, ge.A[j][j<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1.0</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">4</span>, ge.A[j][m<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1.0</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">4</span> <span style="color:#f92672">*</span> dp[i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>][j] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+                }
+            }
+            <span style="color:#66d9ef">auto</span> res <span style="color:#f92672">=</span> ge.solve(<span style="color:#ae81ff">2</span>);
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;=</span> m; j<span style="color:#f92672">++</span>) dp[i][j] <span style="color:#f92672">=</span> res[j];
+        } <span style="color:#66d9ef">else</span> {
+            dp[i][<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> dp[i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>][<span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>;
+        }
+ 
+    }
+    printf(<span style="color:#e6db74">&#34;%.10lf</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, dp[x][y]);
+}
+</code></pre></div></details>
+<h2 id="参考链接">参考链接</h2>
+<ol>
+<li><a href="https://www.tonyyin.top/notes/gauss-elimination/" target="_blank">https://www.tonyyin.top/notes/gauss-elimination/</a></li>
+<li>带状矩阵：<a href="https://www.luogu.com.cn/blog/froggy/qian-tan-gao-si-xiao-yuan-ta-zhan-zhi-band-matrix" target="_blank">https://www.luogu.com.cn/blog/froggy/qian-tan-gao-si-xiao-yuan-ta-zhan-zhi-band-matrix</a></li>
+</ol>
+
+    </div>
+
+    
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags//"></a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/050-%E7%BA%BF%E6%80%A7%E5%9F%BA/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">线性基</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/048-%E6%A6%82%E7%8E%87%E6%9C%9F%E6%9C%9B/">
+            <span class="next-text nav-default">概率期望</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://github.com/kiki-yan" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://kiki-yan.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2026
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/kiki-yan/kiki-yan.github.io" target="_blank"></a>
+    </span> 
+    <span class="author">kiki_yan</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/base16/tomorrow.min.css" rel="stylesheet">
+  
+  <script>hljs.configure({tabReplace: '    '});</script><script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

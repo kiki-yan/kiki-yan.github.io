@@ -1,0 +1,1563 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>FFT - kiki_yan</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="kiki_yan" /><meta name="description" content=".center { margin-left: auto; margin-right: auto; display: table; width: auto; } 模版 FFT const int maxn = (1&amp;lt;&amp;lt;22) &#43; 5; // 注意这里需要是 &amp;gt; 2^k struct Complex { double x,y; Complex(double _x = 0.0, double _y = 0.0) { x = _x; y = _y; } Complex operator&#43;(const Complex&amp;amp; b) const { return Complex(x &#43; b.x, y &#43; b.y); } Complex operator-(const Complex&amp;amp; b)" /><meta name="keywords" content="kiki_yan, blog, Codeforces" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
+
+
+<link rel="canonical" href="https://kiki-yan.github.io/post/051-fft/" />
+<link rel="manifest" href="/manifest.json">
+
+
+
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="FFT" />
+<meta property="og:description" content=".center { margin-left: auto; margin-right: auto; display: table; width: auto; } 模版 FFT const int maxn = (1&lt;&lt;22) &#43; 5; // 注意这里需要是 &gt; 2^k struct Complex { double x,y; Complex(double _x = 0.0, double _y = 0.0) { x = _x; y = _y; } Complex operator&#43;(const Complex&amp; b) const { return Complex(x &#43; b.x, y &#43; b.y); } Complex operator-(const Complex&amp; b)" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kiki-yan.github.io/post/051-fft/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2021-09-17T13:52:57+08:00" />
+<meta property="article:modified_time" content="2026-09-24T14:30:49+08:00" />
+
+<meta itemprop="name" content="FFT">
+<meta itemprop="description" content=".center { margin-left: auto; margin-right: auto; display: table; width: auto; } 模版 FFT const int maxn = (1&lt;&lt;22) &#43; 5; // 注意这里需要是 &gt; 2^k struct Complex { double x,y; Complex(double _x = 0.0, double _y = 0.0) { x = _x; y = _y; } Complex operator&#43;(const Complex&amp; b) const { return Complex(x &#43; b.x, y &#43; b.y); } Complex operator-(const Complex&amp; b)"><meta itemprop="datePublished" content="2021-09-17T13:52:57+08:00" />
+<meta itemprop="dateModified" content="2026-09-24T14:30:49+08:00" />
+<meta itemprop="wordCount" content="10193">
+<meta itemprop="keywords" content="FFT," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="FFT"/>
+<meta name="twitter:description" content=".center { margin-left: auto; margin-right: auto; display: table; width: auto; } 模版 FFT const int maxn = (1&lt;&lt;22) &#43; 5; // 注意这里需要是 &gt; 2^k struct Complex { double x,y; Complex(double _x = 0.0, double _y = 0.0) { x = _x; y = _y; } Complex operator&#43;(const Complex&amp; b) const { return Complex(x &#43; b.x, y &#43; b.y); } Complex operator-(const Complex&amp; b)"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">kiki_yan</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF Problems</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">kiki_yan</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF Problems</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">FFT</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2021-09-17 13:52:57 &#43;0800 &#43;0800"> 2021-09-17 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
+            </div>
+        
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#模版">模版</a></li>
+        <li><a href="#介绍">介绍</a></li>
+        <li><a href="#多项式">多项式</a>
+          <ul>
+            <li><a href="#系数表示法">系数表示法</a></li>
+            <li><a href="#点值表示法">点值表示法</a></li>
+          </ul>
+        </li>
+        <li><a href="#复数">复数</a>
+          <ul>
+            <li><a href="#n-次单位根">$n$ 次单位根</a></li>
+            <li><a href="#omega-的取值">$\omega$ 的取值</a></li>
+          </ul>
+        </li>
+        <li><a href="#fft原理">FFT原理</a>
+          <ul>
+            <li><a href="#第一步-dft">第一步 DFT</a></li>
+            <li><a href="#第二步-点值乘法">第二步 点值乘法</a></li>
+            <li><a href="#第三步-idft">第三步 IDFT</a></li>
+            <li><a href="#非递归-fft">非递归 FFT</a></li>
+            <li><a href="#优化三步变两步">优化（三步变两步）</a></li>
+          </ul>
+        </li>
+        <li><a href="#fft-字符串通配符匹配">FFT 字符串通配符匹配</a></li>
+        <li><a href="#例题">例题</a>
+          <ul>
+            <li><a href="#例1-洛谷p1919-模板ab-problem升级版fft快速傅里叶httpswwwluogucomcnproblemp1919">例1 <a href="https://www.luogu.com.cn/problem/P1919">洛谷P1919 【模板】A*B Problem升级版（FFT快速傅里叶）</a></a></li>
+            <li><a href="#例2-洛谷p3338-zjoi2014力httpswwwluogucomcnproblemp3338">例2 <a href="https://www.luogu.com.cn/problem/P3338">洛谷P3338 [ZJOI2014]力</a></a></li>
+            <li><a href="#例3-洛谷p3723-ah2017hnoi2017礼物httpswwwluogucomcnproblemp3723">例3 <a href="https://www.luogu.com.cn/problem/P3723">洛谷P3723 [AH2017/HNOI2017]礼物</a></a></li>
+            <li><a href="#例4-洛谷p4173-残缺的字符串httpswwwluogucomcnproblemp4173">例4 洛谷P4173 <a href="https://www.luogu.com.cn/problem/P4173">残缺的字符串</a></a></li>
+            <li><a href="#例5-cf528d-fuzzy-searchhttpscodeforcescomproblemsetproblem528d">例5 CF528D <a href="https://codeforces.com/problemset/problem/528/D">Fuzzy Search</a></a></li>
+            <li><a href="#例5-icpc-wf2021-g-mosaic-browsinghttpscodeforcescomgym104288problemg">例5 ICPC WF2021 G. <a href="https://codeforces.com/gym/104288/problem/G">Mosaic Browsing</a></a></li>
+            <li><a href="#例6-abc291g-or-sumhttpsatcoderjpcontestsabc291tasksabc291_g">例6 ABC291G. <a href="https://atcoder.jp/contests/abc291/tasks/abc291_g">OR Sum</a></a></li>
+          </ul>
+        </li>
+        <li><a href="#参考资料">参考资料</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <head>
+<style>
+    .center {
+        margin-left: auto;
+        margin-right: auto;
+        display: table;
+        width: auto;
+    }
+</style>
+</head>
+<h2 id="模版">模版</h2>
+<details class="admonition note"><summary class="admonition-title">FFT</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> (<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">22</span>) <span style="color:#f92672">+</span> <span style="color:#ae81ff">5</span>;  <span style="color:#75715e">// 注意这里需要是 &gt; 2^k
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Complex</span> {
+    <span style="color:#66d9ef">double</span> x,y;
+    Complex(<span style="color:#66d9ef">double</span> _x <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.0</span>, <span style="color:#66d9ef">double</span> _y <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.0</span>) {
+        x <span style="color:#f92672">=</span> _x; y <span style="color:#f92672">=</span> _y;
+    }
+    Complex <span style="color:#66d9ef">operator</span><span style="color:#f92672">+</span>(<span style="color:#66d9ef">const</span> Complex<span style="color:#f92672">&amp;</span> b) <span style="color:#66d9ef">const</span> {
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">Complex</span>(x <span style="color:#f92672">+</span> b.x, y <span style="color:#f92672">+</span> b.y);
+    }
+    Complex <span style="color:#66d9ef">operator</span><span style="color:#f92672">-</span>(<span style="color:#66d9ef">const</span> Complex<span style="color:#f92672">&amp;</span> b) <span style="color:#66d9ef">const</span> {
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">Complex</span>(x <span style="color:#f92672">-</span> b.x, y <span style="color:#f92672">-</span> b.y);
+    }
+    Complex <span style="color:#66d9ef">operator</span><span style="color:#f92672">*</span>(<span style="color:#66d9ef">const</span> Complex <span style="color:#f92672">&amp;</span>b) <span style="color:#66d9ef">const</span> {
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">Complex</span>(x <span style="color:#f92672">*</span> b.x <span style="color:#f92672">-</span> y <span style="color:#f92672">*</span> b.y, x <span style="color:#f92672">*</span> b.y <span style="color:#f92672">+</span> y <span style="color:#f92672">*</span> b.x);
+    }
+    Complex <span style="color:#66d9ef">operator</span><span style="color:#f92672">/</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">double</span><span style="color:#f92672">&amp;</span> b) <span style="color:#66d9ef">const</span> {
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">Complex</span>(x<span style="color:#f92672">/</span>b, y<span style="color:#f92672">/</span>b);
+    }
+};
+
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">FastFourierTransform</span> {
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">rearrange</span>(Complex a[], <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> n) {
+        <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">int</span> rev[maxn];  <span style="color:#75715e">// maxn &gt; deg(h) 且 maxn 为 2的k次方 + 5
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+            rev[i] <span style="color:#f92672">=</span> rev[i <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+            <span style="color:#66d9ef">if</span> (i <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">1</span>) rev[i] <span style="color:#f92672">|=</span> (n <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>);
+        }
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">if</span> (i <span style="color:#f92672">&lt;</span> rev[i]) swap(a[i], a[rev[i]]);  <span style="color:#75715e">// 保证每对数字只翻转一次
+</span><span style="color:#75715e"></span>        }
+    }
+
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">fft</span>(Complex a[], <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> n, <span style="color:#66d9ef">int</span> on) {
+        rearrange(a, n);
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>; k <span style="color:#f92672">&lt;=</span> n; k <span style="color:#f92672">&lt;&lt;=</span> <span style="color:#ae81ff">1</span>) {   <span style="color:#75715e">// 模拟分治的合并过程
+</span><span style="color:#75715e"></span>            Complex wn(cos(<span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>pi <span style="color:#f92672">/</span> k), on <span style="color:#f92672">*</span> sin(<span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>pi <span style="color:#f92672">/</span> k));
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i <span style="color:#f92672">+=</span> k) {
+                Complex w(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>);
+                <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> i; j <span style="color:#f92672">&lt;</span> i <span style="color:#f92672">+</span> (k<span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">1</span>); j<span style="color:#f92672">++</span>) {
+                    Complex x <span style="color:#f92672">=</span> a[j], y <span style="color:#f92672">=</span> w <span style="color:#f92672">*</span> a[j<span style="color:#f92672">+</span>(k<span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">1</span>)];
+                    a[j] <span style="color:#f92672">=</span> x <span style="color:#f92672">+</span> y;
+                    a[j<span style="color:#f92672">+</span>(k<span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">1</span>)] <span style="color:#f92672">=</span> x <span style="color:#f92672">-</span> y;
+                    w <span style="color:#f92672">=</span> w <span style="color:#f92672">*</span> wn;
+                }
+            }
+        }
+        <span style="color:#66d9ef">if</span> (on <span style="color:#f92672">==</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) {
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>) a[i] <span style="color:#f92672">=</span> a[i] <span style="color:#f92672">/</span> n;
+        }
+    }
+} fft;
+
+<span style="color:#75715e">// calculate h(x) = f(x) * g(x), n1 = deg(f) + 1, n2 = deg(g) + 1
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">poly_multiply</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">double</span> f[], <span style="color:#66d9ef">int</span> n1, <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">double</span> g[], <span style="color:#66d9ef">int</span> n2, <span style="color:#66d9ef">double</span> h[]) {
+    <span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    n1<span style="color:#f92672">--</span>, n2<span style="color:#f92672">--</span>;
+    <span style="color:#66d9ef">while</span> (n <span style="color:#f92672">&lt;=</span> n1 <span style="color:#f92672">+</span> n2) n <span style="color:#f92672">&lt;&lt;=</span> <span style="color:#ae81ff">1</span>;  <span style="color:#75715e">// deg(h) = n1 + n2
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">static</span> Complex a[maxn], b[maxn];
+    memset(a, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(a));
+    memset(b, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(b));
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;=</span> n1; i<span style="color:#f92672">++</span>) a[i] <span style="color:#f92672">=</span> Complex(f[i], <span style="color:#ae81ff">0</span>);
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;=</span> n2; i<span style="color:#f92672">++</span>) b[i] <span style="color:#f92672">=</span> Complex(g[i], <span style="color:#ae81ff">0</span>);
+    fft.fft(a, n, <span style="color:#ae81ff">1</span>);  <span style="color:#75715e">// 注意这里用的是 n (不是 n1)
+</span><span style="color:#75715e"></span>    fft.fft(b, n, <span style="color:#ae81ff">1</span>);
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) a[i] <span style="color:#f92672">=</span> a[i] <span style="color:#f92672">*</span> b[i];
+    fft.fft(a, n, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>);
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) h[i] <span style="color:#f92672">=</span> a[i].x;
+}
+
+<span style="color:#66d9ef">int</span> n1, n2;
+<span style="color:#66d9ef">double</span> f[maxn<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span>], g[maxn<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span>], h[maxn];
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> n1 <span style="color:#f92672">&gt;&gt;</span> n2;  <span style="color:#75715e">// deg(f) = n1 - 1, deg(g) = n2 - 1
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n1; i<span style="color:#f92672">++</span>) cin <span style="color:#f92672">&gt;&gt;</span> f[i];
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n2; i<span style="color:#f92672">++</span>) cin <span style="color:#f92672">&gt;&gt;</span> g[i];
+    poly_multiply(f, n1, g, n2, h);
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;=</span> n1<span style="color:#f92672">+</span>n2<span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>; i<span style="color:#f92672">++</span>) cout <span style="color:#f92672">&lt;&lt;</span> h[i] <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; &#34;</span>;
+}
+</code></pre></div></details>
+<p>使用板子的注意事项：</p>
+<ol>
+<li><code>maxn</code> 的值必须大于一个 $2^k$，且 $2^k &gt; n_1+n_2$</li>
+</ol>
+<h2 id="介绍">介绍</h2>
+<p>FFT (Fast Fourier Transform, 快速傅立叶变换) 可以在 $O(n \log n)$ 的时间内计算两个多项式的乘法，也可以用来计算卷积。</p>
+<p>• 一般卷积的形式为 $$C_k = \sum\limits_{i=0}^kA_iB_{k-i} = A_0B_k + A_1B_{k-1} + &hellip; + A_kB_0$$</p>
+<p>在开始介绍 FFT 之前，我们需要一些基本的前置知识。</p>
+<h2 id="多项式">多项式</h2>
+<p>一个多项式有两种表示方法：<strong>系数表示法</strong> 和 <strong>点值表示法</strong>。</p>
+<h3 id="系数表示法">系数表示法</h3>
+<p>$$f(x) = a_0 + a_1x + a_2x^2 + &hellip; + a_nx^n$$</p>
+<p>则 $\{a_0,a_1,&hellip;,a_n\}$ 即可表示这个多项式 $f(x)$。</p>
+<h3 id="点值表示法">点值表示法</h3>
+<p>选取多项式函数上的 $(n+1)$ 个点 $(x_0,y_0), (x_1,y_1), &hellip;, (x_n,y_n)$ 也可以唯一的表示这个多项式 $f(x)$。</p>
+<p>证明：使用高斯消元即可，$(n+1)$ 个未知量，对应 $(n+1)$ 个方程。</p>
+<h2 id="复数">复数</h2>
+<h3 id="n-次单位根">$n$ 次单位根</h3>
+<p>若 $\omega$ 满足 $\omega^n = 1$，那么 $\omega$ 就是 $n$ 次单位根 (n-th root of unity)。</p>
+<p>若 $\omega$ 满足 $\omega^n = 1$，<strong>且满足</strong> $\omega ^ k \neq 1, \forall k \in [1, n-1]$，则 $\omega$ 就是 $n$ 次<strong>本原</strong>单位根 (primitive n-th root of unity)</p>
+<h3 id="omega-的取值">$\omega$ 的取值</h3>
+<div class="admonition info">
+  <p class="admonition-title">定理</p>
+<p>$$\omega_n^k = e^{i\frac{2k\pi}{n}} = \cos(\frac{2k\pi}{n}) + i \sin(\frac{2k\pi}{n})$$</p>
+<p>$$\omega = e^{i \frac{2\pi}{n}} = \cos(\frac{2\pi}{n}) + i \sin(\frac{2\pi}{n})$$</p>
+</div>
+<p>为了方便，下文我们就写 $\omega = e^{i \frac{2\pi}{n}}$</p>
+<p>$\omega$ 有几个优秀的性质：</p>
+<ol>
+<li>$\omega$ 为 $n$ 次<strong>本原</strong>单位根，这说明 $\forall k \in [1, n-1], \omega^n = 1$，且 $\omega ^ k \neq 1$</li>
+<li>$\omega^{k+\frac{n}{2}} = -\omega^{k}$</li>
+</ol>
+<h2 id="fft原理">FFT原理</h2>
+<div class="admonition question">
+  <p class="admonition-title">问题</p>
+<p>给定两个已知多项式 $f(x)$ 和 $g(x)$，$deg(f) = n_1, deg(g) = n_2$，求 $h(x) = f(x) * g(x)$？</p>
+</div>
+<p>FFT 分为三步：</p>
+<ol>
+<li>
+<p><strong>DFT</strong>：令 $n = n_1 + n_2$，在 $x$ 轴上选择 $(n + 1)$ 个<strong>特殊点</strong> $x_0,x_1,&hellip;,x_{n}$，求出 $f(x_0), f(x_1), &hellip;, f(x_n)$ 与 $g(x_0), g(x_1), &hellip;, g(x_n)$ 的值。</p>
+<p>复杂度：$O(n\log n)$</p>
+</li>
+<li>
+<p><strong>点值乘法</strong>：求出 $(n+1)$ 个点上，点值的乘积，即 $h(x_i) = f(x_i) * g(x_i), i \in [0, n]$</p>
+<p>复杂度：$O(n)$</p>
+</li>
+<li>
+<p><strong>IDFT</strong>：给定一个未知 $h(x)$ 上的 $(n+1)$ 个<strong>特殊点</strong> $\{(x_0,y_0), (x_1,y_1), &hellip;, (x_n,y_n)\}$，求出 $h(x)$ 的系数表达式。</p>
+<p>复杂度：$O(n\log n)$</p>
+</li>
+</ol>
+<h3 id="第一步-dft">第一步 DFT</h3>
+<div class="admonition question">
+  <p class="admonition-title">问题</p>
+<p>假设现在有一个 $deg(f) = n$ 的多项式，且 $n$ 为偶数。我们想要求 $f(x)$ 在 $n$ 个不同的特殊点 $x_0,x_1,&hellip;,x_{n-1}$ 上的值。</p>
+</div>
+<blockquote>
+<p>注意到这个问题也等价于一个矩阵乘法，即给定 一个矩阵 $X$ 和一个向量 $\vec a$，在我们可以自由选择 $x_0,x_1,&hellip;,x_{n-1}$ 的情况下，用 $O(n \log n)$ 的时间求出 $\vec y = X \vec a$ 的值？</p>
+<p>$$\begin{bmatrix}
+1 &amp; x_0 &amp; x_0^2 &amp; &hellip; &amp; x_0^{n-1} \\
+1 &amp; x_1 &amp; x_1^2 &amp; &hellip; &amp; x_1^{n-1} \\
+&hellip;\\
+1 &amp; x_{n-1} &amp; x_{n-1}^2 &amp; &hellip; &amp; x_{n-1}^{n-1} \\
+\end{bmatrix}
+\begin{bmatrix}
+a_0 \\
+a_1 \\
+&hellip;\\
+a_{n-1} \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+y_0 \\
+y_1 \\
+&hellip;\\
+y_{n-1} \\
+\end{bmatrix}
+$$</p>
+</blockquote>
+<p>那么，如何快速求出 $f(x_0), f(x_1), &hellip;, f(x_{n-1})$呢？我们只要选一些特殊的 $x_0, x_1, &hellip;, x_{n-1}$ 即可。</p>
+<p>$X = \{x_0, x_1, &hellip;, x_{n-1}\}$ 需要有的性质：$|X^2| = \frac{|X|}{2}$</p>
+<p>结论：$x_i = \omega^i$</p>
+<hr>
+<p>证明：</p>
+<p>因为</p>
+<p>$$f(x) = a_0 + a_1x + a_2x^2 + &hellip; + a_nx^n$$</p>
+<p>$$=(a_0 + a_2x^2 + a_4x^4 + &hellip; + a_{n-2}x^{n-2}) + (a_1x + a_3x^3 + a_5x^5 + &hellip; + a_{n-1}x^{n-1})$$</p>
+<p>令</p>
+<p>$$f_{even}(x) = a_0 + a_2x + a_4x^2 + &hellip; + a_{n-2}x^{\frac{n}{2} - 1}$$
+$$f_{odd}(x) = a_1 + a_3x + a_5x^2 + &hellip; + a_{n-1}x^{\frac{n}{2} - 1}$$</p>
+<p>则有</p>
+<p>$$f(x) = f_{even}(x^2) + xf_{odd}(x^2)$$</p>
+<p>现在，我们选择 $x_i = \omega^i$，则我们求 $f(x_i)$ 和 $f(x_{i+\frac{n}{2}})$，可以发现</p>
+<p>$$x_{\frac{n}{2}} = \omega^{\frac{n}{2}} = -1, ~~x_{i+\frac{n}{2}} = \omega^{i+\frac{n}{2}} = -\omega^i = -x_i$$</p>
+<p>所以</p>
+<p>$$\forall i \in [0,\frac{n}{2}-1], ~~f(x_i) = f_{even}(x_i^2) + x_if_{odd}(x_i^2), ~~f(x_{i+\frac{n}{2}}) = f_{even}(x_i^2) - x_if_{odd}(x_i^2)$$</p>
+<p>又因为，求 $\forall i \in [0,n], f(x_i)$ 的值，等价于求 $\forall i \in [0,\frac{n}{2}-1], f(x_i) 和 f(x_{i+\frac{n}{2}})$ 的值，</p>
+<p>所以这个问题就可以等价转化为求 $f_{even}(x_i^2) + x_if_{odd}(x_i^2)$ 的值。而这就是一个规模减半了的子问题。</p>
+<p>所以设 $T(n)$ 为：求出 $\forall i \in [0,n], f(x_i)$ 的值所需的时间，则可以列出方程：</p>
+<p>$$T(n) = 2T(\frac{n}{2}) + O(n)$$</p>
+<p>所以 $T(n) = O(n\log n)$</p>
+<h3 id="第二步-点值乘法">第二步 点值乘法</h3>
+<p>第一步DFT以后，我们有了 $f(x_0), f(x_1), &hellip;, f(x_{n-1})$ 与 $g(x_0), g(x_1), &hellip;, g(x_{n-1})$ 的值，我们就可以直接将这些值乘起来，得到</p>
+<p>$$h(x_0), h(x_1), &hellip;, h(x_{n-1})$$</p>
+<p>的值。</p>
+<h3 id="第三步-idft">第三步 IDFT</h3>
+<div class="admonition question">
+  <p class="admonition-title">问题</p>
+<p>现在给定一个未知的多项式 $h(x)$，且 $deg(h) = n-1$，已知 $h(x)$ 上的 $n$ 个点 $(x_0,h(x_0)), (x_1,h(x_1)), &hellip;, (x_{n-1},h(x_{n-1}))$，求 $h(x)$ 的表达式？</p>
+</div>
+<blockquote>
+<p>注意到这个问题也等价于一个矩阵乘法，即给定 一个矩阵 $X$ 和一个向量 $\vec y$，已知 $X\vec a = \vec y$，如何用 $O(n \log n)$ 的时间求出 $\vec a$ 的值？</p>
+<p>$$\begin{bmatrix}
+1 &amp; x_0 &amp; x_0^2 &amp; &hellip; &amp; x_0^{n-1} \\
+1 &amp; x_1 &amp; x_1^2 &amp; &hellip; &amp; x_1^{n-1} \\
+&hellip;\\
+1 &amp; x_{n-1} &amp; x_{n-1}^2 &amp; &hellip; &amp; x_{n-1}^{n-1} \\
+\end{bmatrix}
+\begin{bmatrix}
+a_0 \\
+a_1 \\
+&hellip;\\
+a_{n-1} \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+y_0 \\
+y_1 \\
+&hellip;\\
+y_{n-1} \\
+\end{bmatrix}
+$$</p>
+</blockquote>
+<p>发现了什么？这实际上和第一步 DFT 的过程是一样的，如果我们把 $X^{-1}$ 给两边乘上 ，就变成了</p>
+<p>$$\begin{bmatrix}
+1 &amp; x_0 &amp; x_0^2 &amp; &hellip; &amp; x_0^{n-1} \\
+1 &amp; x_1 &amp; x_1^2 &amp; &hellip; &amp; x_1^{n-1} \\
+&hellip;\\
+1 &amp; x_{n-1} &amp; x_{n-1}^2 &amp; &hellip; &amp; x_{n-1}^{n-1} \\
+\end{bmatrix}^{-1} \begin{bmatrix}
+y_0 \\
+y_1 \\
+&hellip;\\
+y_{n-1} \\
+\end{bmatrix}
+= \begin{bmatrix}
+a_0 \\
+a_1 \\
+&hellip;\\
+a_{n-1} \\
+\end{bmatrix}$$</p>
+<p>那么，令</p>
+<p>$$X=\begin{bmatrix}1 &amp; x_0 &amp; x_0^2 &amp; &hellip; &amp; x_0^{n-1} \\
+1 &amp; x_1 &amp; x_1^2 &amp; &hellip; &amp; x_1^{n-1} \\
+&hellip;\\
+1 &amp; x_{n-1} &amp; x_{n-1}^2 &amp; &hellip; &amp; x_{n-1}^{n-1} \\
+\end{bmatrix}$$</p>
+<p>把 $x_i = \omega^i$ 代进去，就可以得到：</p>
+<p>$$X = \begin{bmatrix}1 &amp; 1 &amp; 1 &amp; &hellip; &amp; 1 \\
+1 &amp; \omega^1 &amp; \omega^{1\cdot 2} &amp; &hellip; &amp; \omega^{1\cdot (n-1)} \\
+&hellip;\\
+1 &amp; \omega^{1} &amp; \omega^{(n-1)\cdot 2} &amp; &hellip; &amp; \omega^{(n-1)\cdot (n-1)} \\
+\end{bmatrix}$$</p>
+<p>令</p>
+<p>$$V(\omega) = X = \begin{bmatrix}1 &amp; 1 &amp; 1 &amp; &hellip; &amp; 1 \\
+1 &amp; \omega^1 &amp; \omega^{1\cdot 2} &amp; &hellip; &amp; \omega^{1\cdot (n-1)} \\
+&hellip;\\
+1 &amp; \omega^{1} &amp; \omega^{(n-1)\cdot 2} &amp; &hellip; &amp; \omega^{(n-1)\cdot (n-1)} \\
+\end{bmatrix}, ~~~V(\omega^{-1}) = \begin{bmatrix}1 &amp; 1 &amp; 1 &amp; &hellip; &amp; 1 \\
+1 &amp; \omega^{-1} &amp; \omega^{-1\cdot 2} &amp; &hellip; &amp; \omega^{-1\cdot (n-1)} \\
+&hellip;\\
+1 &amp; \omega^{-1} &amp; \omega^{-(n-1)\cdot 2} &amp; &hellip; &amp; \omega^{-(n-1)\cdot (n-1)} \\
+\end{bmatrix}$$</p>
+<p>则有：</p>
+<p>$$V(\omega) \cdot V(\omega^{-1}) = nI$$</p>
+<p>证明：直接进行矩阵运算即可，注意要用到 $\omega^n = 1$ 的特性。</p>
+<p>这说明</p>
+<p>$$X^{-1} = V(w)^{-1} = \frac{1}{n} V(\omega^{-1})$$</p>
+<p>所以上面的 $X^{-1}\vec y = \vec a$ 就可以表示为：</p>
+<p>$$V(\omega)^{-1} \begin{bmatrix}
+y_0 \\
+y_1 \\
+&hellip;\\
+y_{n-1} \\
+\end{bmatrix}
+= \begin{bmatrix}
+a_0 \\
+a_1 \\
+&hellip;\\
+a_{n-1} \\
+\end{bmatrix} <del>\Rightarrow</del> \frac{1}{n}V(\omega^{-1})\begin{bmatrix}
+y_0 \\
+y_1 \\
+&hellip;\\
+y_{n-1} \\
+\end{bmatrix}
+= \begin{bmatrix}
+a_0 \\
+a_1 \\
+&hellip;\\
+a_{n-1} \\
+\end{bmatrix}$$</p>
+<p>这就等价于我们有一个系数为 $y_0, y_1, &hellip; y_{n}$ 的多项式，然后要在 $x_0^{-1}, x_1^{-1}, &hellip;, x_n^{-1}$ 这些特殊点上进行求值。</p>
+<p>我们发现 $x_0^{-1} = \omega^{-1}$ 仍然是一个 $n$ 次<strong>本原</strong>单位根 (primitive n-th root of unity)（证明略），所以它仍然有上述优秀的性质。</p>
+<p>所以这个问题可以用 DFT 解决，求出来的值，就是我们想要的 $h(x)$ 的多项式系数。</p>
+<blockquote>
+<p>注意一下，上述所有过程都是完美的分治过程，所以我们需要把 $deg(h)$ 补成一个 $2^k$ 形式，其中 $deg(h) = 2^k \geq 2(n_1+n_2)$</p>
+</blockquote>
+<h3 id="非递归-fft">非递归 FFT</h3>
+<p>递归 FFT 常数过大，不好用，所以我们可以写一个非递归版本的。</p>
+<p>我们手推一下 FFT 的分治过程，每一次分治都是拆分奇数项和偶数项，模拟拆分过程有：</p>
+<p>初始序列：$\{a_0,a_1,a_2,a_3,a_4,a_5,a_6,a_7\}$</p>
+<p>第一次拆分：$\{a_0,a_2,a_4,a_6\},\{a_1,a_3,a_5,a_7\}$</p>
+<p>第二次拆分：$\{a_0,a_4\},\{a_2,a_6\},\{a_1,a_5\},\{a_3,a_7\}$</p>
+<p>第三次拆分：$\{a_0\},\{a_4\},\{a_2\},\{a_6\},\{a_1\},\{a_5\},\{a_3\},\{a_7\}$</p>
+<p>发现了什么？</p>
+<blockquote>
+<p>拆分前：0, 1, 2, 3, 4, 5, 6, 7</p>
+<p>拆分后：0, 4, 2, 6, 1, 5, 3, 7</p>
+</blockquote>
+<p>化成二进制：</p>
+<blockquote>
+<p>拆分前：000, 001, 010, 011, 100, 101, 110, 111</p>
+<p>拆分后：000, 100, 010, 110, 001, 101, 011, 111</p>
+</blockquote>
+<p>机智的你或许发现了，拆分前后，每个数字对应的二进制刚好就是翻转了一下，最左边的bit跑到最右边去了，反之亦然。</p>
+<p>那么这个二进制翻转就可以直接 $O(n \log n)$ 实现了，但是这样不够高效，有一个 $O(n)$ 的基于 DP 的方法：</p>
+<p>设 $R(x)$ 为 $x$ 翻转后的结果，可知 $R(0) = 0$。</p>
+<p>我们从小到大求 $R(x)$，在求 $R(x)$ 时，我们已知了 $R(\frac{x}{2})$ 的值，相当于：</p>
+<p>$$x = abc[0/1], ~ \frac{x}{2} = abc, ~ R(\frac{x}{2}) = cba, ~ R(x) = [0/1]cba$$</p>
+<p>则我们只要判断一下 $x$ 的最低位为 $0$ 还是 $1$，然后给 $R(\frac{x}{2})$ 的最高位补上一个 $0$ 或者 $1$ 就可以得到 $R(x)$ 了。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">rearrange</span>(Complex a[], <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> n) {
+    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">int</span> rev[maxn];  
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        rev[i] <span style="color:#f92672">=</span> rev[i <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">if</span> (i <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">1</span>) rev[i] <span style="color:#f92672">|=</span> (n <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>);
+    }
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">if</span> (i <span style="color:#f92672">&lt;</span> rev[i]) swap(a[i], a[rev[i]]);  <span style="color:#75715e">// 保证每对数字只翻转一次
+</span><span style="color:#75715e"></span>    }
+}
+</code></pre></div><p>至于非递归写法的原理，我懒得写了先鸽着吧（</p>
+<h3 id="优化三步变两步">优化（三步变两步）</h3>
+<p>暂时没遇到需要优化的情况，先鸽着。</p>
+<h2 id="fft-字符串通配符匹配">FFT 字符串通配符匹配</h2>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个长度为 $m$ 的模式串 $A$ 和一个长度为 $n$ 的文本串 $B$，字符串中有通配符，通配符可以匹配任何的字符。</p>
+<p>问模式串在文本串中出现的所有位置？</p>
+<p>其中，$n, m \leq 3 \times 10^5$。</p>
+</div>
+<p>如果定义字符串的匹配函数 $C(x,y) = A_x - B_y$，所以如果 $C(x,y) = 0$ 那么 $A$ 的第 $x$ 个字符和 $B$ 的第 $y$ 个字符匹配，如果我们定义完全匹配函数 $P(x) = \sum\limits_{i=0}^{m-1} C(i, x+i)$，那么若 $P(x) = 0$ 那么意味着 $A$ 出现在了 $B$ 的位置 $x$ 处。</p>
+<p>但是，这样的话 <code>&quot;ab&quot;</code> 和 <code>&quot;ba&quot;</code> 会匹配在一起。所以我们重新定义匹配函数为 $C(x,y) = (A_x - B_y)^2$，保证每一项均 $\geq 0$，那么展开后：</p>
+<p>$$P(x) = \sum\limits_{i=0}^{m-1} C(i, x+i) = \sum\limits_{i=0}^{m-1} (A_i - B_{x+i})^2$$</p>
+<p>$$= \sum\limits_{i=0}^{m-1} A_i^2 + \sum\limits_{i=0}^{m-1} B_{x+i}^2 - 2 \sum\limits_{i=0}^{m-1} A_i B_{x+i}$$</p>
+<p>注意第一项是个常数，第二项可以前缀和预处理，第三项呢？</p>
+<p>FFT经典套路：翻转多项式，转成卷积。设 $A_i' = A_{m-1-i}$，那么有第三项等于</p>
+<p>$$\sum\limits_{i=0}^{m-1} A_i B_{x+i} = \sum\limits_{i=0}^{m-1} A_{m-1-i}' B_{x+i}$$</p>
+<p>$$ = A_{m-1}' B_x + A_{m-2}' B_{x+1} + &hellip; + A_0' B_{x+m-1}$$</p>
+<p>注意，下标之和等于 $x+m-1$。虽然这个不是严格意义上的卷积，因为按理说还要加上 $A_{x+m-1}' B_0 + A_{x+m-2}' B_1 + &hellip; + A_m' B_{x-1}$ 才对，但是由于 $A'$ 的长度只有 $m-1$，这些多出来的项就设为 $0$ 即可，所以这个式子的结果是等于</p>
+<p>$$\sum\limits_{i+j=x+m-1} A_i' B_j$$</p>
+<p>的。也就是多项式 $A' * B$ 的第 $(x+m-1)$ 项。</p>
+<p>• 这样的话可以在 $O(n\log n)$ 的时间内求出 $A$ 在 $B$ 中出现的所有位置，但并没有处理通配符问题。</p>
+<p>现在考虑有通配符的情况，我们修改匹配函数：$C(x,y) = 0$ 既然代表 $A$ 的第 $x$ 个字符和 $B$ 的第 $y$ 个字符匹配，那么匹配时有三种情况：</p>
+<ol>
+<li>$A_x$ 是通配符。</li>
+<li>$B_y$ 是通配符。</li>
+<li>$A_x = B_y$。</li>
+</ol>
+<p>只要三个条件满足其一即可。所以不妨令通配符等于 $0$，也就是 $A_x = 0 \iff $ <code>A[x] = '*'</code></p>
+<p>然后用乘法来表示 “OR” 的逻辑，重新定义匹配函数：</p>
+<p>$$C(x,y) = A_x B_y (A_x-B_y)^2$$</p>
+<p>这样完全匹配函数就等于</p>
+<p>$$P(x) = \sum\limits_{i=0}^{m-1} C(i, x+i) = \sum\limits_{i=0}^{m-1} A_i B_{x+i} (A_i-B_{x+i})^2$$</p>
+<p>$$= \sum\limits_{i=0}^{m-1} (A_i^3 B_{x+i} - 2 A_i^2 B_{x+i}^2 + A_i B_{x+i}^3)$$</p>
+<p>设 $A_i' = A_{m-1-i}$，有：</p>
+<p>$$P(x)= \sum\limits_{i=0}^{m-1} (A_{m-1-i}' ^3 B_{x+i} - 2 A_{m-1-i}' ^2 B_{x+i}^2 + A_{m-1-i}' B_{x+i}^3)$$</p>
+<p>• 对于 $A_{m-1-i}' ^3 B_{x+i}$ 这种类型的怎么计算呢？只要多创建一个多项式 $C$，其中 $C_i = A_i' ^3$ 即可。</p>
+<p>所以总计创建 $6$ 个多项式，乘起来然后相加后得到多项式 $F$，就可以得到：</p>
+<div class='align-center'>
+<p>$A$ 出现在 $B$ 的位置 $x$ 处 $\iff P(x) = 0 \iff F_{x+m-1} = 0$</p>
+</div>
+<h2 id="例题">例题</h2>
+<h3 id="例1-洛谷p1919-模板ab-problem升级版fft快速傅里叶httpswwwluogucomcnproblemp1919">例1 <a href="https://www.luogu.com.cn/problem/P1919" target="_blank">洛谷P1919 【模板】A*B Problem升级版（FFT快速傅里叶）</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定正整数 $a,b$，求 $a*b$？</p>
+<p>其中，$1\leq a,b \leq 10^{10^6}$</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>把大整数看成多项式，例如 $356$ 就看作 $f(x) = 3x^2 + 5x + 6$</p>
+<p>两个大整数相乘就看作多项式相乘，最后代入 $x = 10$，处理一下进位和前缀零即可。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> (<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">21</span>) <span style="color:#f92672">+</span> <span style="color:#ae81ff">5</span>;
+
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Complex</span> {
+    <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">double</span> x,y;
+    Complex(<span style="color:#66d9ef">long</span> <span style="color:#66d9ef">double</span> _x <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.0</span>, <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">double</span> _y <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.0</span>) {
+        x <span style="color:#f92672">=</span> _x; y <span style="color:#f92672">=</span> _y;
+    }
+    Complex <span style="color:#66d9ef">operator</span><span style="color:#f92672">+</span>(<span style="color:#66d9ef">const</span> Complex<span style="color:#f92672">&amp;</span> b) <span style="color:#66d9ef">const</span> {
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">Complex</span>(x <span style="color:#f92672">+</span> b.x, y <span style="color:#f92672">+</span> b.y);
+    }
+    Complex <span style="color:#66d9ef">operator</span><span style="color:#f92672">-</span>(<span style="color:#66d9ef">const</span> Complex<span style="color:#f92672">&amp;</span> b) <span style="color:#66d9ef">const</span> {
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">Complex</span>(x <span style="color:#f92672">-</span> b.x, y <span style="color:#f92672">-</span> b.y);
+    }
+    Complex <span style="color:#66d9ef">operator</span><span style="color:#f92672">*</span>(<span style="color:#66d9ef">const</span> Complex <span style="color:#f92672">&amp;</span>b) <span style="color:#66d9ef">const</span> {
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">Complex</span>(x <span style="color:#f92672">*</span> b.x <span style="color:#f92672">-</span> y <span style="color:#f92672">*</span> b.y, x <span style="color:#f92672">*</span> b.y <span style="color:#f92672">+</span> y <span style="color:#f92672">*</span> b.x);
+    }
+    Complex <span style="color:#66d9ef">operator</span><span style="color:#f92672">/</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">double</span><span style="color:#f92672">&amp;</span> b) <span style="color:#66d9ef">const</span> {
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">Complex</span>(x<span style="color:#f92672">/</span>b, y<span style="color:#f92672">/</span>b);
+    }
+};
+
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">FastFourierTransform</span> {
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">rearrange</span>(Complex a[], <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> n) {
+        <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">int</span> rev[maxn];  <span style="color:#75715e">// maxn &gt; deg(h) 且 maxn 为 2的k次方 + 5
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+            rev[i] <span style="color:#f92672">=</span> rev[i <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+            <span style="color:#66d9ef">if</span> (i <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">1</span>) rev[i] <span style="color:#f92672">|=</span> (n <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>);
+        }
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">if</span> (i <span style="color:#f92672">&lt;</span> rev[i]) swap(a[i], a[rev[i]]);  <span style="color:#75715e">// 保证每对数字只翻转一次
+</span><span style="color:#75715e"></span>        }
+    }
+
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">fft</span>(Complex a[], <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> n, <span style="color:#66d9ef">int</span> on) {
+        rearrange(a, n);
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>; k <span style="color:#f92672">&lt;=</span> n; k <span style="color:#f92672">&lt;&lt;=</span> <span style="color:#ae81ff">1</span>) {   <span style="color:#75715e">// 模拟分治的合并过程
+</span><span style="color:#75715e"></span>            Complex wn(cos(<span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>pi <span style="color:#f92672">/</span> k), on <span style="color:#f92672">*</span> sin(<span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>pi <span style="color:#f92672">/</span> k));
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i <span style="color:#f92672">+=</span> k) {
+                Complex w(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>);
+                <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> i; j <span style="color:#f92672">&lt;</span> i <span style="color:#f92672">+</span> (k<span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">1</span>); j<span style="color:#f92672">++</span>) {
+                    Complex x <span style="color:#f92672">=</span> a[j], y <span style="color:#f92672">=</span> w <span style="color:#f92672">*</span> a[j<span style="color:#f92672">+</span>(k<span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">1</span>)];
+                    a[j] <span style="color:#f92672">=</span> x <span style="color:#f92672">+</span> y;
+                    a[j<span style="color:#f92672">+</span>(k<span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">1</span>)] <span style="color:#f92672">=</span> x <span style="color:#f92672">-</span> y;
+                    w <span style="color:#f92672">=</span> w <span style="color:#f92672">*</span> wn;
+                }
+            }
+        }
+        <span style="color:#66d9ef">if</span> (on <span style="color:#f92672">==</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) {
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>) a[i] <span style="color:#f92672">=</span> a[i] <span style="color:#f92672">/</span> n;
+        }
+    }
+} fft;
+
+
+<span style="color:#75715e">// calculate h(x) = f(x) * g(x), deg(f) = n1, deg(g) = n2
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">poly_multiply</span>(<span style="color:#66d9ef">int</span> f[], <span style="color:#66d9ef">int</span> n1, <span style="color:#66d9ef">int</span> g[], <span style="color:#66d9ef">int</span> n2, <span style="color:#66d9ef">int</span> h[]) {
+    <span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">while</span> (n <span style="color:#f92672">&lt;=</span> n1 <span style="color:#f92672">+</span> n2) n <span style="color:#f92672">&lt;&lt;=</span> <span style="color:#ae81ff">1</span>;  <span style="color:#75715e">// deg(h) = n1 + n2
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">static</span> Complex a[maxn], b[maxn], c[maxn];
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;=</span> n1; i<span style="color:#f92672">++</span>) a[i] <span style="color:#f92672">=</span> Complex(f[i], <span style="color:#ae81ff">0</span>);
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;=</span> n2; i<span style="color:#f92672">++</span>) b[i] <span style="color:#f92672">=</span> Complex(g[i], <span style="color:#ae81ff">0</span>);
+    fft.fft(a, n, <span style="color:#ae81ff">1</span>);  <span style="color:#75715e">// 注意这里用的是 n (不是 n1)
+</span><span style="color:#75715e"></span>    fft.fft(b, n, <span style="color:#ae81ff">1</span>);
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) a[i] <span style="color:#f92672">=</span> a[i] <span style="color:#f92672">*</span> b[i];
+    fft.fft(a, n, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>);
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) h[i] <span style="color:#f92672">=</span> (<span style="color:#66d9ef">int</span>)(a[i].x <span style="color:#f92672">+</span> <span style="color:#ae81ff">0.5</span>);
+
+}
+
+<span style="color:#66d9ef">int</span> n1, n2;
+<span style="color:#66d9ef">int</span> f[maxn<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span>], g[maxn<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span>], h[maxn];
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+
+    string s1, s2;
+    cin <span style="color:#f92672">&gt;&gt;</span> s1 <span style="color:#f92672">&gt;&gt;</span> s2;
+    <span style="color:#66d9ef">int</span> n1 <span style="color:#f92672">=</span> s1.size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>, n2 <span style="color:#f92672">=</span> s2.size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;=</span> n1; i<span style="color:#f92672">++</span>) f[i] <span style="color:#f92672">=</span> s1[n1<span style="color:#f92672">-</span>i] <span style="color:#f92672">-</span> <span style="color:#e6db74">&#39;0&#39;</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;=</span> n2; i<span style="color:#f92672">++</span>) g[i] <span style="color:#f92672">=</span> s2[n2<span style="color:#f92672">-</span>i] <span style="color:#f92672">-</span> <span style="color:#e6db74">&#39;0&#39;</span>;
+    poly_multiply(f, n1, g, n2, h);
+
+    <span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> maxn<span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>; i<span style="color:#f92672">++</span>) {
+        h[i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">+=</span> h[i] <span style="color:#f92672">/</span> <span style="color:#ae81ff">10</span>;
+        h[i] <span style="color:#f92672">%=</span> <span style="color:#ae81ff">10</span>;
+    }
+    string ans <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> maxn<span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>; i<span style="color:#f92672">++</span>) ans <span style="color:#f92672">+=</span> (<span style="color:#66d9ef">char</span>)(h[i] <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;0&#39;</span>);
+
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> ans.size()<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>; j<span style="color:#f92672">--</span>) {
+        <span style="color:#66d9ef">if</span> (ans[j] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;0&#39;</span>) {
+            ans.erase(ans.begin() <span style="color:#f92672">+</span> j);
+        } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">break</span>;
+    }
+
+    reverse(ans.begin(), ans.end());
+    cout <span style="color:#f92672">&lt;&lt;</span> ans <span style="color:#f92672">&lt;&lt;</span> endl;
+}
+
+</code></pre></div></details>
+<h3 id="例2-洛谷p3338-zjoi2014力httpswwwluogucomcnproblemp3338">例2 <a href="https://www.luogu.com.cn/problem/P3338" target="_blank">洛谷P3338 [ZJOI2014]力</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $n$ 个实数 $q_1,q_2,&hellip;,q_n$，定义：</p>
+<p>$$F_j = \sum\limits_{i=1}^{j-1}\frac{q_i \times q_j}{(i-j)^2} - \sum\limits_{i=j+1}^{n}\frac{q_i \times q_j}{(i-j)^2}$$</p>
+<p>$$E_j = \frac{F_j}{q_j}$$</p>
+<p>求 $E_1, E_2, &hellip;, E_n$ 的值？</p>
+<p>其中，$n \leq 10^5$</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>FFT 可以用于处理卷积问题，我们先化简一下式子：</p>
+<p>$$E_j = \frac{F_j}{q_j} = \sum\limits_{i=1}^{j-1}\frac{q_i}{(i-j)^2} - \sum\limits_{i=j+1}^{n}\frac{q_i}{(i-j)^2}$$</p>
+<p>令</p>
+<p>$$f_i = q_i, ~~g_i = \frac{1}{i^2}$$</p>
+<p>则</p>
+<p>$$E_j = \sum\limits_{i=1}^{j-1}f_ig_{j-i} - \sum\limits_{i=j+1}^{n}f_ig_{i-j}$$</p>
+<p>注意到第一项 $\sum\limits_{i=1}^{j-1}f_ig_{j-i}$ 可以写成 $i=0$ 开始，到 $j$ 结束（令 $f_0 = g_0 = 0$ 即可），所以第一项等于 $\sum\limits_{i=0}^{j}f_ig_{j-i}$，也就是一个卷积形式，可以利用 FFT 计算。</p>
+<hr>
+<p>第二项 $\sum\limits_{i=j+1}^{n}f_ig_{i-j}$ 怎么写成卷积呢？</p>
+<p>注意到，如果我们令 $f_j' = f_{n-j}$，则有</p>
+<p>$$\sum\limits_{i=j+1}^{n}f_ig_{i-j} = \sum\limits_{i=j}^{n}f'<em>{n-i}g</em>{i-j} = g_0f'<em>{n-j} + g_1f'</em>{n-j-1} + &hellip; + g_{n-j}f'_0$$</p>
+<p>那么，这就又是一个卷积了，所以最后我们的结果可以表示为：</p>
+<p>$$E_j = \sum\limits_{i=0}^{j}f_ig_{j-i} - \sum\limits_{i=j}^{n}f'<em>{n-i}g</em>{i-j}$$</p>
+<hr>
+<p>第一项 $\sum\limits_{i=0}^{j}f_ig_{j-i}$：计算多项式 $f(x) * g(x)$，取第 $j$ 项的系数即可。</p>
+<p>第二项 $\sum\limits_{i=j}^{n}f'<em>{n-i}g</em>{i-j}$：计算多项式 $f'(x) * g(x)$，取第 $n-j$ 项的系数即可。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> (<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">21</span>) <span style="color:#f92672">+</span> <span style="color:#ae81ff">5</span>;
+
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Complex</span> {
+    <span style="color:#66d9ef">double</span> x,y;
+    Complex(<span style="color:#66d9ef">double</span> _x <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.0</span>, <span style="color:#66d9ef">double</span> _y <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.0</span>) {
+        x <span style="color:#f92672">=</span> _x; y <span style="color:#f92672">=</span> _y;
+    }
+    Complex <span style="color:#66d9ef">operator</span><span style="color:#f92672">+</span>(<span style="color:#66d9ef">const</span> Complex<span style="color:#f92672">&amp;</span> b) <span style="color:#66d9ef">const</span> {
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">Complex</span>(x <span style="color:#f92672">+</span> b.x, y <span style="color:#f92672">+</span> b.y);
+    }
+    Complex <span style="color:#66d9ef">operator</span><span style="color:#f92672">-</span>(<span style="color:#66d9ef">const</span> Complex<span style="color:#f92672">&amp;</span> b) <span style="color:#66d9ef">const</span> {
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">Complex</span>(x <span style="color:#f92672">-</span> b.x, y <span style="color:#f92672">-</span> b.y);
+    }
+    Complex <span style="color:#66d9ef">operator</span><span style="color:#f92672">*</span>(<span style="color:#66d9ef">const</span> Complex <span style="color:#f92672">&amp;</span>b) <span style="color:#66d9ef">const</span> {
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">Complex</span>(x <span style="color:#f92672">*</span> b.x <span style="color:#f92672">-</span> y <span style="color:#f92672">*</span> b.y, x <span style="color:#f92672">*</span> b.y <span style="color:#f92672">+</span> y <span style="color:#f92672">*</span> b.x);
+    }
+    Complex <span style="color:#66d9ef">operator</span><span style="color:#f92672">/</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">double</span><span style="color:#f92672">&amp;</span> b) <span style="color:#66d9ef">const</span> {
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">Complex</span>(x<span style="color:#f92672">/</span>b, y<span style="color:#f92672">/</span>b);
+    }
+};
+
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">FastFourierTransform</span> {
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">rearrange</span>(Complex a[], <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> n) {
+        <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">int</span> rev[maxn];  <span style="color:#75715e">// maxn &gt; deg(h) 且 maxn 为 2的k次方 + 5
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+            rev[i] <span style="color:#f92672">=</span> rev[i <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+            <span style="color:#66d9ef">if</span> (i <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">1</span>) rev[i] <span style="color:#f92672">|=</span> (n <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>);
+        }
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">if</span> (i <span style="color:#f92672">&lt;</span> rev[i]) swap(a[i], a[rev[i]]);  <span style="color:#75715e">// 保证每对数字只翻转一次
+</span><span style="color:#75715e"></span>        }
+    }
+
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">fft</span>(Complex a[], <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> n, <span style="color:#66d9ef">int</span> on) {
+        rearrange(a, n);
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>; k <span style="color:#f92672">&lt;=</span> n; k <span style="color:#f92672">&lt;&lt;=</span> <span style="color:#ae81ff">1</span>) {   <span style="color:#75715e">// 模拟分治的合并过程
+</span><span style="color:#75715e"></span>            Complex wn(cos(<span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>pi <span style="color:#f92672">/</span> k), on <span style="color:#f92672">*</span> sin(<span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>pi <span style="color:#f92672">/</span> k));
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i <span style="color:#f92672">+=</span> k) {
+                Complex w(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>);
+                <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> i; j <span style="color:#f92672">&lt;</span> i <span style="color:#f92672">+</span> (k<span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">1</span>); j<span style="color:#f92672">++</span>) {
+                    Complex x <span style="color:#f92672">=</span> a[j], y <span style="color:#f92672">=</span> w <span style="color:#f92672">*</span> a[j<span style="color:#f92672">+</span>(k<span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">1</span>)];
+                    a[j] <span style="color:#f92672">=</span> x <span style="color:#f92672">+</span> y;
+                    a[j<span style="color:#f92672">+</span>(k<span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">1</span>)] <span style="color:#f92672">=</span> x <span style="color:#f92672">-</span> y;
+                    w <span style="color:#f92672">=</span> w <span style="color:#f92672">*</span> wn;
+                }
+            }
+        }
+        <span style="color:#66d9ef">if</span> (on <span style="color:#f92672">==</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) {
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>) a[i] <span style="color:#f92672">=</span> a[i] <span style="color:#f92672">/</span> n;
+        }
+    }
+} fft;
+
+<span style="color:#75715e">// calculate h(x) = f(x) * g(x), deg(f) = n1, deg(g) = n2
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">poly_multiply</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">double</span> f[], <span style="color:#66d9ef">int</span> n1, <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">double</span> g[], <span style="color:#66d9ef">int</span> n2, <span style="color:#66d9ef">double</span> h[]) {
+    <span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">while</span> (n <span style="color:#f92672">&lt;=</span> n1 <span style="color:#f92672">+</span> n2) n <span style="color:#f92672">&lt;&lt;=</span> <span style="color:#ae81ff">1</span>;  <span style="color:#75715e">// deg(h) = n1 + n2
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">static</span> Complex a[maxn], b[maxn];
+    memset(a, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(a));
+    memset(b, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(b));
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;=</span> n1; i<span style="color:#f92672">++</span>) a[i] <span style="color:#f92672">=</span> Complex(f[i], <span style="color:#ae81ff">0</span>);
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;=</span> n2; i<span style="color:#f92672">++</span>) b[i] <span style="color:#f92672">=</span> Complex(g[i], <span style="color:#ae81ff">0</span>);
+    fft.fft(a, n, <span style="color:#ae81ff">1</span>);  <span style="color:#75715e">// 注意这里用的是 n (不是 n1)
+</span><span style="color:#75715e"></span>    fft.fft(b, n, <span style="color:#ae81ff">1</span>);
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) a[i] <span style="color:#f92672">=</span> a[i] <span style="color:#f92672">*</span> b[i];
+    fft.fft(a, n, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>);
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) h[i] <span style="color:#f92672">=</span> a[i].x;
+}
+
+<span style="color:#66d9ef">double</span> f[maxn<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span>], g[maxn<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span>], h[maxn];
+<span style="color:#66d9ef">double</span> f2[maxn], h2[maxn];
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    <span style="color:#66d9ef">int</span> n; cin <span style="color:#f92672">&gt;&gt;</span> n;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        cin <span style="color:#f92672">&gt;&gt;</span> f[i];
+        g[i] <span style="color:#f92672">=</span> (<span style="color:#ae81ff">1.0</span><span style="color:#f92672">/</span>i<span style="color:#f92672">/</span>i);
+    }
+
+    poly_multiply(f, n, g, n, h);
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) f2[i] <span style="color:#f92672">=</span> f[n<span style="color:#f92672">-</span>i];  <span style="color:#75715e">// f&#39;[i] = f[n-i]
+</span><span style="color:#75715e"></span>    poly_multiply(f2, n, g, n, h2);
+
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        printf(<span style="color:#e6db74">&#34;%.3f</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, h[i] <span style="color:#f92672">-</span> h2[n<span style="color:#f92672">-</span>i]);
+    }
+}
+</code></pre></div></details>
+<h3 id="例3-洛谷p3723-ah2017hnoi2017礼物httpswwwluogucomcnproblemp3723">例3 <a href="https://www.luogu.com.cn/problem/P3723" target="_blank">洛谷P3723 [AH2017/HNOI2017]礼物</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定两个长度为 $n$ 的正整数序列 $x,y$，我们进行一次以下操作：</p>
+<p>第一步：给其中一个序列的所有数加上一个非负整数 $c$。</p>
+<p>第二步：旋转一个序列，可以旋转任意长度。</p>
+<blockquote>
+<p>序列的旋转意思是全部元素左移，或者右移，超出界限的部分从另外一边补齐。</p>
+<p>例如： $[1,2,3,4,5]$ 向右旋转 $2$ 个长度，得到 $[4,5,1,2,3]$。</p>
+</blockquote>
+<p>现在我们想知道，如何选择 $c$ 和旋转序列的方式，使得</p>
+<p>$$\sum\limits_{i=1}^n(x_i-y_i)^2$$</p>
+<p>最小？</p>
+<p>其中，$1\leq n \leq 50000, 1\leq x_i, y_i \leq 100$</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>首先由于第一步中，我们可以选择任意一个序列来加上 $c$，所以可以看作选择一个序列，然后加上一个 <strong>任意整数 $c$</strong>。</p>
+<p>最后我们设旋转后，对齐的两个序列为 $a,b$。</p>
+<p>则</p>
+<p>$$\sum\limits_{i=1}^n(x_i-y_i)^2$$</p>
+<p>可以表示为：</p>
+<p>$$\sum\limits_{i=1}^n(a_i+c-b_i)^2$$</p>
+<p>$$=\sum\limits_{i=1}^n ((a_i^2+b_i^2+c^2)+2c(a_i-b_i) - 2a_ib_i)$$</p>
+<p>$$=nc^2 + \sum\limits_{i=1}^n (a_i^2+b_i^2)+2c\sum\limits_{i=1}^n(a_i-b_i) - \sum\limits_{i=1}^n 2a_ib_i$$</p>
+<p>如果我们暂时不考虑 $c$，则会发现，无论最终旋转的 $a,b$ 是什么样的，前三项均为定值，只有 $\sum\limits_{i=1}^n 2a_ib_i$ 的值是个变量。</p>
+<p>所以我们只需要 <strong>最大化</strong> $\sum\limits_{i=1}^n a_ib_i$ 的值即可。</p>
+<hr>
+<p>现在问题转化为，如何求一种旋转方式，使得 $\sum\limits_{i=1}^n a_ib_i$ 的值最大？</p>
+<p>我们不妨直接把每一种旋转方式的值都求出来，然后取最大即可。</p>
+<p>怎么全部一次性求出呢？<strong>卷积</strong>！</p>
+<p>令</p>
+<p>$$E_j = \sum\limits_{i=j}^na_ib_{i-j+1} + \sum\limits_{i=1}^{j-1}a_ib_{n+1+i-j}$$</p>
+<p>则 $E_j$ 所代表的就是，如果我们如此排列：</p>
+<div class="center">
+<table>
+<thead>
+<tr>
+<th>$a_j$</th>
+<th>$a_{j+1}$</th>
+<th>&hellip;</th>
+<th>$a_n$</th>
+<th>$a_1$</th>
+<th>$a_2$</th>
+<th>&hellip;</th>
+<th>$a_{j-1}$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$b_1$</td>
+<td>$b_2$</td>
+<td>&hellip;</td>
+<td>$b_{n+1-j}$</td>
+<td>$b_{n+2-j}$</td>
+<td>$b_{n+3-j}$</td>
+<td>&hellip;</td>
+<td>$b_{n}$</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>最后得出来对应位置的乘积的和，就是 $E_j$。</p>
+<p>所以我们只要求出 $E_1, E_2, &hellip;, E_n$，然后取最小值即可。</p>
+<p>如何求呢？</p>
+<hr>
+<p>先考虑第一项 $\sum\limits_{i=j}^na_ib_{i-j+1}$</p>
+<p>把它转成卷积的形式，令 $c_i = a_{n-i}$，则有：</p>
+<p>$$\sum\limits_{i=j}^na_ib_{i-j+1} = \sum\limits_{i=j}^nc_{n-i}b_{i-j+1} = b_1c_{n-j} + b_2c_{n-j-1} + &hellip; + b_{n-j+1}c_{0}$$</p>
+<p>令 $a_0 = b_0 = 0$，就可以再给上式加一个 $b_0c_{n-j+1}$，得到：</p>
+<p>$$b_0c_{n-j+1} + b_1c_{n-j} + b_2c_{n-j-1} + &hellip; + b_{n-j+1}c_{0}$$</p>
+<p>那么这就是一个卷积了，相当于 $b(x) * c(x)$ 的第 $(n-j+1)$ 项。</p>
+<hr>
+<p>再考虑第二项 $\sum\limits_{i=1}^{j-1}a_ib_{n+1+i-j}$</p>
+<p>仍然转成卷积形式，令 $d_i = b_{n-i}$，则有：</p>
+<p>$$\sum\limits_{i=1}^{j-1}a_ib_{n+1+i-j} = \sum\limits_{i=1}^{j-1}a_id_{j-i-1} = a_1d_{j-2} + a_2d_{j-3} + &hellip; + a_{j-1}d_{0}$$</p>
+<p>由于 $a_0 = 0$，给上式加上 $a_0d_{j-1}$，得到：</p>
+<p>$$a_0d_{j-1} + a_1d_{j-2} + a_2d_{j-3} + &hellip; + a_{j-1}d_{0}$$</p>
+<p>这又是一个卷积，相当于 $a(x) * d(x)$ 的第 $(j-1)$ 项。</p>
+<hr>
+<p>所以 $\sum\limits_{i=1}^n a_ib_i$ 的最大值求出来了，剩下的变量只有 $c$ 了。</p>
+<p>注意到 $1 \leq x_i,y_i \leq 100$，所以 $c$ 只要取遍所有的可能值，然后判断最小值即可。</p>
+<p>在代码中，$c \in [-200, 200]$。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> mod <span style="color:#f92672">=</span> <span style="color:#ae81ff">998244353</span>;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> (<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">20</span>) <span style="color:#f92672">+</span> <span style="color:#ae81ff">5</span>;
+
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">NTT</span> {
+    <span style="color:#66d9ef">const</span> ll g <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>, invg <span style="color:#f92672">=</span> inv(g);  <span style="color:#75715e">// mod = 998244353
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">inline</span> ll <span style="color:#a6e22e">qpow</span>(ll a, ll b) {
+        ll res <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">while</span> (b) {
+            <span style="color:#66d9ef">if</span> (b <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">1</span>) res <span style="color:#f92672">=</span> res <span style="color:#f92672">*</span> a <span style="color:#f92672">%</span> mod;
+            a <span style="color:#f92672">=</span> a <span style="color:#f92672">*</span> a <span style="color:#f92672">%</span> mod;
+            b <span style="color:#f92672">&gt;&gt;=</span> <span style="color:#ae81ff">1</span>;
+        }
+        <span style="color:#66d9ef">return</span> res;
+    }
+    <span style="color:#66d9ef">inline</span> ll <span style="color:#a6e22e">inv</span>(ll a) {
+        <span style="color:#66d9ef">return</span> qpow(a, mod<span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>);
+    }
+
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">rearrange</span>(ll a[], <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> n) {
+        <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">int</span> rev[maxn];  <span style="color:#75715e">// maxn &gt; deg(h) 且 maxn 为 2的k次方 + 5
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+            rev[i] <span style="color:#f92672">=</span> rev[i <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+            <span style="color:#66d9ef">if</span> (i <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">1</span>) rev[i] <span style="color:#f92672">|=</span> (n <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>);
+        }
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">if</span> (i <span style="color:#f92672">&lt;</span> rev[i]) swap(a[i], a[rev[i]]);  <span style="color:#75715e">// 保证每对数字只翻转一次
+</span><span style="color:#75715e"></span>        }
+    }
+
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">ntt</span>(ll a[], <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> n, <span style="color:#66d9ef">int</span> on) {
+        rearrange(a, n);
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>; k <span style="color:#f92672">&lt;=</span> n; k <span style="color:#f92672">&lt;&lt;=</span> <span style="color:#ae81ff">1</span>) {   <span style="color:#75715e">// 模拟分治的合并过程
+</span><span style="color:#75715e"></span>            ll wn <span style="color:#f92672">=</span> qpow(on <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">?</span> g : invg, (mod<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)<span style="color:#f92672">/</span>k);
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i <span style="color:#f92672">+=</span> k) {
+                ll w <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+                <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> i; j <span style="color:#f92672">&lt;</span> i <span style="color:#f92672">+</span> (k<span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">1</span>); j<span style="color:#f92672">++</span>) {
+                    ll x <span style="color:#f92672">=</span> a[j], y <span style="color:#f92672">=</span> w <span style="color:#f92672">*</span> a[j<span style="color:#f92672">+</span>(k<span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">1</span>)] <span style="color:#f92672">%</span> mod;
+                    a[j] <span style="color:#f92672">=</span> (x <span style="color:#f92672">+</span> y) <span style="color:#f92672">%</span> mod;
+                    a[j<span style="color:#f92672">+</span>(k<span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">1</span>)] <span style="color:#f92672">=</span> (x <span style="color:#f92672">-</span> y <span style="color:#f92672">+</span> mod) <span style="color:#f92672">%</span> mod;
+                    w <span style="color:#f92672">=</span> w <span style="color:#f92672">*</span> wn <span style="color:#f92672">%</span> mod;
+                }
+            }
+        }
+        <span style="color:#66d9ef">if</span> (on <span style="color:#f92672">==</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) {
+            ll invn <span style="color:#f92672">=</span> inv(n);
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>) a[i] <span style="color:#f92672">=</span> a[i] <span style="color:#f92672">*</span> invn <span style="color:#f92672">%</span> mod;
+        }
+    }
+} ntt;
+
+<span style="color:#75715e">// calculate h(x) = f(x) * g(x), deg(f) = n1, deg(g) = n2
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">poly_multiply</span>(ll f[], <span style="color:#66d9ef">int</span> n1, ll g[], <span style="color:#66d9ef">int</span> n2, ll h[]) {
+    <span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">while</span> (n <span style="color:#f92672">&lt;=</span> n1 <span style="color:#f92672">+</span> n2) n <span style="color:#f92672">&lt;&lt;=</span> <span style="color:#ae81ff">1</span>;  <span style="color:#75715e">// deg(h) = n1 + n2
+</span><span style="color:#75715e"></span>    memset(h, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(ll) <span style="color:#f92672">*</span> n);
+    ntt.ntt(f, n, <span style="color:#ae81ff">1</span>);  <span style="color:#75715e">// 注意这里用的是 n (不是 n1)
+</span><span style="color:#75715e"></span>    ntt.ntt(g, n, <span style="color:#ae81ff">1</span>);
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) h[i] <span style="color:#f92672">=</span> f[i] <span style="color:#f92672">*</span> g[i] <span style="color:#f92672">%</span> mod;
+    ntt.ntt(h, n, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>);
+}
+
+<span style="color:#66d9ef">int</span> n1, n2;
+ll a[maxn<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span>], b[maxn<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span>], c[maxn<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span>], d[maxn<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span>], r1[maxn], r2[maxn];
+
+<span style="color:#66d9ef">int</span> n,m;
+ll ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> m;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) cin <span style="color:#f92672">&gt;&gt;</span> a[i], c[n<span style="color:#f92672">-</span>i] <span style="color:#f92672">=</span> a[i];
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) cin <span style="color:#f92672">&gt;&gt;</span> b[i], d[n<span style="color:#f92672">-</span>i] <span style="color:#f92672">=</span> b[i];
+    ll absum <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;  <span style="color:#75715e">// a_i - b_i
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) absum <span style="color:#f92672">+=</span> a[i] <span style="color:#f92672">-</span> b[i];
+    ll res <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e18</span>;
+    <span style="color:#66d9ef">for</span> (ll c <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">200</span>; c <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">200</span>; c<span style="color:#f92672">++</span>) {
+        res <span style="color:#f92672">=</span> min(res, n <span style="color:#f92672">*</span> c <span style="color:#f92672">*</span> c <span style="color:#f92672">+</span> <span style="color:#ae81ff">2LL</span> <span style="color:#f92672">*</span> c <span style="color:#f92672">*</span> absum);
+    }
+
+    ans <span style="color:#f92672">+=</span> res;
+
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        ans <span style="color:#f92672">+=</span> (a[i] <span style="color:#f92672">*</span> a[i]) <span style="color:#f92672">+</span> (b[i] <span style="color:#f92672">*</span> b[i]);
+    }
+
+    poly_multiply(a, n, d, n, r1);  <span style="color:#75715e">// r1 = a*d
+</span><span style="color:#75715e"></span>    poly_multiply(b, n, c, n, r2);  <span style="color:#75715e">// r2 = b*c
+</span><span style="color:#75715e"></span>
+    ll ab <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        ab <span style="color:#f92672">=</span> max(ab, (r1[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> r2[n<span style="color:#f92672">-</span>i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>]));
+    }
+
+    ans <span style="color:#f92672">-=</span> <span style="color:#ae81ff">2LL</span> <span style="color:#f92672">*</span> ab;
+
+    cout <span style="color:#f92672">&lt;&lt;</span> ans <span style="color:#f92672">&lt;&lt;</span> endl;
+}
+
+</code></pre></div></details>
+<h3 id="例4-洛谷p4173-残缺的字符串httpswwwluogucomcnproblemp4173">例4 洛谷P4173 <a href="https://www.luogu.com.cn/problem/P4173" target="_blank">残缺的字符串</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个长度为 $m$ 的模式串 $A$ 和一个长度为 $n$ 的文本串 $B$，字符串中有通配符，通配符可以匹配任何的字符。</p>
+<p>问模式串在文本串中出现的所有位置？</p>
+<p>其中，$n, m \leq 3 \times 10^5$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+std<span style="color:#f92672">::</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> rev;
+std<span style="color:#f92672">::</span>vector<span style="color:#f92672">&lt;</span>Z<span style="color:#f92672">&gt;</span> roots{<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>};
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">dft</span>(std<span style="color:#f92672">::</span>vector<span style="color:#f92672">&lt;</span>Z<span style="color:#f92672">&gt;</span> <span style="color:#f92672">&amp;</span>a) {
+    <span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> a.size();
+    
+    <span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">int</span>(rev.size()) <span style="color:#f92672">!=</span> n) {
+        <span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> __builtin_ctz(n) <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>;
+        rev.resize(n);
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>) {
+            rev[i] <span style="color:#f92672">=</span> rev[i <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">|</span> (i <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">&lt;&lt;</span> k;
+        }
+    }
+    
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">if</span> (rev[i] <span style="color:#f92672">&lt;</span> i) {
+            std<span style="color:#f92672">::</span>swap(a[i], a[rev[i]]);
+        }
+    }
+    <span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">int</span>(roots.size()) <span style="color:#f92672">&lt;</span> n) {
+        <span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> __builtin_ctz(roots.size());
+        roots.resize(n);
+        <span style="color:#66d9ef">while</span> ((<span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> k) <span style="color:#f92672">&lt;</span> n) {
+            Z e <span style="color:#f92672">=</span> qpow(Z(<span style="color:#ae81ff">3</span>), (mod <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">&gt;&gt;</span> (k <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>));
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> (k <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>); i <span style="color:#f92672">&lt;</span> (<span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> k); i<span style="color:#f92672">++</span>) {
+                roots[<span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> i] <span style="color:#f92672">=</span> roots[i];
+                roots[<span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> roots[i] <span style="color:#f92672">*</span> e;
+            }
+            k<span style="color:#f92672">++</span>;
+        }
+    }
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; k <span style="color:#f92672">&lt;</span> n; k <span style="color:#f92672">*=</span> <span style="color:#ae81ff">2</span>) {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i <span style="color:#f92672">+=</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> k) {
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> k; j<span style="color:#f92672">++</span>) {
+                Z u <span style="color:#f92672">=</span> a[i <span style="color:#f92672">+</span> j];
+                Z v <span style="color:#f92672">=</span> a[i <span style="color:#f92672">+</span> j <span style="color:#f92672">+</span> k] <span style="color:#f92672">*</span> roots[k <span style="color:#f92672">+</span> j];
+                a[i <span style="color:#f92672">+</span> j] <span style="color:#f92672">=</span> u <span style="color:#f92672">+</span> v;
+                a[i <span style="color:#f92672">+</span> j <span style="color:#f92672">+</span> k] <span style="color:#f92672">=</span> u <span style="color:#f92672">-</span> v;
+            }
+        }
+    }
+}
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">idft</span>(std<span style="color:#f92672">::</span>vector<span style="color:#f92672">&lt;</span>Z<span style="color:#f92672">&gt;</span> <span style="color:#f92672">&amp;</span>a) {
+    <span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> a.size();
+    std<span style="color:#f92672">::</span>reverse(a.begin() <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, a.end());
+    dft(a);
+    Z inv <span style="color:#f92672">=</span> (<span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> mod) <span style="color:#f92672">/</span> n;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>) {
+        a[i] <span style="color:#f92672">*=</span> inv;
+    }
+}
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Poly</span> {
+    std<span style="color:#f92672">::</span>vector<span style="color:#f92672">&lt;</span>Z<span style="color:#f92672">&gt;</span> a;
+    Poly() {}
+    Poly(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> n) { resize(n); }
+    Poly(<span style="color:#66d9ef">const</span> std<span style="color:#f92672">::</span>vector<span style="color:#f92672">&lt;</span>Z<span style="color:#f92672">&gt;</span> <span style="color:#f92672">&amp;</span>a) <span style="color:#f92672">:</span> a(a) {}
+    Poly(<span style="color:#66d9ef">const</span> std<span style="color:#f92672">::</span>initializer_list<span style="color:#f92672">&lt;</span>Z<span style="color:#f92672">&gt;</span> <span style="color:#f92672">&amp;</span>a) <span style="color:#f92672">:</span> a(a) {}
+    <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">size</span>() <span style="color:#66d9ef">const</span> {
+        <span style="color:#66d9ef">return</span> a.size();
+    }
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">resize</span>(<span style="color:#66d9ef">int</span> n) {
+        a.resize(n);
+    }
+    Z <span style="color:#66d9ef">operator</span>[](<span style="color:#66d9ef">int</span> idx) <span style="color:#66d9ef">const</span> {
+        <span style="color:#66d9ef">if</span> (idx <span style="color:#f92672">&lt;</span> size()) {
+            <span style="color:#66d9ef">return</span> a[idx];
+        } <span style="color:#66d9ef">else</span> {
+            <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+        }
+    }
+    Z <span style="color:#f92672">&amp;</span><span style="color:#66d9ef">operator</span>[](<span style="color:#66d9ef">int</span> idx) {
+        <span style="color:#66d9ef">return</span> a[idx];
+    }
+    Poly <span style="color:#a6e22e">mulxk</span>(<span style="color:#66d9ef">int</span> k) <span style="color:#66d9ef">const</span> {
+        <span style="color:#66d9ef">auto</span> b <span style="color:#f92672">=</span> a;
+        b.insert(b.begin(), k, <span style="color:#ae81ff">0</span>);
+        <span style="color:#66d9ef">return</span> Poly(b);
+    }
+    Poly <span style="color:#a6e22e">modxk</span>(<span style="color:#66d9ef">int</span> k) <span style="color:#66d9ef">const</span> {
+        k <span style="color:#f92672">=</span> std<span style="color:#f92672">::</span>min(k, size());
+        <span style="color:#66d9ef">return</span> Poly(std<span style="color:#f92672">::</span>vector<span style="color:#f92672">&lt;</span>Z<span style="color:#f92672">&gt;</span>(a.begin(), a.begin() <span style="color:#f92672">+</span> k));
+    }
+    Poly <span style="color:#a6e22e">divxk</span>(<span style="color:#66d9ef">int</span> k) <span style="color:#66d9ef">const</span> {
+        <span style="color:#66d9ef">if</span> (size() <span style="color:#f92672">&lt;=</span> k) {
+            <span style="color:#66d9ef">return</span> Poly();
+        }
+        <span style="color:#66d9ef">return</span> Poly(std<span style="color:#f92672">::</span>vector<span style="color:#f92672">&lt;</span>Z<span style="color:#f92672">&gt;</span>(a.begin() <span style="color:#f92672">+</span> k, a.end()));
+    }
+    <span style="color:#66d9ef">friend</span> Poly <span style="color:#66d9ef">operator</span><span style="color:#f92672">+</span>(<span style="color:#66d9ef">const</span> Poly <span style="color:#f92672">&amp;</span>a, <span style="color:#66d9ef">const</span> Poly <span style="color:#f92672">&amp;</span>b) {
+        std<span style="color:#f92672">::</span>vector<span style="color:#f92672">&lt;</span>Z<span style="color:#f92672">&gt;</span> res(std<span style="color:#f92672">::</span>max(a.size(), b.size()));
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> <span style="color:#66d9ef">int</span>(res.size()); i<span style="color:#f92672">++</span>) {
+            res[i] <span style="color:#f92672">=</span> a[i] <span style="color:#f92672">+</span> b[i];
+        }
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">Poly</span>(res);
+    }
+    <span style="color:#66d9ef">friend</span> Poly <span style="color:#66d9ef">operator</span><span style="color:#f92672">-</span>(<span style="color:#66d9ef">const</span> Poly <span style="color:#f92672">&amp;</span>a, <span style="color:#66d9ef">const</span> Poly <span style="color:#f92672">&amp;</span>b) {
+        std<span style="color:#f92672">::</span>vector<span style="color:#f92672">&lt;</span>Z<span style="color:#f92672">&gt;</span> res(std<span style="color:#f92672">::</span>max(a.size(), b.size()));
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> <span style="color:#66d9ef">int</span>(res.size()); i<span style="color:#f92672">++</span>) {
+            res[i] <span style="color:#f92672">=</span> a[i] <span style="color:#f92672">-</span> b[i];
+        }
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">Poly</span>(res);
+    }
+    <span style="color:#66d9ef">friend</span> Poly <span style="color:#66d9ef">operator</span><span style="color:#f92672">*</span>(Poly a, Poly b) {
+        <span style="color:#66d9ef">if</span> (a.size() <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">||</span> b.size() <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+            <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">Poly</span>();
+        }
+        <span style="color:#66d9ef">int</span> sz <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, tot <span style="color:#f92672">=</span> a.size() <span style="color:#f92672">+</span> b.size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">while</span> (sz <span style="color:#f92672">&lt;</span> tot) {
+            sz <span style="color:#f92672">*=</span> <span style="color:#ae81ff">2</span>;
+        }
+        a.a.resize(sz);
+        b.a.resize(sz);
+        dft(a.a);
+        dft(b.a);
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> sz; <span style="color:#f92672">++</span>i) {
+            a.a[i] <span style="color:#f92672">=</span> a[i] <span style="color:#f92672">*</span> b[i];
+        }
+        idft(a.a);
+        a.resize(tot);
+        <span style="color:#66d9ef">return</span> a;
+    }
+    <span style="color:#66d9ef">friend</span> Poly <span style="color:#66d9ef">operator</span><span style="color:#f92672">*</span>(Z a, Poly b) {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> <span style="color:#66d9ef">int</span>(b.size()); i<span style="color:#f92672">++</span>) {
+            b[i] <span style="color:#f92672">*=</span> a;
+        }
+        <span style="color:#66d9ef">return</span> b;
+    }
+    <span style="color:#66d9ef">friend</span> Poly <span style="color:#66d9ef">operator</span><span style="color:#f92672">*</span>(Poly a, Z b) {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> <span style="color:#66d9ef">int</span>(a.size()); i<span style="color:#f92672">++</span>) {
+            a[i] <span style="color:#f92672">*=</span> b;
+        }
+        <span style="color:#66d9ef">return</span> a;
+    }
+    <span style="color:#66d9ef">friend</span> Poly <span style="color:#66d9ef">operator</span><span style="color:#f92672">*</span>(Poly a, <span style="color:#66d9ef">int</span> b) {
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">*</span>(a, Z(b));
+    }
+    Poly <span style="color:#f92672">&amp;</span><span style="color:#66d9ef">operator</span><span style="color:#f92672">+=</span>(Poly b) {
+        <span style="color:#66d9ef">return</span> (<span style="color:#f92672">*</span><span style="color:#66d9ef">this</span>) <span style="color:#f92672">=</span> (<span style="color:#f92672">*</span><span style="color:#66d9ef">this</span>) <span style="color:#f92672">+</span> b;
+    }
+    Poly <span style="color:#f92672">&amp;</span><span style="color:#66d9ef">operator</span><span style="color:#f92672">-=</span>(Poly b) {
+        <span style="color:#66d9ef">return</span> (<span style="color:#f92672">*</span><span style="color:#66d9ef">this</span>) <span style="color:#f92672">=</span> (<span style="color:#f92672">*</span><span style="color:#66d9ef">this</span>) <span style="color:#f92672">-</span> b;
+    }
+    Poly <span style="color:#f92672">&amp;</span><span style="color:#66d9ef">operator</span><span style="color:#f92672">*=</span>(Poly b) {
+        <span style="color:#66d9ef">return</span> (<span style="color:#f92672">*</span><span style="color:#66d9ef">this</span>) <span style="color:#f92672">=</span> (<span style="color:#f92672">*</span><span style="color:#66d9ef">this</span>) <span style="color:#f92672">*</span> b;
+    }
+    Poly <span style="color:#a6e22e">deriv</span>() <span style="color:#66d9ef">const</span> {
+        <span style="color:#66d9ef">if</span> (a.empty()) {
+            <span style="color:#66d9ef">return</span> Poly();
+        }
+        std<span style="color:#f92672">::</span>vector<span style="color:#f92672">&lt;</span>Z<span style="color:#f92672">&gt;</span> res(size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>);
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>; <span style="color:#f92672">++</span>i) {
+            res[i] <span style="color:#f92672">=</span> (i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">*</span> a[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>];
+        }
+        <span style="color:#66d9ef">return</span> Poly(res);
+    }
+    Poly <span style="color:#a6e22e">integr</span>() <span style="color:#66d9ef">const</span> {
+        std<span style="color:#f92672">::</span>vector<span style="color:#f92672">&lt;</span>Z<span style="color:#f92672">&gt;</span> res(size() <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>);
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> size(); <span style="color:#f92672">++</span>i) {
+            res[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> a[i] <span style="color:#f92672">/</span> (i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>);
+        }
+        <span style="color:#66d9ef">return</span> Poly(res);
+    }
+    Poly <span style="color:#a6e22e">inv</span>(<span style="color:#66d9ef">int</span> m) <span style="color:#66d9ef">const</span> {
+        Poly x{a[<span style="color:#ae81ff">0</span>].inv()};
+        <span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">while</span> (k <span style="color:#f92672">&lt;</span> m) {
+            k <span style="color:#f92672">*=</span> <span style="color:#ae81ff">2</span>;
+            x <span style="color:#f92672">=</span> (x <span style="color:#f92672">*</span> (Poly{<span style="color:#ae81ff">2</span>} <span style="color:#f92672">-</span> modxk(k) <span style="color:#f92672">*</span> x)).modxk(k);
+        }
+        <span style="color:#66d9ef">return</span> x.modxk(m);
+    }
+    Poly <span style="color:#a6e22e">log</span>(<span style="color:#66d9ef">int</span> m) <span style="color:#66d9ef">const</span> {
+        <span style="color:#66d9ef">return</span> (deriv() <span style="color:#f92672">*</span> inv(m)).integr().modxk(m);
+    }
+    Poly <span style="color:#a6e22e">exp</span>(<span style="color:#66d9ef">int</span> m) <span style="color:#66d9ef">const</span> {
+        Poly x{<span style="color:#ae81ff">1</span>};
+        <span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">while</span> (k <span style="color:#f92672">&lt;</span> m) {
+            k <span style="color:#f92672">*=</span> <span style="color:#ae81ff">2</span>;
+            x <span style="color:#f92672">=</span> (x <span style="color:#f92672">*</span> (Poly{<span style="color:#ae81ff">1</span>} <span style="color:#f92672">-</span> x.log(k) <span style="color:#f92672">+</span> modxk(k))).modxk(k);
+        }
+        <span style="color:#66d9ef">return</span> x.modxk(m);
+    }
+    Poly <span style="color:#a6e22e">pow</span>(<span style="color:#66d9ef">int</span> k, <span style="color:#66d9ef">int</span> m) <span style="color:#66d9ef">const</span> {
+        <span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        <span style="color:#66d9ef">while</span> (i <span style="color:#f92672">&lt;</span> size() <span style="color:#f92672">&amp;&amp;</span> a[i].val() <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+            i<span style="color:#f92672">++</span>;
+        }
+        <span style="color:#66d9ef">if</span> (i <span style="color:#f92672">==</span> size() <span style="color:#f92672">||</span> <span style="color:#ae81ff">1LL</span> <span style="color:#f92672">*</span> i <span style="color:#f92672">*</span> k <span style="color:#f92672">&gt;=</span> m) {
+            <span style="color:#66d9ef">return</span> Poly(std<span style="color:#f92672">::</span>vector<span style="color:#f92672">&lt;</span>Z<span style="color:#f92672">&gt;</span>(m));
+        }
+        Z v <span style="color:#f92672">=</span> a[i];
+        <span style="color:#66d9ef">auto</span> f <span style="color:#f92672">=</span> divxk(i) <span style="color:#f92672">*</span> v.inv();
+        <span style="color:#66d9ef">return</span> (f.log(m <span style="color:#f92672">-</span> i <span style="color:#f92672">*</span> k) <span style="color:#f92672">*</span> k).exp(m <span style="color:#f92672">-</span> i <span style="color:#f92672">*</span> k).mulxk(i <span style="color:#f92672">*</span> k) <span style="color:#f92672">*</span> qpow(v, k);
+    }
+    Poly <span style="color:#a6e22e">sqrt</span>(<span style="color:#66d9ef">int</span> m) <span style="color:#66d9ef">const</span> {
+        Poly x{<span style="color:#ae81ff">1</span>};
+        <span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">while</span> (k <span style="color:#f92672">&lt;</span> m) {
+            k <span style="color:#f92672">*=</span> <span style="color:#ae81ff">2</span>;
+            x <span style="color:#f92672">=</span> (x <span style="color:#f92672">+</span> (modxk(k) <span style="color:#f92672">*</span> x.inv(k)).modxk(k)) <span style="color:#f92672">*</span> ((mod <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>);
+        }
+        <span style="color:#66d9ef">return</span> x.modxk(m);
+    }
+    Poly <span style="color:#a6e22e">mulT</span>(Poly b) <span style="color:#66d9ef">const</span> {
+        <span style="color:#66d9ef">if</span> (b.size() <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+            <span style="color:#66d9ef">return</span> Poly();
+        }
+        <span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> b.size();
+        std<span style="color:#f92672">::</span>reverse(b.a.begin(), b.a.end());
+        <span style="color:#66d9ef">return</span> ((<span style="color:#f92672">*</span><span style="color:#66d9ef">this</span>) <span style="color:#f92672">*</span> b).divxk(n <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>);
+    }
+    std<span style="color:#f92672">::</span>vector<span style="color:#f92672">&lt;</span>Z<span style="color:#f92672">&gt;</span> eval(std<span style="color:#f92672">::</span>vector<span style="color:#f92672">&lt;</span>Z<span style="color:#f92672">&gt;</span> x) <span style="color:#66d9ef">const</span> {
+        <span style="color:#66d9ef">if</span> (size() <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+            <span style="color:#66d9ef">return</span> std<span style="color:#f92672">::</span>vector<span style="color:#f92672">&lt;</span>Z<span style="color:#f92672">&gt;</span>(x.size(), <span style="color:#ae81ff">0</span>);
+        }
+        <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> std<span style="color:#f92672">::</span>max(<span style="color:#66d9ef">int</span>(x.size()), size());
+        std<span style="color:#f92672">::</span>vector<span style="color:#f92672">&lt;</span>Poly<span style="color:#f92672">&gt;</span> q(<span style="color:#ae81ff">4</span> <span style="color:#f92672">*</span> n);
+        std<span style="color:#f92672">::</span>vector<span style="color:#f92672">&lt;</span>Z<span style="color:#f92672">&gt;</span> ans(x.size());
+        x.resize(n);
+        std<span style="color:#f92672">::</span>function<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">void</span>(<span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span>)<span style="color:#f92672">&gt;</span> build <span style="color:#f92672">=</span> [<span style="color:#f92672">&amp;</span>](<span style="color:#66d9ef">int</span> p, <span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r) {
+            <span style="color:#66d9ef">if</span> (r <span style="color:#f92672">-</span> l <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>) {
+                q[p] <span style="color:#f92672">=</span> Poly{<span style="color:#ae81ff">1</span>, <span style="color:#f92672">-</span>x[l]};
+            } <span style="color:#66d9ef">else</span> {
+                <span style="color:#66d9ef">int</span> m <span style="color:#f92672">=</span> (l <span style="color:#f92672">+</span> r) <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>;
+                build(<span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> p, l, m);
+                build(<span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> p <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, m, r);
+                q[p] <span style="color:#f92672">=</span> q[<span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> p] <span style="color:#f92672">*</span> q[<span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> p <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>];
+            }
+        };
+        build(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>, n);
+        std<span style="color:#f92672">::</span>function<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">void</span>(<span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">const</span> Poly <span style="color:#f92672">&amp;</span>)<span style="color:#f92672">&gt;</span> work <span style="color:#f92672">=</span> [<span style="color:#f92672">&amp;</span>](<span style="color:#66d9ef">int</span> p, <span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r, <span style="color:#66d9ef">const</span> Poly <span style="color:#f92672">&amp;</span>num) {
+            <span style="color:#66d9ef">if</span> (r <span style="color:#f92672">-</span> l <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>) {
+                <span style="color:#66d9ef">if</span> (l <span style="color:#f92672">&lt;</span> <span style="color:#66d9ef">int</span>(ans.size())) {
+                    ans[l] <span style="color:#f92672">=</span> num[<span style="color:#ae81ff">0</span>];
+                }
+            } <span style="color:#66d9ef">else</span> {
+                <span style="color:#66d9ef">int</span> m <span style="color:#f92672">=</span> (l <span style="color:#f92672">+</span> r) <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>;
+                work(<span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> p, l, m, num.mulT(q[<span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> p <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>]).modxk(m <span style="color:#f92672">-</span> l));
+                work(<span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> p <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, m, r, num.mulT(q[<span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> p]).modxk(r <span style="color:#f92672">-</span> m));
+            }
+        };
+        work(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>, n, mulT(q[<span style="color:#ae81ff">1</span>].inv(n)));
+        <span style="color:#66d9ef">return</span> ans;
+    }
+};
+
+<span style="color:#66d9ef">int</span> m, n;
+string s, t;
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    fastio;
+    cin <span style="color:#f92672">&gt;&gt;</span> m <span style="color:#f92672">&gt;&gt;</span> n;
+    cin <span style="color:#f92672">&gt;&gt;</span> s <span style="color:#f92672">&gt;&gt;</span> t;
+    <span style="color:#75715e">// s 是短串（模式串）, t是文本串
+</span><span style="color:#75715e"></span>
+    Poly A(m), A2(m), A3(m), B(n), B2(n), B3(n);
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> m; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">if</span> (s[i] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;*&#39;</span>) A[i] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        <span style="color:#66d9ef">else</span> A[i] <span style="color:#f92672">=</span> s[i] <span style="color:#f92672">-</span> <span style="color:#e6db74">&#39;a&#39;</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+    }
+
+    reverse(A.a.begin(), A.a.end());
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> m; i<span style="color:#f92672">++</span>) {
+        A2[i] <span style="color:#f92672">=</span> A[i] <span style="color:#f92672">*</span> A[i];
+        A3[i] <span style="color:#f92672">=</span> A2[i] <span style="color:#f92672">*</span> A[i];
+    }
+
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">if</span> (t[i] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;*&#39;</span>) B[i] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        <span style="color:#66d9ef">else</span> B[i] <span style="color:#f92672">=</span> t[i] <span style="color:#f92672">-</span> <span style="color:#e6db74">&#39;a&#39;</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+        B2[i] <span style="color:#f92672">=</span> B[i] <span style="color:#f92672">*</span> B[i];
+        B3[i] <span style="color:#f92672">=</span> B2[i] <span style="color:#f92672">*</span> B[i];
+    }
+    Poly F <span style="color:#f92672">=</span> (A3 <span style="color:#f92672">*</span> B) <span style="color:#f92672">-</span> (A2 <span style="color:#f92672">*</span> B2 <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span>) <span style="color:#f92672">+</span> (A <span style="color:#f92672">*</span> B3);
+    <span style="color:#66d9ef">int</span> cnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n<span style="color:#f92672">-</span>m<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>F[i <span style="color:#f92672">+</span> m <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>].val()) {
+            cnt<span style="color:#f92672">++</span>;
+        }
+    }
+    cout <span style="color:#f92672">&lt;&lt;</span> cnt <span style="color:#f92672">&lt;&lt;</span> endl;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n<span style="color:#f92672">-</span>m<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>F[i<span style="color:#f92672">+</span>m<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>].val()) {
+            cout <span style="color:#f92672">&lt;&lt;</span> i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; &#34;</span>;
+        }
+    }
+    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+}
+</code></pre></div></details>
+<h3 id="例5-cf528d-fuzzy-searchhttpscodeforcescomproblemsetproblem528d">例5 CF528D <a href="https://codeforces.com/problemset/problem/528/D" target="_blank">Fuzzy Search</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定两个字符串 $s,t$，长度分别为 $n,m$。字符串均只包含 AGCT 四种字符。同时给定一个非负整数 $k$。</p>
+<p>定义 $t$ 在 $s$ 的第 $i$ 位出现当前仅当，在将 $t$ 的首个字符与 $s$ 的第 $i$ 位对齐后，$t$ 的第 $j$ 个字符都能在 $s$ 的第 $[i+j-k, i+j+k]$ 中找到一个相同的字符。（这里的字符 index 是从 0 开始的）。</p>
+<p>输出 $t$ 在 $s$ 中出现的所有位置。</p>
+<p>其中，$m \leq n \leq 2 \times 10^5, k \in [0, 2 \times 10^5]$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>这种字符只有 $4$ 种的还是要注意一下的，虽然不能直接用通配符匹配。不过观察一下可以发现：</p>
+<p>不妨将 AGCT 四种情况分开来看，每一种都分开进行匹配，最后合在一起，四种字符都能匹配上的位置才算 $t$ 在 $s$ 中出现了。</p>
+<p>那么怎么分开匹配？</p>
+<p>假如只考虑字符 A，那么可以将原字符串的所有 A 向左右分别延伸 $k$ 个位置。形成一个新的字符串。</p>
+<p>例如 <code>s = &quot;AGTTAG&quot;</code>，若 $k=1$ 则有 <code>s = &quot;AA_AAA&quot;</code>（非 A 的直接看作其他字符即可）。</p>
+<p>而 t 则同理，只不过这时非 A 的字符看作通配符，那么如 <code>t = &quot;AGTA&quot;</code> 就可以看作 <code>&quot;A**A&quot;</code>。</p>
+<p>然后用通配符匹配，来判断 $t$ 在 $s$ 的哪些位置能够出现，最后把四种字符的情况全部 AND 起来即可。</p>
+<p>• 顺带一提，因为这个题只有 $t$ 中有通配符，实际上匹配函数可以写作 $C(x,y) = B_y(A_x-B_y)^2$。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+
+<span style="color:#66d9ef">int</span> n, m, k;
+string s, t;
+<span style="color:#66d9ef">bool</span> bad[maxn];
+ 
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> m <span style="color:#f92672">&gt;&gt;</span> k;
+    cin <span style="color:#f92672">&gt;&gt;</span> s <span style="color:#f92672">&gt;&gt;</span> t;
+ 
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">char</span> cur : <span style="color:#e6db74">&#34;AGCT&#34;</span>) {
+        vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> a(n<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>);
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">if</span> (s[i] <span style="color:#f92672">==</span> cur) {
+                <span style="color:#75715e">// [i-k, i+k]
+</span><span style="color:#75715e"></span>                a[max(<span style="color:#ae81ff">0</span>, i<span style="color:#f92672">-</span>k)]<span style="color:#f92672">++</span>, a[min(n, i<span style="color:#f92672">+</span>k<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>)]<span style="color:#f92672">--</span>;
+            }
+        }
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>) a[i] <span style="color:#f92672">+=</span> a[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>];
+ 
+        Poly S(n), S2(n), T(m), T2(m);
+        Z sum <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> m; i<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">if</span> (t[i] <span style="color:#f92672">==</span> cur) T[m<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span><span style="color:#f92672">-</span>i] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+            T2[m<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span><span style="color:#f92672">-</span>i] <span style="color:#f92672">=</span> T[m<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span><span style="color:#f92672">-</span>i] <span style="color:#f92672">*</span> T[m<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span><span style="color:#f92672">-</span>i];
+            sum <span style="color:#f92672">+=</span> T[m<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span><span style="color:#f92672">-</span>i] <span style="color:#f92672">*</span> T2[m<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span><span style="color:#f92672">-</span>i];
+        }
+ 
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">if</span> (a[i]) S[i] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+            <span style="color:#66d9ef">else</span> S[i] <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>;
+            S2[i] <span style="color:#f92672">=</span> S[i] <span style="color:#f92672">*</span> S[i];
+        }
+ 
+        Poly F <span style="color:#f92672">=</span> (S2 <span style="color:#f92672">*</span> T) <span style="color:#f92672">-</span> (S <span style="color:#f92672">*</span> T2 <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span>);
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n<span style="color:#f92672">-</span>m<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>; i<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">if</span> ((F[i<span style="color:#f92672">+</span>m<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> sum).val()) {
+                bad[i] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+            }
+        }
+    }
+ 
+    <span style="color:#66d9ef">int</span> ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n<span style="color:#f92672">-</span>m<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>; i<span style="color:#f92672">++</span>) {
+        ans <span style="color:#f92672">+=</span> (<span style="color:#f92672">!</span>bad[i]);
+    }
+    cout <span style="color:#f92672">&lt;&lt;</span> ans <span style="color:#f92672">&lt;&lt;</span> endl;
+}
+
+</code></pre></div></details>
+<h3 id="例5-icpc-wf2021-g-mosaic-browsinghttpscodeforcescomgym104288problemg">例5 ICPC WF2021 G. <a href="https://codeforces.com/gym/104288/problem/G" target="_blank">Mosaic Browsing</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个 $r_p \times c_p$ 的模式矩阵 $T$，和一个 $r_q \times c_q$ 的文本矩阵 $S$。</p>
+<p>模式矩阵里每个数在 $[0,100]$ 之间，文本矩阵每个数在 $[1,100]$ 之间。</p>
+<p>现在问模式矩阵在文本矩阵的哪些位置出现过，输出所有的位置。</p>
+<p>一个模式矩阵在文本矩阵的 $(x,y)$ 出现过，当且仅当把模式矩阵的左上角放在 $(x,y)$ 处时，整个模式矩阵可以完全匹配文本矩阵对应的子矩阵。</p>
+<p>• 模式矩阵中的 $0$ 可以匹配任何数字，相当于通配符。</p>
+<p>其中，$r_p,c_p,r_q,c_q \in [1,1000]$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>一开始想着是分行进行匹配，但这样的话复杂度不对。</p>
+<p>于是考虑到把矩阵拍平成数组进行匹配，直接开始列式子：</p>
+<p>由于只有 $T$ 中具有通配符，那么我们定义二维的匹配函数：</p>
+<p>$$C(x_1,y_1,x_2,y_2) = (S_{x_1,y_1} - T_{x_2,y_2})^2 T_{x_2,y_2} = S_{x_1,y_1}^2 T_{x_2,y_2} - 2S_{x_1,y_1} T_{x_2,y_2}^2 + T_{x_2,y_2}^3$$</p>
+<p>有 $C(x_1,y_1,x_2,y_2) = 0 \iff S$ 的 $(x_1,y_1)$ 与 $T$ 的 $(x_2,y_2)$ 匹配上。</p>
+<p>那么完全匹配函数有</p>
+<p>$$P(x,y) = \sum\limits_{i=0}^{r_p-1} \sum\limits_{j=0}^{c_p-1} C(x+i,y+j,i,j)$$</p>
+<p>$$= \sum\limits_{i=0}^{r_p-1} \sum\limits_{j=0}^{c_p-1} (S_{x+i,y+j}^2 T_{i,j} - 2 S_{x+i,y+j} T_{i,j}^2 + T_{i,j}^3)$$</p>
+<p>显然第三项是个定值，对于前两项，可以发现如果把 $x,y$ 坐标都翻转一下，分别加起来还是个定值。</p>
+<p>为了方便，我们把 $T$ 扩展到和 $S$ 一样的大小，然后翻转一下，令：</p>
+<p>$$T_{i,j}' = T_{r_q-1-i, c_q-1-j}$$</p>
+<p>然后就有：</p>
+<p>$$P(x,y) = \sum\limits_{i=0}^{r_p-1} \sum\limits_{j=0}^{c_p-1} (S_{x+i,y+j}^2 T_{r_q-1-i,c_q-1-j}' - 2 S_{x+i,y+j} T_{r_q-1-i,c_q-1-j}'^2 + T_{i,j}^3)$$</p>
+<p>可以发现 $x$ 坐标之和为 $x+i+r_q-1-i = x+r_q-1$，而 $y$ 坐标之和为 $y+j+c_q-1-j = y+c_q-1$。</p>
+<p>然后我们把 $S,T$ 都拍成一个数组，使得：</p>
+<p>$$S_{x,y} \rightarrow S_{x*c_q + y}$$</p>
+<p>那么按照这个方法拍平了以后，求出 $S * T'$ 的第 $((x+r_q-1) * c_q + y+c_q-1)$ 项即可。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">int</span> rp, cp, rq, cq;
+<span style="color:#66d9ef">int</span> tmp[maxn][maxn];
+Z tmppoly[maxn<span style="color:#f92672">*</span>maxn];
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> rp <span style="color:#f92672">&gt;&gt;</span> cp;
+    Z sum <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> rp; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> cp; j<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">int</span> x; cin <span style="color:#f92672">&gt;&gt;</span> x;
+            tmp[i][j] <span style="color:#f92672">=</span> x;
+            sum <span style="color:#f92672">+=</span> (x <span style="color:#f92672">*</span> x <span style="color:#f92672">*</span> x);
+        }
+    }
+    cin <span style="color:#f92672">&gt;&gt;</span> rq <span style="color:#f92672">&gt;&gt;</span> cq;
+
+    Poly S((<span style="color:#66d9ef">int</span>)(rq<span style="color:#f92672">*</span>cq)), T((<span style="color:#66d9ef">int</span>)(rq<span style="color:#f92672">*</span>cq));
+    Poly T2 <span style="color:#f92672">=</span> T, S2 <span style="color:#f92672">=</span> S;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> rq; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> cq; j<span style="color:#f92672">++</span>) {
+            tmppoly[i<span style="color:#f92672">*</span>cq <span style="color:#f92672">+</span> j] <span style="color:#f92672">=</span> tmp[i][j];
+            <span style="color:#66d9ef">int</span> x; cin <span style="color:#f92672">&gt;&gt;</span> x;
+            S[i<span style="color:#f92672">*</span>cq <span style="color:#f92672">+</span> j] <span style="color:#f92672">=</span> x;
+            S2[i<span style="color:#f92672">*</span>cq <span style="color:#f92672">+</span> j] <span style="color:#f92672">=</span> x <span style="color:#f92672">*</span> x;
+        }
+    }
+
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> rq; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> cq; j<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">int</span> idx1 <span style="color:#f92672">=</span> i <span style="color:#f92672">*</span> cq <span style="color:#f92672">+</span> j, idx2 <span style="color:#f92672">=</span> (rq <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> i) <span style="color:#f92672">*</span> cq <span style="color:#f92672">+</span> cq <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> j;
+            T[idx1] <span style="color:#f92672">=</span> tmppoly[idx2];
+            T2[idx1] <span style="color:#f92672">=</span> T[idx1] <span style="color:#f92672">*</span> T[idx1];
+        }
+    }
+
+    <span style="color:#66d9ef">if</span> (rp <span style="color:#f92672">&gt;</span> rq <span style="color:#f92672">||</span> cp <span style="color:#f92672">&gt;</span> cq) {
+        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+    }
+
+    Poly F <span style="color:#f92672">=</span> (S2 <span style="color:#f92672">*</span> T) <span style="color:#f92672">-</span> (S <span style="color:#f92672">*</span> T2 <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span>);
+    vector<span style="color:#f92672">&lt;</span>pii<span style="color:#f92672">&gt;</span> vec;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> rq <span style="color:#f92672">-</span> rp <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> cq <span style="color:#f92672">-</span> cp <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>; j<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>(F[(rq <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">+</span> i) <span style="color:#f92672">*</span> cq <span style="color:#f92672">+</span> j <span style="color:#f92672">+</span> cq <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> sum).val()) vec.push_back({i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, j<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>});
+        }
+    }
+    cout <span style="color:#f92672">&lt;&lt;</span> vec.size() <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> [x, y] <span style="color:#f92672">:</span> vec) cout <span style="color:#f92672">&lt;&lt;</span> x <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; &#34;</span> <span style="color:#f92672">&lt;&lt;</span> y <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+}
+</code></pre></div></details>
+<h3 id="例6-abc291g-or-sumhttpsatcoderjpcontestsabc291tasksabc291_g">例6 ABC291G. <a href="https://atcoder.jp/contests/abc291/tasks/abc291_g" target="_blank">OR Sum</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定两个长度为 $n$ 的数组 $A, B$。</p>
+<p>我们可以将 $A$ 整体右移几位（最右边的换到左边去）。</p>
+<p>求出所有移位方案中，$\sum\limits_{i=0}^{n-1} (A_i|B_i)$ 的最大值。</p>
+<p>其中，$n \leq 5 \times 10^5, A_i, B_i \in [0,31]$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>$[0,31]$ 太过明显了，拆位处理。</p>
+<p>然后发现 $\sum\limits_{i=0}^{n-1} (A_i|B_i)$，这不是个经典翻转后卷积吗？</p>
+<p>于是把 $B$ 翻转一下，得到 $\sum\limits_{i=0}^{n-1} (A_i|B_{n-1-i}')$。</p>
+<p>不过这是 OR 操作，不是乘法。</p>
+<p>但是注意到，拆位后只有 0 和 1，而对于只有 $0$ 和 $1$ 的情况下，有：</p>
+<p>$$a|b = a+b - ab$$</p>
+<p>其中 $a, b \in \{0,1\}$。</p>
+<p>于是</p>
+<p>$$\sum\limits_{i=0}^{n-1} (A_i|B_{n-1-i}') = sum(A) + sum(B') - \sum\limits_{i=0}^{n-1} (A_iB_{n-1-i}')$$</p>
+<p>FFT 即可。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">int</span> n, a[maxn], b[maxn];
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> n;
+    Poly A(n<span style="color:#f92672">*</span><span style="color:#ae81ff">2</span>), B(n<span style="color:#f92672">*</span><span style="color:#ae81ff">2</span>);
+    ll ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">int</span> x; cin <span style="color:#f92672">&gt;&gt;</span> x; 
+        a[i] <span style="color:#f92672">=</span> a[i<span style="color:#f92672">+</span>n] <span style="color:#f92672">=</span> x;
+        ans <span style="color:#f92672">+=</span> x;
+    }
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>) {
+        cin <span style="color:#f92672">&gt;&gt;</span> b[n<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span><span style="color:#f92672">-</span>i];
+        ans <span style="color:#f92672">+=</span> b[n<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span><span style="color:#f92672">-</span>i];
+    }
+    vector<span style="color:#f92672">&lt;</span>ll<span style="color:#f92672">&gt;</span> res(<span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>n, <span style="color:#ae81ff">0</span>);
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">5</span>; j<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>n; i<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">if</span> (a[i] <span style="color:#f92672">&amp;</span> (<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span>j)) A[i] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+            <span style="color:#66d9ef">else</span> A[i] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+
+            <span style="color:#66d9ef">if</span> (b[i] <span style="color:#f92672">&amp;</span> (<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span>j)) B[i] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+            <span style="color:#66d9ef">else</span> B[i] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        }
+        Poly F <span style="color:#f92672">=</span> A <span style="color:#f92672">*</span> B;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> n<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>n<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>; i<span style="color:#f92672">++</span>) {
+            res[i] <span style="color:#f92672">+=</span> F[i].val() <span style="color:#f92672">*</span> (<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span>j);
+        }
+    }
+    ll mn <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e18</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> n<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>n<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>; i<span style="color:#f92672">++</span>) {
+        mn <span style="color:#f92672">=</span> min(mn, res[i]);
+    }
+    cout <span style="color:#f92672">&lt;&lt;</span> ans <span style="color:#f92672">-</span> mn <span style="color:#f92672">&lt;&lt;</span> endl;
+}
+</code></pre></div></details>
+<h2 id="参考资料">参考资料</h2>
+<ol>
+<li><a href="/files/051/FFT.pdf">HKU COMP3250 FFT课件</a></li>
+<li><a href="https://oi-wiki.org/math/poly/fft/" target="_blank">https://oi-wiki.org/math/poly/fft/</a></li>
+<li><a href="https://oi.men.ci/fft-notes/" target="_blank">https://oi.men.ci/fft-notes/</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/128661674" target="_blank">https://zhuanlan.zhihu.com/p/128661674</a></li>
+</ol>
+
+    </div>
+
+    
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/fft/">FFT</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/052-ntt/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">NTT</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/050-%E7%BA%BF%E6%80%A7%E5%9F%BA/">
+            <span class="next-text nav-default">线性基</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://github.com/kiki-yan" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://kiki-yan.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2026
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/kiki-yan/kiki-yan.github.io" target="_blank"></a>
+    </span> 
+    <span class="author">kiki_yan</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/base16/tomorrow.min.css" rel="stylesheet">
+  
+  <script>hljs.configure({tabReplace: '    '});</script><script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

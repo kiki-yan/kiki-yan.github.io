@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>CodeSprint UCLA 2023 - kiki_yan</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="kiki_yan" /><meta name="description" content="L. Blooper Game 题意 给定 $n$ 个概率 $S_1, S_2, &amp;hellip;, S_n$，同时给定一个实数 $P \in (0,1)$。 现在有 $L$ 次操作机会，每次操作可以选择一个 $S_i$，让 $S_i = (S_i)" /><meta name="keywords" content="kiki_yan, blog, Codeforces" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
+
+
+<link rel="canonical" href="https://kiki-yan.github.io/post/109-codesprintla2023/" />
+<link rel="manifest" href="/manifest.json">
+
+
+
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="CodeSprint UCLA 2023" />
+<meta property="og:description" content="L. Blooper Game 题意 给定 $n$ 个概率 $S_1, S_2, &hellip;, S_n$，同时给定一个实数 $P \in (0,1)$。 现在有 $L$ 次操作机会，每次操作可以选择一个 $S_i$，让 $S_i = (S_i)" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kiki-yan.github.io/post/109-codesprintla2023/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2023-05-22T10:56:21-05:00" />
+<meta property="article:modified_time" content="2026-09-24T14:30:49+08:00" />
+
+<meta itemprop="name" content="CodeSprint UCLA 2023">
+<meta itemprop="description" content="L. Blooper Game 题意 给定 $n$ 个概率 $S_1, S_2, &hellip;, S_n$，同时给定一个实数 $P \in (0,1)$。 现在有 $L$ 次操作机会，每次操作可以选择一个 $S_i$，让 $S_i = (S_i)"><meta itemprop="datePublished" content="2023-05-22T10:56:21-05:00" />
+<meta itemprop="dateModified" content="2026-09-24T14:30:49+08:00" />
+<meta itemprop="wordCount" content="1842">
+<meta itemprop="keywords" content=",," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="CodeSprint UCLA 2023"/>
+<meta name="twitter:description" content="L. Blooper Game 题意 给定 $n$ 个概率 $S_1, S_2, &hellip;, S_n$，同时给定一个实数 $P \in (0,1)$。 现在有 $L$ 次操作机会，每次操作可以选择一个 $S_i$，让 $S_i = (S_i)"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">kiki_yan</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF Problems</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">kiki_yan</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF Problems</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">CodeSprint UCLA 2023</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2023-05-22 10:56:21 -0500 -0500"> 2023-05-22 </span>
+        <div class="post-category">
+            <a href="/categories/%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A/"> 解题报告 </a>
+            </div>
+        
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#l-blooper-gamehttpscodesprintla23kattiscomcontestscodesprintla23openproblemscodesprintla23bloopergame">L. <a href="https://codesprintla23.kattis.com/contests/codesprintla23open/problems/codesprintla23.bloopergame">Blooper Game</a></a></li>
+            <li><a href="#m-toadshttpscodesprintla23kattiscomcontestscodesprintla23openproblemscodesprintla23toads">M. <a href="https://codesprintla23.kattis.com/contests/codesprintla23open/problems/codesprintla23.toads">Toads</a></a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h3 id="l-blooper-gamehttpscodesprintla23kattiscomcontestscodesprintla23openproblemscodesprintla23bloopergame">L. <a href="https://codesprintla23.kattis.com/contests/codesprintla23open/problems/codesprintla23.bloopergame" target="_blank">Blooper Game</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $n$ 个概率 $S_1, S_2, &hellip;, S_n$，同时给定一个实数 $P \in (0,1)$。</p>
+<p>现在有 $L$ 次操作机会，每次操作可以选择一个 $S_i$，让 $S_i = (S_i)^P$。</p>
+<p>求操作结束后，所有概率乘起来得到的最大值？</p>
+<p>其中，$n \leq 10^5, L \leq 10^9, S_i \in (0,1]$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>很巧妙的思路。</p>
+<p>如果我们一次次分配，显然是用一个 pq 每次优先操作当前最小的那个概率。但 L 太大了怎么办？</p>
+<p>考虑 pigeon-hole principle。无论我们怎么分配这些操作次数，至少有一个 $S_i$ 会被分配到 $\lceil \frac{L}{n} \rceil$ 次。显然，我们仍然选择当前最小的那个概率执行这些操作。</p>
+<p>而我们知道一个概率 $x$ 被操作 $k$ 次，得到的值就是 $x^{P^k}$，这个用快速幂就可以实现。</p>
+<p>取 $L=10^9, n=10^5$ 可以发现，这样我们只会至多操作 $10^6$ 次。</p>
+<p>所以按照这个 pq 思路就行，利用 pigeon-hole principle 大幅度减少了操作次数。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e5</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>;
+
+<span style="color:#66d9ef">int</span> n, L;
+<span style="color:#66d9ef">long</span> <span style="color:#66d9ef">double</span> P, S[maxn];
+<span style="color:#66d9ef">long</span> <span style="color:#66d9ef">double</span> pp[<span style="color:#ae81ff">31</span>];  <span style="color:#75715e">// pp[i]: P^(2^i)
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">// 返回 P^k
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">long</span> <span style="color:#66d9ef">double</span> <span style="color:#a6e22e">qpow</span>(<span style="color:#66d9ef">int</span> k) {
+    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>k) <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">double</span> res <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">30</span>; j <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>; j<span style="color:#f92672">--</span>) {
+        <span style="color:#66d9ef">if</span> (k <span style="color:#f92672">&amp;</span> (<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span>j)) {
+            res <span style="color:#f92672">*=</span> pp[j];
+        }
+    }
+    <span style="color:#66d9ef">return</span> res;
+}
+
+<span style="color:#75715e">// 将一个概率 x, 执行 k 次 pow 操作，返回的值应该是 x ^ (P^k)
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">long</span> <span style="color:#66d9ef">double</span> <span style="color:#a6e22e">po</span>(<span style="color:#66d9ef">long</span> <span style="color:#66d9ef">double</span> x, <span style="color:#66d9ef">int</span> k) {
+    <span style="color:#75715e">// long double p = qpow(P, k);
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">double</span> p <span style="color:#f92672">=</span> qpow(k);
+    <span style="color:#66d9ef">return</span> pow(x, p);
+}
+<span style="color:#75715e">// 返回 x 的执行k次pow操作的值
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">long</span> <span style="color:#66d9ef">double</span> <span style="color:#a6e22e">get</span>(<span style="color:#66d9ef">long</span> <span style="color:#66d9ef">double</span> x, <span style="color:#66d9ef">int</span> k) {
+    <span style="color:#66d9ef">if</span> (k <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">return</span> x;
+    <span style="color:#66d9ef">return</span> po(x, k);
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    fastio;
+    cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> L <span style="color:#f92672">&gt;&gt;</span> P;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">30</span>; j<span style="color:#f92672">++</span>) pp[j] <span style="color:#f92672">=</span> qpow(P, (<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span>j));
+    pp[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> P;
+
+    priority_queue<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">long</span> <span style="color:#66d9ef">double</span>, vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">long</span> <span style="color:#66d9ef">double</span><span style="color:#f92672">&gt;</span>, greater<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">long</span> <span style="color:#66d9ef">double</span><span style="color:#f92672">&gt;&gt;</span> pq;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) cin <span style="color:#f92672">&gt;&gt;</span> S[i], S[i] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">/</span>S[i], pq.push(S[i]);
+    <span style="color:#66d9ef">while</span> (L) {
+        <span style="color:#66d9ef">int</span> use <span style="color:#f92672">=</span> (L <span style="color:#f92672">+</span> n <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">/</span> n;  <span style="color:#75715e">// ceil(L/n)
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">auto</span> d <span style="color:#f92672">=</span> pq.top(); pq.pop();
+        d <span style="color:#f92672">=</span> get(d, use);
+        pq.push(d);
+        L <span style="color:#f92672">-=</span> use;
+    }
+    <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">double</span> res <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">while</span> (pq.size()) res <span style="color:#f92672">*=</span> pq.top(), pq.pop();
+    cout <span style="color:#f92672">&lt;&lt;</span> setprecision(<span style="color:#ae81ff">10</span>) <span style="color:#f92672">&lt;&lt;</span> res <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+}
+</code></pre></div></details>
+<h3 id="m-toadshttpscodesprintla23kattiscomcontestscodesprintla23openproblemscodesprintla23toads">M. <a href="https://codesprintla23.kattis.com/contests/codesprintla23open/problems/codesprintla23.toads" target="_blank">Toads</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个 $n$ 个点的图，有 $n$ 条边，每条边有边权 $w_i$。</p>
+<p>现在加上 $L$ 条额外的带权边。</p>
+<p>然后给定 $Q$ 个询问，每次询问 $a,b$ 两个点之间的最短距离。</p>
+<p>其中，$n,Q \leq 10^5, L \leq 7, 1 \leq w_i \leq 10^9$，无自环，可能有重边，图可能不联通。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>注意到 $n$ 个点和 $n$ 条边！基环树吗？错误的，这只是个误导。</p>
+<p>又注意到 $L \leq 7$。</p>
+<p>对于每一个联通分量，我们可以求出一个生成树，然后两个点在生成树上的最短距离很好算。不过任意一个联通分量中，由一个生成树加上至多 $L+1$ 条边组成。</p>
+<p>所以两点 $(u,v)$ 间的最短路如果因为一个额外的边 $(a,b)$ 更优了，那么这个最短路肯定经过了 $(a,b)$ 这条边，也就是经过了 $a$ 这个点。</p>
+<p>那么我们从 $a$ 开始跑一个 dijkstra，然后 $u,v$ 之间的最短路要么是树上的距离，要么是 $d(u,a) + d(v,a) + w(u,v)$，取最小值即可。</p>
+<hr>
+<p>实现的时候有一些需要注意的点：</p>
+<ol>
+<li>处理重边的时候我们只保留最小的权值即可，一开始先读入所有的边，把所有的边sort一下，再加入图中。</li>
+<li>我们不必区分这 $L$ 条新边，把它们全都当成普通边来看即可，用 dfs 树跑一个生成树出来，剩下的非树边就是额外的边。</li>
+<li>对于每一个非树边 $(a,b)$，我们只需要从 $a$ 跑 dijkstra 即可，$b$ 不用跑（否则会T）。</li>
+<li>注意到每个联通分量都至少有 $1$ 条非树边。总的非树边数量是 $M + L$，$M$ 为联通分量的数量。然而对于 dijkstra 来说我们需要储存 $a$ 到每个点的距离，所以储存 $M+L$ 个 dijkstra 的数组显然会 MLE。所以我们需要根据联通分量，一个个处理（我的方式是离线询问）。</li>
+</ol>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e5</span><span style="color:#f92672">+</span><span style="color:#ae81ff">55</span>;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxm <span style="color:#f92672">=</span> <span style="color:#ae81ff">4e4</span><span style="color:#f92672">+</span><span style="color:#ae81ff">55</span>;
+
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Edge</span> {
+    <span style="color:#66d9ef">int</span> u, v, w;
+};
+<span style="color:#66d9ef">int</span> n;
+vector<span style="color:#f92672">&lt;</span>Edge<span style="color:#f92672">&gt;</span> adj[maxn];
+vector<span style="color:#f92672">&lt;</span>Edge<span style="color:#f92672">&gt;</span> edges;
+<span style="color:#66d9ef">bool</span> vis[maxn];
+
+<span style="color:#66d9ef">int</span> par[maxn][<span style="color:#ae81ff">18</span>], de[maxn], from[maxn];  
+ll dep[maxn];
+vector<span style="color:#f92672">&lt;</span>Edge<span style="color:#f92672">&gt;</span> nontree;
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">jump</span>(<span style="color:#66d9ef">int</span> x, <span style="color:#66d9ef">int</span> d) {
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">17</span>; j <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>; j<span style="color:#f92672">--</span>) {
+        <span style="color:#66d9ef">if</span> (d<span style="color:#f92672">&amp;</span>(<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span>j)) x <span style="color:#f92672">=</span> par[x][j];
+    }
+    <span style="color:#66d9ef">return</span> x;
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">LCA</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> v) {
+    <span style="color:#66d9ef">if</span> (from[u] <span style="color:#f92672">!=</span> from[v]) <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">if</span> (de[u] <span style="color:#f92672">&lt;</span> de[v]) swap(u, v);
+    <span style="color:#66d9ef">int</span> d <span style="color:#f92672">=</span> de[u] <span style="color:#f92672">-</span> de[v];
+    u <span style="color:#f92672">=</span> jump(u, d);
+    <span style="color:#66d9ef">if</span> (u <span style="color:#f92672">==</span> v) <span style="color:#66d9ef">return</span> u;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">17</span>; j <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>; j<span style="color:#f92672">--</span>) {
+        <span style="color:#66d9ef">if</span> (par[u][j] <span style="color:#f92672">!=</span> par[v][j]) u <span style="color:#f92672">=</span> par[u][j], v <span style="color:#f92672">=</span> par[v][j];
+    }
+    <span style="color:#66d9ef">return</span> par[u][<span style="color:#ae81ff">0</span>];
+}
+
+<span style="color:#66d9ef">int</span> cid <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+
+ll <span style="color:#a6e22e">treedis</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> v) {
+    <span style="color:#66d9ef">int</span> x <span style="color:#f92672">=</span> LCA(u,v);
+    <span style="color:#66d9ef">if</span> (x <span style="color:#f92672">==</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">return</span> dep[u] <span style="color:#f92672">+</span> dep[v] <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> dep[x];
+}
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">dfs</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> p) {
+    from[u] <span style="color:#f92672">=</span> cid;
+    vis[u] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    de[u] <span style="color:#f92672">=</span> de[p] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+    par[u][<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> p;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">18</span>; j<span style="color:#f92672">++</span>) par[u][j] <span style="color:#f92672">=</span> par[par[u][j<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]][j<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>];
+
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span><span style="color:#f92672">&amp;</span> [_, v, w] <span style="color:#f92672">:</span> adj[u]) {
+        <span style="color:#66d9ef">if</span> (v <span style="color:#f92672">==</span> p) <span style="color:#66d9ef">continue</span>;
+        <span style="color:#66d9ef">if</span> (vis[v]) {
+            <span style="color:#66d9ef">if</span> (de[u] <span style="color:#f92672">&lt;</span> de[v]) nontree.push_back({u,v,w});
+        } <span style="color:#66d9ef">else</span> {
+            dep[v] <span style="color:#f92672">=</span> dep[u] <span style="color:#f92672">+</span> w;
+            dfs(v, u);
+        }
+    }
+}
+
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Node</span> {
+    <span style="color:#66d9ef">int</span> v;
+    ll d;
+    <span style="color:#66d9ef">bool</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">&lt;</span>(<span style="color:#66d9ef">const</span> Node<span style="color:#f92672">&amp;</span> other) <span style="color:#66d9ef">const</span> {
+        <span style="color:#66d9ef">return</span> d <span style="color:#f92672">&gt;</span> other.d;
+    }
+};
+
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Dijkstra</span> {
+    <span style="color:#66d9ef">int</span> x;
+    ll dis[maxn];
+    priority_queue<span style="color:#f92672">&lt;</span>Node<span style="color:#f92672">&gt;</span> pq;
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">run</span>() {
+        memset(dis, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#66d9ef">sizeof</span>(dis));
+        memset(vis, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(vis));
+        pq.push({x, <span style="color:#ae81ff">0</span>});
+        dis[x] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        <span style="color:#66d9ef">while</span> (pq.size()) {
+            <span style="color:#66d9ef">auto</span> [u, d] <span style="color:#f92672">=</span> pq.top(); pq.pop();
+            <span style="color:#66d9ef">if</span> (vis[u]) <span style="color:#66d9ef">continue</span>;
+            vis[u] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> [_, v, w] <span style="color:#f92672">:</span> adj[u]) {
+                <span style="color:#66d9ef">if</span> (dis[v] <span style="color:#f92672">==</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span> <span style="color:#f92672">||</span> dis[v] <span style="color:#f92672">&gt;</span> dis[u] <span style="color:#f92672">+</span> w) {
+                    dis[v] <span style="color:#f92672">=</span> dis[u] <span style="color:#f92672">+</span> w;
+                    pq.push({v, dis[v]});
+                }
+            }
+        }
+    }
+};
+vector<span style="color:#f92672">&lt;</span>Dijkstra<span style="color:#f92672">&gt;</span> vec;
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Query</span> {
+    <span style="color:#66d9ef">int</span> u, v, cid, id;
+};
+ll ans[maxn];
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    fastio;
+    cin <span style="color:#f92672">&gt;&gt;</span> n;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">int</span> u <span style="color:#f92672">=</span> i, v, w; cin <span style="color:#f92672">&gt;&gt;</span> v <span style="color:#f92672">&gt;&gt;</span> w;
+        <span style="color:#66d9ef">if</span> (u <span style="color:#f92672">&gt;</span> v) swap(u, v);
+        edges.push_back({u,v,w});
+    }
+    <span style="color:#66d9ef">int</span> L; cin <span style="color:#f92672">&gt;&gt;</span> L;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> _ <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; _ <span style="color:#f92672">&lt;</span> L; _<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">int</span> u, v, w; cin <span style="color:#f92672">&gt;&gt;</span> u <span style="color:#f92672">&gt;&gt;</span> v <span style="color:#f92672">&gt;&gt;</span> w;
+        <span style="color:#66d9ef">if</span> (u <span style="color:#f92672">&gt;</span> v) swap(u, v);
+        edges.push_back({u,v,w});
+    }
+
+    sort(edges.begin(), edges.end(), [](<span style="color:#66d9ef">auto</span> a, <span style="color:#66d9ef">auto</span> b) {
+        <span style="color:#66d9ef">if</span> (a.u <span style="color:#f92672">==</span> b.u) {
+            <span style="color:#66d9ef">if</span> (a.v <span style="color:#f92672">==</span> b.v) <span style="color:#66d9ef">return</span> a.w <span style="color:#f92672">&lt;</span> b.w;
+            <span style="color:#66d9ef">return</span> a.v <span style="color:#f92672">&lt;</span> b.v;
+        }
+        <span style="color:#66d9ef">return</span> a.u <span style="color:#f92672">&lt;</span> b.u;
+    });
+
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> edges.size(); i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">if</span> (i <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> edges[i].u <span style="color:#f92672">==</span> edges[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>].u <span style="color:#f92672">&amp;&amp;</span> edges[i].v <span style="color:#f92672">==</span> edges[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>].v) <span style="color:#66d9ef">continue</span>;
+        <span style="color:#66d9ef">auto</span> [u, v, w] <span style="color:#f92672">=</span> edges[i];
+        adj[u].push_back({u,v,w});
+        adj[v].push_back({v,u,w});
+    }
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>vis[i]) cid<span style="color:#f92672">++</span>, dfs(i, <span style="color:#ae81ff">0</span>);
+    }
+
+    <span style="color:#75715e">// nontree 里面已经按照 cid 排好了
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> Q; cin <span style="color:#f92672">&gt;&gt;</span> Q;
+    vector<span style="color:#f92672">&lt;</span>Query<span style="color:#f92672">&gt;</span> que;
+
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> Q; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">int</span> u, v; cin <span style="color:#f92672">&gt;&gt;</span> u <span style="color:#f92672">&gt;&gt;</span> v;
+        <span style="color:#66d9ef">int</span> cid <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">if</span> (from[u] <span style="color:#f92672">==</span> from[v]) cid <span style="color:#f92672">=</span> from[u];
+        que.push_back({u, v, cid, i});
+    }
+
+    sort(que.begin(), que.end(), [](<span style="color:#66d9ef">auto</span> a, <span style="color:#66d9ef">auto</span> b) {
+        <span style="color:#66d9ef">return</span> a.cid <span style="color:#f92672">&lt;</span> b.cid;
+    });
+
+    <span style="color:#66d9ef">int</span> idx <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> [u, v, curid, id] <span style="color:#f92672">:</span> que) {
+        <span style="color:#66d9ef">if</span> (curid <span style="color:#f92672">==</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) ans[id] <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">else</span> {
+            <span style="color:#75715e">// 判断一下这个 cid 的dijkstra是否都被处理完了
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">if</span> (vec.size() <span style="color:#f92672">&amp;&amp;</span> from[vec[<span style="color:#ae81ff">0</span>].x] <span style="color:#f92672">==</span> curid) {  <span style="color:#75715e">// 处理完了，无需处理
+</span><span style="color:#75715e"></span>                
+            } <span style="color:#66d9ef">else</span> {
+                vec.clear();
+                <span style="color:#66d9ef">while</span> (idx <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;</span> nontree.size() <span style="color:#f92672">&amp;&amp;</span> from[nontree[idx<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>].u] <span style="color:#f92672">&lt;</span> curid) idx<span style="color:#f92672">++</span>;
+                <span style="color:#66d9ef">while</span> (idx <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;</span> nontree.size() <span style="color:#f92672">&amp;&amp;</span> from[nontree[idx<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>].u] <span style="color:#f92672">==</span> curid) {
+                    Dijkstra di;
+                    di.x <span style="color:#f92672">=</span> nontree[idx<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>].u;
+                    di.run();
+                    vec.push_back(di);
+                    idx<span style="color:#f92672">++</span>;
+                }
+            }
+
+            ans[id] <span style="color:#f92672">=</span> treedis(u, v);
+            assert(vec.size() <span style="color:#f92672">&lt;=</span> L<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>);
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span><span style="color:#f92672">&amp;</span> di : vec) {
+                assert(from[u] <span style="color:#f92672">==</span> from[di.x]);
+                ans[id] <span style="color:#f92672">=</span> min(ans[id], di.dis[u] <span style="color:#f92672">+</span> di.dis[v]);
+            }
+        }
+    }
+
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> Q; i<span style="color:#f92672">++</span>) cout <span style="color:#f92672">&lt;&lt;</span> ans[i] <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+}
+</code></pre></div></details>
+
+    </div>
+
+    
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags//"></a>
+          <a href="/tags//"></a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/110-%E9%9A%8F%E6%9C%BA%E5%8C%96/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">随机化</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/108-universal15/">
+            <span class="next-text nav-default">Universal Cup 15 (Hangzhou)</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://github.com/kiki-yan" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://kiki-yan.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2026
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/kiki-yan/kiki-yan.github.io" target="_blank"></a>
+    </span> 
+    <span class="author">kiki_yan</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/base16/tomorrow.min.css" rel="stylesheet">
+  
+  <script>hljs.configure({tabReplace: '    '});</script><script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

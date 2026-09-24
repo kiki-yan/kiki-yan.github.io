@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>NAC2022 - kiki_yan</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="kiki_yan" /><meta name="description" content="G. Rafting Trip 题意 给定一个 $n \times m$ 的网格，每个网格要么是河流，要么是陆地。 如果是河流，那么它一定是上下左右四个方向之一，代表走到这个位置，下一个位置就" /><meta name="keywords" content="kiki_yan, blog, Codeforces" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
+
+
+<link rel="canonical" href="https://kiki-yan.github.io/post/098-nac2022/" />
+<link rel="manifest" href="/manifest.json">
+
+
+
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="NAC2022" />
+<meta property="og:description" content="G. Rafting Trip 题意 给定一个 $n \times m$ 的网格，每个网格要么是河流，要么是陆地。 如果是河流，那么它一定是上下左右四个方向之一，代表走到这个位置，下一个位置就" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kiki-yan.github.io/post/098-nac2022/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2023-03-05T18:59:57-06:00" />
+<meta property="article:modified_time" content="2026-09-24T14:30:49+08:00" />
+
+<meta itemprop="name" content="NAC2022">
+<meta itemprop="description" content="G. Rafting Trip 题意 给定一个 $n \times m$ 的网格，每个网格要么是河流，要么是陆地。 如果是河流，那么它一定是上下左右四个方向之一，代表走到这个位置，下一个位置就"><meta itemprop="datePublished" content="2023-03-05T18:59:57-06:00" />
+<meta itemprop="dateModified" content="2026-09-24T14:30:49+08:00" />
+<meta itemprop="wordCount" content="2492">
+<meta itemprop="keywords" content=",," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="NAC2022"/>
+<meta name="twitter:description" content="G. Rafting Trip 题意 给定一个 $n \times m$ 的网格，每个网格要么是河流，要么是陆地。 如果是河流，那么它一定是上下左右四个方向之一，代表走到这个位置，下一个位置就"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">kiki_yan</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF Problems</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">kiki_yan</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF Problems</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">NAC2022</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2023-03-05 18:59:57 -0600 -0600"> 2023-03-05 </span>
+        <div class="post-category">
+            <a href="/categories/%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A/"> 解题报告 </a>
+            </div>
+        
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#g-rafting-triphttpsopenkattiscomproblemsraftingtripeditsubmit10650434">G. <a href="https://open.kattis.com/problems/raftingtrip?editsubmit=10650434">Rafting Trip</a></a></li>
+            <li><a href="#l-triangular-logshttpsopenkattiscomproblemstriangularlogs">L. <a href="https://open.kattis.com/problems/triangularlogs">Triangular Logs</a></a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h3 id="g-rafting-triphttpsopenkattiscomproblemsraftingtripeditsubmit10650434">G. <a href="https://open.kattis.com/problems/raftingtrip?editsubmit=10650434" target="_blank">Rafting Trip</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个 $n \times m$ 的网格，每个网格要么是河流，要么是陆地。</p>
+<p>如果是河流，那么它一定是上下左右四个方向之一，代表走到这个位置，下一个位置就会被冲到对应方向一格的位置。</p>
+<p>如果是陆地，要么是空地，要么是一个观光点。</p>
+<p>我们可以选定从一个点出发，顺着河流的流向前进，当我们走到陆地/场地外/一个走过的点时，将会结束旅程。</p>
+<p>旅程中，如果我们在河流上，并且邻居有观光点，那么我们可以记录这个观光点。</p>
+<p>对于所有的出发点，求最优的出发点，使得旅程中记录到的观光点最多（每个观光点不能被重复记录）。</p>
+<p>其中，$n,m \leq 500$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>注意到如果是河流，只会有上下左右四个方向。所以每个点只有至多<strong>1个出边</strong>。这说明什么？基环树！（更准确的说是基环森林）。</p>
+<p>虽然这题是有向边，但处理基环树我们直接当无向边做就可以了。</p>
+<p>所以我们先建无向图，只考虑河流，陆地就直接忽略。</p>
+<p>然后我们先找到基环树中的环，然后缩点，这样就得到一个树了。以环作为根，跑 dfs 即可。</p>
+<p>如果没有环，就取一个没有出边的点作为根。</p>
+<p>• 这样看起来 dfs 的过程是跑了反向的边，但实际上为了统计这个观光点，必须按照反向的顺序来。</p>
+<p>• 缩点后不用重新建图，建一个新点即可，注意新点向被缩的点的邻居们连边，要check一下不能连到环上的点。</p>
+</details>
+<div class="admonition info">
+  <p class="admonition-title">基环树找环-注意事项</p>
+<p>然后是需要特别注意的基环树找环问题。</p>
+<p>注意到这个题目，基环树可能会有大小为 $2$ 的环，这样就会有重边了。</p>
+<p>所以我们在第一次dfs找环时，<strong>不能</strong>直接记录 parent 的 vertex。</p>
+<p>而是应该记录 <strong>parent 的边，并且用前向星建图</strong>。</p>
+<p>举个例子，1-&gt;2, 2-&gt;1。</p>
+<p>如果我们用 <code>if (par[v] == u) continue;</code> 的话，到了 2 时就会直接忽略掉 1。然后回到 1 的时候，由于有重边，1会发现 <code>vis[2] = 1;</code>，这样看起来 1 是cycle的终点，2是cycle的起点，实际上是反过来的！</p>
+<p>所以正确的写法是：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> cycle, comp;  <span style="color:#75715e">// component: 储存这个联通分量的所有点
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">dfs1</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> in_edge) {  <span style="color:#75715e">// 这里的参数是 e的编号！
+</span><span style="color:#75715e"></span>    vis[u] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    comp.push_back(u);
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> e <span style="color:#f92672">=</span> head[u]; e; e <span style="color:#f92672">=</span> edges[e].nxt) {
+        <span style="color:#66d9ef">if</span> (e <span style="color:#f92672">==</span> (in_edge <span style="color:#f92672">^</span> <span style="color:#ae81ff">1</span>)) <span style="color:#66d9ef">continue</span>;  <span style="color:#75715e">// 特意处理了大小为2的环，注意这里 (in_edge^1) 需要加括号！
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">int</span> v <span style="color:#f92672">=</span> edges[e].to;
+        <span style="color:#66d9ef">if</span> (vis[v]) {
+            <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>cycle.size()) {  <span style="color:#75715e">// 只跑一个cycle！因为有重边！
+</span><span style="color:#75715e"></span>                <span style="color:#66d9ef">int</span> c <span style="color:#f92672">=</span> u;
+                <span style="color:#66d9ef">while</span> (c <span style="color:#f92672">!=</span> v) {
+                    cycle.push_back(c);
+                    c <span style="color:#f92672">=</span> pre[c];
+                }
+                cycle.push_back(c);
+                <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j : cycle) iscycle[j] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+            }
+        } <span style="color:#66d9ef">else</span> {
+            pre[v] <span style="color:#f92672">=</span> u;
+            dfs1(v, e);  <span style="color:#75715e">// 注意这里参数是 e
+</span><span style="color:#75715e"></span>        }
+    }
+}
+</code></pre></div></div>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">500</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxm <span style="color:#f92672">=</span> (<span style="color:#ae81ff">500</span><span style="color:#f92672">*</span><span style="color:#ae81ff">500</span><span style="color:#f92672">+</span><span style="color:#ae81ff">105</span>) <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span>;
+
+<span style="color:#66d9ef">int</span> n,m;
+<span style="color:#66d9ef">char</span> grid[maxn][maxn];
+<span style="color:#66d9ef">int</span> id[maxn][maxn];
+<span style="color:#66d9ef">bool</span> river[maxn][maxn], site[maxn][maxn];
+<span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">ok</span>(<span style="color:#66d9ef">int</span> i, <span style="color:#66d9ef">int</span> j) {
+    <span style="color:#66d9ef">return</span> i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&amp;&amp;</span> i <span style="color:#f92672">&lt;=</span> n <span style="color:#f92672">&amp;&amp;</span> j <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&amp;&amp;</span> j <span style="color:#f92672">&lt;=</span> m <span style="color:#f92672">&amp;&amp;</span> river[i][j];
+}
+vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> adj[maxm];
+vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> adj_site[maxm];
+<span style="color:#66d9ef">int</span> d[<span style="color:#ae81ff">4</span>][<span style="color:#ae81ff">2</span>] <span style="color:#f92672">=</span> {{<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">0</span>}, {<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">0</span>}, {<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">1</span>}, {<span style="color:#ae81ff">0</span>,<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>}};
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Edge</span> {
+    <span style="color:#66d9ef">int</span> to, nxt;
+} edges[maxm<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>];
+<span style="color:#66d9ef">int</span> head[maxm], ecnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>;
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">addEdge</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> v) {
+    Edge e <span style="color:#f92672">=</span> {v, head[u]};
+    edges[ecnt] <span style="color:#f92672">=</span> e;
+    head[u] <span style="color:#f92672">=</span> ecnt<span style="color:#f92672">++</span>;
+}
+
+<span style="color:#66d9ef">bool</span> vis[maxm], iscycle[maxm];
+<span style="color:#66d9ef">int</span> pre[maxm], outdeg[maxm];
+vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> cycle, comp;  <span style="color:#75715e">// component: 储存这个联通分量的所有点
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">dfs1</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> in_edge) {
+    vis[u] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    comp.push_back(u);
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> e <span style="color:#f92672">=</span> head[u]; e; e <span style="color:#f92672">=</span> edges[e].nxt) {
+        <span style="color:#66d9ef">if</span> (e <span style="color:#f92672">==</span> (in_edge <span style="color:#f92672">^</span> <span style="color:#ae81ff">1</span>)) <span style="color:#66d9ef">continue</span>;  <span style="color:#75715e">// 特意处理了大小为2的环，注意这里 (in_edge^1) 需要加括号！
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">int</span> v <span style="color:#f92672">=</span> edges[e].to;
+        <span style="color:#66d9ef">if</span> (vis[v]) {
+            <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>cycle.size()) {
+                <span style="color:#66d9ef">int</span> c <span style="color:#f92672">=</span> u;
+                <span style="color:#66d9ef">while</span> (c <span style="color:#f92672">!=</span> v) {
+                    cycle.push_back(c);
+                    c <span style="color:#f92672">=</span> pre[c];
+                    assert(c <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>);
+                }
+                assert(c <span style="color:#f92672">==</span> v);
+                cycle.push_back(c);
+                <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j : cycle) iscycle[j] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+            }
+        } <span style="color:#66d9ef">else</span> {
+            pre[v] <span style="color:#f92672">=</span> u;
+            dfs1(v, e);  <span style="color:#75715e">// 注意这里参数是 e
+</span><span style="color:#75715e"></span>        }
+    }
+}
+
+<span style="color:#66d9ef">int</span> cid <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+<span style="color:#66d9ef">int</span> cnt[maxm], res <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">dfs2</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> p) {
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> v : adj_site[u]) {
+        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>cnt[v]) res<span style="color:#f92672">++</span>;
+        cnt[v]<span style="color:#f92672">++</span>;
+    }
+    ans <span style="color:#f92672">=</span> max(ans, res);
+
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> v : adj[u]) {
+        <span style="color:#66d9ef">if</span> (v <span style="color:#f92672">==</span> p <span style="color:#f92672">||</span> iscycle[v]) <span style="color:#66d9ef">continue</span>;  <span style="color:#75715e">// 已经是cycle的说明被缩点缩掉了，删去
+</span><span style="color:#75715e"></span>        dfs2(v, u);
+    }
+    <span style="color:#75715e">// 回溯
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> v : adj_site[u]) {
+        cnt[v]<span style="color:#f92672">--</span>;
+        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>cnt[v]) res<span style="color:#f92672">--</span>;
+    }
+}
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">solve</span>(<span style="color:#66d9ef">int</span> u) {
+    cycle.clear();
+    comp.clear();
+    dfs1(u, <span style="color:#ae81ff">0</span>);
+    <span style="color:#66d9ef">int</span> rt <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+
+    <span style="color:#66d9ef">if</span> (cycle.size()) {
+        <span style="color:#75715e">// 有环
+</span><span style="color:#75715e"></span>        rt <span style="color:#f92672">=</span> <span style="color:#f92672">++</span>cid;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> v : cycle) {
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j : adj_site[v]) {
+                adj_site[rt].push_back(j);
+            }
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> nv : adj[v]) {
+                <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>iscycle[nv]) {  <span style="color:#75715e">// 只考虑不是cycle上的点
+</span><span style="color:#75715e"></span>                    adj[rt].push_back(nv);
+                }
+            }
+        }
+        iscycle[rt] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        sort(adj[rt].begin(), adj[rt].end());
+        adj[rt].resize(unique(adj[rt].begin(), adj[rt].end()) <span style="color:#f92672">-</span> adj[rt].begin());
+        sort(adj_site[rt].begin(), adj_site[rt].end());
+        adj_site[rt].resize(unique(adj_site[rt].begin(), adj_site[rt].end()) <span style="color:#f92672">-</span> adj_site[rt].begin());
+    } <span style="color:#66d9ef">else</span> {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> v : comp) {
+            <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>outdeg[v]) {
+                rt <span style="color:#f92672">=</span> v;
+                <span style="color:#66d9ef">break</span>;
+            }
+        }
+        assert(rt <span style="color:#f92672">!=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>);
+    }
+    dfs2(rt, <span style="color:#ae81ff">0</span>);
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> m;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        string s; cin <span style="color:#f92672">&gt;&gt;</span> s;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;=</span> m; j<span style="color:#f92672">++</span>) {
+            grid[i][j] <span style="color:#f92672">=</span> s[j<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>], id[i][j] <span style="color:#f92672">=</span> <span style="color:#f92672">++</span>cid;
+            <span style="color:#66d9ef">if</span> (grid[i][j] <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#39;.&#39;</span> <span style="color:#f92672">&amp;&amp;</span> grid[i][j] <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#39;#&#39;</span>) river[i][j] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+            <span style="color:#66d9ef">if</span> (grid[i][j] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;#&#39;</span>) site[i][j] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        }
+    }
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;=</span> m; j<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">int</span> u <span style="color:#f92672">=</span> id[i][j];
+            <span style="color:#66d9ef">int</span> op;
+            <span style="color:#66d9ef">if</span> (grid[i][j] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;v&#39;</span>) op <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+            <span style="color:#66d9ef">if</span> (grid[i][j] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;^&#39;</span>) op <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+            <span style="color:#66d9ef">if</span> (grid[i][j] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;&gt;&#39;</span>) op <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>;
+            <span style="color:#66d9ef">if</span> (grid[i][j] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;&lt;&#39;</span>) op <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>;
+            <span style="color:#66d9ef">int</span> ni <span style="color:#f92672">=</span> i <span style="color:#f92672">+</span> d[op][<span style="color:#ae81ff">0</span>], nj <span style="color:#f92672">=</span> j <span style="color:#f92672">+</span> d[op][<span style="color:#ae81ff">1</span>];
+            <span style="color:#66d9ef">if</span> (ok(ni, nj)) {
+                <span style="color:#66d9ef">int</span> v <span style="color:#f92672">=</span> id[ni][nj];
+                addEdge(u,v);
+                addEdge(v,u);
+                adj[u].push_back(v);
+                adj[v].push_back(u);
+                outdeg[u]<span style="color:#f92672">++</span>;  <span style="color:#75715e">// outdeg = 0的就是树的根
+</span><span style="color:#75715e"></span>            }
+            <span style="color:#75715e">// adj_site  (only consider river&#39;s neighbor)
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">if</span> (river[i][j]) {
+                <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> o <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; o <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">4</span>; o<span style="color:#f92672">++</span>) {
+                    <span style="color:#66d9ef">int</span> ni <span style="color:#f92672">=</span> i <span style="color:#f92672">+</span> d[o][<span style="color:#ae81ff">0</span>], nj <span style="color:#f92672">=</span> j <span style="color:#f92672">+</span> d[o][<span style="color:#ae81ff">1</span>];
+                    <span style="color:#66d9ef">if</span> (site[ni][nj]) {
+                        adj_site[u].push_back(id[ni][nj]);
+                    }
+                }
+            }
+        }
+    }
+
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;=</span> m; j<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">if</span> (river[i][j]) {
+                <span style="color:#66d9ef">int</span> u <span style="color:#f92672">=</span> id[i][j];
+                <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>vis[u]) solve(u);
+            }
+        }
+    }
+    cout <span style="color:#f92672">&lt;&lt;</span> ans <span style="color:#f92672">&lt;&lt;</span> endl;
+}
+</code></pre></div></details>
+<h3 id="l-triangular-logshttpsopenkattiscomproblemstriangularlogs">L. <a href="https://open.kattis.com/problems/triangularlogs" target="_blank">Triangular Logs</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>二维空间中有 $n$ 个点，每个点 $(x_i,y_i)$ 有一个权值 $w_i$。</p>
+<p>现在有 $q$ 个询问，每次询问 $x_l,x_r,y_l,y_r$，回答：</p>
+<p>在 $[x_l,x_r] \times [y_l,y_r]$ 这个矩阵中，是否存在三个点，使得这三个点的权值能够形成一个三角形？</p>
+<p>其中，$n,q \leq 10^5, x_i,y_i,w_i \in [1,10^9]$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>首先给一个结论：</p>
+<blockquote>
+<p>每次询问，只需要从矩阵中，取 $\log(10^9)$ 个点，就足够了。</p>
+</blockquote>
+<p>证明：如果矩阵中，取了 $m&gt;\log(10^9)$ 个点，仍然没找到三角形，那么，将这些点的权值进行排序：</p>
+<p>$$w_1,w_2,w_3,w_4,w_5,&hellip;,w_m$$</p>
+<p>我们可以得到 $w_1+w_2 &lt; w_3$，那么 $2w_1 &lt; w_3$，同理 $w_2+w_3&lt;w_4$，那么 $2w_2&lt;w_4$。</p>
+<p>所以 $\forall i, 2w_i &lt; w_{i+2}$，说明这个数组的元素是几何增长的，所以长度不可能超过 $\log(10^9)$。</p>
+<hr>
+<p>于是每次询问，我们只要从中找到 $\log(10^9)$ 个点，怎么维护呢？</p>
+<p>我们 $x$ 坐标用动态开点线段树维护，而每棵线段树里层维护一个 set，按照 $y$ 坐标的大小排序，这样可以通过 <code>lower_bound()</code> 来找到 $[y_l,y_r]$ 的。</p>
+<p>线段树的层数为 $\log(10^9)$，而每个点最坏情况下都会在每一层出现，所以总时空复杂度就是 $O(n\log n * \log(10^9))$。</p>
+<hr>
+<p>• 最后注意！这个题<strong>不能</strong>用二维线段树！</p>
+<p>考虑一个例子：$[1,2] \times [1,2]$ 这个矩阵里刚好有 $4$ 个点 $(1,1),(1,2),(2,1),(2,2)$。</p>
+<p>我们如果考虑 $x \in [1,2]$，那么这刚好对应一棵线段树，里面储存的是 $y \in [1,2]$ 的，但这棵线段树只能储存 $2$ 个值，所以会丢失一些信息！</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e5</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> N <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e9</span>;
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Point</span> {
+    <span style="color:#66d9ef">int</span> x, y, val;
+    <span style="color:#66d9ef">bool</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">&lt;</span>(<span style="color:#66d9ef">const</span> Point<span style="color:#f92672">&amp;</span> others) <span style="color:#66d9ef">const</span> {
+        <span style="color:#66d9ef">return</span> y <span style="color:#f92672">&lt;</span> others.y;
+    }
+} a[maxn];
+
+<span style="color:#75715e">// 区间查询
+</span><span style="color:#75715e">// 单点修改
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">SegNode</span> {
+    multiset<span style="color:#f92672">&lt;</span>Point<span style="color:#f92672">&gt;</span> s;
+    <span style="color:#66d9ef">int</span> lc, rc;
+};
+
+<span style="color:#66d9ef">int</span> cid <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> M <span style="color:#f92672">=</span> <span style="color:#ae81ff">80</span>;
+vector<span style="color:#f92672">&lt;</span>Point<span style="color:#f92672">&gt;</span> vec;
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">SegX</span> {
+    SegNode tr[maxn<span style="color:#f92672">*</span><span style="color:#ae81ff">40</span>];
+
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">update</span>(<span style="color:#66d9ef">int</span><span style="color:#f92672">&amp;</span> cur, <span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r, <span style="color:#66d9ef">int</span> x, <span style="color:#66d9ef">int</span> y, <span style="color:#66d9ef">int</span> val) {
+        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>cur) cur <span style="color:#f92672">=</span> <span style="color:#f92672">++</span>cid;
+        tr[cur].s.insert(Point {x, y, val});
+        <span style="color:#66d9ef">if</span> (l <span style="color:#f92672">==</span> r) {
+            <span style="color:#66d9ef">return</span>;
+        }
+        <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> (l<span style="color:#f92672">+</span>r) <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">if</span> (x <span style="color:#f92672">&lt;=</span> mid) update(tr[cur].lc, l, mid, x, y, val);
+        <span style="color:#66d9ef">if</span> (x <span style="color:#f92672">&gt;</span> mid) update(tr[cur].rc, mid<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, r, x, y, val);
+    }
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">query</span>(<span style="color:#66d9ef">int</span> cur, <span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r, <span style="color:#66d9ef">int</span> xl, <span style="color:#66d9ef">int</span> xr, <span style="color:#66d9ef">int</span> yl, <span style="color:#66d9ef">int</span> yr) {
+        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>cur) <span style="color:#66d9ef">return</span>;
+        <span style="color:#66d9ef">if</span> (vec.size() <span style="color:#f92672">&gt;</span> M) <span style="color:#66d9ef">return</span>;
+
+        <span style="color:#66d9ef">if</span> (xl <span style="color:#f92672">&lt;=</span> l <span style="color:#f92672">&amp;&amp;</span> xr <span style="color:#f92672">&gt;=</span> r) {
+            <span style="color:#75715e">// 寻找 [yl, yr] 之间的
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">auto</span> pl <span style="color:#f92672">=</span> tr[cur].s.lower_bound(Point {<span style="color:#ae81ff">0</span>, yl, <span style="color:#ae81ff">0</span>});
+            <span style="color:#66d9ef">auto</span> pr <span style="color:#f92672">=</span> tr[cur].s.lower_bound(Point {<span style="color:#ae81ff">0</span>, yr<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>});
+            <span style="color:#66d9ef">while</span> (pl <span style="color:#f92672">!=</span> pr) {
+                <span style="color:#66d9ef">if</span> (pl<span style="color:#f92672">-&gt;</span>y <span style="color:#f92672">&gt;</span> yr) <span style="color:#66d9ef">break</span>;
+                vec.push_back(<span style="color:#f92672">*</span>pl);
+                <span style="color:#66d9ef">if</span> (vec.size() <span style="color:#f92672">&gt;</span> M) <span style="color:#66d9ef">return</span>;
+                pl <span style="color:#f92672">=</span> next(pl);
+            }
+            <span style="color:#66d9ef">return</span>;
+        }
+        <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> (l<span style="color:#f92672">+</span>r) <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">if</span> (xl <span style="color:#f92672">&lt;=</span> mid) query(tr[cur].lc, l, mid, xl, xr, yl, yr);
+        <span style="color:#66d9ef">if</span> (xr <span style="color:#f92672">&gt;</span> mid) query(tr[cur].rc, mid<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, r, xl, xr, yl, yr);
+    }
+} tr;
+
+
+
+<span style="color:#66d9ef">int</span> RT <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">query</span>(<span style="color:#66d9ef">int</span> xl, <span style="color:#66d9ef">int</span> xr, <span style="color:#66d9ef">int</span> yl, <span style="color:#66d9ef">int</span> yr) {
+    vec.clear();
+    tr.query(RT, <span style="color:#ae81ff">1</span>, N, xl, xr, yl, yr);
+}
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">update</span>(<span style="color:#66d9ef">int</span> x, <span style="color:#66d9ef">int</span> y, <span style="color:#66d9ef">int</span> val) {
+    tr.update(RT, <span style="color:#ae81ff">1</span>, N, x, y, val);
+}
+
+<span style="color:#66d9ef">int</span> n,q;
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> q;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        cin <span style="color:#f92672">&gt;&gt;</span> a[i].x <span style="color:#f92672">&gt;&gt;</span> a[i].y <span style="color:#f92672">&gt;&gt;</span> a[i].val;
+        update(a[i].x, a[i].y, a[i].val);
+    }
+
+    <span style="color:#66d9ef">while</span> (q<span style="color:#f92672">--</span>) {
+        <span style="color:#66d9ef">int</span> xl, yl, xr, yr; cin <span style="color:#f92672">&gt;&gt;</span> xl <span style="color:#f92672">&gt;&gt;</span> yl <span style="color:#f92672">&gt;&gt;</span> xr <span style="color:#f92672">&gt;&gt;</span> yr;
+        query(xl, xr, yl, yr);
+        <span style="color:#66d9ef">int</span> good <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        sort(vec.begin(), vec.end(), [](<span style="color:#66d9ef">auto</span> a, <span style="color:#66d9ef">auto</span> b) {
+            <span style="color:#66d9ef">return</span> a.val <span style="color:#f92672">&lt;</span> b.val;
+        });
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> vec.size(); i<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">if</span> (i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">&amp;&amp;</span> vec[i<span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>].val <span style="color:#f92672">+</span> vec[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>].val <span style="color:#f92672">&gt;</span> vec[i].val) {
+                good <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+                <span style="color:#66d9ef">break</span>;
+            }
+        }
+
+        cout <span style="color:#f92672">&lt;&lt;</span> good <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+    }
+}
+</code></pre></div></details>
+
+    </div>
+
+    
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags//"></a>
+          <a href="/tags//"></a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/099-%E4%BA%8C%E9%A1%B9%E5%BC%8F%E5%8F%8D%E6%BC%94/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">二项式反演</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/097-segment-tree-beats/">
+            <span class="next-text nav-default">吉司机线段树（Segment Tree Beats）</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://github.com/kiki-yan" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://kiki-yan.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2026
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/kiki-yan/kiki-yan.github.io" target="_blank"></a>
+    </span> 
+    <span class="author">kiki_yan</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/base16/tomorrow.min.css" rel="stylesheet">
+  
+  <script>hljs.configure({tabReplace: '    '});</script><script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

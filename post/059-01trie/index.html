@@ -1,0 +1,1572 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Trie 和 01 Trie - kiki_yan</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="kiki_yan" /><meta name="description" content="介绍 01-Trie 指将整数拆成二进制，然后将二进制以字符串的形式储存在 Trie 中。 Trie可以解决以下问题： 给定一些数 $a_1,a_2,&amp;hellip;,a_" /><meta name="keywords" content="kiki_yan, blog, Codeforces" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
+
+
+<link rel="canonical" href="https://kiki-yan.github.io/post/059-01trie/" />
+<link rel="manifest" href="/manifest.json">
+
+
+
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="Trie 和 01 Trie" />
+<meta property="og:description" content="介绍 01-Trie 指将整数拆成二进制，然后将二进制以字符串的形式储存在 Trie 中。 Trie可以解决以下问题： 给定一些数 $a_1,a_2,&hellip;,a_" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kiki-yan.github.io/post/059-01trie/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2021-12-17T14:23:29+08:00" />
+<meta property="article:modified_time" content="2026-09-24T14:30:49+08:00" />
+
+<meta itemprop="name" content="Trie 和 01 Trie">
+<meta itemprop="description" content="介绍 01-Trie 指将整数拆成二进制，然后将二进制以字符串的形式储存在 Trie 中。 Trie可以解决以下问题： 给定一些数 $a_1,a_2,&hellip;,a_"><meta itemprop="datePublished" content="2021-12-17T14:23:29+08:00" />
+<meta itemprop="dateModified" content="2026-09-24T14:30:49+08:00" />
+<meta itemprop="wordCount" content="9554">
+<meta itemprop="keywords" content="Trie,," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Trie 和 01 Trie"/>
+<meta name="twitter:description" content="介绍 01-Trie 指将整数拆成二进制，然后将二进制以字符串的形式储存在 Trie 中。 Trie可以解决以下问题： 给定一些数 $a_1,a_2,&hellip;,a_"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">kiki_yan</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF Problems</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">kiki_yan</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF Problems</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Trie 和 01 Trie</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2021-12-17 14:23:29 &#43;0800 &#43;0800"> 2021-12-17 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
+            </div>
+        
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#介绍">介绍</a>
+          <ul>
+            <li><a href="#维护最大xor">维护最大XOR</a></li>
+            <li><a href="#维护xor和">维护XOR和</a></li>
+            <li><a href="#可持久化01-trie">可持久化01-Trie</a></li>
+          </ul>
+        </li>
+        <li><a href="#例题">例题</a>
+          <ul>
+            <li><a href="#例1-洛谷p4551-最长异或路径httpswwwluogucomcnproblemp4551">例1 <a href="https://www.luogu.com.cn/problem/P4551">洛谷P4551 最长异或路径</a></a></li>
+            <li><a href="#例2-cf817e-choosing-the-commanderhttpswwwluogucomcnproblemcf817e">例2 <a href="https://www.luogu.com.cn/problem/CF817E">CF817E Choosing The Commander</a></a></li>
+            <li><a href="#例3-洛谷p6018-ynoi2010-fusion-treehttpswwwluogucomcnproblemp6018">例3 <a href="https://www.luogu.com.cn/problem/P6018">洛谷P6018 [Ynoi2010] Fusion tree</a></a></li>
+            <li><a href="#例4-洛谷p4735-最大异或和httpswwwluogucomcnproblemp4735">例4 <a href="https://www.luogu.com.cn/problem/P4735">洛谷P4735 最大异或和</a></a></li>
+            <li><a href="#例5-cf241b-friendshttpswwwluogucomcnproblemcf241b">例5 <a href="https://www.luogu.com.cn/problem/CF241B">CF241B Friends</a></a></li>
+            <li><a href="#例6-cf1625d-binary-spidershttpscodeforcescomcontest1625problemd">例6 <a href="https://codeforces.com/contest/1625/problem/D">CF1625D Binary Spiders</a></a></li>
+            <li><a href="#例7-cf1665e-minimizorhttpscodeforcescomcontest1665probleme">例7 CF1665E. <a href="https://codeforces.com/contest/1665/problem/E">MinimizOR</a></a></li>
+            <li><a href="#例8-universalcup-12-nxor-reachablehttpsqojaccontest1207problem6330">例8 UniversalCup 12 N.<a href="https://qoj.ac/contest/1207/problem/6330">XOR Reachable</a></a></li>
+          </ul>
+        </li>
+        <li><a href="#参考链接">参考链接</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="介绍">介绍</h2>
+<p>01-Trie 指将整数拆成二进制，然后将二进制以字符串的形式储存在 Trie 中。</p>
+<p><img src="/images/059/1.jpg" alt="img"></p>
+<p>Trie可以解决以下问题：</p>
+<ol>
+<li>
+<p>给定一些数 $a_1,a_2,&hellip;,a_n$，给定 $x$，求 $a_i$，使得 $a_i \text{ xor } x$ 最大。</p>
+</li>
+<li>
+<p>维护异或和：给定一些数，支持全体加一，插入数字，删除数字，求全体异或和等操作。</p>
+</li>
+</ol>
+<p>Trie可以将数字从低位到高位储存，也可以反过来，根据具体题目而定。</p>
+<p>为了方便，我们在写 01Trie 的时候都会把每个数补成同样的位数。</p>
+<p>• 注意 <code>id = 1</code> 的是 Root，所以 <code>id</code> 要从 $1$ 开始。</p>
+<h3 id="维护最大xor">维护最大XOR</h3>
+<p>指第一个例子，这里我们的 01Trie 将会 <strong>从高位到低位</strong> 储存。</p>
+<p>在给定一个查询 $x$ 时，我们从 $x$ 的高位开始看，设当前到了第 $i$ 位，那么我们看第 $i$ 位的bit $a_i$，然后判断一下第 $i$ 位的值为 <code>a[i] ^ 1</code> 的数字是否存在即可，如果存在，往那个方向走，否则往另外一个方向走。</p>
+<details class="admonition note"><summary class="admonition-title">板子</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e5</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>;
+
+<span style="color:#66d9ef">int</span> id <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;  <span style="color:#75715e">// 注意，从 1 开始
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Node</span> {
+    <span style="color:#66d9ef">int</span> cnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">int</span> child[<span style="color:#ae81ff">2</span>];
+} trie[maxn<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">4</span>];
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">insert</span>(<span style="color:#66d9ef">int</span> x) {
+    <span style="color:#66d9ef">int</span> c <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> maxm; j <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>; j<span style="color:#f92672">--</span>) {
+        <span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        <span style="color:#66d9ef">if</span> (x <span style="color:#f92672">&amp;</span> (<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span>j)) k <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>trie[c].child[k]) trie[c].child[k] <span style="color:#f92672">=</span> <span style="color:#f92672">++</span>id;
+
+        c <span style="color:#f92672">=</span> trie[c].child[k];
+        trie[c].cnt<span style="color:#f92672">++</span>;
+    }
+}
+<span style="color:#75715e">// 求 trie中的一个数 a_i, 使得 a_i ^ x 最大
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">query</span>(<span style="color:#66d9ef">int</span> x) {
+    <span style="color:#66d9ef">int</span> c <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">int</span> res <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> maxm; j <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>; j<span style="color:#f92672">--</span>) {
+        <span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        <span style="color:#66d9ef">if</span> (x <span style="color:#f92672">&amp;</span> (<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span>j)) k <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        k <span style="color:#f92672">^=</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">if</span> (trie[c].child[k]) {
+            c <span style="color:#f92672">=</span> trie[c].child[k];
+            res <span style="color:#f92672">|=</span> (<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span>j);
+        } <span style="color:#66d9ef">else</span> {
+            c <span style="color:#f92672">=</span> trie[c].child[k<span style="color:#f92672">^</span><span style="color:#ae81ff">1</span>];
+        }
+    }
+    <span style="color:#66d9ef">return</span> res;
+}
+</code></pre></div></details>
+<h3 id="维护xor和">维护XOR和</h3>
+<p>指第二个例子，这里我们的 01Trie <strong>从低位到高位</strong>储存。</p>
+<p>要维护异或和，我们只需要知道每一位上 $0$ 和 $1$ 个数的奇偶性即可。</p>
+<p>对于每一个节点，我们记录三个量：</p>
+<ol>
+<li>两个子节点的编号</li>
+<li><code>w</code>：指当前这个节点，到它的parent这条边 $(p,u)$ 上，被经过的次数。每有一个数字在插入过程中经过这个边，这个 <code>w</code> 就会加一。</li>
+<li><code>val</code>：指以当前节点为根，它子树内包含的所有数字的 <strong>XOR和</strong>。</li>
+</ol>
+<p>所以维护信息的时候就有：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">push_up</span>(<span style="color:#66d9ef">int</span> cur) {
+    trie[cur].val <span style="color:#f92672">=</span> trie[cur].w <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;  <span style="color:#75715e">// 先清空
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> c0 <span style="color:#f92672">=</span> trie[cur].child[<span style="color:#ae81ff">0</span>], c1 <span style="color:#f92672">=</span> trie[cur].child[<span style="color:#ae81ff">1</span>];
+
+    <span style="color:#75715e">// 更新 w
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> (c0) trie[cur].w <span style="color:#f92672">+=</span> trie[c0].w;
+    <span style="color:#66d9ef">if</span> (c1) trie[cur].w <span style="color:#f92672">+=</span> trie[c1].w;
+
+    <span style="color:#75715e">// 更新 val
+</span><span style="color:#75715e"></span>
+    <span style="color:#66d9ef">if</span> (c0) {
+        trie[cur].val <span style="color:#f92672">^=</span> (trie[c0].val <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">1</span>);
+    }
+    <span style="color:#66d9ef">if</span> (c1) {
+        trie[cur].val <span style="color:#f92672">^=</span> ((trie[c1].val <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">|</span> (trie[c1].w <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">1</span>));  <span style="color:#75715e">// 如果 c1 的 w 为奇数，就提供了 1 的贡献
+</span><span style="color:#75715e"></span>    }
+}
+</code></pre></div><p>解释: 注意是从低位到高位储存的，所以子树内储存的只是数字的二进制的一部分。</p>
+<p>所以要把 <code>val</code> 进行左移。</p>
+<p>也就是说，实际上只有 <strong>根节点</strong> 的 <code>val</code> 是真正有意义的，因为只有根节点才记录的是完整的数字的 XOR和。</p>
+<hr>
+<p>插入和删除就不提了，看代码即可。注意插入删除合并起来，可以达成单点修改的效果。</p>
+<p>最后说一下全局加一。</p>
+<p>全局加一指的是将整个01Trie维护的所有数字都加一。</p>
+<p>在二进制下的加一，相当于从低位到高位找第一个出现的 $0$，然后将其变成 $1$。</p>
+<p>最后，比这一位低的所有位都将会从 $1$ 变成 $0$。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">// add 1 to all numbers maintained by cur
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">addall</span>(<span style="color:#66d9ef">int</span> cur) {
+    swap(trie[cur].child[<span style="color:#ae81ff">0</span>], trie[cur].child[<span style="color:#ae81ff">1</span>]);
+    <span style="color:#66d9ef">if</span> (trie[cur].child[<span style="color:#ae81ff">0</span>]) {
+        addall(trie[cur].child[<span style="color:#ae81ff">0</span>]);
+    }
+    push_up(cur);
+}
+</code></pre></div><details class="admonition note"><summary class="admonition-title">板子</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> M <span style="color:#f92672">=</span> <span style="color:#ae81ff">21</span>;  <span style="color:#75715e">// 最大深度
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> id <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Node</span> {
+    <span style="color:#66d9ef">int</span> w;  <span style="color:#75715e">// 到 parent 这条边上的个数
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> val;  <span style="color:#75715e">// subtree 内的XOR和
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> child[<span style="color:#ae81ff">2</span>];
+} trie[maxn<span style="color:#f92672">*</span>(M<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>)];
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">push_up</span>(<span style="color:#66d9ef">int</span> cur) {
+    trie[cur].val <span style="color:#f92672">=</span> trie[cur].w <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;  <span style="color:#75715e">// 先清空
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> c0 <span style="color:#f92672">=</span> trie[cur].child[<span style="color:#ae81ff">0</span>], c1 <span style="color:#f92672">=</span> trie[cur].child[<span style="color:#ae81ff">1</span>];
+
+    <span style="color:#75715e">// 更新 w
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> (c0) trie[cur].w <span style="color:#f92672">+=</span> trie[c0].w;
+    <span style="color:#66d9ef">if</span> (c1) trie[cur].w <span style="color:#f92672">+=</span> trie[c1].w;
+
+    <span style="color:#75715e">// 更新 val
+</span><span style="color:#75715e"></span>
+    <span style="color:#66d9ef">if</span> (c0) {
+        trie[cur].val <span style="color:#f92672">^=</span> (trie[c0].val <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">1</span>);
+    }
+    <span style="color:#66d9ef">if</span> (c1) {
+        trie[cur].val <span style="color:#f92672">^=</span> ((trie[c1].val <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">|</span> (trie[c1].w <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">1</span>));  <span style="color:#75715e">// 如果 c1 的 w 为奇数，就提供了 1 的贡献
+</span><span style="color:#75715e"></span>    }
+}
+
+<span style="color:#75715e">// cur: index, x: 当前的数字, dep: 深度
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">insert</span>(<span style="color:#66d9ef">int</span><span style="color:#f92672">&amp;</span> cur, <span style="color:#66d9ef">int</span> x, <span style="color:#66d9ef">int</span> dep) {
+    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>cur) cur <span style="color:#f92672">=</span> <span style="color:#f92672">++</span>id;
+    <span style="color:#66d9ef">if</span> (dep <span style="color:#f92672">&gt;=</span> M) {
+        trie[cur].w<span style="color:#f92672">++</span>;  <span style="color:#75715e">// w += 1
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">return</span>;
+    }
+    <span style="color:#66d9ef">int</span> c <span style="color:#f92672">=</span> x <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">1</span>;
+    insert(trie[cur].child[c], (x<span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">1</span>), dep<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>);
+    push_up(cur);
+}
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">del</span>(<span style="color:#66d9ef">int</span><span style="color:#f92672">&amp;</span> cur, <span style="color:#66d9ef">int</span> x, <span style="color:#66d9ef">int</span> dep) {
+    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>cur) cur <span style="color:#f92672">=</span> <span style="color:#f92672">++</span>id;
+    <span style="color:#66d9ef">if</span> (dep <span style="color:#f92672">&gt;=</span> M) {
+        trie[cur].w<span style="color:#f92672">--</span>;  <span style="color:#75715e">// w -= 1
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">return</span>;
+    }
+    <span style="color:#66d9ef">int</span> c <span style="color:#f92672">=</span> x <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">1</span>;
+    insert(trie[cur].child[c], (x<span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">1</span>), dep<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>);
+    push_up(cur);
+}
+
+<span style="color:#75715e">// add 1 to all numbers maintained by cur
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">addall</span>(<span style="color:#66d9ef">int</span> cur) {
+    swap(trie[cur].child[<span style="color:#ae81ff">0</span>], trie[cur].child[<span style="color:#ae81ff">1</span>]);
+    <span style="color:#66d9ef">if</span> (trie[cur].child[<span style="color:#ae81ff">0</span>]) {
+        addall(trie[cur].child[<span style="color:#ae81ff">0</span>]);
+    }
+    push_up(cur);
+}
+</code></pre></div></details>
+<h3 id="可持久化01-trie">可持久化01-Trie</h3>
+<p>和主席树相似，可持久化01-Trie主要是为了让我们获得任何一个区间 $[L,R]$ 内组成的 01-Trie。</p>
+<p>使用 Node 的 <code>cnt</code> 来决定 01-Trie 的内容。</p>
+<details class="admonition note"><summary class="admonition-title">板子</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">6e5</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> M <span style="color:#f92672">=</span> <span style="color:#ae81ff">28</span>;
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Node</span> {
+    <span style="color:#66d9ef">int</span> cnt;
+    <span style="color:#66d9ef">int</span> child[<span style="color:#ae81ff">2</span>];
+} trie[maxn <span style="color:#f92672">*</span> (M<span style="color:#f92672">+</span><span style="color:#ae81ff">3</span>)];
+<span style="color:#66d9ef">int</span> n, q, root[maxn], a[maxn], id;
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">insert</span>(<span style="color:#66d9ef">int</span> pre, <span style="color:#66d9ef">int</span> cur, <span style="color:#66d9ef">int</span> x) {
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> M; i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>; i<span style="color:#f92672">--</span>) {
+        <span style="color:#66d9ef">int</span> c <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        <span style="color:#66d9ef">if</span> (x <span style="color:#f92672">&amp;</span> (<span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> i)) c <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        trie[cur].cnt <span style="color:#f92672">=</span> trie[pre].cnt <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;  <span style="color:#75715e">// cnt 加一
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>trie[cur].child[c]) trie[cur].child[c] <span style="color:#f92672">=</span> <span style="color:#f92672">++</span>id;  <span style="color:#75715e">// 新建节点
+</span><span style="color:#75715e"></span>        trie[cur].child[c<span style="color:#f92672">^</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> trie[pre].child[c<span style="color:#f92672">^</span><span style="color:#ae81ff">1</span>];  <span style="color:#75715e">// 复制另外一个子节点
+</span><span style="color:#75715e"></span>        cur <span style="color:#f92672">=</span> trie[cur].child[c];
+        pre <span style="color:#f92672">=</span> trie[pre].child[c];
+    }
+    trie[cur].cnt <span style="color:#f92672">=</span> trie[pre].cnt <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+}
+
+<span style="color:#75715e">// find the maximum value for a ^ x (a is in [pre, cur])
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">query</span>(<span style="color:#66d9ef">int</span> pre, <span style="color:#66d9ef">int</span> cur, <span style="color:#66d9ef">int</span> x) {
+    <span style="color:#66d9ef">int</span> res <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> M; i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>; i<span style="color:#f92672">--</span>) {
+        <span style="color:#66d9ef">int</span> c <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        <span style="color:#66d9ef">if</span> (x <span style="color:#f92672">&amp;</span> (<span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> i)) c <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        c <span style="color:#f92672">^=</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">if</span> (trie[trie[cur].child[c]].cnt <span style="color:#f92672">-</span> trie[trie[pre].child[c]].cnt) {  <span style="color:#75715e">// cnt &gt; 0
+</span><span style="color:#75715e"></span>            cur <span style="color:#f92672">=</span> trie[cur].child[c];
+            pre <span style="color:#f92672">=</span> trie[pre].child[c];
+            res <span style="color:#f92672">|=</span> (<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span>i);
+        } <span style="color:#66d9ef">else</span> {
+            cur <span style="color:#f92672">=</span> trie[cur].child[c<span style="color:#f92672">^</span><span style="color:#ae81ff">1</span>];
+            pre <span style="color:#f92672">=</span> trie[pre].child[c<span style="color:#f92672">^</span><span style="color:#ae81ff">1</span>];
+        }
+    }
+    <span style="color:#66d9ef">return</span> res;
+}
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        cin <span style="color:#f92672">&gt;&gt;</span> a[i]; sum[i] <span style="color:#f92672">=</span> sum[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">^</span> a[i];
+        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>root[i]) root[i] <span style="color:#f92672">=</span> <span style="color:#f92672">++</span>id;
+        insert(root[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>], root[i], sum[i]);
+    }
+    <span style="color:#75715e">// 查询 [L,R] -&gt; (l-1,r)
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> res <span style="color:#f92672">=</span> query(root[max(<span style="color:#ae81ff">0</span>,l<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)], root[r], x);
+}
+</code></pre></div></details>
+<h2 id="例题">例题</h2>
+<h3 id="例1-洛谷p4551-最长异或路径httpswwwluogucomcnproblemp4551">例1 <a href="https://www.luogu.com.cn/problem/P4551" target="_blank">洛谷P4551 最长异或路径</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个 $n$ 个节点的树，边上有权值。</p>
+<p>寻找树上的两个节点，使得路径上的边权 XOR和 最大，输出这个最大值。</p>
+<p>其中，$n \leq 10^5$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>常见套路：设 $f_x$ 为从 $1$（根节点）到 $x$ 的路径上的 XOR和。</p>
+<p>那么 $(u,v)$ 路径上的 XOR和 就等于 $f_u \text{ xor } f_v$。因为 $1$ 到 $LCA(u,v)$ 的部分被抵消掉了。</p>
+<p>所以就相当于建立一个 01Trie，储存所有的 $f_u$，然后对于每个 $u$，都询问一下最大的XOR即可。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> ll mod <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e9</span><span style="color:#f92672">+</span><span style="color:#ae81ff">7</span>;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e5</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxm <span style="color:#f92672">=</span> <span style="color:#ae81ff">30</span>;
+
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Edge</span> {
+    <span style="color:#66d9ef">int</span> to, nxt, w;
+} edges[maxn<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>];
+<span style="color:#66d9ef">int</span> head[maxn], ecnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, n;
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">addEdge</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> v, <span style="color:#66d9ef">int</span> w) {
+    Edge e <span style="color:#f92672">=</span> {v, head[u], w};
+    edges[ecnt] <span style="color:#f92672">=</span> e;
+    head[u] <span style="color:#f92672">=</span> ecnt<span style="color:#f92672">++</span>;
+}
+<span style="color:#66d9ef">int</span> dp[maxn];
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">dfs</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> p) {
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> e <span style="color:#f92672">=</span> head[u]; e; e <span style="color:#f92672">=</span> edges[e].nxt) {
+        <span style="color:#66d9ef">int</span> to <span style="color:#f92672">=</span> edges[e].to;
+        <span style="color:#66d9ef">if</span> (to <span style="color:#f92672">==</span> p) <span style="color:#66d9ef">continue</span>;
+        dp[to] <span style="color:#f92672">=</span> dp[u] <span style="color:#f92672">^</span> edges[e].w;
+        dfs(to, u);
+    }
+}
+
+<span style="color:#66d9ef">int</span> id <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Node</span> {
+    <span style="color:#66d9ef">int</span> cnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">int</span> child[<span style="color:#ae81ff">2</span>];
+} trie[maxn<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">4</span>];
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">insert</span>(<span style="color:#66d9ef">int</span> x) {
+    <span style="color:#66d9ef">int</span> c <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> maxm; j <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>; j<span style="color:#f92672">--</span>) {
+        <span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        <span style="color:#66d9ef">if</span> (x <span style="color:#f92672">&amp;</span> (<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span>j)) k <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>trie[c].child[k]) trie[c].child[k] <span style="color:#f92672">=</span> <span style="color:#f92672">++</span>id;
+
+        c <span style="color:#f92672">=</span> trie[c].child[k];
+        trie[c].cnt<span style="color:#f92672">++</span>;
+    }
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">query</span>(<span style="color:#66d9ef">int</span> x) {
+    <span style="color:#66d9ef">int</span> c <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">int</span> res <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> maxm; j <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>; j<span style="color:#f92672">--</span>) {
+        <span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        <span style="color:#66d9ef">if</span> (x <span style="color:#f92672">&amp;</span> (<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span>j)) k <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        k <span style="color:#f92672">^=</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">if</span> (trie[c].child[k]) {
+            c <span style="color:#f92672">=</span> trie[c].child[k];
+            res <span style="color:#f92672">|=</span> (<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span>j);
+        } <span style="color:#66d9ef">else</span> {
+            c <span style="color:#f92672">=</span> trie[c].child[k<span style="color:#f92672">^</span><span style="color:#ae81ff">1</span>];
+        }
+    }
+    <span style="color:#66d9ef">return</span> res;
+}
+
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    fastio;
+    cin <span style="color:#f92672">&gt;&gt;</span> n;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>; i<span style="color:#f92672">++</span>)     {
+        <span style="color:#66d9ef">int</span> u,v,w; cin <span style="color:#f92672">&gt;&gt;</span> u <span style="color:#f92672">&gt;&gt;</span> v <span style="color:#f92672">&gt;&gt;</span> w;
+        addEdge(u,v,w); addEdge(v,u,w);
+    }
+    dfs(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>);
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) insert(dp[i]);
+    <span style="color:#66d9ef">int</span> ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        ans <span style="color:#f92672">=</span> max(ans, query(dp[i]));
+    }
+    cout <span style="color:#f92672">&lt;&lt;</span> ans <span style="color:#f92672">&lt;&lt;</span> endl;
+}
+</code></pre></div></details>
+<h3 id="例2-cf817e-choosing-the-commanderhttpswwwluogucomcnproblemcf817e">例2 <a href="https://www.luogu.com.cn/problem/CF817E" target="_blank">CF817E Choosing The Commander</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $q$ 个询问，共有3种：</p>
+<p>$1 ~ p$：将 $p$ 加入集合。</p>
+<p>$2 ~ p$：将 $p$ 从集合中删除。</p>
+<p>$3 ~ p ~ l$：询问集合中有多少个元素在 XOR $p$ 之后小于 $l$。</p>
+<p>其中，$q \leq 10^5$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>在 01-Trie 每个节点处加上一个 count 就可以了。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">2e5</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxm <span style="color:#f92672">=</span> <span style="color:#ae81ff">27</span>;
+ 
+<span style="color:#66d9ef">int</span> Q, id <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Node</span> {
+    <span style="color:#66d9ef">int</span> child[<span style="color:#ae81ff">2</span>];
+    <span style="color:#66d9ef">int</span> cnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+} trie[maxn<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">3</span>];
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">insert</span>(<span style="color:#66d9ef">int</span> x) {
+    <span style="color:#66d9ef">int</span> c <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> maxm; j <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>; j<span style="color:#f92672">--</span>) {
+        <span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        <span style="color:#66d9ef">if</span> (x <span style="color:#f92672">&amp;</span> (<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span>j)) k <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>trie[c].child[k]) trie[c].child[k] <span style="color:#f92672">=</span> <span style="color:#f92672">++</span>id;
+        c <span style="color:#f92672">=</span> trie[c].child[k];
+        trie[c].cnt<span style="color:#f92672">++</span>;
+    }
+}
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">del</span>(<span style="color:#66d9ef">int</span> x) {
+    <span style="color:#66d9ef">int</span> c <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> maxm; j <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>; j<span style="color:#f92672">--</span>) {
+        <span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        <span style="color:#66d9ef">if</span> (x <span style="color:#f92672">&amp;</span> (<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span>j)) k <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>trie[c].child[k]) trie[c].child[k] <span style="color:#f92672">=</span> <span style="color:#f92672">++</span>id;
+        c <span style="color:#f92672">=</span> trie[c].child[k];
+        trie[c].cnt<span style="color:#f92672">--</span>;
+    }
+}
+ 
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">query</span>(<span style="color:#66d9ef">int</span> p, <span style="color:#66d9ef">int</span> l) {
+    <span style="color:#66d9ef">int</span> c <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">int</span> res <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> maxm; j <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>; j<span style="color:#f92672">--</span>) {
+        <span style="color:#66d9ef">if</span> (l <span style="color:#f92672">&amp;</span> (<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span>j)) {  <span style="color:#75715e">// 如果这一位有，说明要往这一位为 1 的方向走
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> ((p <span style="color:#f92672">&amp;</span> (<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span>j)) <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>);
+            res <span style="color:#f92672">+=</span> trie[trie[c].child[k]].cnt;
+            <span style="color:#66d9ef">if</span> (trie[trie[c].child[k<span style="color:#f92672">^</span><span style="color:#ae81ff">1</span>]].cnt) c <span style="color:#f92672">=</span> trie[c].child[k<span style="color:#f92672">^</span><span style="color:#ae81ff">1</span>];
+            <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">break</span>;
+        } <span style="color:#66d9ef">else</span> {  <span style="color:#75715e">// 如果这一位没有，就往 0 的方向走
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> ((p <span style="color:#f92672">&amp;</span> (<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span>j)) <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>);
+            <span style="color:#66d9ef">if</span> (trie[trie[c].child[k]].cnt) c <span style="color:#f92672">=</span> trie[c].child[k];
+            <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">break</span>;
+        }
+    }
+    <span style="color:#66d9ef">return</span> res;
+}
+ 
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    fastio;
+    cin <span style="color:#f92672">&gt;&gt;</span> Q;
+    <span style="color:#66d9ef">while</span> (Q<span style="color:#f92672">--</span>) {
+        <span style="color:#66d9ef">int</span> op, p, l;
+        cin <span style="color:#f92672">&gt;&gt;</span> op <span style="color:#f92672">&gt;&gt;</span> p;
+        <span style="color:#66d9ef">if</span> (op <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>) {
+            insert(p);
+        } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (op <span style="color:#f92672">==</span> <span style="color:#ae81ff">2</span>) {
+            del(p);
+        } <span style="color:#66d9ef">else</span> {
+            cin <span style="color:#f92672">&gt;&gt;</span> l;
+            <span style="color:#66d9ef">int</span> res <span style="color:#f92672">=</span> query(p,l);
+            cout <span style="color:#f92672">&lt;&lt;</span> res <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+        }
+    }
+}
+</code></pre></div></details>
+<h3 id="例3-洛谷p6018-ynoi2010-fusion-treehttpswwwluogucomcnproblemp6018">例3 <a href="https://www.luogu.com.cn/problem/P6018" target="_blank">洛谷P6018 [Ynoi2010] Fusion tree</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一棵 $n$ 个节点的树，每个节点 $i$ 上有权值，初始权值为 $a_i$。</p>
+<p>给出 $m$ 个询问，询问的类型有3种：</p>
+<p>$1 ~ x$：将所有与节点 $x$ 距离为 $1$ 的节点的权值加一。</p>
+<p>$2 ~ x ~ v$：将节点 $x$ 的权值减去 $v$。</p>
+<p>$3 ~ x$：询问所有与节点 $x$ 距离为 $1$ 的节点权值的XOR和。</p>
+<p>其中，$n,m \leq 5 \times 10^5$，初始权值 $\leq 10^5$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>这里是 01-Trie 用来维护XOR和。</p>
+<p>我们可以对于<strong>每一个节点</strong>，都把它的孩子（距离为 $1$）的XOR和 维护在一个 01Trie里面。</p>
+<p>因为 01-Trie 是动态开点的，所以总共复杂度也就 $n\log(10^5)$。</p>
+<p>然后因为每个节点都只有一个 parent，就单独维护即可。</p>
+<p>然后对于操作 $1 ~ x$，我们需要做的几件事：</p>
+<ol>
+<li>单独更新 $x$ 的parent。</li>
+<li>给 $x$ 打上一个懒标记，代表它要给它的孩子加上 $lazy$ 的值。</li>
+<li>在 $x$ 维护的 01-Trie 上进行全体加一操作。</li>
+</ol>
+<p>然后在每次操作之前，都先检查一下 $parent$ 的懒标记，将其下放。</p>
+<p>当然这里的下放不太一样，一个节点可能有非常多个孩子，所以我们选择给每一个节点 $x$ 都定义一个值 <code>add[x]</code>，代表它已经从parent那里得到了多少下放的懒标记。</p>
+<p>然后就给 $x$ 的权值加上 <code>(lazy[p] - add[x])</code>。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">5e5</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> M <span style="color:#f92672">=</span> <span style="color:#ae81ff">21</span>;  <span style="color:#75715e">// 最大深度
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">int</span> id <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Node</span> {
+    <span style="color:#66d9ef">int</span> w;  <span style="color:#75715e">// 到 parent 这条边上的个数
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> val;  <span style="color:#75715e">// subtree 内的XOR和
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> child[<span style="color:#ae81ff">2</span>];
+} trie[maxn<span style="color:#f92672">*</span>(M<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>)];
+<span style="color:#66d9ef">int</span> root[maxn], lazy[maxn], add[maxn];
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">push_up</span>(<span style="color:#66d9ef">int</span> cur) {
+    trie[cur].val <span style="color:#f92672">=</span> trie[cur].w <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;  <span style="color:#75715e">// 先清空
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> c0 <span style="color:#f92672">=</span> trie[cur].child[<span style="color:#ae81ff">0</span>], c1 <span style="color:#f92672">=</span> trie[cur].child[<span style="color:#ae81ff">1</span>];
+
+    <span style="color:#75715e">// 更新 w
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> (c0) trie[cur].w <span style="color:#f92672">+=</span> trie[c0].w;
+    <span style="color:#66d9ef">if</span> (c1) trie[cur].w <span style="color:#f92672">+=</span> trie[c1].w;
+
+    <span style="color:#75715e">// 更新 val
+</span><span style="color:#75715e"></span>
+    <span style="color:#66d9ef">if</span> (c0) {
+        trie[cur].val <span style="color:#f92672">^=</span> (trie[c0].val <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">1</span>);
+    }
+    <span style="color:#66d9ef">if</span> (c1) {
+        trie[cur].val <span style="color:#f92672">^=</span> ((trie[c1].val <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">|</span> (trie[c1].w <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">1</span>));  <span style="color:#75715e">// 如果 c1 的 w 为奇数，就提供了 1 的贡献
+</span><span style="color:#75715e"></span>    }
+}
+
+<span style="color:#75715e">// cur: index, x: 当前的数字, dep: 深度
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">insert</span>(<span style="color:#66d9ef">int</span><span style="color:#f92672">&amp;</span> cur, <span style="color:#66d9ef">int</span> x, <span style="color:#66d9ef">int</span> dep) {
+    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>cur) cur <span style="color:#f92672">=</span> <span style="color:#f92672">++</span>id;
+    <span style="color:#66d9ef">if</span> (dep <span style="color:#f92672">&gt;=</span> M) {
+        trie[cur].w<span style="color:#f92672">++</span>;
+        <span style="color:#66d9ef">return</span>;
+    }
+    <span style="color:#66d9ef">int</span> c <span style="color:#f92672">=</span> x <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">1</span>;
+    insert(trie[cur].child[c], (x<span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">1</span>), dep<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>);
+    push_up(cur);
+}
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">del</span>(<span style="color:#66d9ef">int</span><span style="color:#f92672">&amp;</span> cur, <span style="color:#66d9ef">int</span> x, <span style="color:#66d9ef">int</span> dep) {
+    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>cur) cur <span style="color:#f92672">=</span> <span style="color:#f92672">++</span>id;
+    <span style="color:#66d9ef">if</span> (dep <span style="color:#f92672">&gt;=</span> M) {
+        trie[cur].w<span style="color:#f92672">--</span>;
+        <span style="color:#66d9ef">return</span>;
+    }
+    <span style="color:#66d9ef">int</span> c <span style="color:#f92672">=</span> x <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">1</span>;
+    insert(trie[cur].child[c], (x<span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">1</span>), dep<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>);
+    push_up(cur);
+}
+
+<span style="color:#75715e">// add 1 to all numbers maintained by cur
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">addall</span>(<span style="color:#66d9ef">int</span> cur) {
+    swap(trie[cur].child[<span style="color:#ae81ff">0</span>], trie[cur].child[<span style="color:#ae81ff">1</span>]);
+    <span style="color:#66d9ef">if</span> (trie[cur].child[<span style="color:#ae81ff">0</span>]) {
+        addall(trie[cur].child[<span style="color:#ae81ff">0</span>]);
+    }
+    push_up(cur);
+}
+
+<span style="color:#66d9ef">int</span> n, m, a[maxn], par[maxn];
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Edge</span> {
+    <span style="color:#66d9ef">int</span> to, nxt;
+} edges[maxn<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>];
+<span style="color:#66d9ef">int</span> head[maxn], ecnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">addEdge</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> v) {
+    Edge e <span style="color:#f92672">=</span> {v, head[u]};
+    head[u] <span style="color:#f92672">=</span> ecnt;
+    edges[ecnt<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> e;
+}
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">dfs</span>(<span style="color:#66d9ef">int</span> u) {
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> e <span style="color:#f92672">=</span> head[u]; e; e <span style="color:#f92672">=</span> edges[e].nxt) {
+        <span style="color:#66d9ef">int</span> to <span style="color:#f92672">=</span> edges[e].to;
+        <span style="color:#66d9ef">if</span> (to <span style="color:#f92672">==</span> par[u]) <span style="color:#66d9ef">continue</span>;
+        par[to] <span style="color:#f92672">=</span> u;
+        insert(root[u], a[to], <span style="color:#ae81ff">0</span>);
+        dfs(to);
+    }
+}
+
+<span style="color:#75715e">// modify u to have the value val
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">modify</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> val) {
+    <span style="color:#75715e">// a[u] is previous value
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> p <span style="color:#f92672">=</span> par[u];
+    <span style="color:#66d9ef">if</span> (p) {
+        del(root[p], a[u], <span style="color:#ae81ff">0</span>);
+        insert(root[p], val, <span style="color:#ae81ff">0</span>);
+    }
+    a[u] <span style="color:#f92672">=</span> val;
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    fastio;
+    cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> m;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">int</span> u,v; cin <span style="color:#f92672">&gt;&gt;</span> u <span style="color:#f92672">&gt;&gt;</span> v;
+        addEdge(u,v); addEdge(v,u);
+    }
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        cin <span style="color:#f92672">&gt;&gt;</span> a[i];
+    }
+    dfs(<span style="color:#ae81ff">1</span>);
+
+    <span style="color:#66d9ef">while</span> (m<span style="color:#f92672">--</span>) {
+        <span style="color:#66d9ef">int</span> op, x; cin <span style="color:#f92672">&gt;&gt;</span> op <span style="color:#f92672">&gt;&gt;</span> x;
+        <span style="color:#66d9ef">if</span> (op <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>) {
+            addall(root[x]);
+            <span style="color:#66d9ef">int</span> p <span style="color:#f92672">=</span> par[x];
+            <span style="color:#66d9ef">if</span> (p) {
+                a[p] <span style="color:#f92672">=</span> a[p] <span style="color:#f92672">+</span> lazy[par[p]] <span style="color:#f92672">-</span> add[p];
+                add[p] <span style="color:#f92672">=</span> lazy[par[p]];
+                modify(par[x], a[p] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>);
+            }
+            lazy[x]<span style="color:#f92672">++</span>;
+        }
+        <span style="color:#66d9ef">if</span> (op <span style="color:#f92672">==</span> <span style="color:#ae81ff">2</span>) {
+            <span style="color:#66d9ef">int</span> v; cin <span style="color:#f92672">&gt;&gt;</span> v;
+            a[x] <span style="color:#f92672">=</span> a[x] <span style="color:#f92672">+</span> lazy[par[x]] <span style="color:#f92672">-</span> add[x];
+            add[x] <span style="color:#f92672">=</span> lazy[par[x]];
+            modify(x, a[x] <span style="color:#f92672">-</span> v);
+        }
+        <span style="color:#66d9ef">if</span> (op <span style="color:#f92672">==</span> <span style="color:#ae81ff">3</span>) {
+            <span style="color:#66d9ef">int</span> res <span style="color:#f92672">=</span> trie[root[x]].val;
+            <span style="color:#66d9ef">int</span> p <span style="color:#f92672">=</span> par[x];
+            <span style="color:#66d9ef">if</span> (p) {
+                a[p] <span style="color:#f92672">=</span> a[p] <span style="color:#f92672">+</span> lazy[par[p]] <span style="color:#f92672">-</span> add[p];
+                add[p] <span style="color:#f92672">=</span> lazy[par[p]];
+                res <span style="color:#f92672">^=</span> a[p];
+            }
+            cout <span style="color:#f92672">&lt;&lt;</span> res <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+        }
+    }
+}
+</code></pre></div></details>
+<h3 id="例4-洛谷p4735-最大异或和httpswwwluogucomcnproblemp4735">例4 <a href="https://www.luogu.com.cn/problem/P4735" target="_blank">洛谷P4735 最大异或和</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个非负整数序列 $a_1,a_2,&hellip;,a_n$。</p>
+<p>现给定 $m$ 个操作，有以下两种操作类型：</p>
+<p>$A ~ x$：在序列末尾添加一个数 $x$。</p>
+<p>$Q ~ L ~ R ~ x$：输出一个位置 $p$，满足 $p \in [L,R]$，使得 $a_p \bigoplus a_{p+1} \bigoplus &hellip; \bigoplus a_n \bigoplus x$ 最大。</p>
+<p>其中，$n,m \leq 3 \times 10^5, a_i \in [0,10^7]$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>可持久化 01-Trie 的模版题。</p>
+<p>首先，先考虑前缀XOR数组 $s_i = a_1 \bigoplus a_2 \bigoplus &hellip; \bigoplus a_i$。</p>
+<p>那么</p>
+<p>$$a_p \bigoplus a_{p+1} \bigoplus &hellip; \bigoplus a_n \bigoplus x = (s_n \bigoplus s_{p-1}) \bigoplus x$$</p>
+<p>所以现在问题就变成：</p>
+<p>每次询问 $Q ~ L ~ R ~ x$，输出一个位置 $p$，满足 $p \in [L-1,R-1]$，使得 $(s_n \bigoplus s_{p-1}) \bigoplus x$ 最大。</p>
+<p>那就很简单了，令 $y = s_n \bigoplus x$，剩下的就是在一个区间 $[L-1,R-1]$ 内找出一个元素 $s_p$ 使得 $s_p \bigoplus y$ 最大。</p>
+<p>对于每一个区间都可以用 01-Trie 解决的问题，就是可持久化 01-Trie了。</p>
+<hr>
+<p>最后需要注意一下这个样例：</p>
+<pre tabindex="0"><code>4 1
+2 4 8 16
+Q 1 4 1
+</code></pre><p>答案应为 $31$，但我输出 $29$。</p>
+<p>这是因为我们要单独处理一下 $s_0$ 的情况。换而言之我们要将 $s_0 = 0$ 插入到 <code>root[1]</code> 当中。</p>
+<p>所以 <code>root[1]</code> 需要包含 $2$ 个元素：$s_0,s_1$。</p>
+<p>对于一个版本插入 $2$ 个元素，只要在第二次插入时使用 <code>insert(root[1], root[1], 0)</code> 即可。</p>
+<p>最后再注意一下一些边界条件如 $[L-1,R-1]=[0,0]$ 即可。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">6e5</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> M <span style="color:#f92672">=</span> <span style="color:#ae81ff">28</span>;
+
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Node</span> {
+    <span style="color:#66d9ef">int</span> cnt;
+    <span style="color:#66d9ef">int</span> child[<span style="color:#ae81ff">2</span>];
+} trie[maxn <span style="color:#f92672">*</span> (M<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>)];
+<span style="color:#66d9ef">int</span> sum[maxn];  <span style="color:#75715e">// sum[n] 代表 a[1] ^ a[2] ... ^ a[n]
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> n, q, root[maxn], a[maxn], id;
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">insert</span>(<span style="color:#66d9ef">int</span> pre, <span style="color:#66d9ef">int</span> cur, <span style="color:#66d9ef">int</span> x) {
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> M; i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>; i<span style="color:#f92672">--</span>) {
+        <span style="color:#66d9ef">int</span> c <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        <span style="color:#66d9ef">if</span> (x <span style="color:#f92672">&amp;</span> (<span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> i)) c <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        trie[cur].cnt <span style="color:#f92672">=</span> trie[pre].cnt <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;  <span style="color:#75715e">// cnt 加一
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>trie[cur].child[c]) trie[cur].child[c] <span style="color:#f92672">=</span> <span style="color:#f92672">++</span>id;  <span style="color:#75715e">// 新建节点
+</span><span style="color:#75715e"></span>        trie[cur].child[c<span style="color:#f92672">^</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> trie[pre].child[c<span style="color:#f92672">^</span><span style="color:#ae81ff">1</span>];  <span style="color:#75715e">// 复制另外一个子节点
+</span><span style="color:#75715e"></span>        cur <span style="color:#f92672">=</span> trie[cur].child[c];
+        pre <span style="color:#f92672">=</span> trie[pre].child[c];
+    }
+    trie[cur].cnt <span style="color:#f92672">=</span> trie[pre].cnt <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+}
+
+<span style="color:#75715e">// find the maximum value for a ^ x (a is in [pre, cur])
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">query</span>(<span style="color:#66d9ef">int</span> pre, <span style="color:#66d9ef">int</span> cur, <span style="color:#66d9ef">int</span> x) {
+    <span style="color:#66d9ef">int</span> res <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> M; i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>; i<span style="color:#f92672">--</span>) {
+        <span style="color:#66d9ef">int</span> c <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        <span style="color:#66d9ef">if</span> (x <span style="color:#f92672">&amp;</span> (<span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> i)) c <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        c <span style="color:#f92672">^=</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">if</span> (trie[trie[cur].child[c]].cnt <span style="color:#f92672">-</span> trie[trie[pre].child[c]].cnt) {  <span style="color:#75715e">// cnt &gt; 0
+</span><span style="color:#75715e"></span>            cur <span style="color:#f92672">=</span> trie[cur].child[c];
+            pre <span style="color:#f92672">=</span> trie[pre].child[c];
+            res <span style="color:#f92672">|=</span> (<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span>i);
+        } <span style="color:#66d9ef">else</span> {
+            cur <span style="color:#f92672">=</span> trie[cur].child[c<span style="color:#f92672">^</span><span style="color:#ae81ff">1</span>];
+            pre <span style="color:#f92672">=</span> trie[pre].child[c<span style="color:#f92672">^</span><span style="color:#ae81ff">1</span>];
+        }
+    }
+    <span style="color:#66d9ef">return</span> res;
+}
+
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    fastio;
+    cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> q;
+
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        cin <span style="color:#f92672">&gt;&gt;</span> a[i]; sum[i] <span style="color:#f92672">=</span> sum[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">^</span> a[i];
+        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>root[i]) root[i] <span style="color:#f92672">=</span> <span style="color:#f92672">++</span>id;
+        insert(root[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>], root[i], sum[i]);
+        <span style="color:#66d9ef">if</span> (i <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>) insert(root[<span style="color:#ae81ff">1</span>], root[<span style="color:#ae81ff">1</span>], <span style="color:#ae81ff">0</span>);
+    }
+    <span style="color:#66d9ef">while</span> (q<span style="color:#f92672">--</span>) {
+        <span style="color:#66d9ef">char</span> op; cin <span style="color:#f92672">&gt;&gt;</span> op;
+        <span style="color:#66d9ef">if</span> (op <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;A&#39;</span>) {
+            <span style="color:#66d9ef">int</span> x; cin <span style="color:#f92672">&gt;&gt;</span> x;
+            a[<span style="color:#f92672">++</span>n] <span style="color:#f92672">=</span> x;
+            sum[n] <span style="color:#f92672">=</span> sum[n<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">^</span> a[n];
+            <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>root[n]) root[n] <span style="color:#f92672">=</span> <span style="color:#f92672">++</span>id;
+            insert(root[n<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>], root[n], sum[n]);
+        } <span style="color:#66d9ef">else</span> {
+            <span style="color:#66d9ef">int</span> l,r,x; cin <span style="color:#f92672">&gt;&gt;</span> l <span style="color:#f92672">&gt;&gt;</span> r <span style="color:#f92672">&gt;&gt;</span> x;
+            l<span style="color:#f92672">--</span>; r<span style="color:#f92672">--</span>;
+            x <span style="color:#f92672">^=</span> (sum[n]);
+            <span style="color:#66d9ef">if</span> (l <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> r <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+                cout <span style="color:#f92672">&lt;&lt;</span> x <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>; <span style="color:#66d9ef">continue</span>;
+            }
+            <span style="color:#66d9ef">int</span> res <span style="color:#f92672">=</span> query(root[max(<span style="color:#ae81ff">0</span>,l<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)], root[r], x);
+            cout <span style="color:#f92672">&lt;&lt;</span> res <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+        }
+    }
+}
+</code></pre></div></details>
+<h3 id="例5-cf241b-friendshttpswwwluogucomcnproblemcf241b">例5 <a href="https://www.luogu.com.cn/problem/CF241B" target="_blank">CF241B Friends</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个长度为 $n$ 的非负整数数组 $a_1,a_2,&hellip;,a_n$。</p>
+<p>现在选择 $m$ 个pair $(i,j)$，使得这 $m$ 个pair 对应的 $a_i \text{ xor } a_j$ 值的 sum 最大。</p>
+<p>其中，$n \leq 5 \times 10^4, a_i \leq 10^9$，答案对 $10^9+7$ 取模。</p>
+<p>• $(i,j)$ 和 $(j,i)$ 算作一个 pair。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>神仙题。</p>
+<p>本题要求的是前 $m$ 大的XOR pair的和。</p>
+<p>我们先列出本题的过程：</p>
+<ol>
+<li>求出第 $m$ 大。</li>
+<li>求出 XOR 小于等于 $x$ 的所有pair的和。</li>
+<li>对于一个区间 $[L,R]$，在 $O(1)$ 求出 $\sum\limits_{i=L}^R y \text{ xor } a_i$。</li>
+</ol>
+<hr>
+<p>第一步：求第 $m$ 大</p>
+<p>• 虽然 $(i,j)$ 和 $(j,i)$ 算作一个 pair，但我们只要把所有东西都乘以 $2$ 就行了。所以我们求第 $2m$ 大。</p>
+<p>最简单粗暴的方法当然是二分最终的结果 $x$，然后对于每一个 $a_i$，判断一下在 Trie 中有多少个数字和它 XOR 起来 $\geq x$，把这些 count 累加起来然后查看 <code>count &gt;= 2m</code> 与否，来调整 $x$ 的值。</p>
+<p>这样的时间复杂度是 $O(n\log^2 10^9)$，本题可过，但是<a href="https://www.luogu.com.cn/problem/P5283" target="_blank">另外一个版本</a>不可过。</p>
+<p>于是我们思考一下能不能直接在 Trie 上模拟这个二分的过程来构建最终的结果 $x$。</p>
+<p>发现是可以的，我们从高位到低位，枚举每一位取 $1$ 还是 取 $0$。</p>
+<p>然后我们对于每一个 $a_i$ 都判断一下 count 的总和，如果 <code>count &gt;= 2m</code>，则说明这一位可以取 $1$。否则的话需要取 $0$，同时问题变成寻找第 $2m - count$ 大（有点类似于主席树寻找第 $k$ 大的思路）。</p>
+<p>• 这个过程是在所有 $a_i$ 上进行的，所以我们维护 $n$ 个指针 <code>ptr[]</code> 代表 $a_i$ 目前在 Trie 的什么位置。</p>
+<p>复杂度为 $O(n\log 10^9)$。</p>
+<hr>
+<p>第二步：求出 XOR 小于等于 $x$ 的所有pair的和</p>
+<p>如果这个问题不是求出和，而是求出个数的话，就是例 $2$ 的问题了。</p>
+<p>可惜不是，那怎么处理？</p>
+<p>一样，我们从每个 $a_i$ 开始进行 check，对于每一个 Trie 上的节点，我们可以维护一个 <code>cnt[31]</code>，其中 <code>cnt[j]</code> 代表当前Trie节点的子树里有多少个数字满足第 $j$ 位为 $1$。</p>
+<p>这样当然可以算，但是空间复杂度 $O(n\log^2 10^9)$，本题或许可过，但另外一个版本仍然不可过。</p>
+<p>我们这里给出一个非常优秀的结论：</p>
+<blockquote>
+<p>如果 $a_i$ 是 <strong>sorted</strong> 的，那么 Trie 上任意一个节点的子树 对应 $a_i$ 上的一段连续区间。</p>
+</blockquote>
+<p>这个也不难理解，因为 Trie 的一个子树对应的是拥有一个 &ldquo;特定前缀&rdquo; （如 &ldquo;1101&rdquo;）的所有数字的集合。</p>
+<p>有了这个结论以后，我们在枚举 $a_i$ 时，假设我们目前到了第 $j$ 位，就分两种情况：</p>
+<ol>
+<li>$x$ 的第 $j$ 位为 $1$：那么我们就往 $1$ 的方向走。</li>
+<li>$x$ 的第 $j$ 位为 $0$：我们把 $a_i$ XOR 上 $1$ 的那个子树，求出sum，给答案加上，然后往 $0$ 的方向走。</li>
+</ol>
+<p>注意到 $a_i$ XOR 上一个子树的 sum，可以转化成一个区间上的问题，那么就有第三步：</p>
+<hr>
+<p>第三步：对于一个区间 $[L,R]$，在 $O(1)$ 求出 $\sum\limits_{i=L}^R y \text{ xor } a_i$。</p>
+<p>由于 $a_i$ 总共有 $n$ 个，所以不能直接求前缀和。</p>
+<p>但我们可以把区间内的每个数都 <strong>拆成二进制</strong>。</p>
+<p>然后对于拆开的二进制，每一位分别 XOR 上 $0$ 和 $1$，然后都进行一个前缀和。</p>
+<p>这样给定一个数字 $y$，就可以把 $y$ 拆成二进制，然后对于每一位 $j$，把 $[L,R]$ 内对应的和用 $O(1)$ 时间内求出来即可。</p>
+<p>• 所以我们要做的事就是先 sort 一下整个 $a_i$ 数组，然后在构建 Trie 的时候记录一下每个子树对应哪个区间即可。</p>
+<hr>
+<p>最后要注意，由于第 $2m$ 大有可能 <strong>等于</strong> 第 $2m+1, 2m+2 &hellip;$ 大，所以要处理掉额外加上的部分。</p>
+<p>答案除以 $2$ 即可。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+
+<span style="color:#66d9ef">const</span> ll mod <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e9</span><span style="color:#f92672">+</span><span style="color:#ae81ff">7</span>;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">5e4</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> M <span style="color:#f92672">=</span> <span style="color:#ae81ff">31</span>;
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Node</span> {
+    <span style="color:#66d9ef">int</span> cnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">int</span> child[<span style="color:#ae81ff">2</span>];
+    <span style="color:#66d9ef">int</span> L <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e9</span>, R <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;  <span style="color:#75715e">// left and right segments
+</span><span style="color:#75715e"></span>} trie[maxn <span style="color:#f92672">*</span> (M<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>)];
+<span style="color:#66d9ef">int</span> id <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">insert</span>(<span style="color:#66d9ef">int</span> idx, ll x) {
+    <span style="color:#66d9ef">int</span> c <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> M; i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>; i<span style="color:#f92672">--</span>) {
+        <span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> ((x <span style="color:#f92672">&amp;</span> (<span style="color:#ae81ff">1LL</span><span style="color:#f92672">&lt;&lt;</span>i)) <span style="color:#f92672">?</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">:</span> <span style="color:#ae81ff">0</span>);
+        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>trie[c].child[k]) trie[c].child[k] <span style="color:#f92672">=</span> <span style="color:#f92672">++</span>id;
+        c <span style="color:#f92672">=</span> trie[c].child[k];
+        trie[c].cnt<span style="color:#f92672">++</span>;
+        trie[c].L <span style="color:#f92672">=</span> min(trie[c].L, idx);  <span style="color:#75715e">// 维护子树对应的区间
+</span><span style="color:#75715e"></span>        trie[c].R <span style="color:#f92672">=</span> max(trie[c].R, idx);
+    }
+}
+
+ll a[maxn];
+ll n,m;
+
+<span style="color:#75715e">// 寻找第 k 大 (本题是找到第 2m 大)
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> ptr[maxn];  <span style="color:#75715e">// 每一个 ai 对应的 Trie 上的 ptr
+</span><span style="color:#75715e"></span>ll <span style="color:#a6e22e">find_kmax</span>(ll t) {
+    ll res <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    fill(ptr<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, ptr<span style="color:#f92672">+</span>n<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>);  <span style="color:#75715e">// 开始都在 1
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> M; j <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>; j<span style="color:#f92672">--</span>) {
+        ll cnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        <span style="color:#75715e">// 找这一位 &gt;= 1 的有多少个
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> ((a[i] <span style="color:#f92672">&amp;</span> (<span style="color:#ae81ff">1LL</span><span style="color:#f92672">&lt;&lt;</span>j)) <span style="color:#f92672">?</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">:</span> <span style="color:#ae81ff">0</span>);
+            k <span style="color:#f92672">^=</span> <span style="color:#ae81ff">1</span>;
+            cnt <span style="color:#f92672">+=</span> trie[trie[ptr[i]].child[k]].cnt;
+        }
+        <span style="color:#66d9ef">int</span> nxt;
+        <span style="color:#66d9ef">if</span> (cnt <span style="color:#f92672">&gt;=</span> t) {
+            res <span style="color:#f92672">|=</span> (<span style="color:#ae81ff">1LL</span><span style="color:#f92672">&lt;&lt;</span>j);
+            nxt <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        } <span style="color:#66d9ef">else</span> {
+            t <span style="color:#f92672">-=</span> cnt;
+            nxt <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        }
+
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> ((a[i] <span style="color:#f92672">&amp;</span> (<span style="color:#ae81ff">1LL</span><span style="color:#f92672">&lt;&lt;</span>j)) <span style="color:#f92672">?</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">:</span> <span style="color:#ae81ff">0</span>);
+            k <span style="color:#f92672">^=</span> nxt;  <span style="color:#75715e">// 由这一步决定的哪一个来判断每一个 ptr 的更新位置
+</span><span style="color:#75715e"></span>            ptr[i] <span style="color:#f92672">=</span> trie[ptr[i]].child[k];
+        }
+    }
+    <span style="color:#66d9ef">return</span> res;
+}
+
+
+<span style="color:#66d9ef">int</span> sum[maxn][M<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>][<span style="color:#ae81ff">2</span>];
+<span style="color:#75715e">// 计算 a[L,R] ^ x 之和
+</span><span style="color:#75715e"></span>ll <span style="color:#a6e22e">sum_range</span>(ll l, ll r, ll x) {
+    ll ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> M; j <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>; j<span style="color:#f92672">--</span>) {
+        <span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> ((x <span style="color:#f92672">&amp;</span> (<span style="color:#ae81ff">1LL</span><span style="color:#f92672">&lt;&lt;</span>j)) <span style="color:#f92672">?</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">:</span> <span style="color:#ae81ff">0</span>);
+        ll s <span style="color:#f92672">=</span> sum[r][j][k] <span style="color:#f92672">-</span> sum[l<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>][j][k];
+        ans <span style="color:#f92672">+=</span> s <span style="color:#f92672">*</span> (<span style="color:#ae81ff">1LL</span> <span style="color:#f92672">&lt;&lt;</span> j);
+        ans <span style="color:#f92672">%=</span> mod;
+    }
+    <span style="color:#66d9ef">return</span> ans;
+}
+
+ll <span style="color:#a6e22e">qpow</span>(ll a, ll b) {
+    ll res <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">while</span> (b) {
+        <span style="color:#66d9ef">if</span> (b <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">1</span>) res <span style="color:#f92672">=</span> res <span style="color:#f92672">*</span> a <span style="color:#f92672">%</span> mod;
+        a <span style="color:#f92672">=</span> a <span style="color:#f92672">*</span> a <span style="color:#f92672">%</span> mod;
+        b <span style="color:#f92672">&gt;&gt;=</span> <span style="color:#ae81ff">1</span>;
+    }
+    <span style="color:#66d9ef">return</span> res;
+}
+
+<span style="color:#75715e">// 获得 ai ^ aj &gt;= x 的所有数之和
+</span><span style="color:#75715e"></span>ll <span style="color:#a6e22e">get_sum</span>(ll x) {
+    <span style="color:#75715e">// 先把每个数拆成二进制，做前缀和
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> M; j <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>; j<span style="color:#f92672">--</span>) {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; k <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">1</span>; k<span style="color:#f92672">++</span>) {
+                <span style="color:#66d9ef">int</span> c <span style="color:#f92672">=</span> ((a[i] <span style="color:#f92672">&amp;</span> (<span style="color:#ae81ff">1LL</span><span style="color:#f92672">&lt;&lt;</span>j)) <span style="color:#f92672">?</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">:</span> <span style="color:#ae81ff">0</span>);
+                c <span style="color:#f92672">^=</span> k;
+                sum[i][j][k] <span style="color:#f92672">=</span> sum[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>][j][k] <span style="color:#f92672">+</span> c;
+            }
+        }
+    }
+
+    ll ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> x <span style="color:#f92672">%</span> mod;
+    ll cnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;  <span style="color:#75715e">// 使用的对数
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">int</span> c <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> M; j <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>; j<span style="color:#f92672">--</span>) {
+            <span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> ((a[i] <span style="color:#f92672">&amp;</span> (<span style="color:#ae81ff">1LL</span><span style="color:#f92672">&lt;&lt;</span>j)) <span style="color:#f92672">?</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">:</span> <span style="color:#ae81ff">0</span>);
+            <span style="color:#66d9ef">int</span> d <span style="color:#f92672">=</span> ((x <span style="color:#f92672">&amp;</span> (<span style="color:#ae81ff">1LL</span><span style="color:#f92672">&lt;&lt;</span>j)) <span style="color:#f92672">?</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">:</span> <span style="color:#ae81ff">0</span>);
+
+            <span style="color:#66d9ef">if</span> (d <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+                <span style="color:#75715e">// 加上所有 xor 起来为 1 的部分, 然后走到 0
+</span><span style="color:#75715e"></span>                <span style="color:#66d9ef">int</span> p <span style="color:#f92672">=</span> trie[c].child[k<span style="color:#f92672">^</span><span style="color:#ae81ff">1</span>];
+                <span style="color:#66d9ef">if</span> (p) {
+                    ans <span style="color:#f92672">+=</span> sum_range(trie[p].L, trie[p].R, a[i]);
+                    cnt <span style="color:#f92672">+=</span> (trie[p].R <span style="color:#f92672">-</span> trie[p].L <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>);
+                    ans <span style="color:#f92672">%=</span> mod;
+                }
+                c <span style="color:#f92672">=</span> trie[c].child[k];
+            } <span style="color:#66d9ef">else</span> {
+                c <span style="color:#f92672">=</span> trie[c].child[k<span style="color:#f92672">^</span><span style="color:#ae81ff">1</span>];
+            }
+        }
+    }
+    cnt <span style="color:#f92672">+=</span> <span style="color:#ae81ff">2</span>;
+    ans <span style="color:#f92672">=</span> (ans <span style="color:#f92672">-</span> ((cnt <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> m) <span style="color:#f92672">%</span> mod <span style="color:#f92672">*</span> x <span style="color:#f92672">%</span> mod) <span style="color:#f92672">+</span> mod) <span style="color:#f92672">%</span> mod;  <span style="color:#75715e">// 减去重复的部分
+</span><span style="color:#75715e"></span>
+    ans <span style="color:#f92672">=</span> ans <span style="color:#f92672">*</span> qpow(<span style="color:#ae81ff">2</span>, mod<span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>) <span style="color:#f92672">%</span> mod;
+    <span style="color:#66d9ef">return</span> ans;
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> m;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) cin <span style="color:#f92672">&gt;&gt;</span> a[i];
+    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>m) {
+        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+    }
+
+    sort(a<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, a<span style="color:#f92672">+</span>n<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>);
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) insert(i, a[i]);
+
+    ll x <span style="color:#f92672">=</span> find_kmax(<span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> m);
+    ll ans <span style="color:#f92672">=</span> get_sum(x);
+    cout <span style="color:#f92672">&lt;&lt;</span> ans <span style="color:#f92672">&lt;&lt;</span> endl;
+}
+</code></pre></div></details>
+<h3 id="例6-cf1625d-binary-spidershttpscodeforcescomcontest1625problemd">例6 <a href="https://codeforces.com/contest/1625/problem/D" target="_blank">CF1625D Binary Spiders</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $n$ 个非负整数，和一个非整数 $k$。</p>
+<p>求 $n$ 个非负整数的一个 subset，使得这个 subset 最大，并且 subset内 每两个数之间的 XOR $\geq k$。</p>
+<p>其中，$n \leq 3 \times 10^5, k,a_i \in [0,2^{30}-1]$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>首先我们设 $k$ 的最高位为 $j$。</p>
+<p>那么我们将所有的 $a_i$ 分成三个部分：</p>
+<ol>
+<li>最高位 $\geq j+1$ 的。</li>
+<li>最高位 $= j$ 的。</li>
+<li>最高位 $\leq j-1$ 的。</li>
+</ol>
+<p>那么我们可以发现，对于 Case 2, Case 3，各只能最多选出 $1$ 个数来。</p>
+<p>那么对于 Case 1 呢？</p>
+<p>不如我们只考虑它们 bitmask的 prefix，即 $[j+1,30]$ 的这一部分。</p>
+<p>我们注意到，如果两个 prefix 不同的数，一定是可以共存的。</p>
+<p>如果两个数的 prefix 相同呢？是 <strong>有可能</strong> 可以共存的！</p>
+<p>更准确的来说，如果两个数的 prefix 相同，我们可以把这部分抵消掉，那么问题就变成了最高位 $\leq j$ 的一些数可以最多选多少个出来共存。</p>
+<p>这实际上就是 Case 2 和 Case 3 的并集，我们很容易发现这个并集内，最多可以选 $2$ 个数。</p>
+<p>所以问题就简化了，我们只要根据 prefix 分类这些数，然后在每个分类中，选出最多两个数来即可。</p>
+<p>而选择最多两个数判断是否 $\geq k$，用 01-Trie 可以轻松解决。</p>
+<hr>
+<p>实现的过程：</p>
+<ol>
+<li>先找出 $k$ 的最高位 $j$。</li>
+<li>将所有的数字按照 $[j+1,30]$ 这一部分的prefix分类。</li>
+<li>对于每一类，都构建 01-Trie 判断是否存在两个数的 XOR $\geq k$，存在就选择这两个数，否则只选一个。</li>
+</ol>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">3e5</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxm <span style="color:#f92672">=</span> <span style="color:#ae81ff">30</span>;
+
+<span style="color:#66d9ef">int</span> id <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;  <span style="color:#75715e">// 注意，从 1 开始
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Node</span> {
+    <span style="color:#66d9ef">int</span> cnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">int</span> child[<span style="color:#ae81ff">2</span>];
+} trie[maxn<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">4</span>];
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">insert</span>(<span style="color:#66d9ef">int</span> x, <span style="color:#66d9ef">int</span> delta) {
+    <span style="color:#66d9ef">int</span> c <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> maxm; j <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>; j<span style="color:#f92672">--</span>) {
+        <span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        <span style="color:#66d9ef">if</span> (x <span style="color:#f92672">&amp;</span> (<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span>j)) k <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>trie[c].child[k]) trie[c].child[k] <span style="color:#f92672">=</span> <span style="color:#f92672">++</span>id;
+
+        c <span style="color:#f92672">=</span> trie[c].child[k];
+        trie[c].cnt <span style="color:#f92672">+=</span> delta;
+    }
+}
+
+<span style="color:#75715e">// maximum query
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">query</span>(<span style="color:#66d9ef">int</span> x) {
+    <span style="color:#66d9ef">int</span> c <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">int</span> res <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> maxm; j <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>; j<span style="color:#f92672">--</span>) {
+        <span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        <span style="color:#66d9ef">if</span> (x <span style="color:#f92672">&amp;</span> (<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span>j)) k <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        k <span style="color:#f92672">^=</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">if</span> (trie[trie[c].child[k]].cnt) {
+            c <span style="color:#f92672">=</span> trie[c].child[k];
+            res <span style="color:#f92672">|=</span> (<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span>j);
+        } <span style="color:#66d9ef">else</span> {
+            c <span style="color:#f92672">=</span> trie[c].child[k<span style="color:#f92672">^</span><span style="color:#ae81ff">1</span>];
+            <span style="color:#75715e">// res |= (1&lt;&lt;j);
+</span><span style="color:#75715e"></span>        }
+    }
+    <span style="color:#66d9ef">return</span> res;
+}
+
+<span style="color:#66d9ef">int</span> n,k;
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Nd</span> {
+    <span style="color:#66d9ef">int</span> val, id;
+} a[maxn];
+<span style="color:#66d9ef">int</span> b[maxn];
+
+vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> ans;
+vector<span style="color:#f92672">&lt;</span>pii<span style="color:#f92672">&gt;</span> vec[maxn];
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    fastio;
+    cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> k;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) cin <span style="color:#f92672">&gt;&gt;</span> a[i].val, a[i].id <span style="color:#f92672">=</span> i;
+    sort(a<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, a<span style="color:#f92672">+</span>n<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, [](<span style="color:#66d9ef">auto</span> a, <span style="color:#66d9ef">auto</span> b) {
+        <span style="color:#66d9ef">return</span> a.val <span style="color:#f92672">&gt;</span> b.val;
+    });
+
+    <span style="color:#66d9ef">if</span> (k <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+        cout <span style="color:#f92672">&lt;&lt;</span> n <span style="color:#f92672">&lt;&lt;</span> endl;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) cout <span style="color:#f92672">&lt;&lt;</span> i <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; &#34;</span>;
+        cout <span style="color:#f92672">&lt;&lt;</span> endl;
+        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+    }
+    <span style="color:#66d9ef">int</span> p <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">30</span>; j<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">if</span> (k <span style="color:#f92672">&amp;</span> (<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span>j)) p <span style="color:#f92672">=</span> j;
+    }
+
+    <span style="color:#66d9ef">int</span> ptr <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        b[i] <span style="color:#f92672">=</span> a[i].val;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;=</span> p; j<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">if</span> (b[i] <span style="color:#f92672">&amp;</span> (<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span>j)) b[i] <span style="color:#f92672">^=</span> (<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span>j);
+        }
+        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>(i <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&amp;&amp;</span> b[i] <span style="color:#f92672">==</span> b[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>])) {
+            <span style="color:#f92672">++</span>ptr;
+        }
+        vec[ptr].push_back({a[i].val, a[i].id});
+    }
+
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> ptr; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">if</span> (vec[i].size() <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">2</span>) {
+            <span style="color:#66d9ef">bool</span> ok <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> vec[i].size(); j<span style="color:#f92672">++</span>) {
+                <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>ok <span style="color:#f92672">&amp;&amp;</span> query(vec[i][j].first) <span style="color:#f92672">&gt;=</span> k) {
+                    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> a <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; a <span style="color:#f92672">&lt;</span> j; a<span style="color:#f92672">++</span>) {
+                        <span style="color:#66d9ef">if</span> ((vec[i][j].first <span style="color:#f92672">^</span> vec[i][a].first) <span style="color:#f92672">&gt;=</span> k) {
+                            ans.push_back(vec[i][j].second);
+                            ans.push_back(vec[i][a].second);
+                            ok <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+                            <span style="color:#66d9ef">break</span>;
+                        }
+                    }
+                }
+                insert(vec[i][j].first, <span style="color:#ae81ff">1</span>);
+            }
+            <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>ok) {
+                ans.push_back(vec[i][<span style="color:#ae81ff">0</span>].second);
+            }
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> vec[i].size(); j<span style="color:#f92672">++</span>) {
+                insert(vec[i][j].first, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>);
+            }
+        } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (vec[i].size() <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>) {
+            ans.push_back(vec[i][<span style="color:#ae81ff">0</span>].second);
+        }
+    }
+
+
+    <span style="color:#66d9ef">if</span> (ans.size() <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">1</span>) cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+    <span style="color:#66d9ef">else</span> {
+        cout <span style="color:#f92672">&lt;&lt;</span> ans.size() <span style="color:#f92672">&lt;&lt;</span> endl;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j : ans) cout <span style="color:#f92672">&lt;&lt;</span> j <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; &#34;</span>;
+        cout <span style="color:#f92672">&lt;&lt;</span> endl;
+    }
+}
+</code></pre></div></details>
+<h3 id="例7-cf1665e-minimizorhttpscodeforcescomcontest1665probleme">例7 CF1665E. <a href="https://codeforces.com/contest/1665/problem/E" target="_blank">MinimizOR</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $n$ 个非负整数 $a_1,a_2,&hellip;,a_n$ 和 $q$ 个询问，每次询问 $[l_i, r_i]$ 之间，选出两个index $j \neq k$，使得 $j,k \in [l_i, r_i]$ 且 $a_j | a_k$ 最小，求最小值。</p>
+<p>其中，$n \in [2, 10^5], a_i \in [0, 2^{30}), q \in [1, 10^5], 1 \leq l_i &lt; r_i \leq n$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>可持久化01-trie。</p>
+<p>可持久化保证了我们可以对于每一个区间找 $a_j | a_k$ 最小值。</p>
+<p>怎么找呢？</p>
+<p>考虑从 01-trie 上开始 dfs，如果发现 $0$ 对应的子树中有 $\geq 2$ 个数字，那么说明这一位可以取 $0$，否则只能取 $1$。</p>
+<p>但有的情况下，$0$ 对应的子树中只有 $1$ 个数字 $a$，此时我们只能取 $1$，但是这个数字 $a$ 也是要拿出来的，因为它有可能在下一层被用到，所以我们单独用一个 <code>vector&lt;int&gt; tmp</code> 来储存这些 $a$。</p>
+<p>最后注意一下，当我们在某一层取了 $0$ 时，要重新判断一下 <code>tmp</code> 中的数字 $a$ 在这一位是否为 $1$，如果是，说明最终答案中一定不可能考虑到这个数字 $a$，扔掉即可。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e5</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> M <span style="color:#f92672">=</span> <span style="color:#ae81ff">30</span>;
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Node</span> {
+    <span style="color:#66d9ef">int</span> cnt;
+    <span style="color:#66d9ef">int</span> child[<span style="color:#ae81ff">2</span>];
+} trie[maxn <span style="color:#f92672">*</span> (M<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>)];
+<span style="color:#66d9ef">int</span> n, root[maxn], id;
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">insert</span>(<span style="color:#66d9ef">int</span> pre, <span style="color:#66d9ef">int</span> cur, <span style="color:#66d9ef">int</span> x) {
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> M; i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>; i<span style="color:#f92672">--</span>) {
+        <span style="color:#66d9ef">int</span> c <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        <span style="color:#66d9ef">if</span> (x <span style="color:#f92672">&amp;</span> (<span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> i)) c <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        trie[cur].cnt <span style="color:#f92672">=</span> trie[pre].cnt <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;  <span style="color:#75715e">// cnt 加一
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>trie[cur].child[c]) trie[cur].child[c] <span style="color:#f92672">=</span> <span style="color:#f92672">++</span>id;  <span style="color:#75715e">// 新建节点
+</span><span style="color:#75715e"></span>        trie[cur].child[c<span style="color:#f92672">^</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> trie[pre].child[c<span style="color:#f92672">^</span><span style="color:#ae81ff">1</span>];  <span style="color:#75715e">// 复制另外一个子节点
+</span><span style="color:#75715e"></span>        cur <span style="color:#f92672">=</span> trie[cur].child[c];
+        pre <span style="color:#f92672">=</span> trie[pre].child[c];
+    }
+    trie[cur].cnt <span style="color:#f92672">=</span> trie[pre].cnt <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+}
+<span style="color:#75715e">// find the maximum value for a ^ x (a is in [pre, cur])
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">query</span>(<span style="color:#66d9ef">int</span> pre, <span style="color:#66d9ef">int</span> cur, <span style="color:#66d9ef">int</span> x) {
+    <span style="color:#66d9ef">int</span> res <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> M; i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>; i<span style="color:#f92672">--</span>) {
+        <span style="color:#66d9ef">int</span> c <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        <span style="color:#66d9ef">if</span> (x <span style="color:#f92672">&amp;</span> (<span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> i)) c <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        c <span style="color:#f92672">^=</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">if</span> (trie[trie[cur].child[c]].cnt <span style="color:#f92672">-</span> trie[trie[pre].child[c]].cnt) {  <span style="color:#75715e">// cnt &gt; 0
+</span><span style="color:#75715e"></span>            cur <span style="color:#f92672">=</span> trie[cur].child[c];
+            pre <span style="color:#f92672">=</span> trie[pre].child[c];
+            res <span style="color:#f92672">|=</span> (<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span>i);
+        } <span style="color:#66d9ef">else</span> {
+            cur <span style="color:#f92672">=</span> trie[cur].child[c<span style="color:#f92672">^</span><span style="color:#ae81ff">1</span>];
+            pre <span style="color:#f92672">=</span> trie[pre].child[c<span style="color:#f92672">^</span><span style="color:#ae81ff">1</span>];
+        }
+    }
+    <span style="color:#66d9ef">return</span> res;
+}
+ 
+<span style="color:#66d9ef">int</span> ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> tmp, tmp2;
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">dfs</span>(<span style="color:#66d9ef">int</span> pre, <span style="color:#66d9ef">int</span> cur, <span style="color:#66d9ef">int</span> d) {
+    <span style="color:#66d9ef">if</span> (d <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">return</span>;
+    <span style="color:#66d9ef">int</span> cnt0 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, cnt1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    cnt0 <span style="color:#f92672">=</span> trie[trie[cur].child[<span style="color:#ae81ff">0</span>]].cnt <span style="color:#f92672">-</span> trie[trie[pre].child[<span style="color:#ae81ff">0</span>]].cnt;
+    cnt1 <span style="color:#f92672">=</span> trie[trie[cur].child[<span style="color:#ae81ff">1</span>]].cnt <span style="color:#f92672">-</span> trie[trie[pre].child[<span style="color:#ae81ff">1</span>]].cnt;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j : tmp) {
+        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>(j <span style="color:#f92672">&amp;</span> (<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span>d))) cnt0<span style="color:#f92672">++</span>;
+    }
+ 
+    <span style="color:#66d9ef">if</span> (cnt0 <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">2</span>) {
+        tmp2.clear();  <span style="color:#75715e">// 如果为0，这里只能保留这一位为0的！
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j : tmp) {
+            <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>(j <span style="color:#f92672">&amp;</span> (<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span>d))) tmp2.push_back(j);
+        }
+        tmp <span style="color:#f92672">=</span> tmp2;
+        dfs(trie[pre].child[<span style="color:#ae81ff">0</span>], trie[cur].child[<span style="color:#ae81ff">0</span>], d<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>);
+    } <span style="color:#66d9ef">else</span> {
+        <span style="color:#66d9ef">if</span> (trie[trie[cur].child[<span style="color:#ae81ff">0</span>]].cnt <span style="color:#f92672">-</span> trie[trie[pre].child[<span style="color:#ae81ff">0</span>]].cnt) {
+            assert(trie[trie[cur].child[<span style="color:#ae81ff">0</span>]].cnt <span style="color:#f92672">-</span> trie[trie[pre].child[<span style="color:#ae81ff">0</span>]].cnt <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>);
+ 
+            <span style="color:#66d9ef">int</span> tcur <span style="color:#f92672">=</span> trie[cur].child[<span style="color:#ae81ff">0</span>], tpre <span style="color:#f92672">=</span> trie[pre].child[<span style="color:#ae81ff">0</span>], tx <span style="color:#f92672">=</span> ans;
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> d<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>; j<span style="color:#f92672">--</span>) {
+                <span style="color:#66d9ef">if</span> (trie[trie[tcur].child[<span style="color:#ae81ff">0</span>]].cnt <span style="color:#f92672">-</span> trie[trie[tpre].child[<span style="color:#ae81ff">0</span>]].cnt) {
+                    tcur <span style="color:#f92672">=</span> trie[tcur].child[<span style="color:#ae81ff">0</span>];
+                    tpre <span style="color:#f92672">=</span> trie[tpre].child[<span style="color:#ae81ff">0</span>];
+                } <span style="color:#66d9ef">else</span> {
+                    tcur <span style="color:#f92672">=</span> trie[tcur].child[<span style="color:#ae81ff">1</span>];
+                    tpre <span style="color:#f92672">=</span> trie[tpre].child[<span style="color:#ae81ff">1</span>];
+                    tx <span style="color:#f92672">|=</span> (<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span>j);
+                }
+            }
+            tmp.push_back(tx);
+        }
+        ans <span style="color:#f92672">|=</span> (<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span>d);
+        dfs(trie[pre].child[<span style="color:#ae81ff">1</span>], trie[cur].child[<span style="color:#ae81ff">1</span>], d<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>);
+    }
+}
+ 
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">clear</span>(<span style="color:#66d9ef">int</span> cur) {
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> c <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; c <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">1</span>; c<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">if</span> (trie[cur].child[c]) clear(trie[cur].child[c]);
+    }
+    memset(<span style="color:#f92672">&amp;</span>trie[cur], <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(trie[cur]));
+}
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">clearall</span>() {
+    id <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">if</span> (root[i]) clear(root[i]), root[i] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    }
+}
+ 
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">Query</span>(<span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r) {
+    ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    tmp.clear();
+    dfs(root[l<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>], root[r], M);
+    cout <span style="color:#f92672">&lt;&lt;</span> ans <span style="color:#f92672">&lt;&lt;</span> endl;
+}
+ 
+<span style="color:#66d9ef">int</span> T, a[maxn];
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> T;
+    <span style="color:#66d9ef">while</span> (T<span style="color:#f92672">--</span>) {
+        cin <span style="color:#f92672">&gt;&gt;</span> n;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+            cin <span style="color:#f92672">&gt;&gt;</span> a[i];
+            <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>root[i]) root[i] <span style="color:#f92672">=</span> <span style="color:#f92672">++</span>id;
+            insert(root[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>], root[i], a[i]);
+        }
+        <span style="color:#66d9ef">int</span> q; cin <span style="color:#f92672">&gt;&gt;</span> q;
+        <span style="color:#66d9ef">while</span> (q<span style="color:#f92672">--</span>) {
+            <span style="color:#66d9ef">int</span> l, r; cin <span style="color:#f92672">&gt;&gt;</span> l <span style="color:#f92672">&gt;&gt;</span> r;
+            Query(l, r);
+        }
+        clearall();
+    }
+}
+
+</code></pre></div></details>
+<h3 id="例8-universalcup-12-nxor-reachablehttpsqojaccontest1207problem6330">例8 UniversalCup 12 N.<a href="https://qoj.ac/contest/1207/problem/6330" target="_blank">XOR Reachable</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $n$ 个点，$m$ 条边的带权无向图。给定一个非负整数 $K$。</p>
+<p>现在给定 $Q$ 个询问，每次询问给定一个非负整数 $D$。对于这次询问，我们保留所有权值为 $C_i$ 的边使得 $C_i \text{ xor } D &lt; K$，然后回答在这个图中，有多少个pair $u,v$ 使得 $u$ 和 $v$ 能够互相到达。</p>
+<p>其中，$1 \leq n,m,Q \leq 10^5, K,C_i,D_j \in [0, 2^{30})$。</p>
+<p>询问之间互相独立，并且图中可能有重边（无自环）。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>首先可以看出要用到 01-Trie。</p>
+<p>我们可以考虑将所有的边都存进 01-Trie 里面，然后对于每一个询问我们可以执行一次 DFS 找到所有这样的边。</p>
+<p>计算有多少个 $u,v$ 可以互相到达，肯定是维护一个并查集，然后求每个联通块的大小。</p>
+<p>但这样复杂度太高了，我们考虑怎么样只跑一次 DFS 就可以回答所有的询问？</p>
+<hr>
+<p>发现本题是离线的，我们不妨把所有的询问也存进 01-Trie 里面，并且只存在叶子节点。</p>
+<p>然后我们只跑一次 DFS，当我们 DFS 到一个叶子节点的时候，就回答这个叶子节点储存的所有询问。</p>
+<p>怎么 DFS 呢？</p>
+<p>我们考虑 $K$ 的每一位，我们现在 DFS 到了第 $i$ 位，假设 $K$ 的第 $i$ 位是 $1$。</p>
+<p>那么我们在 DFS 的过程中：</p>
+<ol>
+<li>对于所有第 $i$ 位为 $1$ 的询问 $D$，说明我们应该加上所有第 $i$ 位为 $1$ 的边 $C$，然后继续 DFS 考虑所有第 $i$ 位为 $0$ 的边。</li>
+<li>对于所有第 $i$ 位为 $0$ 的询问 $D$，说明我们应该加上所有第 $i$ 位为 $0$ 的边 $C$，然后继续 DFS 考虑所有第 $i$ 位为 $1$ 的边。</li>
+</ol>
+<p>• 但这样会发现一个问题，我们希望的是 DFS 到询问所在的叶子，在 DFS 过程中加上边，但这样的话需要 DFS 的询问和边不在同一棵子树里，我们无法在知道具体是哪个询问的同时，知道我们加上了哪些边。</p>
+<p>所以我们可以先将所有询问 $D$ 执行 <code>D ^= K</code>，相当于将 $K$ 所有为 $1$ 的位置，都在 $D$ 中翻转了一下。</p>
+<p>这样我们就得到</p>
+<ol>
+<li>对于所有第 $i$ 位为 $1$ 的询问 $D$，说明我们应该加上所有第 $i$ 位为 $0$ 的边 $C$，然后继续 DFS 考虑所有第 $i$ 位为 $1$ 的边。</li>
+<li>对于所有第 $i$ 位为 $0$ 的询问 $D$，说明我们应该加上所有第 $i$ 位为 $1$ 的边 $C$，然后继续 DFS 考虑所有第 $i$ 位为 $0$ 的边。</li>
+</ol>
+<p>这样就没问题了。</p>
+<p>同理，如果 $K$ 的第 $i$ 位是 $0$，我们不需要加上某一棵子树中的边，直接 DFS 即可，由于 $K$ 的第 $i$ 位是 $0$ 所以 <code>D ^= K</code> 的操作没有影响。</p>
+<ol>
+<li>对于所有第 $i$ 位为 $1$ 的询问 $D$，DFS 考虑所有第 $i$ 位为 $1$ 的边。</li>
+<li>对于所有第 $i$ 位为 $0$ 的询问 $D$，DFS 考虑所有第 $i$ 位为 $0$ 的边。</li>
+</ol>
+<p>• 注意 DFS 回溯时，还需要把加上的边撤销掉，这个利用可撤销并查集来做就可以了，每次操作时间复杂度 $O(\log n)$。</p>
+<hr>
+<p>时间复杂度是多少？</p>
+<p>我们只执行一次 DFS，复杂度为 $O(30n)$。</p>
+<p>对于每一条边，它只会被它的所有祖先加上，所以总共加上 + 撤销的操作也是 $O(30n)$，总时间复杂度就是 $O(30n \log n)$。</p>
+<p>• 最后注意，DFS 的时候如果深度为 $-1$ 说明我们到达了叶子节点（不是深度为 $0$！）。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e5</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>;
+
+<span style="color:#66d9ef">int</span> n, m, K, Q;
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Edge</span> {
+    <span style="color:#66d9ef">int</span> from, to, w;
+};
+vector<span style="color:#f92672">&lt;</span>Edge<span style="color:#f92672">&gt;</span> adj[maxn];
+
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">State</span> {
+    <span style="color:#66d9ef">int</span> u, v, szu, szv;
+} st[maxm];
+
+ll ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, res[maxn];
+ll <span style="color:#a6e22e">cal</span>(ll x) {
+    <span style="color:#66d9ef">return</span> x<span style="color:#f92672">*</span>(x<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>;
+}
+
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">DSU</span> {
+    <span style="color:#66d9ef">int</span> par[maxn], sz[maxn], tail <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">inline</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">init</span>() {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) par[i] <span style="color:#f92672">=</span> i, sz[i] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        tail <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    }
+
+    <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">finds</span>(<span style="color:#66d9ef">int</span> u) {
+        <span style="color:#66d9ef">if</span> (par[u] <span style="color:#f92672">==</span> u) <span style="color:#66d9ef">return</span> u;
+        <span style="color:#66d9ef">return</span> finds(par[u]);
+    }
+
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">unions</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> v) {
+        u <span style="color:#f92672">=</span> finds(u), v <span style="color:#f92672">=</span> finds(v);
+        <span style="color:#66d9ef">if</span> (sz[u] <span style="color:#f92672">&lt;</span> sz[v]) swap(u,v);  <span style="color:#75715e">// sz[u] &gt;= sz[v]
+</span><span style="color:#75715e"></span>        st[<span style="color:#f92672">++</span>tail] <span style="color:#f92672">=</span> {u, v, sz[u], sz[v]};
+        <span style="color:#66d9ef">if</span> (u <span style="color:#f92672">==</span> v) <span style="color:#66d9ef">return</span>;
+        par[v] <span style="color:#f92672">=</span> u;
+        ans <span style="color:#f92672">=</span> ans <span style="color:#f92672">-</span> cal(sz[u]) <span style="color:#f92672">-</span> cal(sz[v]) <span style="color:#f92672">+</span> cal(sz[u] <span style="color:#f92672">+</span> sz[v]);
+        sz[u] <span style="color:#f92672">+=</span> sz[v];
+    }
+
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">cancel</span>() {
+        <span style="color:#66d9ef">if</span> (tail <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
+            <span style="color:#66d9ef">int</span> u <span style="color:#f92672">=</span> st[tail].u, v <span style="color:#f92672">=</span> st[tail].v;
+            par[v] <span style="color:#f92672">=</span> v;
+            <span style="color:#66d9ef">if</span> (sz[u] <span style="color:#f92672">!=</span> st[tail].szu) {
+                assert(sz[u] <span style="color:#f92672">==</span> st[tail].szu <span style="color:#f92672">+</span> st[tail].szv);
+                ans <span style="color:#f92672">=</span> ans <span style="color:#f92672">-</span> cal(sz[u]) <span style="color:#f92672">+</span> cal(st[tail].szu) <span style="color:#f92672">+</span> cal(st[tail].szv);
+            }
+            sz[u] <span style="color:#f92672">=</span> st[tail].szu;
+            sz[v] <span style="color:#f92672">=</span> st[tail].szv;
+            tail<span style="color:#f92672">--</span>;
+        }
+    }
+} dsu;
+
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Node</span> {
+    <span style="color:#66d9ef">int</span> cnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">int</span> child[<span style="color:#ae81ff">2</span>];
+    vector<span style="color:#f92672">&lt;</span>Edge<span style="color:#f92672">&gt;</span> vec;
+    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> que;  <span style="color:#75715e">// queries 的编号
+</span><span style="color:#75715e"></span>};
+
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> M <span style="color:#f92672">=</span> <span style="color:#ae81ff">30</span>;
+<span style="color:#66d9ef">bool</span> tag[<span style="color:#ae81ff">33</span>];
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Trie01</span> {
+    <span style="color:#66d9ef">int</span> id <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;  <span style="color:#75715e">// 注意，从 1 开始
+</span><span style="color:#75715e"></span>    Node trie[maxn<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">5</span>];
+
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">insert</span>(Edge e) {
+        <span style="color:#66d9ef">int</span> x <span style="color:#f92672">=</span> e.w;
+        <span style="color:#66d9ef">int</span> c <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> M; j <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>; j<span style="color:#f92672">--</span>) {
+            <span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+            <span style="color:#66d9ef">if</span> (x <span style="color:#f92672">&amp;</span> (<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span>j)) k <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+            <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>trie[c].child[k]) trie[c].child[k] <span style="color:#f92672">=</span> <span style="color:#f92672">++</span>id;
+            c <span style="color:#f92672">=</span> trie[c].child[k];
+            trie[c].cnt<span style="color:#f92672">++</span>;
+            trie[c].vec.push_back(e);
+        }
+    }
+
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">insert</span>(<span style="color:#66d9ef">int</span> x, <span style="color:#66d9ef">int</span> i) {
+        <span style="color:#66d9ef">int</span> c <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> M; j <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>; j<span style="color:#f92672">--</span>) {
+            <span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+            <span style="color:#66d9ef">if</span> (x <span style="color:#f92672">&amp;</span> (<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span>j)) k <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+            <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>trie[c].child[k]) trie[c].child[k] <span style="color:#f92672">=</span> <span style="color:#f92672">++</span>id;
+            c <span style="color:#f92672">=</span> trie[c].child[k];
+            trie[c].cnt<span style="color:#f92672">++</span>;
+        }
+        trie[c].que.push_back(i);  <span style="color:#75715e">// 只保留叶子即可
+</span><span style="color:#75715e"></span>    }
+
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">addall</span>(<span style="color:#66d9ef">int</span> u) {
+        <span style="color:#66d9ef">for</span> (Edge e : trie[u].vec) {
+            dsu.unions(e.from, e.to);
+        }
+    }
+
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">clearall</span>(<span style="color:#66d9ef">int</span> u) {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> trie[u].vec.size(); i<span style="color:#f92672">++</span>) dsu.cancel();
+    }
+
+    <span style="color:#75715e">// 从 d = M 开始 dfs
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">dfs</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> d) {
+        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>u) <span style="color:#66d9ef">return</span>;
+        <span style="color:#66d9ef">if</span> (d <span style="color:#f92672">==</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) {  <span style="color:#75715e">// 走完了，开始统计答案
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> id : trie[u].que) res[id] <span style="color:#f92672">=</span> ans;
+            <span style="color:#66d9ef">return</span>;
+        }
+        <span style="color:#66d9ef">int</span> c[<span style="color:#ae81ff">2</span>];
+        c[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> trie[u].child[<span style="color:#ae81ff">0</span>], c[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> trie[u].child[<span style="color:#ae81ff">1</span>];
+
+        <span style="color:#66d9ef">if</span> (tag[d]) {  <span style="color:#75715e">// 需要加一边，然后dfs另外一边
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> o <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; o <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">2</span>; o<span style="color:#f92672">++</span>) {
+                addall(c[o<span style="color:#f92672">^</span><span style="color:#ae81ff">1</span>]);
+                dfs(c[o], d<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>);
+                clearall(c[o<span style="color:#f92672">^</span><span style="color:#ae81ff">1</span>]);
+            }
+        } <span style="color:#66d9ef">else</span> {
+            dfs(c[<span style="color:#ae81ff">0</span>], d<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>);
+            dfs(c[<span style="color:#ae81ff">1</span>], d<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>);
+        }
+    }
+} tr;
+
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    fastio;
+    cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> m <span style="color:#f92672">&gt;&gt;</span> K;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> m; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">int</span> u, v, w; cin <span style="color:#f92672">&gt;&gt;</span> u <span style="color:#f92672">&gt;&gt;</span> v <span style="color:#f92672">&gt;&gt;</span> w;
+        adj[u].push_back({u,v,w});
+        adj[v].push_back({v,u,w});
+        tr.insert({u,v,w});
+    }
+    cin <span style="color:#f92672">&gt;&gt;</span> Q;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> Q; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">int</span> D; cin <span style="color:#f92672">&gt;&gt;</span> D; 
+        D <span style="color:#f92672">^=</span> K;
+        tr.insert(D, i);
+    }
+    dsu.init();
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> M; i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>; i<span style="color:#f92672">--</span>) tag[i] <span style="color:#f92672">=</span> (K <span style="color:#f92672">&amp;</span> (<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span>i));
+
+    tr.dfs(<span style="color:#ae81ff">1</span>, M);
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> Q; i<span style="color:#f92672">++</span>) cout <span style="color:#f92672">&lt;&lt;</span> res[i] <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+}
+</code></pre></div></details>
+<h2 id="参考链接">参考链接</h2>
+<ol>
+<li><a href="https://oi-wiki.org/string/trie/#_6" target="_blank">https://oi-wiki.org/string/trie/#_6</a></li>
+<li><a href="https://oi-wiki.org/ds/persistent-trie/" target="_blank">https://oi-wiki.org/ds/persistent-trie/</a></li>
+</ol>
+
+    </div>
+
+    
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/trie/">Trie</a>
+          <a href="/tags//"></a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/060-%E6%9C%80%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">最小生成树</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/058-%E5%8D%95%E8%B0%83%E9%98%9F%E5%88%97/">
+            <span class="next-text nav-default">单调栈/队列</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://github.com/kiki-yan" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://kiki-yan.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2026
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/kiki-yan/kiki-yan.github.io" target="_blank"></a>
+    </span> 
+    <span class="author">kiki_yan</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/base16/tomorrow.min.css" rel="stylesheet">
+  
+  <script>hljs.configure({tabReplace: '    '});</script><script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Bitset优化 - kiki_yan</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="kiki_yan" /><meta name="description" content="bitset作为C&#43;&#43;自带的数据结构，利用bit储存信息，由于 1 byte = 8 bits，并且一个int就有 4 bytes，所以通常情况下用 bitset 可以达到 32" /><meta name="keywords" content="kiki_yan, blog, Codeforces" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
+
+
+<link rel="canonical" href="https://kiki-yan.github.io/post/103-bitset/" />
+<link rel="manifest" href="/manifest.json">
+
+
+
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="Bitset优化" />
+<meta property="og:description" content="bitset作为C&#43;&#43;自带的数据结构，利用bit储存信息，由于 1 byte = 8 bits，并且一个int就有 4 bytes，所以通常情况下用 bitset 可以达到 32" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kiki-yan.github.io/post/103-bitset/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2023-03-30T22:13:18-05:00" />
+<meta property="article:modified_time" content="2026-09-24T14:30:49+08:00" />
+
+<meta itemprop="name" content="Bitset优化">
+<meta itemprop="description" content="bitset作为C&#43;&#43;自带的数据结构，利用bit储存信息，由于 1 byte = 8 bits，并且一个int就有 4 bytes，所以通常情况下用 bitset 可以达到 32"><meta itemprop="datePublished" content="2023-03-30T22:13:18-05:00" />
+<meta itemprop="dateModified" content="2026-09-24T14:30:49+08:00" />
+<meta itemprop="wordCount" content="7106">
+<meta itemprop="keywords" content="bitset,," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Bitset优化"/>
+<meta name="twitter:description" content="bitset作为C&#43;&#43;自带的数据结构，利用bit储存信息，由于 1 byte = 8 bits，并且一个int就有 4 bytes，所以通常情况下用 bitset 可以达到 32"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">kiki_yan</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF Problems</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">kiki_yan</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF Problems</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Bitset优化</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2023-03-30 22:13:18 -0500 -0500"> 2023-03-30 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
+            </div>
+        
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#优化01背包">优化01背包</a>
+          <ul>
+            <li><a href="#例1-洛谷p1537-弹珠httpswwwluogucomcnproblemp1537">例1 洛谷P1537 <a href="https://www.luogu.com.cn/problem/P1537">弹珠</a></a></li>
+          </ul>
+        </li>
+        <li><a href="#优化floyd传递闭包">优化floyd传递闭包</a>
+          <ul>
+            <li><a href="#例1-cf576d-flights-for-regular-customershttpscodeforcescomproblemsetproblem576d">例1 CF576D. <a href="https://codeforces.com/problemset/problem/576/D">Flights for Regular Customers</a></a></li>
+          </ul>
+        </li>
+        <li><a href="#暴力字符串匹配">暴力字符串匹配</a>
+          <ul>
+            <li><a href="#例1-cf914f-substrings-in-a-stringhttpscodeforcescomproblemsetproblem914f">例1 CF914F. <a href="https://codeforces.com/problemset/problem/914/F">Substrings in a String</a></a></li>
+            <li><a href="#例2-cf963d-frequency-of-stringhttpswwwluogucomcnproblemcf963d">例2 CF963D. <a href="https://www.luogu.com.cn/problem/CF963D">Frequency of String</a></a></li>
+          </ul>
+        </li>
+        <li><a href="#高维偏序">高维偏序</a>
+          <ul>
+            <li><a href="#例1-洛谷p3810模板三维偏序陌上花开httpswwwluogucomcnproblemp3810">例1 洛谷P3810<a href="https://www.luogu.com.cn/problem/P3810">【模板】三维偏序（陌上花开）</a></a></li>
+          </ul>
+        </li>
+        <li><a href="#bitset结合莫队">bitset结合莫队</a>
+          <ul>
+            <li><a href="#例1-洛谷p5355-ynoi2017-由乃的玉米田httpswwwluogucomcnproblemp5355">例1 洛谷P5355 <a href="https://www.luogu.com.cn/problem/P5355">[Ynoi2017] 由乃的玉米田</a></a></li>
+          </ul>
+        </li>
+        <li><a href="#bitset-优化二分图匹配">bitset 优化二分图匹配</a>
+          <ul>
+            <li><a href="#例1-universal-cup-12-mcolorful-graphhttpsqojaccontest1207problem6329">例1 Universal Cup 12 M.<a href="https://qoj.ac/contest/1207/problem/6329">Colorful Graph</a></a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>bitset作为C++自带的数据结构，利用bit储存信息，由于 1 byte = 8 bits，并且一个int就有 4 bytes，所以通常情况下用 bitset 可以达到 32 倍的常数优化。</p>
+<h2 id="优化01背包">优化01背包</h2>
+<h3 id="例1-洛谷p1537-弹珠httpswwwluogucomcnproblemp1537">例1 洛谷P1537 <a href="https://www.luogu.com.cn/problem/P1537" target="_blank">弹珠</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定价值为 $1,2,3,4,5,6$ 的弹珠，数量分别为 $N_1,N_2,&hellip;,N_6$，问是否能将这些弹珠分为两份使得两份的价值和相等。</p>
+<p>其中，弹珠数量和 $\leq 2 \times 10^4$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>多重背包，正解应该是二进制优化成01背包。</p>
+<p>但bitset可以直接暴力碾过去。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">dp[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">6</span>; i<span style="color:#f92672">++</span>) {
+    <span style="color:#66d9ef">while</span> (a[i]<span style="color:#f92672">--</span>) {
+        dp <span style="color:#f92672">|=</span> (dp <span style="color:#f92672">&lt;&lt;</span> i);
+    }
+}
+</code></pre></div></details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">int</span> a[maxn];
+bitset<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">120005</span><span style="color:#f92672">&gt;</span> dp;
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    <span style="color:#66d9ef">int</span> t <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">while</span> (cin <span style="color:#f92672">&gt;&gt;</span> a[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">&gt;&gt;</span> a[<span style="color:#ae81ff">2</span>] <span style="color:#f92672">&gt;&gt;</span> a[<span style="color:#ae81ff">3</span>] <span style="color:#f92672">&gt;&gt;</span> a[<span style="color:#ae81ff">4</span>] <span style="color:#f92672">&gt;&gt;</span> a[<span style="color:#ae81ff">5</span>] <span style="color:#f92672">&gt;&gt;</span> a[<span style="color:#ae81ff">6</span>]) {
+        <span style="color:#66d9ef">if</span> (a[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> a[<span style="color:#ae81ff">2</span>] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> a[<span style="color:#ae81ff">3</span>] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> a[<span style="color:#ae81ff">4</span>] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> a[<span style="color:#ae81ff">5</span>] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> a[<span style="color:#ae81ff">6</span>] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">break</span>;
+        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Collection #&#34;</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#f92672">++</span>t <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;:</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+        dp.reset();
+
+        <span style="color:#66d9ef">bool</span> ok <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">int</span> sum <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">6</span>; i<span style="color:#f92672">++</span>) {
+            sum <span style="color:#f92672">+=</span> i <span style="color:#f92672">*</span> a[i];
+        }
+        <span style="color:#66d9ef">if</span> (sum <span style="color:#f92672">%</span> <span style="color:#ae81ff">2</span>) ok <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+
+        dp[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">6</span>; i<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">while</span> (a[i]<span style="color:#f92672">--</span>) {
+                dp <span style="color:#f92672">|=</span> (dp <span style="color:#f92672">&lt;&lt;</span> i);
+            }
+        }
+
+        ok <span style="color:#f92672">=</span> (ok <span style="color:#f92672">&amp;&amp;</span> dp[sum<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span>]);
+        <span style="color:#66d9ef">if</span> (ok) cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Can be divided.</span><span style="color:#ae81ff">\n\n</span><span style="color:#e6db74">&#34;</span>;
+        <span style="color:#66d9ef">else</span> cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Can&#39;t be divided.</span><span style="color:#ae81ff">\n\n</span><span style="color:#e6db74">&#34;</span>;
+    }
+}
+</code></pre></div></details>
+<h2 id="优化floyd传递闭包">优化floyd传递闭包</h2>
+<p>在 floyd 中我们有 <code>f[i][j] |= (f[i][k] &amp;&amp; f[k][j])</code> 的方式来传递闭包。</p>
+<p>如果用bitset实现呢？</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">bitset<span style="color:#f92672">&lt;</span>maxn<span style="color:#f92672">&gt;</span> f[maxn];
+<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;=</span> n; j<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">if</span> (f[j][i]) f[j] <span style="color:#f92672">|=</span> f[i];
+    }
+}
+</code></pre></div><p>如果 $j$ 能够到达 $i$，那么 $i$ 所能到达的点，$j$ 也能够到达。</p>
+<p>• 如果是一个闭包在一个图上传递，那么就有：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Mat</span> {
+    bitset<span style="color:#f92672">&lt;</span>maxn<span style="color:#f92672">&gt;</span> f[maxn];
+    Mat <span style="color:#66d9ef">operator</span><span style="color:#f92672">*</span>(<span style="color:#66d9ef">const</span> Mat<span style="color:#f92672">&amp;</span> other) {
+        Mat res;  <span style="color:#75715e">// 无需初始化！
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;=</span> n; j<span style="color:#f92672">++</span>) {
+                <span style="color:#66d9ef">if</span> (f[j][i]) res.f[j] <span style="color:#f92672">|=</span> other.f[i];
+            }
+        }
+        <span style="color:#66d9ef">return</span> res;
+    }
+};
+</code></pre></div><h3 id="例1-cf576d-flights-for-regular-customershttpscodeforcescomproblemsetproblem576d">例1 CF576D. <a href="https://codeforces.com/problemset/problem/576/D" target="_blank">Flights for Regular Customers</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个 $n$ 个点，$m$ 条边的有向无权图。一开始在节点 $1$，需要走到节点 $n$。</p>
+<p>当且仅当走过了至少 $d_i$ 条边时，才能使用第 $i$ 条边。</p>
+<p>问最少需要走多少条边到达 $n$，或判断无法到达。</p>
+<p>其中，$n,m \leq 150, 0 \leq d_i \leq 10^9$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>首先我们根据 $d_i$ sort所有的边，然后对于每一个 $d_i$，我们要求出 <strong>恰好走了 $d_i$ 步</strong>时，能够<strong>停在</strong>哪些点，然后从这些点开始多源BFS（就是一开始全丢到queue里），求出 <code>dis[n]</code>，然后加上 $d_i$ 即可得到这个状态的答案。</p>
+<p>那么如何求出 <strong>恰好走了 $d_i$ 步</strong>时，能够停在哪些点？</p>
+<hr>
+<p>假设我们求出了恰好走了 $d_{i-1}$ 步时，从 $1$ 出发能够停在哪些点。那么我们只要求出在只包含 $1,2,&hellip;,i-1$ 这些边的图中，从这些点出发，走 $d_{i} - d_{i-1}$ 步能够停留在哪些点。</p>
+<p>那么这就是一个闭包传递的过程了！</p>
+<p>但由于 $d_{i} - d_{i-1}$ 可能会很大，所以我们需要快速幂来优化，为什么可以用快速幂？</p>
+<p>因为我们知道 floyd 传递闭包是利用了 <strong>矩阵乘法</strong> 的原理。</p>
+<p>因为矩阵乘法是 $C_{i,j} = \sum\limits_{k=1}^n A_{i,k}B_{k,j}$，这其实和传递闭包的公式是一样的。</p>
+<p>• 矩阵乘法快速幂的原理也可以用于解决 “走过 $k$ 条边的最短路” 的问题。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">155</span>;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxm <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e5</span><span style="color:#f92672">+</span><span style="color:#ae81ff">55</span>;
+
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Edge</span> {
+    <span style="color:#66d9ef">int</span> from, to, d;
+};
+<span style="color:#66d9ef">int</span> n, m;
+map<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, vector<span style="color:#f92672">&lt;</span>Edge<span style="color:#f92672">&gt;&gt;</span> mp;
+<span style="color:#66d9ef">int</span> dis[maxn];
+vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> adj[maxn];
+ll ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">2e9</span>;
+
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Mat</span> {
+    bitset<span style="color:#f92672">&lt;</span>maxn<span style="color:#f92672">&gt;</span> f[maxn];
+    Mat <span style="color:#66d9ef">operator</span><span style="color:#f92672">*</span>(<span style="color:#66d9ef">const</span> Mat<span style="color:#f92672">&amp;</span> other) {
+        Mat res;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;=</span> n; j<span style="color:#f92672">++</span>) {
+                <span style="color:#66d9ef">if</span> (f[j][i]) res.f[j] <span style="color:#f92672">|=</span> other.f[i];
+            }
+        }
+        <span style="color:#66d9ef">return</span> res;
+    }
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setone</span>() {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) f[i][i] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    }
+};
+Mat <span style="color:#a6e22e">qpow</span>(Mat a, <span style="color:#66d9ef">int</span> b) {
+    Mat res;
+    res.setone();
+    <span style="color:#66d9ef">while</span> (b) {
+        <span style="color:#66d9ef">if</span> (b<span style="color:#f92672">&amp;</span><span style="color:#ae81ff">1</span>) res <span style="color:#f92672">=</span> res <span style="color:#f92672">*</span> a;
+        a <span style="color:#f92672">=</span> a<span style="color:#f92672">*</span>a;
+        b <span style="color:#f92672">&gt;&gt;=</span> <span style="color:#ae81ff">1</span>;
+    }
+    <span style="color:#66d9ef">return</span> res;
+}
+
+Mat cur, g;  <span style="color:#75715e">// cur代表当前走x步能够恰好从 u 出发停在 v，g代表当前图中恰好走一步能够从u到达v
+</span><span style="color:#75715e"></span>ll D <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">bfs</span>() {
+    queue<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> q;
+    fill(dis, dis<span style="color:#f92672">+</span>maxn, <span style="color:#ae81ff">2e9</span>);
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">if</span> (cur.f[<span style="color:#ae81ff">1</span>][i]) q.push(i), dis[i] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;  <span style="color:#75715e">// 多源bfs
+</span><span style="color:#75715e"></span>    }
+    <span style="color:#66d9ef">while</span> (q.size()) {
+        <span style="color:#66d9ef">int</span> u <span style="color:#f92672">=</span> q.front();
+        q.pop();
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> v : adj[u]) {
+            <span style="color:#66d9ef">if</span> (dis[v] <span style="color:#f92672">&gt;</span> dis[u] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) {
+                dis[v] <span style="color:#f92672">=</span> dis[u] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+                q.push(v);
+            }
+        }
+    }
+    ans <span style="color:#f92672">=</span> min(ans, dis[n] <span style="color:#f92672">+</span> D);
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> m;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> m; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">int</span> u,v,d; cin <span style="color:#f92672">&gt;&gt;</span> u <span style="color:#f92672">&gt;&gt;</span> v <span style="color:#f92672">&gt;&gt;</span> d;
+        mp[d].push_back({u,v,d});
+    }
+    cur.f[<span style="color:#ae81ff">1</span>][<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;  <span style="color:#75715e">// 初始状态是走0步，所以可以从1出发恰好停在1，但其他的还没到
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// 注意 g 不要设定 g.f[u][u] = 1，因为这里的矩阵代表**恰好**走 $1$ 步。
+</span><span style="color:#75715e"></span>
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> itr : mp) {
+        <span style="color:#66d9ef">int</span> d <span style="color:#f92672">=</span> itr.first;
+        <span style="color:#66d9ef">int</span> step <span style="color:#f92672">=</span> d <span style="color:#f92672">-</span> D;
+        D <span style="color:#f92672">=</span> d; 
+        cur <span style="color:#f92672">=</span> cur <span style="color:#f92672">*</span> qpow(g, step);  <span style="color:#75715e">// 将 d_i-1 传递给 d_i
+</span><span style="color:#75715e"></span>
+        bfs();
+
+        <span style="color:#66d9ef">for</span> (Edge e : itr.second) {
+            <span style="color:#66d9ef">int</span> u <span style="color:#f92672">=</span> e.from, v <span style="color:#f92672">=</span> e.to;
+            g.f[u][v] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+            adj[u].push_back(v);
+        }
+    }
+    bfs();
+    <span style="color:#66d9ef">if</span> (ans <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">2e9</span>) cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Impossible</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+    <span style="color:#66d9ef">else</span> cout <span style="color:#f92672">&lt;&lt;</span> ans <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+}
+</code></pre></div></details>
+<h2 id="暴力字符串匹配">暴力字符串匹配</h2>
+<p>利用 bitset 可以 $O(\frac{n^2}{w})$ 求出一个模式串 $t$ 在一个母串 $s$ 中出现的所有位置，在 $n=10^5$ 的时候可以跑过去，尤其在多模式串+带修时很好用。</p>
+<p>原理：我们对于每个字符（一般来说是 <code>a</code> 到 <code>z</code>）都开一个bitset，就有 <code>bitset&lt;maxn&gt; bs[26]</code>，其中 <code>bs[i][j]</code> 代表字母 $i$ 在母串 $s$ 的位置 $j$ 是否出现了。</p>
+<p>比如字符串 <code>s = &quot;abab&quot;</code>，那么<code>a,b</code> 两个字母对应的两个bitset就是：</p>
+<p><code>a</code>：<code>1010</code></p>
+<p><code>b</code>：<code>0101</code></p>
+<p>现在要求一个模式串 $t$ 在 $s$ 中出现的所有位置，比如 <code>t = &quot;ab&quot;</code>。</p>
+<p>那么对于每一个模式串 $t$，我们先初始化一个 <strong>全为 $1$</strong> 的bitset叫 <code>ans</code>，<code>ans[i] = 1</code> 就代表模式串 $t$ 出现在了 $s$ 的位置 $i$ 处，也就是 $s[i&hellip;i+|t|-1]=t$。</p>
+<p>然后，枚举 $t$ 的每一个字符，对于第 $i$ 个字符 $t_i$，将 $t_i$ 对应的bitset<strong>右移</strong> $(i-1)$ 格后，与 <code>ans</code> AND 起来。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">bitset<span style="color:#f92672">&lt;</span>maxn<span style="color:#f92672">&gt;</span> bs[<span style="color:#ae81ff">26</span>];  <span style="color:#75715e">// bs[i][j]: 字母i在位置j是否出现过
+</span><span style="color:#75715e"></span>bitset<span style="color:#f92672">&lt;</span>maxn<span style="color:#f92672">&gt;</span> ans;
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> s;
+    n <span style="color:#f92672">=</span> s.size();
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        bs[s[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]<span style="color:#f92672">-</span><span style="color:#e6db74">&#39;a&#39;</span>][i] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    }
+
+    string t; cin <span style="color:#f92672">&gt;&gt;</span> t;
+    <span style="color:#66d9ef">int</span> m <span style="color:#f92672">=</span> t.size();
+    ans.set();  <span style="color:#75715e">// 全部设为1
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> m; i<span style="color:#f92672">++</span>) {
+        ans <span style="color:#f92672">&amp;=</span> ((bs[t[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]<span style="color:#f92672">-</span><span style="color:#e6db74">&#39;a&#39;</span>] <span style="color:#f92672">&gt;&gt;</span> (i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)));
+    }
+}
+</code></pre></div><p>然后 <code>ans</code> 就是我们所求的了。</p>
+<p>为什么是正确的？这本质上是暴力匹配的过程，考虑所有的前缀：</p>
+<p>对于 $t_1$ 这个前缀而言，显然只有 $s_i = t_1$ 的位置 $i$ 满足条件，所以 <code>ans &amp;= bs[t[0] - 'a']</code>。</p>
+<p>对于 $t_1t_2$ 这个前缀而言，只有 $s_i = t_1$ 且 $s_{i+1} = t_2$ 满足条件，所以需要将 $t_2$ 对应的bitset右移一格，然后再AND起来。</p>
+<p>后面的同理，直到枚举完整个 $t$。</p>
+<p>我们拿 <code>s = &quot;abab&quot;, t = &quot;ab&quot;</code> 举例：由于有</p>
+<p><code>a</code>：<code>1010</code></p>
+<p><code>b</code>：<code>0101</code></p>
+<p>那么 <code>b</code> 对应的bitset<strong>右移一位</strong>后可以得到 <code>1010</code>（注意bitset的写法是左右颠倒过来的，所以看起来像左移，但实际上是右移），那么就有：</p>
+<p><code>ans = (&quot;1111&quot; &amp; &quot;1010&quot; &amp; &quot;1010&quot;) = &quot;1010&quot;</code>，代表 $t$ 在 $s$ 的 $1,3$ 位置都出现了。</p>
+<hr>
+<p>最后注意，<strong>不要</strong> 在 <code>ans</code> 上跑 for-loop，这会导致它的优化直接失效！</p>
+<p>一些常见的函数：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">bitset<span style="color:#f92672">&lt;</span>maxn<span style="color:#f92672">&gt;</span> ans;
+<span style="color:#75715e">// 求 ans[l...r] 的和
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">getsum</span>(<span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r) {
+    <span style="color:#66d9ef">if</span> (l <span style="color:#f92672">&gt;</span> r) <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">return</span> (ans <span style="color:#f92672">&gt;&gt;</span> l).count() <span style="color:#f92672">-</span> (ans <span style="color:#f92672">&gt;&gt;</span> (r<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>)).count();  <span style="color:#75715e">// (ans&gt;&gt;i).count() = ans[i...n]
+</span><span style="color:#75715e"></span>}
+
+<span style="color:#75715e">// 枚举 ans 中所有的 1 (_Find_next(i) 会找 i 后面的下一个 1 的位置，如果没有的话返回 ans.size())
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> ans._Find_first(); i <span style="color:#f92672">&lt;</span> ans.size(); i <span style="color:#f92672">=</span> ans._Find_next(i)) {
+    pos.push_back(i);
+}
+</code></pre></div><p>• 最后提一下：bitset的主要优势在于<strong>带修</strong>，如果只是多模式串匹配的话，可以利用长度和为 $M$ 的模式串的长度种类不超过 $\sqrt M$ 种的特点，直接用以下两种方法之一：</p>
+<ol>
+<li>
+<p>后缀数组（复杂度为 $M \log |S|$），支持在线。</p>
+</li>
+<li>
+<p>字符串哈希（对于所有模式串哈希，然后从文本串的每个位置开始暴力匹配，只考虑拥有模式串的长度（不超过 $\sqrt M$ 种），即可求出所有模式串在文本串中出现的所有位置），复杂度为 $|S| \sqrt M$，仅支持离线。</p>
+</li>
+</ol>
+<h3 id="例1-cf914f-substrings-in-a-stringhttpscodeforcescomproblemsetproblem914f">例1 CF914F. <a href="https://codeforces.com/problemset/problem/914/F" target="_blank">Substrings in a String</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个字符串（仅包含小写字母） $s$，以及 $q$ 次操作，每次操作有两种：</p>
+<p><code>1 i c</code>：将 $s_i$ 改为字符 $c$</p>
+<p><code>2 l r t</code>：求字符串 $t$ 在 $s[l&hellip;r]$ 中，作为子串出现的次数。</p>
+<p>其中，$|s| \leq 10^5, q \leq 10^5, \sum |t| \leq 10^5$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>按照上面说的构造 26 个bitset和一个 <code>ans</code> bitset。</p>
+<p>对于第一种操作，直接 $O(1)$ 修改。</p>
+<p>对于第二种操作，我们求出 $t$ 在 $s$ 中出现的所有位置，然后只要回答 <code>ans[l...r-|t|+1]</code> 的和即可。</p>
+<p>使用 <code>(ans&gt;&gt;i).count()</code> 函数可以求出 <code>ans[i...n]</code> 的和。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+bitset<span style="color:#f92672">&lt;</span>maxn<span style="color:#f92672">&gt;</span> bs[<span style="color:#ae81ff">26</span>];  <span style="color:#75715e">// bs[i][j]: 字母i在位置j是否出现过
+</span><span style="color:#75715e"></span>bitset<span style="color:#f92672">&lt;</span>maxn<span style="color:#f92672">&gt;</span> ans;
+<span style="color:#75715e">// 求 ans[l...r] 的和
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">getsum</span>(<span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r) {
+    <span style="color:#66d9ef">if</span> (l <span style="color:#f92672">&gt;</span> r) <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">return</span> (ans <span style="color:#f92672">&gt;&gt;</span> l).count() <span style="color:#f92672">-</span> (ans <span style="color:#f92672">&gt;&gt;</span> (r<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>)).count();  <span style="color:#75715e">// (ans&gt;&gt;i).count() = ans[i...n]
+</span><span style="color:#75715e"></span>}
+
+string s;
+<span style="color:#66d9ef">int</span> n;
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    fastio;
+    cin <span style="color:#f92672">&gt;&gt;</span> s;
+    n <span style="color:#f92672">=</span> s.size();
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        bs[s[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]<span style="color:#f92672">-</span><span style="color:#e6db74">&#39;a&#39;</span>][i] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    }
+
+    <span style="color:#66d9ef">int</span> q; cin <span style="color:#f92672">&gt;&gt;</span> q;
+    <span style="color:#66d9ef">while</span> (q<span style="color:#f92672">--</span>) {
+        <span style="color:#66d9ef">int</span> op;
+        cin <span style="color:#f92672">&gt;&gt;</span> op;
+        <span style="color:#66d9ef">if</span> (op <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>) {
+            <span style="color:#66d9ef">int</span> p; <span style="color:#66d9ef">char</span> c; cin <span style="color:#f92672">&gt;&gt;</span> p <span style="color:#f92672">&gt;&gt;</span> c;
+            bs[s[p<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]<span style="color:#f92672">-</span><span style="color:#e6db74">&#39;a&#39;</span>][p] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+            s[p<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> c;
+            bs[s[p<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]<span style="color:#f92672">-</span><span style="color:#e6db74">&#39;a&#39;</span>][p] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        } <span style="color:#66d9ef">else</span> {
+            <span style="color:#66d9ef">int</span> l,r; string t; cin <span style="color:#f92672">&gt;&gt;</span> l <span style="color:#f92672">&gt;&gt;</span> r <span style="color:#f92672">&gt;&gt;</span> t;
+            <span style="color:#66d9ef">int</span> m <span style="color:#f92672">=</span> t.size();
+            ans.set();  <span style="color:#75715e">// 全部设为1
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> m; i<span style="color:#f92672">++</span>) {
+                ans <span style="color:#f92672">&amp;=</span> ((bs[t[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]<span style="color:#f92672">-</span><span style="color:#e6db74">&#39;a&#39;</span>] <span style="color:#f92672">&gt;&gt;</span> (i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)));
+            }
+            cout <span style="color:#f92672">&lt;&lt;</span> getsum(l, r<span style="color:#f92672">-</span>m<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>) <span style="color:#f92672">&lt;&lt;</span> endl;
+        }
+    }
+
+}
+</code></pre></div></details>
+<h3 id="例2-cf963d-frequency-of-stringhttpswwwluogucomcnproblemcf963d">例2 CF963D. <a href="https://www.luogu.com.cn/problem/CF963D" target="_blank">Frequency of String</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个字符串 $s$，有 $q$ 个询问，每次询问给定一个整数 $k_i$ 和一个字符串 $t_i$，回答 $s$ 中最短的子串使得 $t_i$ 在这个子串中出现了至少 $k_i$ 次。</p>
+<p>其中，$|s| \leq 10^5, q \leq 10^5, \sum|t_i| \leq 10^5$，$t_i$ 互不相同。</p>
+</div>
+<div class="admonition info">
+  <p class="admonition-title">性质</p>
+<p>对于互不相同的，长度之和为 $M$ 的一些模式串，在长度为 $n$ 的母串中出现的次数之和不超过 $n\sqrt M$。</p>
+<p>证明：考虑长度均为 $L$ 的所有模式串，由于它们互不相同，所以这些模式串出现在 $s$ 内的总次数 $\leq n-L+1$。并且由于 $\sum L \leq M$，意味着互不相同的 $L$ 只有 $\sqrt M$ 种。所以总出现次数不超过 $n \sqrt M$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>有了以上证明，我们知道这些模式串 $t_i$ 的出现次数之和不超过 $n \sqrt{\sum|t_i|}$，也就是说处理出的 <code>ans</code> 数组里最多有 $n \sqrt{\sum|t_i|}$ 个 $1$。</p>
+<p>于是对于每一个 $t_i$ 处理出 <code>ans</code>，然后利用 <code>_Find_first()</code> 函数和 <code>_Find_next()</code> 函数暴力枚举所有的 $1$ 的位置即可。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e5</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>;
+
+bitset<span style="color:#f92672">&lt;</span>maxn<span style="color:#f92672">&gt;</span> bs[<span style="color:#ae81ff">26</span>];  <span style="color:#75715e">// bs[i][j]: 字母i在位置j是否出现过
+</span><span style="color:#75715e"></span>bitset<span style="color:#f92672">&lt;</span>maxn<span style="color:#f92672">&gt;</span> ans;
+string s;
+<span style="color:#66d9ef">int</span> n;
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    fastio;
+    cin <span style="color:#f92672">&gt;&gt;</span> s;
+    n <span style="color:#f92672">=</span> s.size();
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        bs[s[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]<span style="color:#f92672">-</span><span style="color:#e6db74">&#39;a&#39;</span>][i] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    }
+
+    <span style="color:#66d9ef">int</span> q; cin <span style="color:#f92672">&gt;&gt;</span> q;
+    <span style="color:#66d9ef">while</span> (q<span style="color:#f92672">--</span>) {
+        <span style="color:#66d9ef">int</span> k; string t; cin <span style="color:#f92672">&gt;&gt;</span> k <span style="color:#f92672">&gt;&gt;</span> t;
+        <span style="color:#66d9ef">int</span> m <span style="color:#f92672">=</span> t.size();
+        <span style="color:#66d9ef">int</span> res <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e9</span>;
+        ans.set();
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> m; i<span style="color:#f92672">++</span>) {
+            ans <span style="color:#f92672">&amp;=</span> ((bs[t[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]<span style="color:#f92672">-</span><span style="color:#e6db74">&#39;a&#39;</span>] <span style="color:#f92672">&gt;&gt;</span> (i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)));
+        }
+        vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> pos;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> ans._Find_first(); i <span style="color:#f92672">&lt;</span> ans.size(); i <span style="color:#f92672">=</span> ans._Find_next(i)) {
+            pos.push_back(i);
+        }
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> k<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;</span> pos.size(); i<span style="color:#f92672">++</span>) {
+            res <span style="color:#f92672">=</span> min(res, pos[i] <span style="color:#f92672">-</span> pos[i<span style="color:#f92672">-</span>k<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> m);
+        }
+        cout <span style="color:#f92672">&lt;&lt;</span> (res <span style="color:#f92672">==</span> <span style="color:#ae81ff">1e9</span> <span style="color:#f92672">?</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span> <span style="color:#f92672">:</span> res) <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+    }
+}
+</code></pre></div></details>
+<h2 id="高维偏序">高维偏序</h2>
+<p>bitset可以用来解决高维偏序问题，高维问题一般如下：</p>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $n$ 个元素，第 $i$ 个元素有 $D$ 个属性 $p_{i,1}, p_{i,2} &hellip; p_{i,D}$。</p>
+<p>给定 $Q$ 个询问，每次询问给定一个元素，有 $D$ 个属性 $q_1,q_2,&hellip;,q_D$，回答有多少个元素使得每个属性都 $\leq q_i$。</p>
+<p>询问强制在线。</p>
+</div>
+<p>一般这种问题可以用 bitset 在 $O(\frac{n^2}{w})$ 的时间内解决。</p>
+<p>首先我们把这些元素复制 $D$ 份，分别储存每种元素。然后分别根据这个元素进行 sort，得到 $D$ 个sort后的数组，数组内储存了这个属性的值，和它原来的index。</p>
+<p>然后，对于sort后的数组的每个位置 $i$，我们都可以知道它前面有哪些 index，就代表对于这个属性，$\leq$ 这个属性的值的index的集合。</p>
+<p>所以我们在询问的时候，对于每一个询问，可以将 $q_i$ 在第 $i$ 个属性的数组中进行二分，找到它的位置，然后求出它前面的集合 index，然后将它们 AND 起来，就可以得到有哪些 index 的所有属性都 $\leq$ 它了。</p>
+<p>但由于 $n=10^5$，所以我们不能预处理出每个位置前面的 index 的集合，于是我们使用分块。</p>
+<p>对于每一个块，预处理这个块中所有index的集合，然后维护一个数组 <code>bitset&lt;maxn&gt; f[3][320]</code>，其中 <code>f[i][j]</code> 代表第 $i$ 维度，前 $j$ 个block形成的index的集合bitset。</p>
+<p>这样每次查询的时候，只需要 $O(1)$ 找到对应的块，然后再 $O(\sqrt n)$ 的时间把零散的部分加上即可。</p>
+<p>总的复杂度就是 $O(Dq(\log n + \sqrt n + \frac{n}{w})) = O(D\frac{qn}{w})$</p>
+<h3 id="例1-洛谷p3810模板三维偏序陌上花开httpswwwluogucomcnproblemp3810">例1 洛谷P3810<a href="https://www.luogu.com.cn/problem/P3810" target="_blank">【模板】三维偏序（陌上花开）</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $n$ 个元素，每个元素有 $a_i,b_i,c_i$ 三个属性，设 $f(i)$ 表示 $a_j \leq a_i, b_j \leq b_i, c_j \leq c_i, i \neq j$ 的数量。</p>
+<p>对于 $d \in [0, n-1]$，求 $f(i)=d$ 的数量。</p>
+<p>其中，$n \leq 10^5, a_i,b_i,c_i \in [1, 2 \times 10^5]$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>同上。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e5</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>;
+
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Node</span> {
+    <span style="color:#66d9ef">int</span> val, idx;
+    <span style="color:#66d9ef">bool</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">&lt;</span>(<span style="color:#66d9ef">const</span> Node<span style="color:#f92672">&amp;</span> other) <span style="color:#66d9ef">const</span> {
+        <span style="color:#66d9ef">if</span> (val <span style="color:#f92672">==</span> other.val) <span style="color:#66d9ef">return</span> idx <span style="color:#f92672">&lt;</span> other.idx;
+        <span style="color:#66d9ef">return</span> val <span style="color:#f92672">&lt;</span> other.val;
+    }
+} a[<span style="color:#ae81ff">3</span>][maxn];
+bitset<span style="color:#f92672">&lt;</span>maxn<span style="color:#f92672">&gt;</span> f[<span style="color:#ae81ff">3</span>][<span style="color:#ae81ff">320</span>];  <span style="color:#75715e">// f[i][j]: 第i维度，前j个block形成的bitset
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Info</span> {
+    <span style="color:#66d9ef">int</span> val[<span style="color:#ae81ff">3</span>];
+} ori[maxn];
+
+<span style="color:#66d9ef">int</span> res[maxn];
+<span style="color:#66d9ef">int</span> n, m, B, qval[<span style="color:#ae81ff">3</span>];
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">solve</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> m;
+    B <span style="color:#f92672">=</span> max(<span style="color:#ae81ff">50</span>, (<span style="color:#66d9ef">int</span>)sqrt(n));
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">3</span>; j<span style="color:#f92672">++</span>) {
+            cin <span style="color:#f92672">&gt;&gt;</span> a[j][i].val;
+            ori[i].val[j] <span style="color:#f92672">=</span> a[j][i].val;
+            a[j][i].idx <span style="color:#f92672">=</span> i;
+        }
+    }
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">3</span>; j<span style="color:#f92672">++</span>) {
+        sort(a[j]<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, a[j]<span style="color:#f92672">+</span>n<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>);
+        
+        <span style="color:#66d9ef">int</span> l <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, r <span style="color:#f92672">=</span> min(n, l<span style="color:#f92672">+</span>B<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>);
+        <span style="color:#75715e">// [1,B] -&gt; 1, [B+1, 2B] -&gt; 2 ...
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">for</span> (l <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; l <span style="color:#f92672">&lt;=</span> n; l <span style="color:#f92672">=</span> r<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>) {
+            r <span style="color:#f92672">=</span> min(n, l<span style="color:#f92672">+</span>B<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>);
+            <span style="color:#66d9ef">int</span> b <span style="color:#f92672">=</span> (l<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) <span style="color:#f92672">/</span> B <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+            f[j][b] <span style="color:#f92672">=</span> f[j][b<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>];  <span style="color:#75715e">// 记录前缀bitset
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> l; i <span style="color:#f92672">&lt;=</span> r; i<span style="color:#f92672">++</span>) {
+                <span style="color:#66d9ef">int</span> idx <span style="color:#f92672">=</span> a[j][i].idx;
+                f[j][b][idx] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+            }
+        }
+    }
+
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; k <span style="color:#f92672">&lt;=</span> n; k<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">3</span>; j<span style="color:#f92672">++</span>) qval[j] <span style="color:#f92672">=</span> ori[k].val[j];
+        bitset<span style="color:#f92672">&lt;</span>maxn<span style="color:#f92672">&gt;</span> ans;
+        ans.set();
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">3</span>; j<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">int</span> p <span style="color:#f92672">=</span> upper_bound(a[j]<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, a[j]<span style="color:#f92672">+</span>n<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, Node{qval[j], <span style="color:#ae81ff">10000000</span>}) <span style="color:#f92672">-</span> a[j] <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>;
+            <span style="color:#66d9ef">int</span> b <span style="color:#f92672">=</span> (p<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) <span style="color:#f92672">/</span> B <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;  <span style="color:#75715e">// 所属的block，所以加上 b-1对应的前缀
+</span><span style="color:#75715e"></span>
+            bitset<span style="color:#f92672">&lt;</span>maxn<span style="color:#f92672">&gt;</span> S <span style="color:#f92672">=</span> f[j][b<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>];
+            <span style="color:#75715e">// 第 b 个block对应的是 l = (b-1) * B + 1, r = p
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> (b<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) <span style="color:#f92672">*</span> B <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> p; i<span style="color:#f92672">++</span>) {
+                S[a[j][i].idx] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+            }
+            ans <span style="color:#f92672">&amp;=</span> S;
+        }
+
+        res[ans.count() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>]<span style="color:#f92672">++</span>;
+    }
+
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>) cout <span style="color:#f92672">&lt;&lt;</span> res[i] <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    solve();
+}
+</code></pre></div></details>
+<h2 id="bitset结合莫队">bitset结合莫队</h2>
+<p>在一些题目中，我们需要在一个区间内回答询问，这种询问需要使用bitset，就可以用莫队结合bitset。</p>
+<h3 id="例1-洛谷p5355-ynoi2017-由乃的玉米田httpswwwluogucomcnproblemp5355">例1 洛谷P5355 <a href="https://www.luogu.com.cn/problem/P5355" target="_blank">[Ynoi2017] 由乃的玉米田</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个长度为 $n$ 的数组，和 $m$ 个询问。</p>
+<p>每次询问为 $op,l,r,x$：</p>
+<ol>
+<li>op = 1：回答区间 $[l,r]$ 之间是否存在两个数 $a,b$，使得 $a-b=x$。</li>
+<li>op = 2：回答区间 $[l,r]$ 之间是否存在两个数 $a,b$，使得 $a+b=x$。</li>
+<li>op = 3：回答区间 $[l,r]$ 之间是否存在两个数 $a,b$，使得 $a*b=x$。</li>
+<li>op = 4：回答区间 $[l,r]$ 之间是否存在两个数 $a,b$，使得 $a/b=x$（整除，不能有余数）。</li>
+</ol>
+<p>在 $[l,r]$ 里选的两个数可以重复。</p>
+<p>其中，$n,m \leq 10^5, 1 \leq a_i \leq 10^5$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>因为数字可以重复选，所以一个区间内我们只关心某个数是否出现过，出现几次不用管。</p>
+<p>首先利用莫队离线所有的询问，然后对于每一个区间 $[l,r]$ 我们都可以知道有哪些数字出现在了这个区间内。</p>
+<p>对于第一种询问，如果 $a-b = x$，那么 $b=a-x$，这说明只要存在 $a$，使得 $a, a-x$ 同时出现在这个区间内即可。</p>
+<p>所以只要维护 <code>bitset&lt;maxn&gt; f</code> 表示这个区间出现的数，然后求 <code>f &amp; (f &gt;&gt; x)</code> 是否有 $1$ 即可。</p>
+<p>对于第二种询问，如果 $a+b = x$，我们希望把 $b$ 的符号反过来，所以我们定义 $N=10^5$（值域的最大值），然后令 $b' = N-b$，有 $a+N-b' = x$，所以得到 $b' = a+N-x$。注意到，$b'$ 对应的 <code>bitset</code> 是 $f$ 反过来的版本 $g$，所以我们只要检查 <code>f &amp; (g&gt;&gt;(N-x))</code> 是否有 $1$ 即可。</p>
+<hr>
+<p>第三和第四种询问不再需要 <code>bitset</code> 和莫队了。</p>
+<p>对于第三种询问，可以直接暴力枚举 $x$ 的所有因数（只有 $\sqrt n$ 个）。</p>
+<p>对于第四种询问，不能枚举 $x$ 的倍数了，复杂度太高。</p>
+<p>我们可以值域分块来处理 $x$：</p>
+<ol>
+<li>当 $x &gt; \sqrt {10^5}$ 时，可以暴力枚举倍数。</li>
+<li>$x \leq \sqrt {10^5} \approx 315$ 时，可以对于每一个 $x$ 都预处理，如下：</li>
+</ol>
+<p>我们可以对于每一个 $x$，都 $O(n)$ 预处理出每个 $i$，$a_i$ 对应的右侧距离它最近的 $a_j$ 使得 $a_j = xa_i$ 或者 $a_j = \frac{a_i}{x}$。我们预处理出来的这个数组叫 <code>nxt[i]</code>。</p>
+<p>所以每次询问 $[l,r]$ 的时候，只要看 $[l,r]$ 内的最小值是否 $\leq r$ 即可。</p>
+<p>于是，使用 ST 表？（然后愉快的T了）。</p>
+<p>再仔细观察一下，我们并不需要查询 $[l,r]$ 内的最小值，只需要查询 $[l,n]$ 的最小值即可，因为 $[r+1, n]$ 这部分的 <code>nxt[]</code> 肯定不会 $\leq r$，所以不会有影响，这样维护一个后缀最小值即可，所以是 $O(n)$ 的。</p>
+<p>• 每一个 $x$ 都要预处理，所以是 $O(315n)$ 的。</p>
+<hr>
+<p>最终的复杂度：</p>
+<ol>
+<li>分块 + 莫队: $O(n \sqrt n)$。</li>
+<li>预处理因数：$O(n \sqrt n)$。</li>
+<li>回答前两种询问：$O(\frac{nq}{w})$。</li>
+<li>预处理除法操作的 <code>nxt[]</code>：$O(315n)$。</li>
+</ol>
+<p>总复杂度为 $O(n\sqrt n + \frac{nq}{w} + 315n)$。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e5</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>;
+
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> N <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e5</span>;
+
+<span style="color:#66d9ef">int</span> n, m, ans[maxn], a[maxn], l <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, r <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, B;
+<span style="color:#66d9ef">int</span> bin[maxn], nxt[maxn];  <span style="color:#75715e">// nxt[x][i]: 对于位置 i，在它右侧，离它最近的 j 使得 a_j = x * a_i 或者 a_j = a_i / x
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Query</span> {
+    <span style="color:#66d9ef">int</span> op, l, r, x, id;
+    <span style="color:#66d9ef">bool</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">&lt;</span>(<span style="color:#66d9ef">const</span> Query<span style="color:#f92672">&amp;</span> other) <span style="color:#66d9ef">const</span> {
+        <span style="color:#66d9ef">int</span> b1 <span style="color:#f92672">=</span> (l <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">/</span> B, b2 <span style="color:#f92672">=</span> (other.l <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">/</span> B;
+        <span style="color:#66d9ef">if</span> (b1 <span style="color:#f92672">==</span> b2) {
+            <span style="color:#66d9ef">return</span> r <span style="color:#f92672">&lt;</span> other.r;
+        }
+        <span style="color:#66d9ef">return</span> b1 <span style="color:#f92672">&lt;</span> b2;
+    }
+} q[maxn];
+vector<span style="color:#f92672">&lt;</span>Query<span style="color:#f92672">&gt;</span> q4[<span style="color:#ae81ff">320</span>];  <span style="color:#75715e">// 储存第四种询问
+</span><span style="color:#75715e"></span>
+bitset<span style="color:#f92672">&lt;</span>maxn<span style="color:#f92672">&gt;</span> f, g;  <span style="color:#75715e">// f: 代表当前区间内所有出现的 x，g 代表 N-x
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> cnt[maxn];
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">add</span>(<span style="color:#66d9ef">int</span> p) {
+    <span style="color:#66d9ef">int</span> x <span style="color:#f92672">=</span> a[p];
+    cnt[x]<span style="color:#f92672">++</span>;
+    f[x] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, g[N<span style="color:#f92672">-</span>x] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+}
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">del</span>(<span style="color:#66d9ef">int</span> p) {
+    <span style="color:#66d9ef">int</span> x <span style="color:#f92672">=</span> a[p];
+    cnt[x]<span style="color:#f92672">--</span>;
+    <span style="color:#66d9ef">if</span> (cnt[x] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+        f[x] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, g[N<span style="color:#f92672">-</span>x] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    }
+}
+
+vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> fac[maxn];
+<span style="color:#66d9ef">int</span> pos[maxn];  
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    fastio;
+    cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> m;
+    B <span style="color:#f92672">=</span> max(<span style="color:#ae81ff">10</span>, (<span style="color:#66d9ef">int</span>)sqrt(n));
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> N; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> i; j <span style="color:#f92672">&lt;=</span> N; j <span style="color:#f92672">+=</span> i) {
+            fac[j].push_back(i);
+        }
+    }
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        cin <span style="color:#f92672">&gt;&gt;</span> a[i];
+    }
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> m; i<span style="color:#f92672">++</span>) {
+        cin <span style="color:#f92672">&gt;&gt;</span> q[i].op <span style="color:#f92672">&gt;&gt;</span> q[i].l <span style="color:#f92672">&gt;&gt;</span> q[i].r <span style="color:#f92672">&gt;&gt;</span> q[i].x;
+        q[i].id <span style="color:#f92672">=</span> i;
+    }
+
+    sort(q<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, q<span style="color:#f92672">+</span>m<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>);
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> m; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">if</span> (q[i].op <span style="color:#f92672">==</span> <span style="color:#ae81ff">4</span> <span style="color:#f92672">&amp;&amp;</span> q[i].x <span style="color:#f92672">&lt;=</span> B) {
+            q4[q[i].x].push_back(q[i]);
+            <span style="color:#66d9ef">continue</span>;  <span style="color:#75715e">// 不处理
+</span><span style="color:#75715e"></span>        }
+        <span style="color:#66d9ef">int</span> ql <span style="color:#f92672">=</span> q[i].l, qr <span style="color:#f92672">=</span> q[i].r;
+        <span style="color:#66d9ef">while</span> (r <span style="color:#f92672">&lt;</span> qr) add(<span style="color:#f92672">++</span>r);
+        <span style="color:#66d9ef">while</span> (r <span style="color:#f92672">&gt;</span> qr) del(r<span style="color:#f92672">--</span>);
+        <span style="color:#66d9ef">while</span> (l <span style="color:#f92672">&lt;</span> ql) del(l<span style="color:#f92672">++</span>);
+        <span style="color:#66d9ef">while</span> (l <span style="color:#f92672">&gt;</span> ql) add(<span style="color:#f92672">--</span>l);
+        <span style="color:#66d9ef">int</span> op <span style="color:#f92672">=</span> q[i].op, x <span style="color:#f92672">=</span> q[i].x;
+        <span style="color:#66d9ef">bool</span> ok <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        <span style="color:#66d9ef">if</span> (op <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>) {  <span style="color:#75715e">// a-b = x
+</span><span style="color:#75715e"></span>            <span style="color:#75715e">// 查询是否有 a, a-x 同时存在
+</span><span style="color:#75715e"></span>            ok <span style="color:#f92672">=</span> (f <span style="color:#f92672">&amp;</span> (f<span style="color:#f92672">&gt;&gt;</span>x)).any();
+        } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (op <span style="color:#f92672">==</span> <span style="color:#ae81ff">2</span>) {  <span style="color:#75715e">// a+b = x
+</span><span style="color:#75715e"></span>            ok <span style="color:#f92672">=</span> (f <span style="color:#f92672">&amp;</span> (g<span style="color:#f92672">&gt;&gt;</span>(N<span style="color:#f92672">-</span>x))).any();
+        } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (op <span style="color:#f92672">==</span> <span style="color:#ae81ff">3</span>) {   <span style="color:#75715e">// a*b = x
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j : fac[x]) {
+                <span style="color:#66d9ef">if</span> (f[j] <span style="color:#f92672">&amp;&amp;</span> f[x<span style="color:#f92672">/</span>j]) {
+                    ok <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+                    <span style="color:#66d9ef">break</span>;
+                }
+            }
+        } <span style="color:#66d9ef">else</span> {   <span style="color:#75715e">// a/b = x
+</span><span style="color:#75715e"></span>            
+            assert(x <span style="color:#f92672">&gt;</span> B);
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">*</span> x <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">1e5</span>; j<span style="color:#f92672">++</span>) {
+                <span style="color:#66d9ef">if</span> (f[j] <span style="color:#f92672">&amp;&amp;</span> f[j<span style="color:#f92672">*</span>x]) {
+                    ok <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+                    <span style="color:#66d9ef">break</span>;
+                }
+            }
+        }
+        ans[q[i].id] <span style="color:#f92672">=</span> ok;
+    }
+
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> x <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; x <span style="color:#f92672">&lt;=</span> B; x<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>q4[x].size()) <span style="color:#66d9ef">continue</span>;  <span style="color:#75715e">// 没有询问，不用build了
+</span><span style="color:#75715e"></span>        fill(pos, pos<span style="color:#f92672">+</span>maxn, n<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>);
+        fill(nxt, nxt<span style="color:#f92672">+</span>maxn, n<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>);
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> n; i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">1</span>; i<span style="color:#f92672">--</span>) {
+            <span style="color:#66d9ef">int</span> v <span style="color:#f92672">=</span> a[i];
+            pos[v] <span style="color:#f92672">=</span> i;
+            <span style="color:#66d9ef">if</span> (v <span style="color:#f92672">*</span> x <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">1e5</span>) nxt[i] <span style="color:#f92672">=</span> min(nxt[i], pos[v <span style="color:#f92672">*</span> x]);
+            <span style="color:#66d9ef">if</span> (v <span style="color:#f92672">%</span> x <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) nxt[i] <span style="color:#f92672">=</span> min(nxt[i], pos[v <span style="color:#f92672">/</span> x]);
+            nxt[i] <span style="color:#f92672">=</span> min(nxt[i], nxt[i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>]);
+        }
+
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> [op, l, r, x, id] <span style="color:#f92672">:</span> q4[x]) {
+            <span style="color:#66d9ef">bool</span> ok <span style="color:#f92672">=</span> (nxt[l] <span style="color:#f92672">&lt;=</span> r);
+            ans[id] <span style="color:#f92672">=</span> ok;
+        }
+    }
+
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> m; i<span style="color:#f92672">++</span>) cout <span style="color:#f92672">&lt;&lt;</span> (ans[i] <span style="color:#f92672">?</span> <span style="color:#e6db74">&#34;yuno&#34;</span> <span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;yumi&#34;</span>) <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+}
+</code></pre></div></details>
+<h2 id="bitset-优化二分图匹配">bitset 优化二分图匹配</h2>
+<p>bitset 在加上一些诡异的优化后，可以在 $n=7000$ 的情况下 $O(n^3)$ 跑出二分图最大匹配。</p>
+<h3 id="例1-universal-cup-12-mcolorful-graphhttpsqojaccontest1207problem6329">例1 Universal Cup 12 M.<a href="https://qoj.ac/contest/1207/problem/6329" target="_blank">Colorful Graph</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个 $n$ 个点，$m$ 条边的有向图。</p>
+<p>现在需要将所有的点染色 $c_i$，在染色后，保证对于任意两个节点 $i,j$，如果 $c_i=c_j$，那么有</p>
+<p>$i$ 能够到达 $j$ 或者 $j$ 能够到达 $i$。</p>
+<p>求一个染色方案，使得总颜色数量最小，并且输出这个方案。</p>
+<p>其中，$n,m \leq 7000$，时间限制 $8$ 秒，空间限制 $64$ MB。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>首先 SCC 缩点，缩点后得到一个DAG，我们知道在同一个 SCC 内的颜色肯定相同。</p>
+<p>然后变成 DAG 中可以相交的最小路径覆盖，我们记得可相交的最小路径覆盖需要对于每一个 $i,j$，如果 $i$ 能够到达 $j$ 那么连 $i \rightarrow j$ 这条边。</p>
+<p>但这样的话总共有 $O(n^2)$ 条边，这题卡空间，很明显过不了。</p>
+<p>于是考虑用 bitset 优化空间，然后可达性就用闭包来 $O(\frac{n^3}{w})$ 传递即可。</p>
+<p>这样可以得到一个 <code>bitset&lt;maxn&gt; f[maxn]</code> 来表达一个邻接矩阵。</p>
+<hr>
+<p>然后解决最小路径覆盖问题，用最大匹配，但最大匹配是 $O(n^3)$ 的明显会T。</p>
+<p>我们有三个优化：</p>
+<ol>
+<li>
+<p>注意到在最大匹配里，有 <code>vis[]</code> 数组来表示这个右侧点在这一轮是否被访问过，</p>
+<p>我们可以用一个 <code>bitset&lt;maxn&gt; can</code> 也来表达这个意思。<code>can[j] = 1</code> 代表这个右侧点可以在这一轮被使用。</p>
+</li>
+<li>
+<p>在最大匹配中，我们枚举了所有的边 $(i,j)$，并且check是否有 $j$ 被 visit 过。</p>
+<p>在 bitset 中，我们可以直接用 <code>can</code> 筛选掉所有用不上的边（<code>bitset&lt;maxn&gt; F = (f[i] &amp; can);</code>），然后利用 <code>for (int j = F._Find_first(); j &lt; F.size(); j = F._Find_next(j))</code> 枚举边。</p>
+</li>
+<li>
+<p>如果这一轮匹配未成功，代表没有边发生变化，也就意味着如果右侧点 $j$ 在上一轮匹配失败了，那么这一轮一定也会匹配失败。</p>
+<p>所以，若当前这一轮匹配并未成功，我们无需重置 <code>can</code>。</p>
+</li>
+</ol>
+<p>• 以上三个优化缺一不可，少了一个就会 T。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">7002</span>;
+
+<span style="color:#66d9ef">int</span> n, m;
+vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> adj[maxn];
+
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Tarjan</span> {
+    <span style="color:#66d9ef">int</span> dfn[maxn], low[maxn], id, from[maxn], scc <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, sz[maxn];
+    <span style="color:#66d9ef">bool</span> in[maxn];  <span style="color:#75715e">// instack or not
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> st[maxn], tail <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">dfs</span>(<span style="color:#66d9ef">int</span> u) {
+        in[u] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        st[<span style="color:#f92672">++</span>tail] <span style="color:#f92672">=</span> u;
+        dfn[u] <span style="color:#f92672">=</span> low[u] <span style="color:#f92672">=</span> <span style="color:#f92672">++</span>id;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> to : adj[u]) {
+            <span style="color:#66d9ef">if</span> (dfn[to] <span style="color:#f92672">&amp;&amp;</span> in[to]) low[u] <span style="color:#f92672">=</span> min(low[u], dfn[to]);  <span style="color:#75715e">// 要记得在栈内
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>dfn[to]) {
+                dfs(to);
+                low[u] <span style="color:#f92672">=</span> min(low[u], low[to]);
+            }
+        }
+        <span style="color:#66d9ef">if</span> (dfn[u] <span style="color:#f92672">==</span> low[u]) {
+            from[u] <span style="color:#f92672">=</span> <span style="color:#f92672">++</span>scc;
+            sz[scc] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+            <span style="color:#66d9ef">while</span> (tail <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> st[tail] <span style="color:#f92672">!=</span> u) {
+                <span style="color:#66d9ef">int</span> cur <span style="color:#f92672">=</span> st[tail];
+                from[cur] <span style="color:#f92672">=</span> from[u];
+                sz[scc]<span style="color:#f92672">++</span>;
+                tail<span style="color:#f92672">--</span>;
+                in[cur] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;  <span style="color:#75715e">// 记得这里，将在栈中的标记去掉
+</span><span style="color:#75715e"></span>            }
+            tail<span style="color:#f92672">--</span>;
+            in[u] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;  <span style="color:#75715e">// 记得这里，将在栈中的标记去掉
+</span><span style="color:#75715e"></span>        }
+    }
+    <span style="color:#75715e">// 跑tarjan
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">solve</span>() {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>dfn[i]) dfs(i);
+        }
+    }
+} tj;
+
+bitset<span style="color:#f92672">&lt;</span>maxn<span style="color:#f92672">&gt;</span> f[maxn], can;
+pii ed[maxn];
+
+<span style="color:#66d9ef">int</span> match[maxn], id <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+<span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">dfs</span>(<span style="color:#66d9ef">int</span> i) {
+    bitset<span style="color:#f92672">&lt;</span>maxn<span style="color:#f92672">&gt;</span> F <span style="color:#f92672">=</span> (f[i] <span style="color:#f92672">&amp;</span> can);   <span style="color:#75715e">// 优化1: 筛选出有用的边
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> F._Find_first(); j <span style="color:#f92672">&lt;</span> F.size(); j <span style="color:#f92672">=</span> F._Find_next(j)) {   <span style="color:#75715e">// 优化2: 不考虑不存在的边
+</span><span style="color:#75715e"></span>        can[j] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>match[j] <span style="color:#f92672">||</span> dfs(match[j])) {
+            match[j] <span style="color:#f92672">=</span> i;
+            <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+        }
+    }
+    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+
+<span style="color:#66d9ef">int</span> color[maxn], pre[maxn], nxt[maxn], ans[maxn];
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    fastio;
+    cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> m;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> m; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">int</span> u, v; cin <span style="color:#f92672">&gt;&gt;</span> u <span style="color:#f92672">&gt;&gt;</span> v;
+        adj[u].push_back(v);
+        ed[i] <span style="color:#f92672">=</span> {u, v};
+    }
+    tj.solve();
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> m; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">int</span> u <span style="color:#f92672">=</span> ed[i].first, v <span style="color:#f92672">=</span> ed[i].second;
+        <span style="color:#66d9ef">int</span> fu <span style="color:#f92672">=</span> tj.from[u], fv <span style="color:#f92672">=</span> tj.from[v];
+        <span style="color:#66d9ef">if</span> (fu <span style="color:#f92672">==</span> fv) <span style="color:#66d9ef">continue</span>;
+        f[fu][fv] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    }
+
+    <span style="color:#66d9ef">int</span> N <span style="color:#f92672">=</span> tj.scc;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> N; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;=</span> N; j<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">if</span> (f[j][i]) f[j] <span style="color:#f92672">|=</span> f[i];
+        }
+    }
+
+    can.set();
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> N; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">if</span> (dfs(i)) can.set();  <span style="color:#75715e">// 优化3: 只有在匹配成功时，才重置 can 
+</span><span style="color:#75715e"></span>    }
+
+    <span style="color:#66d9ef">int</span> c <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> N; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">if</span> (match[i]) {
+            nxt[match[i]] <span style="color:#f92672">=</span> i;
+            pre[i] <span style="color:#f92672">=</span> match[i];
+        }
+    }
+
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> N; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>pre[i]) {
+            <span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> i;
+            <span style="color:#f92672">++</span>c;
+            <span style="color:#66d9ef">while</span> (j) {
+                color[j] <span style="color:#f92672">=</span> c;
+                j <span style="color:#f92672">=</span> nxt[j];
+            }
+        }
+    }
+
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        ans[i] <span style="color:#f92672">=</span> color[tj.from[i]];
+        cout <span style="color:#f92672">&lt;&lt;</span> ans[i] <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; &#34;</span>;
+    }
+    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+}
+</code></pre></div></details>
+
+    </div>
+
+    
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/bitset/">bitset</a>
+          <a href="/tags//"></a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/104-cf1862f/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">CF1862F题解</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/102-%E5%90%8E%E7%BC%80%E6%95%B0%E7%BB%84/">
+            <span class="next-text nav-default">后缀数组</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://github.com/kiki-yan" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://kiki-yan.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2026
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/kiki-yan/kiki-yan.github.io" target="_blank"></a>
+    </span> 
+    <span class="author">kiki_yan</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/base16/tomorrow.min.css" rel="stylesheet">
+  
+  <script>hljs.configure({tabReplace: '    '});</script><script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

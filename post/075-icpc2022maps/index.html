@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>MAPS 2022 - kiki_yan</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="kiki_yan" /><meta name="description" content="M. Yet Another Divisor Problem 题意 设 $f(n)$ 为正整数 $n$ 的 divisor 个数。 给定 $a, b$，求有多少个满足以下条件的数 $n$？ $n$ 是奇数。 $n \in [a,b]$。 $f(f(n^n))$ 是 $n$ 的 divisor。 其中" /><meta name="keywords" content="kiki_yan, blog, Codeforces" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
+
+
+<link rel="canonical" href="https://kiki-yan.github.io/post/075-icpc2022maps/" />
+<link rel="manifest" href="/manifest.json">
+
+
+
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="MAPS 2022" />
+<meta property="og:description" content="M. Yet Another Divisor Problem 题意 设 $f(n)$ 为正整数 $n$ 的 divisor 个数。 给定 $a, b$，求有多少个满足以下条件的数 $n$？ $n$ 是奇数。 $n \in [a,b]$。 $f(f(n^n))$ 是 $n$ 的 divisor。 其中" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kiki-yan.github.io/post/075-icpc2022maps/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2022-10-10T13:30:58-05:00" />
+<meta property="article:modified_time" content="2026-09-24T14:30:49+08:00" />
+
+<meta itemprop="name" content="MAPS 2022">
+<meta itemprop="description" content="M. Yet Another Divisor Problem 题意 设 $f(n)$ 为正整数 $n$ 的 divisor 个数。 给定 $a, b$，求有多少个满足以下条件的数 $n$？ $n$ 是奇数。 $n \in [a,b]$。 $f(f(n^n))$ 是 $n$ 的 divisor。 其中"><meta itemprop="datePublished" content="2022-10-10T13:30:58-05:00" />
+<meta itemprop="dateModified" content="2026-09-24T14:30:49+08:00" />
+<meta itemprop="wordCount" content="1034">
+<meta itemprop="keywords" content=",," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="MAPS 2022"/>
+<meta name="twitter:description" content="M. Yet Another Divisor Problem 题意 设 $f(n)$ 为正整数 $n$ 的 divisor 个数。 给定 $a, b$，求有多少个满足以下条件的数 $n$？ $n$ 是奇数。 $n \in [a,b]$。 $f(f(n^n))$ 是 $n$ 的 divisor。 其中"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">kiki_yan</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF Problems</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">kiki_yan</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF Problems</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">MAPS 2022</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2022-10-10 13:30:58 -0500 -0500"> 2022-10-10 </span>
+        <div class="post-category">
+            <a href="/categories/%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A/"> 解题报告 </a>
+            </div>
+        
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#m-yet-another-divisor-problemhttpsmaps22kattiscomcontestsmaps22problemsyetanotherdivisorproblem">M. <a href="https://maps22.kattis.com/contests/maps22/problems/yetanotherdivisorproblem">Yet Another Divisor Problem</a></a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h3 id="m-yet-another-divisor-problemhttpsmaps22kattiscomcontestsmaps22problemsyetanotherdivisorproblem">M. <a href="https://maps22.kattis.com/contests/maps22/problems/yetanotherdivisorproblem" target="_blank">Yet Another Divisor Problem</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>设 $f(n)$ 为正整数 $n$ 的 divisor 个数。</p>
+<p>给定 $a, b$，求有多少个满足以下条件的数 $n$？</p>
+<ol>
+<li>$n$ 是奇数。</li>
+<li>$n \in [a,b]$。</li>
+<li>$f(f(n^n))$ 是 $n$ 的 divisor。</li>
+</ol>
+<p>其中，$1 \leq a \leq b \leq 10^8$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>这题可以用打表解决，直觉上来说满足这个条件的 $n$ 比较少。</p>
+<p>那么先考虑对于一个正整数 $n$，如何求 $f(n)$？</p>
+<p>我们将 $n$ 进行质因数分解得到：</p>
+<p>$$n = p_1^{m_1} p_2^{m_2} p_3^{m_3} &hellip; p_k^{m_k}$$</p>
+<p>那么</p>
+<p>$$f(n) = (m_1+1)(m_2+1)&hellip;(m_k+1)$$</p>
+<p>那么对于较小的 $n$（如 $n \leq 5 \times 10^7$）我们可以利用线性筛预处理，然后 $O(\log n)$ 时间内进行质因数分解，具体怎么做参考 <a href="/post/038-hdu-contest1/#q2-%E5%96%84%E8%89%AF%E7%9A%84%E5%87%BA%E9%A2%98%E4%BA%BA">这里</a>。</p>
+<p>对于较大的 $n$ 我们可以利用 Pollard-Rho 在 $O(n^{\frac{1}{4}})$ 的复杂度内进行质因数分解。</p>
+<p>所以我们的算法就有了：</p>
+<ol>
+<li>先分解 $n = p_1^{m_1} p_2^{m_2} p_3^{m_3} &hellip; p_k^{m_k}$，然后得到 $f(n) = (m_1+1)(m_2+1)&hellip;(m_k+1)$</li>
+<li>接下来，设 $n' = n(m_1+1) * n(m_2+1) &hellip; * n(m_k+1)$，我们需要知道 $f(n')$，所以对于每项 $n(m_i+1)$ 都质因数分解到同一个 map 里统计质因数。</li>
+<li>最后可求得 $f(n') = f(f(n))$。</li>
+</ol>
+<p>• 本题，对于 $n \leq 5 \times 10^7$ 的情况下的线性筛优化非常重要，速度差距至少在10倍以上。</p>
+<p>最后打表出来的结果只有 $10^4$ 个数左右。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> M <span style="color:#f92672">=</span> <span style="color:#ae81ff">5e7</span>;
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">PollardRho</span> {
+    <span style="color:#66d9ef">bool</span> isPrime[M<span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>];
+    <span style="color:#66d9ef">int</span> small[M<span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>];
+    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> primes;
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">preprocess</span>() {   <span style="color:#75715e">// 线性筛优化
+</span><span style="color:#75715e"></span>        memset(isPrime, <span style="color:#ae81ff">1</span>, <span style="color:#66d9ef">sizeof</span>(isPrime));
+        small[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>; i <span style="color:#f92672">&lt;=</span> M; i<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">if</span> (isPrime[i]) primes.push_back(i), small[i] <span style="color:#f92672">=</span> i;
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> primes.size() <span style="color:#f92672">&amp;&amp;</span> i <span style="color:#f92672">*</span> primes[j] <span style="color:#f92672">&lt;=</span> M; j<span style="color:#f92672">++</span>) {
+                <span style="color:#66d9ef">int</span> cur <span style="color:#f92672">=</span> i <span style="color:#f92672">*</span> primes[j];
+                isPrime[cur] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+                small[cur] <span style="color:#f92672">=</span> primes[j];
+                <span style="color:#66d9ef">if</span> (i <span style="color:#f92672">%</span> primes[j] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">break</span>;
+            }
+        }
+    }
+
+    vector<span style="color:#f92672">&lt;</span>ll<span style="color:#f92672">&gt;</span> factor;
+    ll <span style="color:#a6e22e">gcd</span>(ll a, ll b) {
+        <span style="color:#66d9ef">if</span> (b <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">return</span> a;
+        <span style="color:#66d9ef">return</span> gcd(b, a <span style="color:#f92672">%</span> b);
+    }
+
+    ll <span style="color:#a6e22e">quick_pow</span>(ll x, ll p, ll mod) {  <span style="color:#75715e">// 快速幂
+</span><span style="color:#75715e"></span>        ll ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">while</span> (p) {
+            <span style="color:#66d9ef">if</span> (p <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">1</span>) ans <span style="color:#f92672">=</span> (__int128_t)ans <span style="color:#f92672">*</span> x <span style="color:#f92672">%</span> mod;
+            x <span style="color:#f92672">=</span> (__int128_t)x <span style="color:#f92672">*</span> x <span style="color:#f92672">%</span> mod;
+            p <span style="color:#f92672">&gt;&gt;=</span> <span style="color:#ae81ff">1</span>;
+        }
+        <span style="color:#66d9ef">return</span> ans;
+    }
+
+    <span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">Miller_Rabin</span>(ll p) {  <span style="color:#75715e">// 判断素数
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> (p <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+        <span style="color:#66d9ef">if</span> (p <span style="color:#f92672">==</span> <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">if</span> (p <span style="color:#f92672">==</span> <span style="color:#ae81ff">3</span>) <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+        ll d <span style="color:#f92672">=</span> p <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>, r <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        <span style="color:#66d9ef">while</span> (<span style="color:#f92672">!</span>(d <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">1</span>)) <span style="color:#f92672">++</span>r, d <span style="color:#f92672">&gt;&gt;=</span> <span style="color:#ae81ff">1</span>;  <span style="color:#75715e">// 将d处理为奇数
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">for</span> (ll k <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; k <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">10</span>; <span style="color:#f92672">++</span>k) {
+            ll a <span style="color:#f92672">=</span> rand() <span style="color:#f92672">%</span> (p <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>) <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>;
+            ll x <span style="color:#f92672">=</span> quick_pow(a, d, p);
+            <span style="color:#66d9ef">if</span> (x <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">||</span> x <span style="color:#f92672">==</span> p <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">continue</span>;
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> r <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>; <span style="color:#f92672">++</span>i) {
+                x <span style="color:#f92672">=</span> (__int128_t)x <span style="color:#f92672">*</span> x <span style="color:#f92672">%</span> p;
+                <span style="color:#66d9ef">if</span> (x <span style="color:#f92672">==</span> p <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">break</span>;
+            }
+            <span style="color:#66d9ef">if</span> (x <span style="color:#f92672">!=</span> p <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+        }
+        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+    }
+
+    ll <span style="color:#a6e22e">Pollard_Rho</span>(ll x) {
+        ll s <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, t <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        ll c <span style="color:#f92672">=</span> (ll)rand() <span style="color:#f92672">%</span> (x <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">int</span> step <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, goal <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        ll val <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">for</span> (goal <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;; goal <span style="color:#f92672">*=</span> <span style="color:#ae81ff">2</span>, s <span style="color:#f92672">=</span> t, val <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>) {  <span style="color:#75715e">// 倍增优化
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">for</span> (step <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; step <span style="color:#f92672">&lt;=</span> goal; <span style="color:#f92672">++</span>step) {
+                t <span style="color:#f92672">=</span> ((__int128_t)t <span style="color:#f92672">*</span> t <span style="color:#f92672">+</span> c) <span style="color:#f92672">%</span> x;
+                val <span style="color:#f92672">=</span> (__int128_t)val <span style="color:#f92672">*</span> abs(t <span style="color:#f92672">-</span> s) <span style="color:#f92672">%</span> x;
+                <span style="color:#66d9ef">if</span> ((step <span style="color:#f92672">%</span> <span style="color:#ae81ff">127</span>) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+                    ll d <span style="color:#f92672">=</span> gcd(val, x);
+                    <span style="color:#66d9ef">if</span> (d <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">return</span> d;
+                }
+            }
+            ll d <span style="color:#f92672">=</span> gcd(val, x);
+            <span style="color:#66d9ef">if</span> (d <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">return</span> d;
+        }
+    }
+
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">findFac</span>(ll x) {
+        <span style="color:#66d9ef">if</span> (x <span style="color:#f92672">&lt;=</span> M) {
+            <span style="color:#66d9ef">while</span> (x <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">1</span>) {
+                <span style="color:#66d9ef">int</span> sp <span style="color:#f92672">=</span> small[x];
+                <span style="color:#66d9ef">while</span> (x <span style="color:#f92672">%</span> sp <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) x <span style="color:#f92672">/=</span> sp, factor.push_back(sp);  
+                <span style="color:#75715e">// factor里会有重复质因数，如果不要重复的话把 push_back 放下面即可
+</span><span style="color:#75715e"></span>            }
+            <span style="color:#66d9ef">return</span>;
+        }
+        <span style="color:#66d9ef">if</span> (Miller_Rabin(x)) {              <span style="color:#75715e">// 如果x为质数
+</span><span style="color:#75715e"></span>            factor.push_back(x);
+            <span style="color:#66d9ef">return</span>;
+        }
+        ll p <span style="color:#f92672">=</span> x;
+        <span style="color:#66d9ef">while</span> (p <span style="color:#f92672">&gt;=</span> x) p <span style="color:#f92672">=</span> Pollard_Rho(x);  <span style="color:#75715e">// 使用该算法
+</span><span style="color:#75715e"></span>        findFac(x<span style="color:#f92672">/</span>p), findFac(p);  <span style="color:#75715e">// 继续向下分解x和p
+</span><span style="color:#75715e"></span>    }
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">clear</span>() { factor.clear(); }
+} PR;
+
+map<span style="color:#f92672">&lt;</span>ll, ll<span style="color:#f92672">&gt;</span> cnt;
+map<span style="color:#f92672">&lt;</span>ll, ll<span style="color:#f92672">&gt;</span> cnt2;
+<span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">check</span>(ll n) {
+    PR.clear();
+    cnt.clear();
+    cnt2.clear();
+
+    PR.findFac(n);
+    <span style="color:#66d9ef">for</span> (ll a : PR.factor) {
+        cnt[a]<span style="color:#f92672">++</span>;
+    }
+
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span><span style="color:#f92672">&amp;</span> itr : cnt) {
+        PR.clear();
+        ll c <span style="color:#f92672">=</span> itr.second <span style="color:#f92672">*</span> n <span style="color:#f92672">+</span> <span style="color:#ae81ff">1LL</span>;
+        PR.findFac(c);
+        <span style="color:#66d9ef">for</span> (ll a : PR.factor) {
+            cnt2[a]<span style="color:#f92672">++</span>;
+        }
+    }
+    ll sum <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span><span style="color:#f92672">&amp;</span> itr : cnt2) {
+        sum <span style="color:#f92672">=</span> sum <span style="color:#f92672">*</span> (itr.second <span style="color:#f92672">+</span> <span style="color:#ae81ff">1LL</span>);
+        <span style="color:#66d9ef">if</span> (n <span style="color:#f92672">%</span> sum) <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+    }
+    <span style="color:#66d9ef">return</span> n <span style="color:#f92672">%</span> sum <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>;
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    PR.preprocess();
+    <span style="color:#66d9ef">for</span> (ll i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">1e8</span>; i<span style="color:#f92672">+=</span><span style="color:#ae81ff">2</span>) {
+        <span style="color:#66d9ef">if</span> (check(i)) cout <span style="color:#f92672">&lt;&lt;</span> i <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; &#34;</span>, fflush(stdout);
+    }
+    cout <span style="color:#f92672">&lt;&lt;</span> endl;
+}
+</code></pre></div></details>
+
+    </div>
+
+    
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags//"></a>
+          <a href="/tags//"></a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/076-icpc-2021-swerc/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">SWERC 2021-2022</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/074-icpc2019naq/">
+            <span class="next-text nav-default">NAQ 2019</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://github.com/kiki-yan" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://kiki-yan.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2026
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/kiki-yan/kiki-yan.github.io" target="_blank"></a>
+    </span> 
+    <span class="author">kiki_yan</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/base16/tomorrow.min.css" rel="stylesheet">
+  
+  <script>hljs.configure({tabReplace: '    '});</script><script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>ICPC2020 Mid Central USA - kiki_yan</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="kiki_yan" /><meta name="description" content="I. Trip Tik 题意 给定一个坐标轴，坐标轴上有 $n$ 个点，每个点坐标 $x_i$ 互不相同。每个点 $i$ 都有一个重要性 $w_i$，其中第 $i$ 个点的重要性 $w_i = i$。 现在有一个" /><meta name="keywords" content="kiki_yan, blog, Codeforces" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
+
+
+<link rel="canonical" href="https://kiki-yan.github.io/post/071-icpc2020mid-central/" />
+<link rel="manifest" href="/manifest.json">
+
+
+
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="ICPC2020 Mid Central USA" />
+<meta property="og:description" content="I. Trip Tik 题意 给定一个坐标轴，坐标轴上有 $n$ 个点，每个点坐标 $x_i$ 互不相同。每个点 $i$ 都有一个重要性 $w_i$，其中第 $i$ 个点的重要性 $w_i = i$。 现在有一个" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kiki-yan.github.io/post/071-icpc2020mid-central/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2022-09-13T14:05:04-05:00" />
+<meta property="article:modified_time" content="2026-09-24T14:30:49+08:00" />
+
+<meta itemprop="name" content="ICPC2020 Mid Central USA">
+<meta itemprop="description" content="I. Trip Tik 题意 给定一个坐标轴，坐标轴上有 $n$ 个点，每个点坐标 $x_i$ 互不相同。每个点 $i$ 都有一个重要性 $w_i$，其中第 $i$ 个点的重要性 $w_i = i$。 现在有一个"><meta itemprop="datePublished" content="2022-09-13T14:05:04-05:00" />
+<meta itemprop="dateModified" content="2026-09-24T14:30:49+08:00" />
+<meta itemprop="wordCount" content="2390">
+<meta itemprop="keywords" content=",," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="ICPC2020 Mid Central USA"/>
+<meta name="twitter:description" content="I. Trip Tik 题意 给定一个坐标轴，坐标轴上有 $n$ 个点，每个点坐标 $x_i$ 互不相同。每个点 $i$ 都有一个重要性 $w_i$，其中第 $i$ 个点的重要性 $w_i = i$。 现在有一个"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">kiki_yan</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF Problems</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">kiki_yan</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF Problems</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">ICPC2020 Mid Central USA</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2022-09-13 14:05:04 -0500 -0500"> 2022-09-13 </span>
+        <div class="post-category">
+            <a href="/categories/%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A/"> 解题报告 </a>
+            </div>
+        
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#i-trip-tikhttpsvjudgenetcontest514913problemi"><a href="https://vjudge.net/contest/514913#problem/I">I. Trip Tik</a></a></li>
+            <li><a href="#g-exciting-tournamenthttpsvjudgenetcontest514913problemprintg"><a href="https://vjudge.net/contest/514913/problemPrint/G">G. Exciting Tournament</a></a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h3 id="i-trip-tikhttpsvjudgenetcontest514913problemi"><a href="https://vjudge.net/contest/514913#problem/I" target="_blank">I. Trip Tik</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个坐标轴，坐标轴上有 $n$ 个点，每个点坐标 $x_i$ 互不相同。每个点 $i$ 都有一个重要性 $w_i$，其中第 $i$ 个点的重要性 $w_i = i$。</p>
+<p>现在有一个视野范围和视野中心，初始情况下视野中心为 $0$，视野范围是 $[-1,1]$。</p>
+<p>在视野中，只能看见前 $k$ 个最重要的点。</p>
+<p>每一步可以进行如下操作之一：</p>
+<ol>
+<li>Zoom Out: 将视野范围扩大 $2$ 倍。</li>
+<li>Zoom In: 将视野范围缩小 $2$ 倍。</li>
+<li>Change Center: 改变视野中心到一个点 $i$，这个操作要求点 $i$ 必须在之前的视野中可见。</li>
+</ol>
+<p>现在对于每一个点，求出从初始情况 $\rightarrow$ 视野中心在这个点，并且能看见这个点所需要的最少操作次数，如果不可能输出 $-1$。</p>
+<p>其中，$n \leq 10^5, |x_i| \leq 10^8, k \in [1,4]$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>BFS，定义一个状态为：$(x,d)$，其中 $x$ 代表当前的视野中心，$d$ 代表视野范围。</p>
+<p>注意这种状态最多只有 $n * log(10^8) \leq 30n$ 种。</p>
+<p>并且每个状态之间的转移也可以求出来，只要解决 <strong>判断一个点是否在当前状态的视野中</strong> 问题即可。</p>
+<ol>
+<li>预处理时，所有的点 sort 一下</li>
+<li>二分找到当前状态能看见的点的 index 范围 $[L,R]$。</li>
+<li>求 $a[L,R]$ 之间前 $k$ 重要的点。</li>
+</ol>
+<p>注意 $k \leq 4$，这个问题可以直接用线段树来维护（每个 node 维护前 $4$ 重要的点，合并时也很简单）。</p>
+<p>但这样太麻烦了，而且复杂度过高。</p>
+<p>• 注意到 <strong>ST表</strong> 也可以解决这个问题，合并时同理（注意去重即可）。</p>
+<p>• 最后注意一下视野范围可以最小来到 $[x_i-0.5, x_i+0.5]$。</p>
+<p>最后答案就是从初始状态出发到每个状态的最短路（由于权值均为 $1$ 所以 BFS 找最短路即可）。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e5</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>;
+
+<span style="color:#66d9ef">int</span> n;
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Point</span> {
+    <span style="color:#66d9ef">int</span> x, w;
+} arr[maxn];
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> M <span style="color:#f92672">=</span> <span style="color:#ae81ff">27</span>;
+<span style="color:#66d9ef">int</span> st_id[maxn][M<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>];  <span style="color:#75715e">// state to id
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">State</span> {
+    <span style="color:#66d9ef">int</span> x, d;  <span style="color:#75715e">// center, dimension
+</span><span style="color:#75715e"></span>};
+State st[maxn<span style="color:#f92672">*</span>(M<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>)];
+
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> MM <span style="color:#f92672">=</span> <span style="color:#ae81ff">21000000</span><span style="color:#f92672">+</span><span style="color:#ae81ff">23300</span>;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> N <span style="color:#f92672">=</span> <span style="color:#ae81ff">21000000</span><span style="color:#f92672">+</span><span style="color:#ae81ff">23300</span>;
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Edge</span> {
+    <span style="color:#66d9ef">int</span> to, nxt;
+} edges[MM];
+<span style="color:#66d9ef">int</span> head[N], ecnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">addEdge</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> v) {
+    Edge e <span style="color:#f92672">=</span> {v, head[u]};
+    head[u] <span style="color:#f92672">=</span> ecnt;
+    edges[ecnt<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> e;
+}
+queue<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> q;
+<span style="color:#66d9ef">bool</span> vis[N];
+<span style="color:#66d9ef">int</span> dis[N];
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">bfs</span>(<span style="color:#66d9ef">int</span> start) {
+    memset(dis, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#66d9ef">sizeof</span>(dis));
+    q.push(start);
+    vis[start] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    dis[start] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">while</span> (q.size()) {
+        <span style="color:#66d9ef">int</span> u <span style="color:#f92672">=</span> q.front(); q.pop();
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> e <span style="color:#f92672">=</span> head[u]; e; e <span style="color:#f92672">=</span> edges[e].nxt) {
+            <span style="color:#66d9ef">int</span> v <span style="color:#f92672">=</span> edges[e].to;
+            <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>vis[v]) {
+                vis[v] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+                dis[v] <span style="color:#f92672">=</span> dis[u] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+                q.push(v);
+            }
+        }
+    }
+}
+<span style="color:#66d9ef">bool</span> good[maxn][M<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>];  <span style="color:#75715e">// 如果状态能看见自己，说明是ok的
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> ans[maxn];
+
+
+<span style="color:#66d9ef">int</span> bin[maxn];
+vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> st_table[maxn][<span style="color:#ae81ff">18</span>];
+vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> merge(<span style="color:#66d9ef">const</span> vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> vec1, <span style="color:#66d9ef">const</span> vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> vec2) {
+    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> res;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j : vec1) res.push_back(j);
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j : vec2) res.push_back(j);
+    sort(res.begin(), res.end(), [<span style="color:#f92672">&amp;</span>](<span style="color:#66d9ef">auto</span> a, <span style="color:#66d9ef">auto</span> b) {
+        <span style="color:#66d9ef">return</span> arr[a].w <span style="color:#f92672">&gt;</span> arr[b].w;
+    });
+    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> tmp;
+    tmp.clear();
+    <span style="color:#66d9ef">if</span> (res.size())
+        tmp.push_back(res[<span style="color:#ae81ff">0</span>]);
+
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;</span> res.size(); i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">if</span> (res[i] <span style="color:#f92672">!=</span> res[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">&amp;&amp;</span> tmp.size() <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">3</span>) {
+            tmp.push_back(res[i]);
+        }
+    }
+    <span style="color:#66d9ef">return</span> tmp;
+}
+
+vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> ask_st(<span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r) {
+    <span style="color:#66d9ef">if</span> (l <span style="color:#f92672">&gt;</span> r) <span style="color:#66d9ef">return</span> {};
+    <span style="color:#66d9ef">int</span> len <span style="color:#f92672">=</span> r<span style="color:#f92672">-</span>l<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> bin[len];
+    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> vec1 <span style="color:#f92672">=</span> st_table[l][k];
+    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> vec2 <span style="color:#f92672">=</span> st_table[r<span style="color:#f92672">-</span>(<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span>k)<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>][k];
+    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">merge</span>(vec1, vec2);
+}
+ 
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">build_st</span>() {
+    bin[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; bin[<span style="color:#ae81ff">2</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>; i <span style="color:#f92672">&lt;</span> maxn; i<span style="color:#f92672">++</span>) bin[i] <span style="color:#f92672">=</span> bin[i<span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) st_table[i][<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> {i};
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; k <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">18</span>; k<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">+</span> (<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span>k) <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+            st_table[i][k] <span style="color:#f92672">=</span> merge(st_table[i][k<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>], st_table[i<span style="color:#f92672">+</span>(<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span>(k<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>))][k<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]);
+        }
+    }
+}
+
+<span style="color:#66d9ef">int</span> k;
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    fastio;
+    cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> k;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        cin <span style="color:#f92672">&gt;&gt;</span> arr[i].x;
+        arr[i].w <span style="color:#f92672">=</span> i;
+    }
+    sort(arr<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, arr<span style="color:#f92672">+</span>n<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, [](<span style="color:#66d9ef">auto</span> a, <span style="color:#66d9ef">auto</span> b) {
+        <span style="color:#66d9ef">return</span> a.x <span style="color:#f92672">&lt;</span> b.x;
+    });
+    <span style="color:#66d9ef">int</span> cnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    arr[n<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>].x <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;=</span> M; j<span style="color:#f92672">++</span>) {
+            st_id[i][j] <span style="color:#f92672">=</span> <span style="color:#f92672">++</span>cnt;
+            st[cnt] <span style="color:#f92672">=</span> {arr[i].x, <span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span>j};
+        }
+    }
+    build_st();
+
+    <span style="color:#75715e">// build(1, 1, n);
+</span><span style="color:#75715e"></span>
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;=</span> M; j<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">int</span> id <span style="color:#f92672">=</span> st_id[i][j];
+            <span style="color:#66d9ef">int</span> x <span style="color:#f92672">=</span> st[id].x, d <span style="color:#f92672">=</span> st[id].d;
+
+            <span style="color:#66d9ef">int</span> low <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, high <span style="color:#f92672">=</span> i, L <span style="color:#f92672">=</span> i, R <span style="color:#f92672">=</span> i;
+            <span style="color:#66d9ef">while</span> (low <span style="color:#f92672">&lt;=</span> high) {
+                <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> (low <span style="color:#f92672">+</span> high) <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+                <span style="color:#66d9ef">if</span> (x <span style="color:#f92672">-</span> arr[mid].x <span style="color:#f92672">&lt;=</span> d) {  <span style="color:#75715e">// visible
+</span><span style="color:#75715e"></span>                    high <span style="color:#f92672">=</span> mid<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+                    L <span style="color:#f92672">=</span> mid;
+                } <span style="color:#66d9ef">else</span> {
+                    low <span style="color:#f92672">=</span> mid<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>;
+                }
+            }
+
+            low <span style="color:#f92672">=</span> i, high <span style="color:#f92672">=</span> n;
+            <span style="color:#66d9ef">while</span> (low <span style="color:#f92672">&lt;=</span> high) {
+                <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> (low <span style="color:#f92672">+</span> high) <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+                <span style="color:#66d9ef">if</span> (arr[mid].x <span style="color:#f92672">-</span> x <span style="color:#f92672">&lt;=</span> d) {
+                    low <span style="color:#f92672">=</span> mid <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+                    R <span style="color:#f92672">=</span> mid;
+                } <span style="color:#66d9ef">else</span> high <span style="color:#f92672">=</span> mid <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>;
+            }
+
+
+            <span style="color:#66d9ef">if</span> (i <span style="color:#f92672">==</span> n<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>) {
+                L <span style="color:#f92672">=</span> n, R <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;                
+                <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> t <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; t <span style="color:#f92672">&lt;=</span> n; t<span style="color:#f92672">++</span>) {
+                    <span style="color:#66d9ef">if</span> (abs(arr[t].x) <span style="color:#f92672">&lt;=</span> d) {
+                        L <span style="color:#f92672">=</span> min(L, t);
+                        R <span style="color:#f92672">=</span> max(R, t);
+                    }
+                }
+            }
+
+            <span style="color:#75715e">// 现在找到了 [L,R]，只要找 [L,R] 中前k大的数字即可
+</span><span style="color:#75715e"></span>
+            vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> res <span style="color:#f92672">=</span> ask_st(L, R);
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> t <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; t <span style="color:#f92672">&lt;</span> min((<span style="color:#66d9ef">int</span>)res.size(), k); t<span style="color:#f92672">++</span>) {
+                <span style="color:#66d9ef">int</span> idx <span style="color:#f92672">=</span> res[t];
+                <span style="color:#66d9ef">if</span> (idx <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {  <span style="color:#75715e">// must have an important point!
+</span><span style="color:#75715e"></span>                    <span style="color:#66d9ef">int</span> s_id <span style="color:#f92672">=</span> st_id[idx][j];
+
+                    <span style="color:#66d9ef">if</span> (id <span style="color:#f92672">!=</span> s_id) {
+                        addEdge(id, s_id);  <span style="color:#75715e">// 不同的点，同缩放情况 加边
+</span><span style="color:#75715e"></span>                    }
+
+                    <span style="color:#66d9ef">if</span> (idx <span style="color:#f92672">==</span> i) {
+                        good[i][j] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;  <span style="color:#75715e">// 这个状态下可以看见自己
+</span><span style="color:#75715e"></span>                    }
+
+                }
+            }
+
+
+            <span style="color:#75715e">// 缩放之间加边
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">if</span> (j <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) addEdge(id, st_id[i][j<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]);
+            <span style="color:#66d9ef">if</span> (j <span style="color:#f92672">&lt;</span> M) addEdge(id, st_id[i][j<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>]);
+        }
+    }
+
+
+    bfs(st_id[n<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>][<span style="color:#ae81ff">0</span>]);
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">int</span> d <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e9</span>;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;=</span> M; j<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">if</span> (good[i][j]) {
+                <span style="color:#66d9ef">int</span> id <span style="color:#f92672">=</span> st_id[i][j];
+                <span style="color:#66d9ef">if</span> (dis[id] <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>) {
+                    d <span style="color:#f92672">=</span> min(d, dis[id]);
+                }
+            } 
+        }
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;=</span> M; j<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">int</span> id <span style="color:#f92672">=</span> st_id[i][j];
+            <span style="color:#66d9ef">if</span> (dis[id] <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>) {
+                d <span style="color:#f92672">=</span> min(d, dis[id] <span style="color:#f92672">+</span> j<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>);
+            }
+        }
+        <span style="color:#66d9ef">if</span> (d <span style="color:#f92672">==</span> <span style="color:#ae81ff">1e9</span>) {
+            ans[arr[i].w] <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+        } <span style="color:#66d9ef">else</span> ans[arr[i].w] <span style="color:#f92672">=</span> d;
+    }
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) cout <span style="color:#f92672">&lt;&lt;</span> ans[i] <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+}
+</code></pre></div></details>
+<h3 id="g-exciting-tournamenthttpsvjudgenetcontest514913problemprintg"><a href="https://vjudge.net/contest/514913/problemPrint/G" target="_blank">G. Exciting Tournament</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>有 $n$ 个参赛者，每个参赛者 $i$ 有一个skill level $s_i$ 和一个参赛次数限制 $g_i$。</p>
+<p>当两个选手 $i,j$ 比赛时，拥有较大 skill level 的选手会获胜，另外一位会被淘汰，并且总得分会增加 $s_i \text{ XOR } s_j$。</p>
+<p>每个选手最多只能参赛 $g_i$ 次，并且它最后一次参赛要么被淘汰，要么成为冠军（唯一的留下的选手）。</p>
+<p>求可能的最小总得分和最大总得分。</p>
+<p>其中，$3 \leq n \leq 100, s_i \in [0, 2^{30}), g_i \in [2, n)$。</p>
+<p>每个选手的 $s_i$ 各不相同。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>看见 $n \leq 100$ 并且拥有各种奇怪的限制，就想到网络流/费用流。</p>
+<blockquote>
+<p>如何表示一个选手被击败？</p>
+</blockquote>
+<p>每个选手视作一个点，并且复制一份，$i+n$ 代表选手 $i$ 被击败的情况。</p>
+<blockquote>
+<p>如何表示参赛次数限制？</p>
+</blockquote>
+<p>在网络流中，边的最大流量用来表达限制。</p>
+<p>• 最后注意，比赛结束时的冠军一定是拥有最大 $s_i$ 的选手，所以其他选手只能击败 $g_i - 1$ 位选手。</p>
+<p>于是费用流的建图方法如下：</p>
+<ol>
+<li>
+<p>对于每个选手 $i$，连边 $(s, i, g_i-1, 0)$，只有最大 $s_i$ 的选手连边 $(s, i, g_i, 0)$。</p>
+</li>
+<li>
+<p>对于每一个pair $(i,j)$，连边 $(i, j+n, 1, s_i \text{ XOR } s_j)$。</p>
+</li>
+<li>
+<p>对于每个选手 $i$，连边 $(i+n, t, 1, 0)$。</p>
+</li>
+</ol>
+<p>跑最大费用流和最小费用流即可。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">255</span>;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxm <span style="color:#f92672">=</span> <span style="color:#ae81ff">2e5</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>;
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Edge</span> {
+    <span style="color:#66d9ef">int</span> to, nxt;
+    ll w, c;
+};
+
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">MCMF</span> {
+    <span style="color:#66d9ef">int</span> n,m,s,t;
+    Edge edges[maxm<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>];
+    <span style="color:#66d9ef">int</span> head[maxn], ecnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>, cur[maxn];  <span style="color:#75715e">// ecnt 从 2 开始，方便取反向边
+</span><span style="color:#75715e"></span>    ll cost <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">addEdge</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> v, ll w, ll c) {
+        Edge e <span style="color:#f92672">=</span> {v, head[u], w, c};
+        edges[ecnt] <span style="color:#f92672">=</span> e;
+        head[u] <span style="color:#f92672">=</span> ecnt<span style="color:#f92672">++</span>;
+    }
+
+    ll dis[maxn];
+    <span style="color:#66d9ef">bool</span> inq[maxn], vis[maxn];
+    <span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">spfa</span>(<span style="color:#66d9ef">bool</span> mincost) {
+        queue<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> q;
+        memset(vis, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(vis));  <span style="color:#75715e">// 这里一定要记得清空 vis (dfs要用)
+</span><span style="color:#75715e"></span>        memset(inq, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(inq));
+        fill(dis, dis<span style="color:#f92672">+</span>maxn, mincost <span style="color:#f92672">?</span> <span style="color:#ae81ff">1e18</span> <span style="color:#f92672">:</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1e18</span>);
+        memcpy(cur, head, <span style="color:#66d9ef">sizeof</span>(head));  <span style="color:#75715e">// 当前弧优化用到的数组 cur
+</span><span style="color:#75715e"></span>        dis[s] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        inq[s] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        q.push(s);
+        <span style="color:#66d9ef">while</span> (<span style="color:#f92672">!</span>q.empty()) {
+            <span style="color:#66d9ef">int</span> u <span style="color:#f92672">=</span> q.front(); q.pop();
+            inq[u] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> e <span style="color:#f92672">=</span> head[u]; e; e <span style="color:#f92672">=</span> edges[e].nxt) {
+                <span style="color:#66d9ef">int</span> to <span style="color:#f92672">=</span> edges[e].to;
+                ll w <span style="color:#f92672">=</span> edges[e].w, c <span style="color:#f92672">=</span> edges[e].c;
+                <span style="color:#66d9ef">if</span> (w <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">continue</span>;
+                <span style="color:#66d9ef">if</span> ((mincost <span style="color:#f92672">&amp;&amp;</span> dis[u] <span style="color:#f92672">+</span> c <span style="color:#f92672">&lt;</span> dis[to]) <span style="color:#f92672">||</span> (<span style="color:#f92672">!</span>mincost <span style="color:#f92672">&amp;&amp;</span> dis[u] <span style="color:#f92672">+</span> c <span style="color:#f92672">&gt;</span> dis[to])) {
+                    dis[to] <span style="color:#f92672">=</span> dis[u] <span style="color:#f92672">+</span> c;
+                    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>inq[to]) {
+                        inq[to] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+                        q.push(to);
+                    }
+                }
+            }
+        }
+        <span style="color:#66d9ef">return</span> dis[t] <span style="color:#f92672">!=</span> (mincost <span style="color:#f92672">?</span> <span style="color:#ae81ff">1e18</span> <span style="color:#f92672">:</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1e18</span>);
+    }
+
+    ll <span style="color:#a6e22e">dfs</span>(<span style="color:#66d9ef">int</span> u, ll in) {
+        <span style="color:#66d9ef">if</span> (u <span style="color:#f92672">==</span> t) <span style="color:#66d9ef">return</span> in;  <span style="color:#75715e">// 如果已经运到了终点，直接返回入量
+</span><span style="color:#75715e"></span>        vis[u] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        ll out <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> e <span style="color:#f92672">=</span> cur[u]; e; e <span style="color:#f92672">=</span> edges[e].nxt) {
+            cur[u] <span style="color:#f92672">=</span> e;
+            <span style="color:#66d9ef">int</span> to <span style="color:#f92672">=</span> edges[e].to;
+            ll w <span style="color:#f92672">=</span> edges[e].w, c <span style="color:#f92672">=</span> edges[e].c;
+            <span style="color:#66d9ef">if</span> (vis[to] <span style="color:#f92672">||</span> w <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">||</span> dis[to] <span style="color:#f92672">!=</span> dis[u] <span style="color:#f92672">+</span> c) <span style="color:#66d9ef">continue</span>;
+            <span style="color:#75715e">// 检测: 1. 是否vis过  2. 这条边是否存在  3. 是否是最短路径
+</span><span style="color:#75715e"></span>
+            ll res <span style="color:#f92672">=</span> dfs(to, min(in, w));
+
+            in <span style="color:#f92672">-=</span> res;
+            out <span style="color:#f92672">+=</span> res;
+            edges[e].w <span style="color:#f92672">-=</span> res;
+            edges[e<span style="color:#f92672">^</span><span style="color:#ae81ff">1</span>].w <span style="color:#f92672">+=</span> res;
+
+            <span style="color:#66d9ef">if</span> (in <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">break</span>;
+        }
+        <span style="color:#66d9ef">if</span> (out <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) dis[u] <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1e18</span>;
+        <span style="color:#66d9ef">return</span> out;
+    }
+
+    ll <span style="color:#a6e22e">mcmf</span>(<span style="color:#66d9ef">bool</span> mincost <span style="color:#f92672">=</span> true) {
+        ll maxflow <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        <span style="color:#66d9ef">while</span> (spfa(mincost)) {
+            ll res <span style="color:#f92672">=</span> dfs(s, <span style="color:#ae81ff">1e18</span>);
+            maxflow <span style="color:#f92672">+=</span> res;
+            cost <span style="color:#f92672">+=</span> res <span style="color:#f92672">*</span> dis[t];  <span style="color:#75715e">// cost += (流量 * 最短路长度)
+</span><span style="color:#75715e"></span>        }
+        <span style="color:#66d9ef">return</span> maxflow;
+    }
+
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">add</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> v, ll w, ll c) {
+        addEdge(u,v,w,c);
+        addEdge(v,u,<span style="color:#ae81ff">0</span>,<span style="color:#f92672">-</span>c);
+    }
+} flow_min, flow_max;
+
+<span style="color:#66d9ef">int</span> skill[maxn], g[maxn];
+<span style="color:#66d9ef">int</span> n, s, t;
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+
+    cin <span style="color:#f92672">&gt;&gt;</span> n;
+    s <span style="color:#f92672">=</span> <span style="color:#ae81ff">201</span>, t <span style="color:#f92672">=</span> <span style="color:#ae81ff">202</span>;
+    flow_min.s <span style="color:#f92672">=</span> s; flow_max.s <span style="color:#f92672">=</span> s; flow_min.t <span style="color:#f92672">=</span> t, flow_max.t <span style="color:#f92672">=</span> t;
+    <span style="color:#66d9ef">int</span> maxs <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        cin <span style="color:#f92672">&gt;&gt;</span> skill[i] <span style="color:#f92672">&gt;&gt;</span> g[i];
+        maxs <span style="color:#f92672">=</span> max(maxs, skill[i]);
+    }
+
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">bool</span> notmax <span style="color:#f92672">=</span> <span style="color:#f92672">!</span>(skill[i] <span style="color:#f92672">==</span> maxs);
+        flow_min.add(s, i, g[i]<span style="color:#f92672">-</span>notmax, <span style="color:#ae81ff">0</span>);
+        flow_min.add(i<span style="color:#f92672">+</span>n, t, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>);
+        flow_max.add(s, i, g[i]<span style="color:#f92672">-</span>notmax, <span style="color:#ae81ff">0</span>);
+        flow_max.add(i<span style="color:#f92672">+</span>n, t, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>);
+    }
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;=</span> n; j<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">if</span> (skill[i] <span style="color:#f92672">&gt;</span> skill[j]) {
+                flow_min.add(i, j<span style="color:#f92672">+</span>n, <span style="color:#ae81ff">1</span>, skill[i] <span style="color:#f92672">^</span> skill[j]);
+                flow_max.add(i, j<span style="color:#f92672">+</span>n, <span style="color:#ae81ff">1</span>, skill[i] <span style="color:#f92672">^</span> skill[j]);
+            }
+        }
+    }
+    flow_min.mcmf(true);
+    flow_max.mcmf(false);
+    cout <span style="color:#f92672">&lt;&lt;</span> flow_min.cost <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; &#34;</span> <span style="color:#f92672">&lt;&lt;</span> flow_max.cost <span style="color:#f92672">&lt;&lt;</span> endl;
+    
+}
+
+</code></pre></div></details>
+
+    </div>
+
+    
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags//"></a>
+          <a href="/tags//"></a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/073-%E6%96%9C%E7%8E%87dp/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">斜率优化DP</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/070-%E5%AD%97%E7%AC%A6%E4%B8%B2hash/">
+            <span class="next-text nav-default">字符串Hash</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://github.com/kiki-yan" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://kiki-yan.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2026
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/kiki-yan/kiki-yan.github.io" target="_blank"></a>
+    </span> 
+    <span class="author">kiki_yan</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/base16/tomorrow.min.css" rel="stylesheet">
+  
+  <script>hljs.configure({tabReplace: '    '});</script><script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

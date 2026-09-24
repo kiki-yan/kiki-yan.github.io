@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Codeforces Round #717 (Div.2) 解题报告 - kiki_yan</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="kiki_yan" /><meta name="description" content="全是数学的一场Div2，$D$ 题是常规操作了，但是考场上没想起来，这里记录一下。 结尾也记录了 CF1514D，一道使用随机算法的神奇题目。 CF1516B AGAGA" /><meta name="keywords" content="kiki_yan, blog, Codeforces" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
+
+
+<link rel="canonical" href="https://kiki-yan.github.io/post/044-cf1516-tutorial/" />
+<link rel="manifest" href="/manifest.json">
+
+
+
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="Codeforces Round #717 (Div.2) 解题报告" />
+<meta property="og:description" content="全是数学的一场Div2，$D$ 题是常规操作了，但是考场上没想起来，这里记录一下。 结尾也记录了 CF1514D，一道使用随机算法的神奇题目。 CF1516B AGAGA" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kiki-yan.github.io/post/044-cf1516-tutorial/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2021-04-22T12:07:06+08:00" />
+<meta property="article:modified_time" content="2026-09-24T14:30:49+08:00" />
+
+<meta itemprop="name" content="Codeforces Round #717 (Div.2) 解题报告">
+<meta itemprop="description" content="全是数学的一场Div2，$D$ 题是常规操作了，但是考场上没想起来，这里记录一下。 结尾也记录了 CF1514D，一道使用随机算法的神奇题目。 CF1516B AGAGA"><meta itemprop="datePublished" content="2021-04-22T12:07:06+08:00" />
+<meta itemprop="dateModified" content="2026-09-24T14:30:49+08:00" />
+<meta itemprop="wordCount" content="4147">
+<meta itemprop="keywords" content=",," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Codeforces Round #717 (Div.2) 解题报告"/>
+<meta name="twitter:description" content="全是数学的一场Div2，$D$ 题是常规操作了，但是考场上没想起来，这里记录一下。 结尾也记录了 CF1514D，一道使用随机算法的神奇题目。 CF1516B AGAGA"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">kiki_yan</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF Problems</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">kiki_yan</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF Problems</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Codeforces Round #717 (Div.2) 解题报告</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2021-04-22 12:07:06 &#43;0800 &#43;0800"> 2021-04-22 </span>
+        <div class="post-category">
+            <a href="/categories/%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A/"> 解题报告 </a>
+            </div>
+        
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#cf1516b-agaga-xooorrrhttpscodeforcescomcontest1516problemb">CF1516B <a href="https://codeforces.com/contest/1516/problem/B">AGAGA XOOORRR</a></a></li>
+        <li><a href="#cf1516c-baby-ehab-partitions-againhttpscodeforcescomcontest1516problemc">CF1516C <a href="https://codeforces.com/contest/1516/problem/C">Baby Ehab Partitions Again</a></a></li>
+        <li><a href="#cf1516d-cuthttpscodeforcescomcontest1516problemd">CF1516D <a href="https://codeforces.com/contest/1516/problem/D">Cut</a></a></li>
+        <li><a href="#cf1514d-cut-and-stickhttpscodeforcescomcontest1514problemd">CF1514D <a href="https://codeforces.com/contest/1514/problem/D">Cut and Stick</a></a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>全是数学的一场Div2，$D$ 题是常规操作了，但是考场上没想起来，这里记录一下。</p>
+<p>结尾也记录了 CF1514D，一道使用随机算法的神奇题目。</p>
+<h2 id="cf1516b-agaga-xooorrrhttpscodeforcescomcontest1516problemb">CF1516B <a href="https://codeforces.com/contest/1516/problem/B" target="_blank">AGAGA XOOORRR</a></h2>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $n$ 个元素 $a_1,a_2,&hellip;,a_n$，每次操作可以任选 $2$ 个相邻元素 $a_i, a_{i+1}$，将它们删去，并且用 $a_i \text{ xor } a_{i+1}$ 来替换（位置不变）。</p>
+<p>问：是否存在一序列操作，使得数组最后只有相同的元素，并且长度 $\geq 2$？</p>
+<p>其中，$2 \leq n \leq 2000$</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>可以发现最后数组长度要么为 $2$，要么为 $3$。</p>
+<p>如果最后长度为 $2$，说明 $a_1 \text{ xor }a_2 \text{ xor }&hellip; \text{ xor }a_n = 0$，特判一下即可。</p>
+<p>如果长度为 $3$，则令 $k = a_1 \text{ xor }a_2 \text{ xor }&hellip; \text{ xor }a_n$，则最后数组一定是 $[k,k,k]$。只要判断是否存在连续的 $3$ 段使得它们的$\text{ xor }$为 $k$ 即可。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">2000</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>;
+ 
+<span style="color:#66d9ef">int</span> arr[maxn];
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    <span style="color:#66d9ef">int</span> T; cin <span style="color:#f92672">&gt;&gt;</span> T;
+    <span style="color:#66d9ef">while</span> (T<span style="color:#f92672">--</span>) {
+        <span style="color:#66d9ef">int</span> n; cin <span style="color:#f92672">&gt;&gt;</span> n;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) cin <span style="color:#f92672">&gt;&gt;</span> arr[i];
+ 
+        <span style="color:#66d9ef">int</span> x <span style="color:#f92672">=</span> arr[<span style="color:#ae81ff">1</span>];
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) x <span style="color:#f92672">^=</span> arr[i];
+ 
+        <span style="color:#66d9ef">if</span> (x <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+            cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;YES&#34;</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+            <span style="color:#66d9ef">continue</span>;
+        }
+ 
+        <span style="color:#66d9ef">int</span> cur <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, cnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+            cur <span style="color:#f92672">^=</span> arr[i];
+            <span style="color:#66d9ef">if</span> (cur <span style="color:#f92672">==</span> x) cnt<span style="color:#f92672">++</span>, cur <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+            <span style="color:#66d9ef">if</span> (cnt <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">break</span>;
+        }
+        <span style="color:#66d9ef">if</span> (cnt <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">2</span>) cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;YES&#34;</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+        <span style="color:#66d9ef">else</span> cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;NO&#34;</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+    }
+}
+</code></pre></div></details>
+<h2 id="cf1516c-baby-ehab-partitions-againhttpscodeforcescomcontest1516problemc">CF1516C <a href="https://codeforces.com/contest/1516/problem/C" target="_blank">Baby Ehab Partitions Again</a></h2>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个长度为 $n$ 的数组 $a_1,a_2,&hellip;,a_n$。</p>
+<p>问：我们最少要从数组中删去几个元素，使得：<strong>不存在</strong>任何一种方案，将数组分为 sum 相同的两半？</p>
+<p>输出这个最少删除数量，并且输出删除的index。</p>
+<p>其中，$2 \leq n \leq 100, 1 \leq a_i \leq 2000$</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>我们按照以下步骤进行check：</p>
+<ol>
+<li>
+<p>如果 $sum$ 是奇数，答案为 $0$。</p>
+</li>
+<li>
+<p>如果这个数组本身就无法分为两半（直接用 <code>bitset</code> 模拟），答案为 $0$。</p>
+</li>
+<li>
+<p>如果这个数组内，存在一个奇数，答案为 $1$，把这个奇数删掉即可。</p>
+</li>
+<li>
+<p>如果数组内，不存在奇数。则我们会发现，把整个数组的所有数除以 $2$，答案不变（因为原先的分配方案不会改变）。所以我们就一直除，直到出现一个奇数。答案也为 $1$。</p>
+</li>
+</ol>
+<p>如上，答案要么为 $0$，要么为 $1$。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">105</span>;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxm <span style="color:#f92672">=</span> <span style="color:#ae81ff">2e5</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>;
+
+<span style="color:#66d9ef">int</span> n, arr[maxn], sum <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, idx <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+bitset<span style="color:#f92672">&lt;</span>maxm<span style="color:#f92672">&gt;</span> dp;
+<span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">check</span>() {
+    dp[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        dp <span style="color:#f92672">|=</span> (dp <span style="color:#f92672">&lt;&lt;</span> (arr[i]));
+    }
+    <span style="color:#66d9ef">if</span> (dp[sum<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span>]) <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;  <span style="color:#75715e">// can partition into equal parts
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;  <span style="color:#75715e">// cannot partition into equal parts
+</span><span style="color:#75715e"></span>}
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">done</span>() {
+    <span style="color:#66d9ef">if</span> (idx <span style="color:#f92672">==</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) {
+        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+    } <span style="color:#66d9ef">else</span> {
+        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+        cout <span style="color:#f92672">&lt;&lt;</span> idx <span style="color:#f92672">&lt;&lt;</span> endl;
+    }
+    exit(<span style="color:#ae81ff">0</span>);
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> n;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) cin <span style="color:#f92672">&gt;&gt;</span> arr[i], sum <span style="color:#f92672">+=</span> arr[i];
+    <span style="color:#66d9ef">if</span> (sum <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">1</span>) done();
+    <span style="color:#66d9ef">if</span> (check()) done();
+
+    <span style="color:#66d9ef">bool</span> ok <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">while</span> (<span style="color:#f92672">!</span>ok) {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">if</span> (arr[i] <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">1</span>) ok <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, idx <span style="color:#f92672">=</span> i;
+        }
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) arr[i] <span style="color:#f92672">/=</span> <span style="color:#ae81ff">2</span>;
+    }
+    done();
+}
+</code></pre></div></details>
+<h2 id="cf1516d-cuthttpscodeforcescomcontest1516problemd">CF1516D <a href="https://codeforces.com/contest/1516/problem/D" target="_blank">Cut</a></h2>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个长度为 $n$ 的数组 $a_1,a_2,&hellip;,a_n$。</p>
+<p>给定 $q$ 个询问，每次询问 $l,r$，回答：</p>
+<p>对于 $[a_l, &hellip;, a_r]$，最少需要将它分为几个连续的subarray，使得每一个subarray内，所有元素的 $LCM$ 等于它们的乘积？</p>
+<p>其中，$1 \leq n,q,a_i \leq 10^5, 1 \leq l \leq r \leq n$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>如果一个subarray内，所有元素的 $LCM$ 等于它们的乘积，说明 <strong>任选两个元素</strong>，$gcd = 1$，也就是说<strong>不存在两个元素使得它们共享一个质因子。</strong></p>
+<p>所以一个 trivial 的算法如下：</p>
+<p>每次询问 $L,R$，就从 $L$ 开始出发，一直向右走，直到遇到一个 $x \in [L+1,R]$ 使得 $[a_L,&hellip;,a_x]$ 不满足上述条件。然后将 $ans+1$，令 $L = x$，然后重复此过程。</p>
+<hr>
+<p>现在问题在于，对于每一个 $L$，如何快速得到这样的 $x$？</p>
+<hr>
+<p>法一：（很麻烦）</p>
+<p><strong>根号分治 + 质因数分解</strong>，类似于 <a href="/post/036-%e4%b8%bb%e5%b8%ad%e6%a0%91/#%e4%be%8b3-cf1422f-boring-querieshttpswwwluogucomcnproblemcf1422f">CF1422F Boring Queries</a>。</p>
+<p>我们先对每个数进行质因子分解，如果一个subarray $[L,R]$ 满足条件，那么：</p>
+<p>对于<strong>每一个</strong>质因子 $p_i$，在 $[L,R]$ 内，它<strong>最多只能出现一个位置上</strong>。</p>
+<p>我们就可以处理出一个数组 $pre[j][i] = x$，代表对于第 $j$ 个质数 $p_j$，满足：</p>
+<ol>
+<li>$a_i$ 包含 $p_j$ 这个质因子。</li>
+<li>$a_x$ 包含 $p_j$ 这个质因子。</li>
+<li>$x &lt; i$，且 $x$ 尽可能大。</li>
+</ol>
+<p>然后得到一个数组 $pr[i]$，其中 $pr[i] = \max\limits_j \{ pre[j][i]\}$。</p>
+<p>那么，查询一个区间 $[L,R]$ 是否满足条件，令 $a = \max\limits_{i=L}^R \{pr[i]\}$，则只要满足 $a &lt; L$，说明这个区间 $[L,R]$ 是合法的。（这个 $a$ 可以用 $ST$ 表维护）</p>
+<p>• 注意到我们需要用根号分治（$ST$ 表只维护 $\leq \sqrt {10^5}$ 的部分。</p>
+<p>• 对于大质因子，由于每个位置，出现次数最多只有一次，直接用 <code>map&lt;int,int&gt;</code> 模拟一下前一个和它相等的数的index即可。</p>
+<p>经过上述处理，我们可以在 $O(1)$ 的时间内，查询一个区间 $[L,R]$ 是否合法。</p>
+<p>那么，对于每一个 $L$，<strong>二分</strong> 右边界 $R$ 就可以得到最大的合法 $R$ 的值为 $R'$，令 $x = R'+1$ 即可。</p>
+<hr>
+<p>法二：（正解）</p>
+<p><strong>DP + 质因数分解</strong>。</p>
+<p>首先求出每一个数的所有质因子。</p>
+<p>然后我们从 $n$ 遍历到 $1$，维护两个数组 <code>int pnxt[], dp[]</code>：</p>
+<ol>
+<li><code>pnxt[p]</code>：代表当前情况下，对于质因子 $p$，出现最靠前的位置。</li>
+<li><code>dp[i]</code>：对于位置 $i$，最多能往右走到 <code>dp[i]</code> 这个index（不包括）。</li>
+</ol>
+<p>首先我们有 <code>dp[i] = min(dp[i], dp[i+1])</code>，然后对于当前index $i$，我们有：</p>
+<p>$$dp[i] = \min\limits_p \{pnxt[p]\}$$</p>
+<p>其中，$p$ 是 $a_i$ 的所有质因子。</p>
+<p>处理出 <code>dp[]</code> 数组，就是我们所求的了。</p>
+<hr>
+<p>现在我们已知，对于每一个 $L$，它最远可以走到 $x$（不包括），那么每次询问 $[L,R]$，怎么快速得到答案？</p>
+<p>模拟肯定不行，如果数组是 $2,2,2,2,2&hellip;,2$ 的话，每次询问复杂度为 $O(n)$。</p>
+<p>使用 $LCA$ 中的<strong>倍增思想</strong>就可以了。</p>
+<p>我们预处理出 $nxt[i][j]$：代表从 $i$ 出发，走 $2^j$ 次，最远能走到哪。（其中，$nxt[i][0]$ 就是上述的 $dp[i]$）。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">法一代码（根号分治 &#43; 质因数分解 &#43; ST表）</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e5</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxm <span style="color:#f92672">=</span> <span style="color:#ae81ff">2e5</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>;
+ 
+<span style="color:#66d9ef">int</span> n, q, arr[maxn], small[maxn];  <span style="color:#75715e">// small[i] 代表 i 的最小质因子
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">bool</span> isprime[maxn];
+vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> primes;
+<span style="color:#66d9ef">bool</span> have[<span style="color:#ae81ff">70</span>][maxn];
+<span style="color:#66d9ef">int</span> pre[<span style="color:#ae81ff">70</span>][maxn];
+<span style="color:#66d9ef">int</span> ptr <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;  <span style="color:#75715e">// 记录小质因子(&lt;=317) 的数量
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> mp[<span style="color:#ae81ff">70</span>];  <span style="color:#75715e">// 1 -&gt; 2, 2 -&gt; 3, 3-&gt;5（因为质因数小于70个，节省空间）
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> rmap[maxn];  <span style="color:#75715e">// mp 的 reverse map
+</span><span style="color:#75715e"></span> 
+<span style="color:#66d9ef">int</span> pr[maxn];
+<span style="color:#66d9ef">int</span> st[maxn][<span style="color:#ae81ff">18</span>];
+<span style="color:#66d9ef">int</span> bin[maxn];
+<span style="color:#66d9ef">int</span> dp[maxn];
+ 
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">ask_st</span>(<span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r) {
+    <span style="color:#66d9ef">int</span> len <span style="color:#f92672">=</span> r<span style="color:#f92672">-</span>l<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> bin[len];
+    <span style="color:#66d9ef">return</span> max(st[l][k], st[r<span style="color:#f92672">-</span>(<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span>k)<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>][k]);
+}
+ 
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">build_st</span>() {
+    bin[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; bin[<span style="color:#ae81ff">2</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>; i <span style="color:#f92672">&lt;</span> maxn; i<span style="color:#f92672">++</span>) bin[i] <span style="color:#f92672">=</span> bin[i<span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) st[i][<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> pr[i];
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; k <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">18</span>; k<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">+</span> (<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span>k) <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>)
+            st[i][k] <span style="color:#f92672">=</span> max(st[i][k<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>], st[i<span style="color:#f92672">+</span>(<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span>(k<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>))][k<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]);
+    }
+}
+ 
+ 
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">init</span>() {
+    fill(isprime, isprime<span style="color:#f92672">+</span>maxn, <span style="color:#ae81ff">1</span>);
+    isprime[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    small[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>; i <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">1e5</span>; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">if</span> (isprime[i]) primes.push_back(i), small[i] <span style="color:#f92672">=</span> i;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> primes.size(); j<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">int</span> p <span style="color:#f92672">=</span> primes[j];
+            <span style="color:#66d9ef">if</span> (i<span style="color:#f92672">*</span>p <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">1e5</span>) <span style="color:#66d9ef">break</span>;
+            isprime[i<span style="color:#f92672">*</span>p] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+            small[i<span style="color:#f92672">*</span>p] <span style="color:#f92672">=</span> p;  <span style="color:#75715e">// 注意这里，无论是否有 i%p，都要 small[i*p] = p
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">if</span> (i <span style="color:#f92672">%</span> p <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+                <span style="color:#66d9ef">break</span>;
+            }
+        }
+    }
+ 
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> primes.size(); i<span style="color:#f92672">++</span>) {
+        mp[<span style="color:#f92672">++</span>ptr] <span style="color:#f92672">=</span> primes[i];
+        rmap[primes[i]] <span style="color:#f92672">=</span> ptr;
+        <span style="color:#66d9ef">if</span> (primes[i] <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">317</span>) <span style="color:#66d9ef">break</span>;
+    }
+ 
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">while</span> (arr[i] <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">1</span>) {
+            <span style="color:#66d9ef">int</span> p <span style="color:#f92672">=</span> small[arr[i]];
+            <span style="color:#66d9ef">if</span> (p <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">317</span>) <span style="color:#66d9ef">break</span>;
+            have[rmap[p]][i] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+            <span style="color:#66d9ef">while</span> (arr[i] <span style="color:#f92672">%</span> p <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) arr[i] <span style="color:#f92672">/=</span> p;
+        }
+    }
+ 
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;=</span> ptr; j<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">if</span> (have[j][i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]) pre[j][i] <span style="color:#f92672">=</span> i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+            pre[j][i] <span style="color:#f92672">=</span> max(pre[j][i], pre[j][i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]);
+ 
+            <span style="color:#66d9ef">if</span> (have[j][i]) {
+                pr[i] <span style="color:#f92672">=</span> max(pr[i], pre[j][i]);
+            }
+        }
+    }
+ 
+ 
+    unordered_map<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>,<span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> m;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">if</span> (arr[i] <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">317</span>) <span style="color:#66d9ef">continue</span>;
+        <span style="color:#66d9ef">if</span> (m.count(arr[i])) pr[i] <span style="color:#f92672">=</span> max(pr[i], m[arr[i]]);
+        m[arr[i]] <span style="color:#f92672">=</span> i;
+    }
+ 
+    build_st();
+}
+ 
+<span style="color:#75715e">// 询问 [L,R] 这个区间是否合法
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">ok</span>(<span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r) {
+    <span style="color:#66d9ef">int</span> a <span style="color:#f92672">=</span> ask_st(l,r);
+    <span style="color:#66d9ef">if</span> (a <span style="color:#f92672">&lt;</span> l) <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+ 
+<span style="color:#66d9ef">int</span> nxt[maxn][<span style="color:#ae81ff">19</span>];  <span style="color:#75715e">// nxt[i][j]: 从i开始，跳j步能达到的index 
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    read(n); read(q);
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) read(arr[i]);
+    init();
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> L <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; L <span style="color:#f92672">&lt;=</span> n; L<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">int</span> l <span style="color:#f92672">=</span> L, r <span style="color:#f92672">=</span> n;
+        <span style="color:#66d9ef">int</span> res;
+        <span style="color:#66d9ef">while</span> (l <span style="color:#f92672">&lt;=</span> r) {
+            <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> (l<span style="color:#f92672">+</span>r) <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+            <span style="color:#66d9ef">if</span> (ok(L,mid)) {
+                res <span style="color:#f92672">=</span> mid;
+                l <span style="color:#f92672">=</span> mid<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>;
+            } <span style="color:#66d9ef">else</span> r <span style="color:#f92672">=</span> mid<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+        }
+        nxt[L][<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> res <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+    }
+ 
+    fill(nxt[n<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>], nxt[n<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> <span style="color:#ae81ff">19</span>, n<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>);
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; k <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">18</span>; k<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+            nxt[i][k] <span style="color:#f92672">=</span> nxt[nxt[i][k<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]][k<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>];
+        }
+    }
+
+    <span style="color:#66d9ef">while</span> (q<span style="color:#f92672">--</span>) {
+        <span style="color:#66d9ef">int</span> L, R, ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        read(L), read(R);
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">18</span>; k <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>; k<span style="color:#f92672">--</span>) {
+            <span style="color:#66d9ef">if</span> (nxt[L][k] <span style="color:#f92672">&lt;=</span> R) L <span style="color:#f92672">=</span> nxt[L][k], ans <span style="color:#f92672">+=</span> (<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span>k);
+        }
+        ans<span style="color:#f92672">++</span>;
+        write(ans);
+    }
+}
+</code></pre></div></details>
+<details class="admonition note"><summary class="admonition-title">法二代码（DP &#43; 质因数分解）</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e5</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>;
+
+<span style="color:#66d9ef">int</span> n, q, arr[maxn];
+vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> fac[maxn];  <span style="color:#75715e">// fac[i]: i的质因子 (不重复)
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">get_factors</span>() {
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>; i <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">1e5</span>; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">if</span> (fac[i].size() <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {  <span style="color:#75715e">// i为质数
+</span><span style="color:#75715e"></span>            fac[i].push_back(i);
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> i<span style="color:#f92672">+</span>i; j <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">1e5</span>; j <span style="color:#f92672">+=</span> i) {
+                fac[j].push_back(i);
+            }
+        }
+    }
+}
+
+<span style="color:#66d9ef">int</span> nxt[maxn][<span style="color:#ae81ff">18</span>];  <span style="color:#75715e">// nxt[i][0] = j: 从i开始向右走，最多能走到j（不包括j）
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> pnxt[maxn];  <span style="color:#75715e">// pnxt[p] = i: 当前状态下，包含了质因子p的最小index i
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">init</span>() {
+    get_factors();
+    fill(pnxt, pnxt<span style="color:#f92672">+</span>maxn, n<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>);
+    fill(nxt[n<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>], nxt[n<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> <span style="color:#ae81ff">18</span>, n<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>);
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> n; i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">1</span>; i<span style="color:#f92672">--</span>) {
+        <span style="color:#66d9ef">int</span> cur <span style="color:#f92672">=</span> arr[i];
+        nxt[i][<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> nxt[i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>][<span style="color:#ae81ff">0</span>];
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> p : fac[cur]) {
+            nxt[i][<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> min(nxt[i][<span style="color:#ae81ff">0</span>], pnxt[p]);
+            pnxt[p] <span style="color:#f92672">=</span> i;
+        }
+    }
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; k <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">18</span>; k<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+            nxt[i][k] <span style="color:#f92672">=</span> nxt[nxt[i][k<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]][k<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>];
+        }
+    }
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> q;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) cin <span style="color:#f92672">&gt;&gt;</span> arr[i];
+    init();
+    <span style="color:#66d9ef">while</span> (q<span style="color:#f92672">--</span>) {
+        <span style="color:#66d9ef">int</span> L,R; cin <span style="color:#f92672">&gt;&gt;</span> L <span style="color:#f92672">&gt;&gt;</span> R;
+        <span style="color:#66d9ef">int</span> ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">17</span>; j <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>; j<span style="color:#f92672">--</span>) {
+            <span style="color:#66d9ef">if</span> (nxt[L][j] <span style="color:#f92672">&lt;=</span> R) {
+                L <span style="color:#f92672">=</span> nxt[L][j];
+                ans <span style="color:#f92672">+=</span> (<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span>j);
+            }
+        }
+        cout <span style="color:#f92672">&lt;&lt;</span> ans <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+    }
+}
+</code></pre></div></details>
+<h2 id="cf1514d-cut-and-stickhttpscodeforcescomcontest1514problemd">CF1514D <a href="https://codeforces.com/contest/1514/problem/D" target="_blank">Cut and Stick</a></h2>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个长度为 $n$ 的数组 $a_1,a_2,&hellip;,a_n$。</p>
+<p>给定 $q$ 个询问，每次询问 $l,r$，回答：</p>
+<p>对于 $[a_l, &hellip;, a_r]$，最少需要将它分为几个subsequence（不用连续），使得每一个subsequence都满足：如果这个subsequence的长度为 $len$，那么众数的出现次数 $\leq \lceil \frac{len}{2} \rceil$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>对于每次询问，求出 $[l,r]$ 中是否存在出现次数大于一半的数字，这样的数如果有，只能有一个。</p>
+<p>假设存在这样的数，那么我们的方案就是将这个众数一个个单独拿出来，每个单独组成一个subsequence，直到剩下的那个大subsequence满足条件为止。</p>
+<p>令 $len = (r-l+1)$，$f$ 为众数出现次数。</p>
+<p>设我们拿走了 $x$ 个众数。那么有：$\lceil\frac{len-x}{2}\rceil = f-x$，注意到 $\lceil\frac{len-x}{2}\rceil = \frac{len-x+1}{2}$，则有 $\frac{len-x+1}{2} = f-x$，推出 $x = 2f-len-1$，再加上单独分出来的那个大subsequence，答案就是 $x+1 = 2f-len$。</p>
+<p>• 当然，如果懒得推公式，也可以直接利用<strong>倍增思想</strong>模拟 $x$ 的值。（见主席树代码中的倍增部分）</p>
+<hr>
+<p>求一个区间出现次数大于一半的数字，主席树的模版了。具体做法看代码。</p>
+<hr>
+<p>我们要重点讲一下的是随机化算法。</p>
+<p>首先我们要预处理出 <strong>每个数字</strong> 出现的位置，用 <code>vector&lt;int&gt; pos[maxn]</code> 来维护。</p>
+<p>这样，每次询问 $[l,r]$，我们对于任何一个数字 $x$ 都可以求出 $x$ 在 $[l,r]$ 内出现的次数！</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">auto</span> itr1 <span style="color:#f92672">=</span> lower_bound(pos[x].begin(), pos[x].end(), l);
+<span style="color:#66d9ef">auto</span> itr2 <span style="color:#f92672">=</span> upper_bound(pos[x].begin(), pos[x].end(), r);
+<span style="color:#66d9ef">int</span> cnt <span style="color:#f92672">=</span> itr2 <span style="color:#f92672">-</span> itr1;
+</code></pre></div><p>现在，我们需要找到这个区间内，最多的出现次数。</p>
+<p>那么一个随机化的算法就是：</p>
+<p><strong>有放回的，从 $[l,r]$ 中随机选取 $40$ 个元素，将每个元素的出现次数取最大值</strong>。</p>
+<p>假设出现次数超过一半的数字存在，那么它在 $40$ 次随机选择中，都没有被选到的概率最多为 $2^{-40}$。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">主席树代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">3e5</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxm <span style="color:#f92672">=</span> <span style="color:#ae81ff">2e7</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>;
+ 
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">node</span> {
+    <span style="color:#66d9ef">int</span> lc, rc, cnt;
+} tr[maxm];
+<span style="color:#66d9ef">int</span> root[maxn], id <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+ 
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">build</span>(<span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r) {
+    <span style="color:#66d9ef">int</span> cur <span style="color:#f92672">=</span> <span style="color:#f92672">++</span>id;
+    <span style="color:#66d9ef">if</span> (l <span style="color:#f92672">==</span> r) {
+        <span style="color:#66d9ef">return</span> cur;
+    }
+    <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> (l<span style="color:#f92672">+</span>r) <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+    tr[cur].lc <span style="color:#f92672">=</span> build(l,mid);
+    tr[cur].rc <span style="color:#f92672">=</span> build(mid<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, r);
+    <span style="color:#66d9ef">return</span> cur;
+}
+ 
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">insert</span>(<span style="color:#66d9ef">int</span> pre, <span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r, <span style="color:#66d9ef">int</span> p) {
+    <span style="color:#66d9ef">int</span> cur <span style="color:#f92672">=</span> <span style="color:#f92672">++</span>id;
+    tr[cur] <span style="color:#f92672">=</span> tr[pre];  <span style="color:#75715e">// 复制一份上个版本
+</span><span style="color:#75715e"></span>    tr[cur].cnt<span style="color:#f92672">++</span>;  <span style="color:#75715e">// 添加了一个节点
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> (l <span style="color:#f92672">==</span> r) <span style="color:#66d9ef">return</span> cur;
+    <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> (l<span style="color:#f92672">+</span>r) <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">if</span> (p <span style="color:#f92672">&lt;=</span> mid) tr[cur].lc <span style="color:#f92672">=</span> insert(tr[cur].lc, l, mid, p);
+    <span style="color:#66d9ef">if</span> (p <span style="color:#f92672">&gt;</span> mid) tr[cur].rc <span style="color:#f92672">=</span> insert(tr[cur].rc, mid<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, r, p);
+    <span style="color:#66d9ef">return</span> cur;
+}
+ 
+<span style="color:#75715e">// query the most number in this segment [pre,cur]
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">query</span>(<span style="color:#66d9ef">int</span> pre, <span style="color:#66d9ef">int</span> cur, <span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r, <span style="color:#66d9ef">int</span> k) {
+    <span style="color:#66d9ef">if</span> (l <span style="color:#f92672">==</span> r) <span style="color:#66d9ef">return</span> tr[cur].cnt <span style="color:#f92672">-</span> tr[pre].cnt;
+    <span style="color:#66d9ef">int</span> prelc <span style="color:#f92672">=</span> tr[pre].lc, lc <span style="color:#f92672">=</span> tr[cur].lc;
+    <span style="color:#66d9ef">int</span> prerc <span style="color:#f92672">=</span> tr[pre].rc, rc <span style="color:#f92672">=</span> tr[cur].rc;
+    <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> (l<span style="color:#f92672">+</span>r) <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">int</span> lcnt <span style="color:#f92672">=</span> tr[lc].cnt <span style="color:#f92672">-</span> tr[prelc].cnt;
+    <span style="color:#66d9ef">int</span> rcnt <span style="color:#f92672">=</span> tr[rc].cnt <span style="color:#f92672">-</span> tr[prerc].cnt;
+    <span style="color:#66d9ef">if</span> (lcnt <span style="color:#f92672">&gt;</span> k) <span style="color:#66d9ef">return</span> query(prelc, lc, l, mid, k);
+    <span style="color:#66d9ef">if</span> (rcnt <span style="color:#f92672">&gt;</span> k) <span style="color:#66d9ef">return</span> query(prerc, rc, mid<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, r, k);
+    <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+}
+ 
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    <span style="color:#66d9ef">int</span> n,q; 
+    read(n); read(q);
+    root[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> build(<span style="color:#ae81ff">1</span>, n);
+ 
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">int</span> a; 
+        read(a);
+        root[i] <span style="color:#f92672">=</span> insert(root[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>], <span style="color:#ae81ff">1</span>, n, a);
+    }
+ 
+    <span style="color:#66d9ef">while</span> (q<span style="color:#f92672">--</span>) {
+        <span style="color:#66d9ef">int</span> l,r; 
+        read(l); read(r);
+        <span style="color:#66d9ef">int</span> len <span style="color:#f92672">=</span> r<span style="color:#f92672">-</span>l<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">if</span> (len <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>) {
+            write(<span style="color:#ae81ff">1</span>);
+            <span style="color:#66d9ef">continue</span>;
+        }
+ 
+        <span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> len <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">+</span> (len<span style="color:#f92672">&amp;</span><span style="color:#ae81ff">1</span>);
+        <span style="color:#66d9ef">int</span> res <span style="color:#f92672">=</span> query(root[l<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>], root[r], <span style="color:#ae81ff">1</span>, n, k);
+        <span style="color:#66d9ef">if</span> (res <span style="color:#f92672">==</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) {
+            write(<span style="color:#ae81ff">1</span>);
+            <span style="color:#66d9ef">continue</span>;
+        }
+ 
+        <span style="color:#66d9ef">int</span> ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#75715e">// 懒得推公式，直接用倍增进行模拟
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">19</span>; j <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>; j<span style="color:#f92672">--</span>) {
+            <span style="color:#66d9ef">int</span> d1 <span style="color:#f92672">=</span> (<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span>j);
+            <span style="color:#66d9ef">int</span> len2 <span style="color:#f92672">=</span> len <span style="color:#f92672">-</span> d1;
+            <span style="color:#66d9ef">int</span> res2 <span style="color:#f92672">=</span> res <span style="color:#f92672">-</span> d1;
+            <span style="color:#66d9ef">if</span> (res2 <span style="color:#f92672">&gt;</span> len2<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span> <span style="color:#f92672">+</span> (len2<span style="color:#f92672">&amp;</span><span style="color:#ae81ff">1</span>)) {
+                res <span style="color:#f92672">-=</span> d1;
+                len <span style="color:#f92672">-=</span> d1;
+                ans <span style="color:#f92672">+=</span> d1;
+            }
+        }
+ 
+        <span style="color:#66d9ef">while</span> (res <span style="color:#f92672">&gt;</span> len<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span> <span style="color:#f92672">+</span> (len<span style="color:#f92672">&amp;</span><span style="color:#ae81ff">1</span>)) {
+            res<span style="color:#f92672">--</span>;
+            len<span style="color:#f92672">--</span>;
+            ans<span style="color:#f92672">++</span>;
+        }
+        write(ans);
+    }
+}
+</code></pre></div></details>
+<details class="admonition note"><summary class="admonition-title">随机化代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">3e5</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>;
+
+<span style="color:#66d9ef">int</span> arr[maxn];
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> T <span style="color:#f92672">=</span> <span style="color:#ae81ff">40</span>;
+vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> pos[maxn];
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">solve</span>(<span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r) {
+    <span style="color:#66d9ef">int</span> cnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> t <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; t <span style="color:#f92672">&lt;=</span> T; t<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">int</span> p <span style="color:#f92672">=</span> randint(l,r);
+        <span style="color:#66d9ef">int</span> cur <span style="color:#f92672">=</span> arr[p];
+        <span style="color:#66d9ef">auto</span> itr1 <span style="color:#f92672">=</span> lower_bound(pos[cur].begin(), pos[cur].end(), l);
+        <span style="color:#66d9ef">auto</span> itr2 <span style="color:#f92672">=</span> upper_bound(pos[cur].begin(), pos[cur].end(), r);
+        cnt <span style="color:#f92672">=</span> max(cnt, itr2 <span style="color:#f92672">-</span> itr1);
+    }
+    <span style="color:#66d9ef">int</span> len <span style="color:#f92672">=</span> r<span style="color:#f92672">-</span>l<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">if</span> (cnt <span style="color:#f92672">&lt;=</span> (len<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>)<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span>) {
+        write(<span style="color:#ae81ff">1</span>);
+    } <span style="color:#66d9ef">else</span> {
+        write(<span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> cnt <span style="color:#f92672">-</span> len);
+    }
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    <span style="color:#66d9ef">int</span> n,q; 
+    read(n); read(q);
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        read(arr[i]);
+        pos[arr[i]].push_back(i);
+    }
+    <span style="color:#66d9ef">while</span> (q<span style="color:#f92672">--</span>) {
+        <span style="color:#66d9ef">int</span> l,r; read(l); read(r);
+        solve(l,r);
+    }
+}
+</code></pre></div></details>
+
+    </div>
+
+    
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags//"></a>
+          <a href="/tags//"></a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/045-%E6%8D%A2%E6%A0%B9dp/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">换根DP</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/043-%E6%A0%91%E7%9A%84%E7%9B%B4%E5%BE%84/">
+            <span class="next-text nav-default">树的直径</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://github.com/kiki-yan" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://kiki-yan.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2026
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/kiki-yan/kiki-yan.github.io" target="_blank"></a>
+    </span> 
+    <span class="author">kiki_yan</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/base16/tomorrow.min.css" rel="stylesheet">
+  
+  <script>hljs.configure({tabReplace: '    '});</script><script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

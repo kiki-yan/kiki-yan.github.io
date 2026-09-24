@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>背包问题 - kiki_yan</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="kiki_yan" /><meta name="description" content="多重背包 01 背包中每个物品只有一个，而多重背包中每个物品有 $s_i$ 个。 多重背包二进制优化 对于第 $i$ 个物品，如果它有 $s_i$ 个，就将其用二进制拆分，然后转成 01" /><meta name="keywords" content="kiki_yan, blog, Codeforces" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
+
+
+<link rel="canonical" href="https://kiki-yan.github.io/post/039-%E8%83%8C%E5%8C%85/" />
+<link rel="manifest" href="/manifest.json">
+
+
+
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="背包问题" />
+<meta property="og:description" content="多重背包 01 背包中每个物品只有一个，而多重背包中每个物品有 $s_i$ 个。 多重背包二进制优化 对于第 $i$ 个物品，如果它有 $s_i$ 个，就将其用二进制拆分，然后转成 01" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kiki-yan.github.io/post/039-%E8%83%8C%E5%8C%85/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2021-04-11T21:42:06+08:00" />
+<meta property="article:modified_time" content="2021-04-11T21:42:06+08:00" />
+
+<meta itemprop="name" content="背包问题">
+<meta itemprop="description" content="多重背包 01 背包中每个物品只有一个，而多重背包中每个物品有 $s_i$ 个。 多重背包二进制优化 对于第 $i$ 个物品，如果它有 $s_i$ 个，就将其用二进制拆分，然后转成 01"><meta itemprop="datePublished" content="2021-04-11T21:42:06+08:00" />
+<meta itemprop="dateModified" content="2021-04-11T21:42:06+08:00" />
+<meta itemprop="wordCount" content="3146">
+<meta itemprop="keywords" content="DP,背包," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="背包问题"/>
+<meta name="twitter:description" content="多重背包 01 背包中每个物品只有一个，而多重背包中每个物品有 $s_i$ 个。 多重背包二进制优化 对于第 $i$ 个物品，如果它有 $s_i$ 个，就将其用二进制拆分，然后转成 01"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">kiki_yan</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF Problems</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">kiki_yan</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF Problems</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">背包问题</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2021-04-11 21:42:06 &#43;0800 &#43;0800"> 2021-04-11 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
+            </div>
+        
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#多重背包">多重背包</a>
+          <ul>
+            <li><a href="#多重背包二进制优化">多重背包二进制优化</a></li>
+            <li><a href="#多重背包单调队列优化">多重背包（单调队列优化）</a></li>
+          </ul>
+        </li>
+        <li><a href="#分组背包">分组背包</a></li>
+        <li><a href="#背包删除元素">背包删除元素</a></li>
+        <li><a href="#例题">例题</a>
+          <ul>
+            <li><a href="#例1-google-kickstart-2022-roundh-d-level-designhttpscodingcompetitionswithgooglecomkickstartround00000000008cb1b60000000000c47792">例1 Google Kickstart 2022 RoundH D. <a href="https://codingcompetitions.withgoogle.com/kickstart/round/00000000008cb1b6/0000000000c47792">Level Design</a></a></li>
+            <li><a href="#例2-cf95e-lucky-countryhttpscodeforcescomproblemsetproblem95e">例2 CF95E <a href="https://codeforces.com/problemset/problem/95/E">Lucky Country</a></a></li>
+            <li><a href="#例3-the-knapsack-problemhttpscodeforcescomproblemsetgymproblem101064l">例3 <a href="https://codeforces.com/problemset/gymProblem/101064/L">The Knapsack problem</a></a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="多重背包">多重背包</h2>
+<p>01 背包中每个物品只有一个，而多重背包中每个物品有 $s_i$ 个。</p>
+<h3 id="多重背包二进制优化">多重背包二进制优化</h3>
+<p>对于第 $i$ 个物品，如果它有 $s_i$ 个，就将其用二进制拆分，然后转成 01 背包。</p>
+<p>如 $13 = 1 + 2 + 4 + 6$。</p>
+<p>注意拆分时，拆出来的物品也要修改它的价值。</p>
+<p>复杂度：$O(W \sum\limits_{i=1}^n \log s_i)$，其中 $W$ 为背包容量。</p>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">int</span> n, V;
+<span style="color:#66d9ef">int</span> dp[<span style="color:#ae81ff">2005</span>];
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">pack01</span>(<span style="color:#66d9ef">int</span> v, <span style="color:#66d9ef">int</span> w) {
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> V; j <span style="color:#f92672">&gt;=</span> v; j<span style="color:#f92672">--</span>) {
+        dp[j] <span style="color:#f92672">=</span> max(dp[j], dp[j<span style="color:#f92672">-</span>v] <span style="color:#f92672">+</span> w);
+    }
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> V;
+    <span style="color:#66d9ef">while</span> (n<span style="color:#f92672">--</span>) {
+        <span style="color:#66d9ef">int</span> v,w,s; cin <span style="color:#f92672">&gt;&gt;</span> v <span style="color:#f92672">&gt;&gt;</span> w <span style="color:#f92672">&gt;&gt;</span> s;
+        <span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">while</span> (k <span style="color:#f92672">&lt;=</span> s) {
+            pack01(v<span style="color:#f92672">*</span>k, w<span style="color:#f92672">*</span>k);
+            s <span style="color:#f92672">-=</span> k;
+            k <span style="color:#f92672">&lt;&lt;=</span> <span style="color:#ae81ff">1</span>;
+        }
+        pack01(v<span style="color:#f92672">*</span>s, w<span style="color:#f92672">*</span>s);
+    }
+    <span style="color:#66d9ef">int</span> ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;=</span> V; j<span style="color:#f92672">++</span>) ans <span style="color:#f92672">=</span> max(ans, dp[j]);
+    cout <span style="color:#f92672">&lt;&lt;</span> ans <span style="color:#f92672">&lt;&lt;</span> endl;
+}
+</code></pre></div></details>
+<h3 id="多重背包单调队列优化">多重背包（单调队列优化）</h3>
+<p>设 $f_j$ 为装容量为 $j$ 的最大价值，$i$ 为当前考虑的物品，有 $s_i$ 个。</p>
+<p>暴力跑多重背包的转移方程是：</p>
+<p>$$f_j = \max\limits_{k \in [0,s_i]} f_{j-kw_i} + kv_i$$</p>
+<p>这显然是一个滑动窗口的模版，只不过这个窗口是按同余类来的，比如 $j=10$，而 $w_i=3$，$s_i=2$，那么转移 $f_{10}$ 时由 $f_7, f_4$ 来转移。</p>
+<p>于是枚举同余类，然后对于每一个同余类都用滑动窗口来优化即可。</p>
+<p>复杂度：$O(nW)$，其中 $n$ 为物品种类数。</p>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">node</span> {
+    <span style="color:#66d9ef">int</span> pos, val;
+} q[<span style="color:#ae81ff">20005</span>];
+<span style="color:#66d9ef">int</span> head <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, tail <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, n, V, dp[<span style="color:#ae81ff">20005</span>];
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">solve</span>(<span style="color:#66d9ef">int</span> v, <span style="color:#66d9ef">int</span> w, <span style="color:#66d9ef">int</span> s) {
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> v; j<span style="color:#f92672">++</span>) {
+        head <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, tail <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+        q[<span style="color:#f92672">++</span>tail] <span style="color:#f92672">=</span> {<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">0</span>};
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i<span style="color:#f92672">*</span>v <span style="color:#f92672">+</span> j <span style="color:#f92672">&lt;=</span> V; i<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">while</span> (i <span style="color:#f92672">-</span> q[head].pos <span style="color:#f92672">&gt;</span> s) head<span style="color:#f92672">++</span>;
+            <span style="color:#66d9ef">int</span> cur <span style="color:#f92672">=</span> i<span style="color:#f92672">*</span>v <span style="color:#f92672">+</span> j;
+            <span style="color:#66d9ef">int</span> val <span style="color:#f92672">=</span> dp[cur] <span style="color:#f92672">-</span> i<span style="color:#f92672">*</span>w;
+            dp[cur] <span style="color:#f92672">=</span> max(dp[cur], q[head].val <span style="color:#f92672">+</span> i<span style="color:#f92672">*</span>w);
+
+            <span style="color:#66d9ef">while</span> (head <span style="color:#f92672">&lt;=</span> tail <span style="color:#f92672">&amp;&amp;</span> val <span style="color:#f92672">&gt;=</span> q[tail].val) tail<span style="color:#f92672">--</span>;
+            q[<span style="color:#f92672">++</span>tail] <span style="color:#f92672">=</span> {i, val};
+        }
+    }
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> V;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">int</span> v,w,s; cin <span style="color:#f92672">&gt;&gt;</span> v <span style="color:#f92672">&gt;&gt;</span> w <span style="color:#f92672">&gt;&gt;</span> s;
+        solve(v,w,s);
+    }
+    <span style="color:#66d9ef">int</span> ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;=</span> V; j<span style="color:#f92672">++</span>) ans <span style="color:#f92672">=</span> max(ans, dp[j]);
+    cout <span style="color:#f92672">&lt;&lt;</span> ans <span style="color:#f92672">&lt;&lt;</span> endl;
+}
+</code></pre></div></details>
+<h2 id="分组背包">分组背包</h2>
+<p>01背包的变形，每一个物品只有一个，但它属于某个组，一个组内只能选最多一个物品。</p>
+<p>只要对每一组来跑 01 背包即可。</p>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">int</span> dp[<span style="color:#ae81ff">1005</span>];
+<span style="color:#66d9ef">int</span> W, n;
+vector<span style="color:#f92672">&lt;</span>pii<span style="color:#f92672">&gt;</span> adj[<span style="color:#ae81ff">105</span>];
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">pack01</span>(<span style="color:#66d9ef">int</span> k) {
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> w <span style="color:#f92672">=</span> W; w <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>; w<span style="color:#f92672">--</span>) {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> [c, v] <span style="color:#f92672">:</span> adj[k]) {
+            <span style="color:#66d9ef">if</span> (w <span style="color:#f92672">&gt;=</span> c) dp[w] <span style="color:#f92672">=</span> max(dp[w], dp[w<span style="color:#f92672">-</span>c] <span style="color:#f92672">+</span> v);
+        }
+    }
+}
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> W <span style="color:#f92672">&gt;&gt;</span> n;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">int</span> w, v, k; cin <span style="color:#f92672">&gt;&gt;</span> w <span style="color:#f92672">&gt;&gt;</span> v <span style="color:#f92672">&gt;&gt;</span> k;
+        adj[k].push_back({w, v});
+    }
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; k <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">100</span>; k<span style="color:#f92672">++</span>) pack01(k);
+    cout <span style="color:#f92672">&lt;&lt;</span> dp[W] <span style="color:#f92672">&lt;&lt;</span> endl;
+}
+</code></pre></div></details>
+<h2 id="背包删除元素">背包删除元素</h2>
+<p>众所周知，背包内加入一个元素是（这里 <code>dp[i]</code> 代表能够装重量和为 $i$ 的物品的方案数）：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> N; i <span style="color:#f92672">&gt;=</span> w; i<span style="color:#f92672">--</span>) dp[i] <span style="color:#f92672">+=</span> dp[i <span style="color:#f92672">-</span> w];
+</code></pre></div><p>而背包删除一个元素其实也可以反过来做：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> w; i <span style="color:#f92672">&lt;=</span> N; i<span style="color:#f92672">++</span>) dp[i] <span style="color:#f92672">-=</span> dp[i <span style="color:#f92672">-</span> w];
+</code></pre></div><p>• 注意这里的枚举顺序，在删除的时候要保证删除时，用的是<strong>加入前</strong>的状态，所以是<strong>从小到大</strong>删。</p>
+<h2 id="例题">例题</h2>
+<h3 id="例1-google-kickstart-2022-roundh-d-level-designhttpscodingcompetitionswithgooglecomkickstartround00000000008cb1b60000000000c47792">例1 Google Kickstart 2022 RoundH D. <a href="https://codingcompetitions.withgoogle.com/kickstart/round/00000000008cb1b6/0000000000c47792" target="_blank">Level Design</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个长度为 $n$ 的permutation。</p>
+<p>如果把permutation看作一个图（第 $i$ 位的值是 $p_i$ 的话，那么有 $i \rightarrow p_i$）。</p>
+<p>我们可以对这个 permutation 进行任意次数的 swap 操作，每次交换任意的 $p_i, p_j$ 的位置。</p>
+<p>现在对于每一个 $k \in [1,n]$，回答：</p>
+<p>最少需要多少次 swap 操作，使得，得到的图中至少有一个大小为 $k$ 的cycle。</p>
+<p>其中，$n \leq 10^5$，每个回答各自独立。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>首先经过一些观察，可以发现：</p>
+<p>使用 $1$ 次操作，可以让一个cycle合并到另外一个cycle上去，或者也可以将一个大的 cycle 拆成 $2$ 个小cycle。</p>
+<p>所以我们先用 DFS 求出所有 cycle 的大小。</p>
+<p>然后就是一个背包问题：</p>
+<blockquote>
+<p>有 $n$ 个物品，每个物品有一个大小 $a_i$，并且每次装到背包中有一个 cost $1$。</p>
+<p>也可以将一个物品分成两个更小的物品，分割的 cost 也为 $1$。</p>
+<p>对于每一个可能的背包大小 $k \in [1,n]$，求最少的cost使得这个背包刚好被装满？</p>
+</blockquote>
+<p>注意到分割操作只有最多一次，因为可以先装背包，将背包装多一点，然后分掉一个使得背包刚好装满。</p>
+<p>那装背包的话，物品数量太多了怎么办？</p>
+<p>想到 <strong>多重背包的二进制背包优化</strong>，那个是将大的拆成小的。我们也可以将小的合成为大的。</p>
+<p>比如有 $3$ 个大小为 $1$ 的物品，每个cost均为 $1$，我们就可以将其中 $2$ 个合成为一个大小为 $2$，cost为 $2$ 的大物品。</p>
+<p>所以对于大小为 $x$，cost为 $c$ 的物品，如果它有 $\geq 3$ 个，就将其中 $2$ 个合成为大小为 $2x$，cost为 $2c$ 的物品。</p>
+<p>时间复杂度：所有物品的大小之和为 $n$，所以物品大小的种类数只有 $O(\sqrt n)$ 个。在合并之后，物品的数量不会超过 $O(\sqrt n * \log(10^5))$ 个。</p>
+<p>所以就可以跑背包了，复杂度为 $O(n \sqrt n)$。</p>
+<p>• 注意背包枚举的时候，外层循环是物品，里层循环是大小。</p>
+<p>• 注意到装第一个物品的 cost 为 $0$，这个直接用 <code>dp[0] = -1</code> 来表示。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">// 背包枚举顺序：外层是物品，里层是大小
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">for</span> (pii a : item_vec) {
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> n; i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">1</span>; i<span style="color:#f92672">--</span>) {
+        <span style="color:#66d9ef">int</span> item_sz <span style="color:#f92672">=</span> a.first, cost <span style="color:#f92672">=</span> a.second;
+        <span style="color:#66d9ef">if</span> (item_sz <span style="color:#f92672">&gt;</span> i) <span style="color:#66d9ef">break</span>;
+        dp[i] <span style="color:#f92672">=</span> min(dp[i], dp[i<span style="color:#f92672">-</span>item_sz] <span style="color:#f92672">+</span> cost);
+    }
+}
+</code></pre></div></details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e5</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxm <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e8</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>;
+
+<span style="color:#66d9ef">int</span> T;
+<span style="color:#66d9ef">int</span> n, p[maxn];
+<span style="color:#66d9ef">bool</span> vis[maxn];
+<span style="color:#75715e">// int cnt[maxn];
+</span><span style="color:#75715e"></span>map<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> items[maxn];  <span style="color:#75715e">// items[i]: 大小为 i 的所有物品的 cost  (key: cost, value: cnt)
+</span><span style="color:#75715e"></span>vector<span style="color:#f92672">&lt;</span>pii<span style="color:#f92672">&gt;</span> item_vec;
+<span style="color:#66d9ef">int</span> dp[maxn];
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> T;
+
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> t <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; t <span style="color:#f92672">&lt;=</span> T; t<span style="color:#f92672">++</span>) {
+        cin <span style="color:#f92672">&gt;&gt;</span> n;
+        item_vec.clear();
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+            cin <span style="color:#f92672">&gt;&gt;</span> p[i];
+            vis[i] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, items[i].clear(), dp[i] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e9</span>;
+        }
+        dp[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>vis[i]) {
+                <span style="color:#66d9ef">int</span> sz <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+                <span style="color:#66d9ef">int</span> u <span style="color:#f92672">=</span> i;
+                <span style="color:#66d9ef">do</span> {
+                    vis[u] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+                    sz<span style="color:#f92672">++</span>;
+                    u <span style="color:#f92672">=</span> p[u];
+                } <span style="color:#66d9ef">while</span> (<span style="color:#f92672">!</span>vis[u]);
+                items[sz][<span style="color:#ae81ff">1</span>]<span style="color:#f92672">++</span>;
+            }
+        }
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span><span style="color:#f92672">&amp;</span> itr : items[i]) {
+                <span style="color:#66d9ef">int</span> cost <span style="color:#f92672">=</span> itr.first;
+                <span style="color:#66d9ef">while</span> (itr.second <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">3</span>) {
+                    itr.second <span style="color:#f92672">-=</span> <span style="color:#ae81ff">2</span>;
+                    items[i<span style="color:#f92672">*</span><span style="color:#ae81ff">2</span>][cost<span style="color:#f92672">*</span><span style="color:#ae81ff">2</span>] <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>;
+                }
+            }
+        }
+
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> itr : items[i]) {
+                <span style="color:#66d9ef">int</span> cost <span style="color:#f92672">=</span> itr.first, cnt <span style="color:#f92672">=</span> itr.second;
+                <span style="color:#66d9ef">while</span> (cnt<span style="color:#f92672">--</span>) {
+                    item_vec.push_back({i, cost});  <span style="color:#75715e">// 大小, cost
+</span><span style="color:#75715e"></span>                }
+            }
+        }
+
+        <span style="color:#75715e">// 背包枚举顺序：外层是物品，里层是大小
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">for</span> (pii a : item_vec) {
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> n; i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">1</span>; i<span style="color:#f92672">--</span>) {
+                <span style="color:#66d9ef">int</span> item_sz <span style="color:#f92672">=</span> a.first, cost <span style="color:#f92672">=</span> a.second;
+                <span style="color:#66d9ef">if</span> (item_sz <span style="color:#f92672">&gt;</span> i) <span style="color:#66d9ef">break</span>;
+                dp[i] <span style="color:#f92672">=</span> min(dp[i], dp[i<span style="color:#f92672">-</span>item_sz] <span style="color:#f92672">+</span> cost);
+            }
+        }
+
+        <span style="color:#66d9ef">int</span> mn <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e9</span>;
+        <span style="color:#75715e">// 考虑拆分物品（最多一次）
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> n; i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">1</span>; i<span style="color:#f92672">--</span>) {
+            dp[i] <span style="color:#f92672">=</span> min(dp[i], mn <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>);
+            mn <span style="color:#f92672">=</span> min(mn, dp[i]);
+        }
+        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Case #&#34;</span> <span style="color:#f92672">&lt;&lt;</span> t <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;: &#34;</span>;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) cout <span style="color:#f92672">&lt;&lt;</span> dp[i] <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; &#34;</span>;
+        cout <span style="color:#f92672">&lt;&lt;</span> endl;
+    }
+}
+</code></pre></div></details>
+<h3 id="例2-cf95e-lucky-countryhttpscodeforcescomproblemsetproblem95e">例2 CF95E <a href="https://codeforces.com/problemset/problem/95/E" target="_blank">Lucky Country</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $n$ 个点，$m$ 条边的无向图。</p>
+<p>每次操作可以加一条边。</p>
+<p>求最少的操作次数，使得其中一个联通块的大小为 $x$，且 $x$ 只包含 $4,7$ 这两个字符。</p>
+<p>其中，$n,m \leq 10^5$，如果操作不存在输出 $-1$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>把联通块大小看作数字，就是每次操作合并两个数字，看怎么样合并出一个 $x$ 只包含 $4,7$ 这两个字符。</p>
+<p>一眼多重背包，但数据范围太大了。</p>
+<p>再次注意到<strong>所有数字的和为 $n$</strong>（多重背包二进制的经典老套路），所以不同的数字种类最多为 $O(\sqrt n)$ 个。</p>
+<p>于是拿二进制优化一下多重背包就可以 $O(n \sqrt n \log(10^5))$ 跑出来了（实际上复杂度上界很松）。</p>
+<p>• 注意二进制合并物品的时候，也要增加相应的 cost。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e5</span><span style="color:#f92672">+</span><span style="color:#ae81ff">55</span>;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxm <span style="color:#f92672">=</span> <span style="color:#ae81ff">4e4</span><span style="color:#f92672">+</span><span style="color:#ae81ff">55</span>;
+
+<span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">isLukcy</span>(<span style="color:#66d9ef">int</span> x) {
+    <span style="color:#66d9ef">while</span> (x) {
+        <span style="color:#66d9ef">int</span> r <span style="color:#f92672">=</span> x <span style="color:#f92672">%</span> <span style="color:#ae81ff">10</span>;
+        x <span style="color:#f92672">/=</span> <span style="color:#ae81ff">10</span>;
+        <span style="color:#66d9ef">if</span> (r <span style="color:#f92672">!=</span> <span style="color:#ae81ff">4</span> <span style="color:#f92672">&amp;&amp;</span> r <span style="color:#f92672">!=</span> <span style="color:#ae81ff">7</span>) <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+    }
+    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+}
+
+
+<span style="color:#66d9ef">int</span> dp[maxn], par[maxn], sz[maxn];
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">finds</span>(<span style="color:#66d9ef">int</span> u) {
+    <span style="color:#66d9ef">if</span> (par[u] <span style="color:#f92672">==</span> u) <span style="color:#66d9ef">return</span> u;
+    <span style="color:#66d9ef">return</span> par[u] <span style="color:#f92672">=</span> finds(par[u]);
+}
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">unions</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> v) {
+    u <span style="color:#f92672">=</span> finds(u), v <span style="color:#f92672">=</span> finds(v);
+    <span style="color:#66d9ef">if</span> (u <span style="color:#f92672">==</span> v) <span style="color:#66d9ef">return</span>;
+    <span style="color:#66d9ef">if</span> (sz[u] <span style="color:#f92672">&lt;</span> sz[v]) swap(u,v);
+    sz[u] <span style="color:#f92672">+=</span> sz[v], sz[v] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    par[v] <span style="color:#f92672">=</span> u;
+}
+<span style="color:#66d9ef">int</span> n, m, cnt[maxn];
+
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> m;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) par[i] <span style="color:#f92672">=</span> i, sz[i] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> m; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">int</span> u,v; cin <span style="color:#f92672">&gt;&gt;</span> u <span style="color:#f92672">&gt;&gt;</span> v;
+        unions(u,v);
+    }
+    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> vec;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">if</span> (par[i] <span style="color:#f92672">==</span> i) vec.push_back(sz[i]);
+    }
+
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> x : vec) cnt[x]<span style="color:#f92672">++</span>;
+    vector<span style="color:#f92672">&lt;</span>pii<span style="color:#f92672">&gt;</span> res;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">100000</span>; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">if</span> (cnt[i]) {
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;=</span> cnt[i]; j <span style="color:#f92672">*=</span> <span style="color:#ae81ff">2</span>) {
+                cnt[i] <span style="color:#f92672">-=</span> j;
+                res.push_back({j <span style="color:#f92672">*</span> i, j});
+            }
+            <span style="color:#66d9ef">if</span> (cnt[i]) res.push_back({cnt[i] <span style="color:#f92672">*</span> i, cnt[i]});
+        }
+    }
+
+    memset(dp, <span style="color:#ae81ff">63</span>, <span style="color:#66d9ef">sizeof</span>(dp));
+    dp[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> [x, c] <span style="color:#f92672">:</span> res) {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">100000</span>; i <span style="color:#f92672">&gt;=</span> x; i<span style="color:#f92672">--</span>) {
+            dp[i] <span style="color:#f92672">=</span> min(dp[i], dp[i<span style="color:#f92672">-</span>x] <span style="color:#f92672">+</span> c);
+        }
+    }
+
+    <span style="color:#66d9ef">int</span> ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e9</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">if</span> (isLukcy(i)) {
+            ans <span style="color:#f92672">=</span> min(ans, dp[i]);
+        }
+    }
+    cout <span style="color:#f92672">&lt;&lt;</span> ((ans <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">1e8</span>) <span style="color:#f92672">?</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span> <span style="color:#f92672">:</span> ans <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">&lt;&lt;</span> endl;
+}
+</code></pre></div></details>
+<h3 id="例3-the-knapsack-problemhttpscodeforcescomproblemsetgymproblem101064l">例3 <a href="https://codeforces.com/problemset/gymProblem/101064/L" target="_blank">The Knapsack problem</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $n$ 个物品，第 $i$ 个物品的大小为 $w_i$，价值为 $c_i$，每个物品有无数个。</p>
+<p>给定一个大小为 $S$ 的背包，求最大价值。</p>
+<p>其中，$n,w_i \in [1,10^3], S,c_i \in [0,10^9]$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>完全背包，但是大小为 $10^9$？</p>
+<p>不过我们可以发现：一个大小为 $S$ 的背包的最优解肯定能分成两个大小为 $S_1,S_2$ 的背包，使得：</p>
+<ol>
+<li>$S_1 + S_2 = S$，且</li>
+<li>$|S_1-S_2| \leq \max w_i \leq 1000$</li>
+</ol>
+<p>因为如果 $|S_1-S_2| &gt; 1000$ 的话，那么将大的那个背包，拿出一个元素塞给小的背包，则两者之差会减去 $2000$，这样就会保证 $|S_1-S_2| &lt; 1000$ 了。</p>
+<p>所以要求大小为 $S$ 的背包，不妨分治解决 $S_1,S_2$ 大小的背包，其中</p>
+<p>$$S_1, S_2 \in [\frac{S}{2} - 1000, \frac{S}{2} + 1000]$$</p>
+<p>这样就可以一直分治下去，我们预处理出来 $4000$ 以内的答案，更大的用分治来解决即可。</p>
+<p>• 因为时限只有 1 秒，所以不能用递归。但是注意到每一层需要求出的背包大小是一个连续的区间，如第一层是 $[S,S]$，第二层是 $[\frac{S}{2} - 1000, \frac{S}{2} + 1000]$，每一层都是根据上一层的左右端点 / 2 以后往外延伸。</p>
+<p>这样就不用递归，直接一层一层的处理即可。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e4</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>;
+
+<span style="color:#66d9ef">int</span> M <span style="color:#f92672">=</span> <span style="color:#ae81ff">1000</span>;
+<span style="color:#66d9ef">int</span> n, S, w[maxn], c[maxn];
+ll dp[maxn];
+vector<span style="color:#f92672">&lt;</span>ll<span style="color:#f92672">&gt;</span> dp2[<span style="color:#ae81ff">30</span>];
+<span style="color:#66d9ef">int</span> L[<span style="color:#ae81ff">30</span>], R[<span style="color:#ae81ff">30</span>];
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> S;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) cin <span style="color:#f92672">&gt;&gt;</span> w[i] <span style="color:#f92672">&gt;&gt;</span> c[i];
+
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> w[i]; j <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">4</span><span style="color:#f92672">*</span>M; j<span style="color:#f92672">++</span>) {
+            dp[j] <span style="color:#f92672">=</span> max(dp[j], dp[j<span style="color:#f92672">-</span>w[i]] <span style="color:#f92672">+</span> c[i]);
+        }
+    }
+
+    L[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> S, R[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> S;
+
+    <span style="color:#66d9ef">int</span> d;
+    <span style="color:#66d9ef">for</span> (d <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>; ; d<span style="color:#f92672">++</span>) {
+        L[d] <span style="color:#f92672">=</span> max(<span style="color:#ae81ff">0</span>, L[d<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">-</span> M), R[d] <span style="color:#f92672">=</span> min(S, (R[d<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">+</span> M);  
+        <span style="color:#75715e">// 注意这里是 `R[d] = (R[d-1] + 1)`，保证 R[d] 不会因为整除的问题而导致 dp2[d] 中数量不够
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> (R[d] <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">4</span><span style="color:#f92672">*</span>M) <span style="color:#66d9ef">break</span>;
+    }
+
+    <span style="color:#66d9ef">for</span> (; d <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">1</span>; d<span style="color:#f92672">--</span>) {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> L[d]; j <span style="color:#f92672">&lt;=</span> R[d]; j<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">if</span> (j <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">4</span><span style="color:#f92672">*</span>M) dp2[d].push_back(dp[j]);
+            <span style="color:#66d9ef">else</span> {
+                ll res <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+                <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> max(L[d<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>], j<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span> <span style="color:#f92672">-</span> M); k <span style="color:#f92672">&lt;=</span> min(R[d<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>], j<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span> <span style="color:#f92672">+</span> M); k<span style="color:#f92672">++</span>) {
+                    <span style="color:#66d9ef">int</span> i1 <span style="color:#f92672">=</span> k <span style="color:#f92672">-</span> L[d<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>], i2 <span style="color:#f92672">=</span> j <span style="color:#f92672">-</span> k <span style="color:#f92672">-</span> L[d<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>];
+                    res <span style="color:#f92672">=</span> max(res, dp2[d<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>][i1] <span style="color:#f92672">+</span> dp2[d<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>][i2]);
+                }
+                dp2[d].push_back(res);
+            }
+        }
+    }
+    cout <span style="color:#f92672">&lt;&lt;</span> dp2[<span style="color:#ae81ff">1</span>][<span style="color:#ae81ff">0</span>] <span style="color:#f92672">&lt;&lt;</span> endl;
+}
+</code></pre></div></details>
+
+    </div>
+
+    
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/dp/">DP</a>
+          <a href="/tags/%E8%83%8C%E5%8C%85/">背包</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/040-scc/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">强连通分量（SCC）</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/038-hdu-contest1/">
+            <span class="next-text nav-default">HDU Contest 1 解题报告</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://github.com/kiki-yan" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://kiki-yan.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2026
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/kiki-yan/kiki-yan.github.io" target="_blank"></a>
+    </span> 
+    <span class="author">kiki_yan</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/base16/tomorrow.min.css" rel="stylesheet">
+  
+  <script>hljs.configure({tabReplace: '    '});</script><script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>线段树分治 - kiki_yan</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="kiki_yan" /><meta name="description" content="介绍 线段树分治一般用于处理一些 “只存在/不存在 权值为 $w$“，或者 ”某个特定时间点” 对应状态的问题。 原理是在线段树上进行 DFS，进入 DFS 时加入" /><meta name="keywords" content="kiki_yan, blog, Codeforces" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
+
+
+<link rel="canonical" href="https://kiki-yan.github.io/post/107-%E7%BA%BF%E6%AE%B5%E6%A0%91%E5%88%86%E6%B2%BB/" />
+<link rel="manifest" href="/manifest.json">
+
+
+
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="线段树分治" />
+<meta property="og:description" content="介绍 线段树分治一般用于处理一些 “只存在/不存在 权值为 $w$“，或者 ”某个特定时间点” 对应状态的问题。 原理是在线段树上进行 DFS，进入 DFS 时加入" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kiki-yan.github.io/post/107-%E7%BA%BF%E6%AE%B5%E6%A0%91%E5%88%86%E6%B2%BB/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2023-05-17T17:42:06-05:00" />
+<meta property="article:modified_time" content="2023-05-17T17:42:06-05:00" />
+
+<meta itemprop="name" content="线段树分治">
+<meta itemprop="description" content="介绍 线段树分治一般用于处理一些 “只存在/不存在 权值为 $w$“，或者 ”某个特定时间点” 对应状态的问题。 原理是在线段树上进行 DFS，进入 DFS 时加入"><meta itemprop="datePublished" content="2023-05-17T17:42:06-05:00" />
+<meta itemprop="dateModified" content="2023-05-17T17:42:06-05:00" />
+<meta itemprop="wordCount" content="3968">
+<meta itemprop="keywords" content=",," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="线段树分治"/>
+<meta name="twitter:description" content="介绍 线段树分治一般用于处理一些 “只存在/不存在 权值为 $w$“，或者 ”某个特定时间点” 对应状态的问题。 原理是在线段树上进行 DFS，进入 DFS 时加入"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">kiki_yan</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF Problems</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">kiki_yan</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF Problems</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">线段树分治</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2023-05-17 17:42:06 -0500 -0500"> 2023-05-17 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
+            </div>
+        
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#介绍">介绍</a></li>
+        <li><a href="#经典例题">经典例题</a></li>
+        <li><a href="#例题">例题</a>
+          <ul>
+            <li><a href="#例1-洛谷p5787-二分图-模板线段树分治httpswwwluogucomcnproblemp5787">例1 洛谷P5787 <a href="https://www.luogu.com.cn/problem/P5787">二分图 /【模板】线段树分治</a></a></li>
+            <li><a href="#例2-洛谷p5631-最小mex生成树httpswwwluogucomcnproblemp5631">例2 洛谷P5631 <a href="https://www.luogu.com.cn/problem/P5631">最小mex生成树</a></a></li>
+            <li><a href="#例3-cf1140f-extending-set-of-pointshttpscodeforcescomcontest1140problemf">例3 CF1140F. <a href="https://codeforces.com/contest/1140/problem/F">Extending Set of Points</a></a></li>
+            <li><a href="#例4-cf1814f-communication-towershttpscodeforcescomcontest1814problemf">例4 CF1814F. <a href="https://codeforces.com/contest/1814/problem/F">Communication Towers</a></a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="介绍">介绍</h2>
+<p>线段树分治一般用于处理一些 <strong>“只存在/不存在 权值为 $w$“</strong>，或者 <strong>”某个特定时间点”</strong> 对应状态的问题。</p>
+<p>原理是在线段树上进行 DFS，进入 DFS 时加入节点上的所有信息，回溯时则删除这些信息，当达到了叶子节点时就可以得到对应答案。</p>
+<p>• 由于有撤销操作，所以题目一般得是支持撤销的才行。</p>
+<h2 id="经典例题">经典例题</h2>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>有一个 $n$ 个节点的无向图，现在给定一个时间轴 $1&hellip;k$，有 $m$ 条边，每条边 $(u,v)$ 将会在时间段 $[l,r]$ 出现，其他时间消失。</p>
+<p>现在对于每一个时间点，都回答：在这个时间点时，图是否为二分图。</p>
+<p>其中，$n,k \leq 10^5, m \leq 2 \times 10^5, [l,r] \in [1,k]$。</p>
+</div>
+<p>首先注意到，可以利用权值并查集来动态维护是否为二分图。</p>
+<p>然后我们构造一个线段树，当我们有一条在 $[l,r]$ 时间段的边 $(u,v)$ 时，就将这条边塞到 线段树的 $[l,r]$ 区间里，这样每个线段树节点维护一个 <code>vector&lt;Edge&gt;</code> 来保存这个时间段，存在哪些边。</p>
+<p>然后对线段树进行 DFS，进入一个节点时就将它上面的所有边加入并查集，回溯时就将这些边从并查集删除（所以需要可撤销并查集）。</p>
+<p>• 线段树其实就是一个容器，用来储存 Edge 的，本质上并没有维护 “区间信息”（有点类似 <a href="/post/098-nac2022/#l-triangular-logshttpsopenkattiscomproblemstriangularlogs">这道题</a> 中线段树的作用），所以也没有 <code>push_up, push_down</code>。</p>
+<p>• 当我们检测到已经不是二分图的时候就可以<strong>停止继续往里面 DFS，直接回溯即可</strong>，这样也避免了一些复杂的问题，比如非二分图撤销边以后如何判断是不是二分图。</p>
+<p>复杂度：每条边对应的时间段 $[l,r]$ 至多会被拆成 $O(\log k)$ 个线段树区间，而每条边都只会被加入和删除一次。而可撤销并查集的复杂度是 $O(\log n)$ 的，所以总复杂度为 $O(n \log n \log k)$。</p>
+<h2 id="例题">例题</h2>
+<h3 id="例1-洛谷p5787-二分图-模板线段树分治httpswwwluogucomcnproblemp5787">例1 洛谷P5787 <a href="https://www.luogu.com.cn/problem/P5787" target="_blank">二分图 /【模板】线段树分治</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>如上。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">2e5</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxm <span style="color:#f92672">=</span> <span style="color:#ae81ff">6e5</span><span style="color:#f92672">+</span><span style="color:#ae81ff">55</span>;
+
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">State</span> {
+    <span style="color:#66d9ef">int</span> u, v, szu, szv;
+} st[maxm];  <span style="color:#75715e">// 注意这里是 maxm，应该是边的数量
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">bool</span> ok <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+<span style="color:#66d9ef">int</span> n, m, k;
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">DSU</span> {
+    <span style="color:#66d9ef">int</span> par[maxn], sz[maxn], tail <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">inline</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">init</span>() {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n<span style="color:#f92672">*</span><span style="color:#ae81ff">2</span>; i<span style="color:#f92672">++</span>) par[i] <span style="color:#f92672">=</span> i, sz[i] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        tail <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    }
+    <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">finds</span>(<span style="color:#66d9ef">int</span> u) {
+        <span style="color:#66d9ef">if</span> (par[u] <span style="color:#f92672">==</span> u) <span style="color:#66d9ef">return</span> u;
+        <span style="color:#66d9ef">return</span> finds(par[u]);  <span style="color:#75715e">// 无路径压缩
+</span><span style="color:#75715e"></span>    }
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">unions</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> v) {
+        u <span style="color:#f92672">=</span> finds(u), v <span style="color:#f92672">=</span> finds(v);
+        <span style="color:#66d9ef">if</span> (sz[u] <span style="color:#f92672">&lt;</span> sz[v]) swap(u,v);  <span style="color:#75715e">// sz[u] &gt;= sz[v]
+</span><span style="color:#75715e"></span>        st[<span style="color:#f92672">++</span>tail] <span style="color:#f92672">=</span> {u, v, sz[u], sz[v]};   <span style="color:#75715e">// 无论是否 union 成功都要push到 stack 里
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> (u <span style="color:#f92672">==</span> v) <span style="color:#66d9ef">return</span>;
+        par[v] <span style="color:#f92672">=</span> u;
+        sz[u] <span style="color:#f92672">+=</span> sz[v];
+
+    }
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">cancel</span>() {
+        <span style="color:#66d9ef">if</span> (tail <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
+            <span style="color:#66d9ef">int</span> u <span style="color:#f92672">=</span> st[tail].u, v <span style="color:#f92672">=</span> st[tail].v;
+            par[v] <span style="color:#f92672">=</span> v;
+            sz[u] <span style="color:#f92672">=</span> st[tail].szu;
+            sz[v] <span style="color:#f92672">=</span> st[tail].szv;
+            tail<span style="color:#f92672">--</span>;
+        }
+    }
+} dsu;
+
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Edge</span> {
+    <span style="color:#66d9ef">int</span> u, v;
+};
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">TreeNode</span> {
+    vector<span style="color:#f92672">&lt;</span>Edge<span style="color:#f92672">&gt;</span> vec;
+};
+<span style="color:#66d9ef">bool</span> ans[maxn];
+<span style="color:#66d9ef">int</span> bad <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">SegmentTree</span> {
+    TreeNode tr[maxn<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">2</span>];
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">insert</span>(<span style="color:#66d9ef">int</span> cur, <span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r, <span style="color:#66d9ef">int</span> L, <span style="color:#66d9ef">int</span> R, Edge e) {
+        <span style="color:#66d9ef">if</span> (L <span style="color:#f92672">&lt;=</span> l <span style="color:#f92672">&amp;&amp;</span> R <span style="color:#f92672">&gt;=</span> r) {
+            tr[cur].vec.push_back(e);
+            <span style="color:#66d9ef">return</span>;
+        }
+        <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> (l<span style="color:#f92672">+</span>r) <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">if</span> (L <span style="color:#f92672">&lt;=</span> mid) insert(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>, l, mid, L, R, e);
+        <span style="color:#66d9ef">if</span> (R <span style="color:#f92672">&gt;</span> mid) insert(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span><span style="color:#f92672">|</span><span style="color:#ae81ff">1</span>, mid<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, r, L, R, e);
+    }
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">dfs</span>(<span style="color:#66d9ef">int</span> cur, <span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r) {
+        <span style="color:#66d9ef">for</span> (Edge<span style="color:#f92672">&amp;</span> e : tr[cur].vec) {
+            <span style="color:#66d9ef">if</span> (dsu.finds(e.u) <span style="color:#f92672">==</span> dsu.finds(e.v)) bad<span style="color:#f92672">++</span>;
+            dsu.unions(e.u, e.v <span style="color:#f92672">+</span> n);
+            dsu.unions(e.u <span style="color:#f92672">+</span> n, e.v);
+        }
+
+        <span style="color:#66d9ef">if</span> (bad) {
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> l; i <span style="color:#f92672">&lt;=</span> r; i<span style="color:#f92672">++</span>) ans[l] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+            bad <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        } <span style="color:#66d9ef">else</span> {
+            <span style="color:#66d9ef">if</span> (l <span style="color:#f92672">==</span> r) {
+                ans[l] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+            } <span style="color:#66d9ef">else</span> {
+                <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> (l<span style="color:#f92672">+</span>r) <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+                dfs(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>, l, mid);
+                dfs(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span><span style="color:#f92672">|</span><span style="color:#ae81ff">1</span>, mid<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, r);
+            }
+        }
+
+        <span style="color:#66d9ef">for</span> (Edge<span style="color:#f92672">&amp;</span> e : tr[cur].vec) {
+            dsu.cancel();
+            dsu.cancel();
+        }
+    }
+} tr;
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    fastio;
+    cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> m <span style="color:#f92672">&gt;&gt;</span> k;
+    dsu.init();
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> m; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">int</span> u, v, l, r; cin <span style="color:#f92672">&gt;&gt;</span> u <span style="color:#f92672">&gt;&gt;</span> v <span style="color:#f92672">&gt;&gt;</span> l <span style="color:#f92672">&gt;&gt;</span> r;
+        l<span style="color:#f92672">++</span>;
+        <span style="color:#66d9ef">if</span> (l <span style="color:#f92672">&lt;=</span> r) {
+            tr.insert(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, k, l, r, {u,v});
+        }
+    }
+    tr.dfs(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, k);
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> k; i<span style="color:#f92672">++</span>) cout <span style="color:#f92672">&lt;&lt;</span> (ans[i] <span style="color:#f92672">?</span> <span style="color:#e6db74">&#34;Yes&#34;</span> <span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;No&#34;</span>) <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+}
+</code></pre></div></details>
+<h3 id="例2-洛谷p5631-最小mex生成树httpswwwluogucomcnproblemp5631">例2 洛谷P5631 <a href="https://www.luogu.com.cn/problem/P5631" target="_blank">最小mex生成树</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个带权的无向联通图。</p>
+<p>求这个图的生成树，使得边权集合的 <code>mex</code> 最小，输出最小mex即可。</p>
+<p>其中，$n \leq 10^6, m \leq 2 \times 10^6, w \in [0,10^5]$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>求出最小 mex 只需要对于每一个 $w$，将权值等于 $w$ 的边全部去掉，剩下的都加上，看是否能形成生成树即可。</p>
+<p>上一个例题中，线段树分治用于解决 “只包含权值为 $w$ 的边”，这个题我们可以反过来。例如有一条权值为 $3$ 的边，那么我们将它加入 $[0,2] \cup [4,10^5]$ 这两个区间内，然后再跑线段树分治，在 $3$ 的时候就代表 “仅不包含权值为 $w$ 的边” 了。</p>
+<hr>
+<p>但是注意到这个方法 <strong>不能用于求最大 mex 生成树</strong>！</p>
+<p>比如有三条边的权值分别为 $0,0,1$，任取两条边可以组成生成树，那么首先我们在去掉任意 $\geq 1$ 的边后都能形成生成树，答案看起来是 $1$，但实际上应该选权值为 $0,1$ 的两条边，答案可以得到 $2$。</p>
+<p>简单来说，去掉一个特定权值 $w$，能得到生成树，并不代表这个生成树的 mex 就等于 $w$。</p>
+<p>为什么最小mex就可以呢？</p>
+<p>假如我们去掉一个特定权值 $w$，能得到生成树，但实际上这个生成树的 mex 不等于 $w$，那么真实的 mex $m$ 一定是 $&lt; w$ 的，那么我们在继续判断更小的权值时，一定会判断到真实的 mex $m$（因为线段树分治本质上是暴力枚举）。枚举到 $m$ 时也肯定能组成一个生成树，所以答案为 $m$。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e6</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxm <span style="color:#f92672">=</span> <span style="color:#ae81ff">4e6</span><span style="color:#f92672">+</span><span style="color:#ae81ff">55</span>;
+
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">State</span> {
+    <span style="color:#66d9ef">int</span> u, v, szu, szv;
+} st[maxm];  <span style="color:#75715e">// 注意这里是 maxm，应该是边的数量
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> uni <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;  <span style="color:#75715e">// union 的次数，如果等于 n-1 说明联通了
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> n, m, k;
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">DSU</span> {
+    <span style="color:#66d9ef">int</span> par[maxn], sz[maxn], tail <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">inline</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">init</span>() {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) par[i] <span style="color:#f92672">=</span> i, sz[i] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        tail <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    }
+    <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">finds</span>(<span style="color:#66d9ef">int</span> u) {
+        <span style="color:#66d9ef">if</span> (par[u] <span style="color:#f92672">==</span> u) <span style="color:#66d9ef">return</span> u;
+        <span style="color:#66d9ef">return</span> finds(par[u]);  <span style="color:#75715e">// 无路径压缩
+</span><span style="color:#75715e"></span>    }
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">unions</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> v) {
+        u <span style="color:#f92672">=</span> finds(u), v <span style="color:#f92672">=</span> finds(v);
+        <span style="color:#66d9ef">if</span> (sz[u] <span style="color:#f92672">&lt;</span> sz[v]) swap(u,v);  <span style="color:#75715e">// sz[u] &gt;= sz[v]
+</span><span style="color:#75715e"></span>        st[<span style="color:#f92672">++</span>tail] <span style="color:#f92672">=</span> {u, v, sz[u], sz[v]};   <span style="color:#75715e">// 无论是否 union 成功都要push到 stack 里
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> (u <span style="color:#f92672">==</span> v) <span style="color:#66d9ef">return</span>;
+        par[v] <span style="color:#f92672">=</span> u;
+        sz[u] <span style="color:#f92672">+=</span> sz[v];
+        uni<span style="color:#f92672">++</span>;  <span style="color:#75715e">// 成功union
+</span><span style="color:#75715e"></span>    }
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">cancel</span>() {
+        <span style="color:#66d9ef">if</span> (tail <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
+            <span style="color:#66d9ef">int</span> u <span style="color:#f92672">=</span> st[tail].u, v <span style="color:#f92672">=</span> st[tail].v;
+            par[v] <span style="color:#f92672">=</span> v;
+            <span style="color:#66d9ef">if</span> (sz[u] <span style="color:#f92672">!=</span> st[tail].szu) uni<span style="color:#f92672">--</span>;  <span style="color:#75715e">// 成功回退一次union
+</span><span style="color:#75715e"></span>            sz[u] <span style="color:#f92672">=</span> st[tail].szu;
+            sz[v] <span style="color:#f92672">=</span> st[tail].szv;
+            tail<span style="color:#f92672">--</span>;
+        }
+    }
+} dsu;
+
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Edge</span> {
+    <span style="color:#66d9ef">int</span> u, v, w;
+};
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">TreeNode</span> {
+    vector<span style="color:#f92672">&lt;</span>Edge<span style="color:#f92672">&gt;</span> vec;
+};
+
+<span style="color:#66d9ef">int</span> ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e5</span>;
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">SegmentTree</span> {
+    TreeNode tr[(<span style="color:#ae81ff">100005</span>)<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">2</span>];
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">insert</span>(<span style="color:#66d9ef">int</span> cur, <span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r, <span style="color:#66d9ef">int</span> L, <span style="color:#66d9ef">int</span> R, Edge e) {
+        <span style="color:#66d9ef">if</span> (L <span style="color:#f92672">&lt;=</span> l <span style="color:#f92672">&amp;&amp;</span> R <span style="color:#f92672">&gt;=</span> r) {
+            tr[cur].vec.push_back(e);
+            <span style="color:#66d9ef">return</span>;
+        }
+        <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> (l<span style="color:#f92672">+</span>r) <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">if</span> (L <span style="color:#f92672">&lt;=</span> mid) insert(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>, l, mid, L, R, e);
+        <span style="color:#66d9ef">if</span> (R <span style="color:#f92672">&gt;</span> mid) insert(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span><span style="color:#f92672">|</span><span style="color:#ae81ff">1</span>, mid<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, r, L, R, e);
+    }
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">dfs</span>(<span style="color:#66d9ef">int</span> cur, <span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r) {
+        <span style="color:#66d9ef">for</span> (Edge<span style="color:#f92672">&amp;</span> e : tr[cur].vec) {
+            dsu.unions(e.u, e.v);
+        }
+
+        <span style="color:#66d9ef">if</span> (l <span style="color:#f92672">==</span> r) {
+            <span style="color:#66d9ef">if</span> (uni <span style="color:#f92672">==</span> n<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) ans <span style="color:#f92672">=</span> min(ans, l);
+        } <span style="color:#66d9ef">else</span> {
+            <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> (l<span style="color:#f92672">+</span>r) <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+            dfs(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>, l, mid);
+            dfs(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span><span style="color:#f92672">|</span><span style="color:#ae81ff">1</span>, mid<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, r);
+        }
+
+        <span style="color:#66d9ef">for</span> (Edge<span style="color:#f92672">&amp;</span> e : tr[cur].vec) {
+            dsu.cancel();
+        }
+    }
+} tr;
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    fastio;
+    cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> m;
+    dsu.init();
+    <span style="color:#66d9ef">int</span> N <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e5</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> m; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">int</span> u, v, w; cin <span style="color:#f92672">&gt;&gt;</span> u <span style="color:#f92672">&gt;&gt;</span> v <span style="color:#f92672">&gt;&gt;</span> w;
+        <span style="color:#66d9ef">if</span> (w <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>)
+            tr.insert(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>, N, <span style="color:#ae81ff">0</span>, w<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, {u, v, w});
+        <span style="color:#66d9ef">if</span> (w <span style="color:#f92672">&lt;</span> N)
+            tr.insert(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>, N, w<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, N, {u, v, w});
+    }
+    tr.dfs(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>, N);
+    cout <span style="color:#f92672">&lt;&lt;</span> ans <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+}
+</code></pre></div></details>
+<h3 id="例3-cf1140f-extending-set-of-pointshttpscodeforcescomcontest1140problemf">例3 CF1140F. <a href="https://codeforces.com/contest/1140/problem/F" target="_blank">Extending Set of Points</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个包含二维平面中的点的集合 $S$，定义操作 $E(S)$ 为：</p>
+<p>初始定义 $R=S$，如果对于任何的 $x_1,y_1,x_2,y_2$，如果 $(x_1,y_1) \in R, (x_1,y_2) \in R, (x_2,y_1) \in R$ 且 $(x_2,y_2) \notin R$，则将 $(x_2,y_2)$ 加入到 $R$，直到这种操作无法继续进行。</p>
+<p>定义 $E(S)$ 为上述操作后得到的 $R$ 的大小（这个操作不影响 $S$ 本身）。</p>
+<p>现在给定 $n$ 个询问，每次询问为 $(x,y)$，如果这个点不在 $S$ 内，将其加入 $S$。否则将其从 $S$ 中删除。</p>
+<p>每次询问后，回答 $E(S)$ 的大小。</p>
+<p>其中，$n \leq 3 \times 10^5, x,y \in [1,3\times 10^5]$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>经典套路：将 $x,y$ 坐标轴看作二分图里面的点，将二维平面上的点看作二分图里的边。</p>
+<p>然后就能发现 $E(S)$ 本质上是计算了二分图里所有联通块的 <strong>左点数量</strong> 乘以 <strong>右点数量</strong> 的和。</p>
+<p>现在问题来了，怎么在增加/删除边的情况下，动态维护并查集？</p>
+<p>没有办法！</p>
+<p>但注意到可以把 $n$ 个询问看作一个时间从 $1$ 到 $n$ 的时间轴，离线处理询问后，可以知道每条边所在的时间区间。那么这个问题就跟 <a href="/post/107-%e7%ba%bf%e6%ae%b5%e6%a0%91%e5%88%86%e6%b2%bb/#%e4%be%8b1-%e6%b4%9b%e8%b0%b7p5787-%e4%ba%8c%e5%88%86%e5%9b%be-%e6%a8%a1%e6%9d%bf%e7%ba%bf%e6%ae%b5%e6%a0%91%e5%88%86%e6%b2%bbhttpswwwluogucomcnproblemp5787">例1</a> 几乎一模一样了。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">6e5</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>;
+
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> M <span style="color:#f92672">=</span> <span style="color:#ae81ff">3e5</span>;
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">State</span> {
+    <span style="color:#66d9ef">int</span> u, v;
+    pll szu, szv;
+} st[maxn];  <span style="color:#75715e">// 注意这里是 maxm，应该是边的数量
+</span><span style="color:#75715e"></span>ll res <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+ll ans[maxn];
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">DSU</span> {
+    <span style="color:#66d9ef">int</span> par[maxn], tail <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    pll sz[maxn];
+    <span style="color:#66d9ef">inline</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">init</span>() {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> M<span style="color:#f92672">*</span><span style="color:#ae81ff">2</span>; i<span style="color:#f92672">++</span>) {
+            par[i] <span style="color:#f92672">=</span> i;
+            <span style="color:#66d9ef">if</span> (i <span style="color:#f92672">&lt;=</span> M) sz[i] <span style="color:#f92672">=</span> {<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>};
+            <span style="color:#66d9ef">else</span> sz[i] <span style="color:#f92672">=</span> {<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>};
+        }
+        tail <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    }
+    <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">finds</span>(<span style="color:#66d9ef">int</span> u) {
+        <span style="color:#66d9ef">if</span> (par[u] <span style="color:#f92672">==</span> u) <span style="color:#66d9ef">return</span> u;
+        <span style="color:#66d9ef">return</span> finds(par[u]);  <span style="color:#75715e">// 无路径压缩
+</span><span style="color:#75715e"></span>    }
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">unions</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> v) {
+        u <span style="color:#f92672">=</span> finds(u), v <span style="color:#f92672">=</span> finds(v);
+        <span style="color:#66d9ef">if</span> (sz[u].first <span style="color:#f92672">+</span> sz[u].second <span style="color:#f92672">&lt;</span> sz[v].first <span style="color:#f92672">+</span> sz[v].second) swap(u,v);  <span style="color:#75715e">// sz[u] &gt;= sz[v]
+</span><span style="color:#75715e"></span>        st[<span style="color:#f92672">++</span>tail] <span style="color:#f92672">=</span> {u, v, sz[u], sz[v]};   <span style="color:#75715e">// 无论是否 union 成功都要push到 stack 里
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> (u <span style="color:#f92672">==</span> v) <span style="color:#66d9ef">return</span>;
+        par[v] <span style="color:#f92672">=</span> u;
+        res <span style="color:#f92672">-=</span> sz[u].first <span style="color:#f92672">*</span> sz[u].second;
+        res <span style="color:#f92672">-=</span> sz[v].first <span style="color:#f92672">*</span> sz[v].second;
+        sz[u].first <span style="color:#f92672">+=</span> sz[v].first;
+        sz[u].second <span style="color:#f92672">+=</span> sz[v].second;
+        res <span style="color:#f92672">+=</span> sz[u].first <span style="color:#f92672">*</span> sz[u].second;
+    }
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">cancel</span>() {
+        <span style="color:#66d9ef">if</span> (tail <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
+            <span style="color:#66d9ef">int</span> u <span style="color:#f92672">=</span> st[tail].u, v <span style="color:#f92672">=</span> st[tail].v;
+            <span style="color:#66d9ef">bool</span> f <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+            <span style="color:#66d9ef">if</span> (sz[u] <span style="color:#f92672">!=</span> st[tail].szu) {
+                res <span style="color:#f92672">-=</span> sz[u].first <span style="color:#f92672">*</span> sz[u].second;
+                f <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+            }
+            par[v] <span style="color:#f92672">=</span> v;
+            sz[u] <span style="color:#f92672">=</span> st[tail].szu;
+            sz[v] <span style="color:#f92672">=</span> st[tail].szv;
+            <span style="color:#66d9ef">if</span> (f) {
+                res <span style="color:#f92672">+=</span> sz[u].first <span style="color:#f92672">*</span> sz[u].second;
+                res <span style="color:#f92672">+=</span> sz[v].first <span style="color:#f92672">*</span> sz[v].second;
+            }
+            tail<span style="color:#f92672">--</span>;
+        }
+    }
+} dsu;
+
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Edge</span> {
+    <span style="color:#66d9ef">int</span> u, v;
+};
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">TreeNode</span> {
+    vector<span style="color:#f92672">&lt;</span>Edge<span style="color:#f92672">&gt;</span> vec;
+};
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">SegmentTree</span> {
+    TreeNode tr[maxn<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">2</span>];
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">insert</span>(<span style="color:#66d9ef">int</span> cur, <span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r, <span style="color:#66d9ef">int</span> L, <span style="color:#66d9ef">int</span> R, Edge e) {
+        <span style="color:#66d9ef">if</span> (L <span style="color:#f92672">&lt;=</span> l <span style="color:#f92672">&amp;&amp;</span> R <span style="color:#f92672">&gt;=</span> r) {
+            tr[cur].vec.push_back(e);
+            <span style="color:#66d9ef">return</span>;
+        }
+        <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> (l<span style="color:#f92672">+</span>r) <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">if</span> (L <span style="color:#f92672">&lt;=</span> mid) insert(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>, l, mid, L, R, e);
+        <span style="color:#66d9ef">if</span> (R <span style="color:#f92672">&gt;</span> mid) insert(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span><span style="color:#f92672">|</span><span style="color:#ae81ff">1</span>, mid<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, r, L, R, e);
+    }
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">dfs</span>(<span style="color:#66d9ef">int</span> cur, <span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r) {
+        <span style="color:#66d9ef">for</span> (Edge<span style="color:#f92672">&amp;</span> e : tr[cur].vec) {
+            dsu.unions(e.u, e.v);
+        }
+        <span style="color:#66d9ef">if</span> (l <span style="color:#f92672">==</span> r) {
+            ans[l] <span style="color:#f92672">=</span> res;
+        } <span style="color:#66d9ef">else</span> {
+            <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> (l<span style="color:#f92672">+</span>r) <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+            dfs(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>, l, mid);
+            dfs(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span><span style="color:#f92672">|</span><span style="color:#ae81ff">1</span>, mid<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, r);
+        }
+        <span style="color:#66d9ef">for</span> (Edge<span style="color:#f92672">&amp;</span> e : tr[cur].vec) {
+            dsu.cancel();
+        }
+    }
+} tr;
+
+
+<span style="color:#66d9ef">int</span> n;
+map<span style="color:#f92672">&lt;</span>pii, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> mp;
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> n;
+    dsu.init();
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> t <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; t <span style="color:#f92672">&lt;=</span> n; t<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">int</span> u, v; cin <span style="color:#f92672">&gt;&gt;</span> u <span style="color:#f92672">&gt;&gt;</span> v; v <span style="color:#f92672">+=</span> M;
+        <span style="color:#66d9ef">if</span> (mp.count({u,v})) {
+            <span style="color:#66d9ef">int</span> pt <span style="color:#f92672">=</span> mp[{u,v}];
+            mp.erase({u,v});
+            tr.insert(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, n, pt, t<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, {u,v});
+        } <span style="color:#66d9ef">else</span> {
+            mp[{u,v}] <span style="color:#f92672">=</span> t;
+        }
+    }
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> itr : mp) {
+        tr.insert(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, n, itr.second, n, {itr.first.first, itr.first.second});
+    }
+    tr.dfs(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, n);
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) cout <span style="color:#f92672">&lt;&lt;</span> ans[i] <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; &#34;</span>;
+    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+}
+</code></pre></div></details>
+<h3 id="例4-cf1814f-communication-towershttpscodeforcescomcontest1814problemf">例4 CF1814F. <a href="https://codeforces.com/contest/1814/problem/F" target="_blank">Communication Towers</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>有 $n$ 个点，$m$ 条双向的边。</p>
+<p>点 $i$ 只能接受频率在 $[l_i, r_i]$ 之间的信号。</p>
+<p>如果存在一个信号频率 $x$，使得存在一条从 $1$ 到 $x$ 的路径，并且路径上的所有点都接受频率 $x$ 的信号，那么说明 $x$ 是可达的。</p>
+<p>问有多少个节点 $x$ 是可达的。</p>
+<p>其中，$n \leq 2 \times 10^5, m \leq 4 \times 10^5, 1 \leq l_i \leq r_i \leq 2 \times 10^5$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>一眼线段树分治，把信号频率当作时间，这样可以得到每一个频率信号对应的 $1$ 的联通块。</p>
+<p>但问题是，在得到一个频率信号的联通块以后，不能直接暴力统计答案，否则是 $O(n^2)$ 的。</p>
+<p>所以考虑在并查集上打标记。</p>
+<p>具体来说：当我们 <code>dfs</code> 到线段树的叶子节点时，就可以得到了 $1$ 所在的联通块，这时在并查集中，给 $1$ 的联通块的parent打上标记。</p>
+<hr>
+<p>问题来了：什么时候下传标记？如何下传标记？毕竟我们没有记录每个节点的 children。</p>
+<p>我们在回溯时，下传标记，刚好回溯时，是将 $u,v$ 断开，假设 $u$ 为回溯前的 parent，那么此时我们就可以让 <code>flag[v] += flag[u]</code>（注意不要清空 $u$ 的标记，因为之后要下传给别的child）。</p>
+<p>那出现了另外一个问题：假设我给节点 $1$ 打上了标记，此时的联通块是 <code>[1,2,3]</code>，但之后 $4$ 连上了 $1$，联通块变成 <code>[1,2,3,4]</code> 了，在之后 $4$ 与 $1$ 断开时，$1$ 不是会将标记下传给 $4$ 吗？这样就不对了。</p>
+<p>确实，所以我们在 <code>unions(u, v)</code> 时，要将 <code>flag[v] -= flag[u]</code>，因为之后回溯时肯定有 <code>flag[v] += flag[u]</code>，所以我们先把这个影响减去，就可以了。</p>
+<p>总结一下：</p>
+<ol>
+<li>在叶子节点给 $1$ 所在联通块的根打标记。</li>
+<li>在回溯时，下传标记。</li>
+<li>在 <code>unions</code> 时，减去标记。</li>
+</ol>
+<p>最后，答案就是所有被标记的节点。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">2e5</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxm <span style="color:#f92672">=</span> <span style="color:#ae81ff">4e5</span><span style="color:#f92672">+</span><span style="color:#ae81ff">500</span>;
+
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">State</span> {
+    <span style="color:#66d9ef">int</span> u, v, szu, szv;
+} st[maxm];  <span style="color:#75715e">// 注意这里是 maxm，应该是边的数量
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> n, m, k;
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">DSU</span> {
+    <span style="color:#66d9ef">int</span> par[maxn], sz[maxn], flag[maxn], tail <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">inline</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">init</span>() {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) par[i] <span style="color:#f92672">=</span> i, sz[i] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        tail <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    }
+    <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">finds</span>(<span style="color:#66d9ef">int</span> u) {
+        <span style="color:#66d9ef">if</span> (par[u] <span style="color:#f92672">==</span> u) <span style="color:#66d9ef">return</span> u;
+        <span style="color:#66d9ef">return</span> finds(par[u]);  <span style="color:#75715e">// 无路径压缩
+</span><span style="color:#75715e"></span>    }
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">unions</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> v) {
+        u <span style="color:#f92672">=</span> finds(u), v <span style="color:#f92672">=</span> finds(v);
+        <span style="color:#66d9ef">if</span> (sz[u] <span style="color:#f92672">&lt;</span> sz[v]) swap(u,v);  <span style="color:#75715e">// sz[u] &gt;= sz[v]
+</span><span style="color:#75715e"></span>        st[<span style="color:#f92672">++</span>tail] <span style="color:#f92672">=</span> {u, v, sz[u], sz[v]};   <span style="color:#75715e">// 无论是否 union 成功都要push到 stack 里
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> (u <span style="color:#f92672">==</span> v) <span style="color:#66d9ef">return</span>;
+        par[v] <span style="color:#f92672">=</span> u;
+        sz[u] <span style="color:#f92672">+=</span> sz[v];
+        flag[v] <span style="color:#f92672">-=</span> flag[u];
+    }
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">cancel</span>() {
+        <span style="color:#66d9ef">if</span> (tail <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
+            <span style="color:#66d9ef">int</span> u <span style="color:#f92672">=</span> st[tail].u, v <span style="color:#f92672">=</span> st[tail].v;
+            par[v] <span style="color:#f92672">=</span> v;
+            sz[u] <span style="color:#f92672">=</span> st[tail].szu;
+            sz[v] <span style="color:#f92672">=</span> st[tail].szv;
+            tail<span style="color:#f92672">--</span>;
+            <span style="color:#66d9ef">if</span> (u <span style="color:#f92672">!=</span> v)  <span style="color:#75715e">// 保证不会重复
+</span><span style="color:#75715e"></span>                flag[v] <span style="color:#f92672">+=</span> flag[u];
+        }
+    }
+} dsu;
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Edge</span> {
+    <span style="color:#66d9ef">int</span> u, v;
+};
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">TreeNode</span> {
+    vector<span style="color:#f92672">&lt;</span>Edge<span style="color:#f92672">&gt;</span> vec;
+};
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">SegmentTree</span> {
+    TreeNode tr[maxn<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">2</span>];
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">insert</span>(<span style="color:#66d9ef">int</span> cur, <span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r, <span style="color:#66d9ef">int</span> L, <span style="color:#66d9ef">int</span> R, Edge e) {
+        <span style="color:#66d9ef">if</span> (L <span style="color:#f92672">&lt;=</span> l <span style="color:#f92672">&amp;&amp;</span> R <span style="color:#f92672">&gt;=</span> r) {
+            tr[cur].vec.push_back(e);
+            <span style="color:#66d9ef">return</span>;
+        }
+        <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> (l<span style="color:#f92672">+</span>r) <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">if</span> (L <span style="color:#f92672">&lt;=</span> mid) insert(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>, l, mid, L, R, e);
+        <span style="color:#66d9ef">if</span> (R <span style="color:#f92672">&gt;</span> mid) insert(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span><span style="color:#f92672">|</span><span style="color:#ae81ff">1</span>, mid<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, r, L, R, e);
+    }
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">dfs</span>(<span style="color:#66d9ef">int</span> cur, <span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r) {
+        <span style="color:#66d9ef">for</span> (Edge<span style="color:#f92672">&amp;</span> e : tr[cur].vec) {
+            dsu.unions(e.u, e.v);
+        }
+        
+        <span style="color:#66d9ef">if</span> (l <span style="color:#f92672">==</span> r) {
+            dsu.flag[dsu.finds(<span style="color:#ae81ff">1</span>)]<span style="color:#f92672">++</span>;
+        }
+        <span style="color:#66d9ef">else</span> {
+            <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> (l<span style="color:#f92672">+</span>r) <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+            dfs(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>, l, mid);
+            dfs(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span><span style="color:#f92672">|</span><span style="color:#ae81ff">1</span>, mid<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, r);
+        }
+
+        <span style="color:#66d9ef">for</span> (Edge<span style="color:#f92672">&amp;</span> e : tr[cur].vec) {
+            dsu.cancel();
+        }
+    }
+} tr;
+
+
+<span style="color:#66d9ef">int</span> l[maxn], r[maxn];
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> m;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        cin <span style="color:#f92672">&gt;&gt;</span> l[i] <span style="color:#f92672">&gt;&gt;</span> r[i];
+    }
+    <span style="color:#66d9ef">int</span> N <span style="color:#f92672">=</span> <span style="color:#ae81ff">2e5</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> m; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">int</span> u, v; cin <span style="color:#f92672">&gt;&gt;</span> u <span style="color:#f92672">&gt;&gt;</span> v;
+        <span style="color:#66d9ef">int</span> L <span style="color:#f92672">=</span> max(l[u], l[v]), R <span style="color:#f92672">=</span> min(r[u], r[v]);
+        <span style="color:#66d9ef">if</span> (L <span style="color:#f92672">&lt;=</span> R) {
+            tr.insert(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, N, L, R, {u,v});
+        }
+    }
+    dsu.init();
+    tr.dfs(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, N);
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">if</span> (dsu.flag[i]) cout <span style="color:#f92672">&lt;&lt;</span> i <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; &#34;</span>;
+    }
+    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+}
+</code></pre></div></details>
+
+    </div>
+
+    
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags//"></a>
+          <a href="/tags//"></a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/108-universal15/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Universal Cup 15 (Hangzhou)</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/106-dfs-bfs-tree/">
+            <span class="next-text nav-default">DFS/BFS树</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://github.com/kiki-yan" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://kiki-yan.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2026
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/kiki-yan/kiki-yan.github.io" target="_blank"></a>
+    </span> 
+    <span class="author">kiki_yan</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/base16/tomorrow.min.css" rel="stylesheet">
+  
+  <script>hljs.configure({tabReplace: '    '});</script><script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

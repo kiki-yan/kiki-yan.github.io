@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>kiki_yan</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="kiki_yan" /><meta name="description" content="一个全新的个人博客" /><meta name="keywords" content="kiki_yan, blog, Codeforces" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
+
+
+<link rel="canonical" href="https://kiki-yan.github.io/" />
+  <link href="https://kiki-yan.github.io/index.xml" rel="alternate" type="application/rss+xml" title="kiki_yan" />
+  <link href="https://kiki-yan.github.io/index.xml" rel="feed" type="application/rss+xml" title="kiki_yan" />
+<link rel="manifest" href="/manifest.json">
+
+
+
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="kiki_yan" />
+<meta property="og:description" content="一个全新的个人博客" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://kiki-yan.github.io/" />
+
+<meta itemprop="name" content="kiki_yan">
+<meta itemprop="description" content="一个全新的个人博客"><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="kiki_yan"/>
+<meta name="twitter:description" content="一个全新的个人博客"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">kiki_yan</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF Problems</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">kiki_yan</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF Problems</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <section id="posts" class="posts">
+    <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/090-%E7%82%B9%E5%88%86%E6%B2%BB/">点分治</a></h1>
+    <div class="post-meta">
+      <span class="post-time" title="2022-12-29 16:07:08 -0600 -0600"> 2022-12-29 </span>
+      <div class="post-category">
+          <a href="/categories//">  </a>
+          </div>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      介绍 点分治用于处理 树上的路径问题。 点分治的主要思想是，对于一棵子树，子树内的所有路径只有两种情况： 不经过根节点 经过根节点 对于第一种，我们可以
+    </div>
+    <div class="read-more">
+      <a href="/post/090-%E7%82%B9%E5%88%86%E6%B2%BB/" class="read-more-link">阅读更多</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/089-%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84%E4%BA%8C%E5%88%86/">树状数组二分</a></h1>
+    <div class="post-meta">
+      <span class="post-time" title="2022-12-27 23:39:23 -0600 -0600"> 2022-12-27 </span>
+      <div class="post-category">
+          <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
+          </div>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      这篇 blog 记录一个树状数组上二分的小技巧。 介绍 对于树状数组，我们知道它支持 $O(\log n)$ 内进行如下操作： 单点修改 前缀和查询 现在我们希望它用 $O(\log n)$ 支持第三种操
+    </div>
+    <div class="read-more">
+      <a href="/post/089-%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84%E4%BA%8C%E5%88%86/" class="read-more-link">阅读更多</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/088-icpc-2020-neerc-regional/">2020-2021 ICPC NERC (NEERC), North-Western Russia Regional Contest</a></h1>
+    <div class="post-meta">
+      <span class="post-time" title="2022-12-26 23:07:50 -0600 -0600"> 2022-12-26 </span>
+      <div class="post-category">
+          <a href="/categories/%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A/"> 解题报告 </a>
+          </div>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      L. Lost Permutation 题意 交互题。 有一个隐藏的 permutation $\pi$，长度为 $n$。 现在只有一种询问： $? ~f_1 ~f_2 &hellip; ~f_n$：给定一个 permutation $f$，系统会回答你一个 permutation $g$，
+    </div>
+    <div class="read-more">
+      <a href="/post/088-icpc-2020-neerc-regional/" class="read-more-link">阅读更多</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/087-%E6%A0%91%E5%90%8C%E6%9E%84/">树同构</a></h1>
+    <div class="post-meta">
+      <span class="post-time" title="2022-12-25 18:14:24 -0600 -0600"> 2022-12-25 </span>
+      <div class="post-category">
+          <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
+          </div>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      介绍 两个树同构 $\iff$ 有且仅有一种重新编号方式，使得一棵树的节点重新编号后得到另外一棵树。 • 如果是有根树同构，那么还要额外加一个限制条件：树的节点
+    </div>
+    <div class="read-more">
+      <a href="/post/087-%E6%A0%91%E5%90%8C%E6%9E%84/" class="read-more-link">阅读更多</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/086-%E6%A0%91%E7%9A%84%E9%87%8D%E5%BF%83/">树的重心</a></h1>
+    <div class="post-meta">
+      <span class="post-time" title="2022-12-23 22:49:22 -0600 -0600"> 2022-12-23 </span>
+      <div class="post-category">
+          <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
+          </div>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      定义 树的重心是指： 在一棵无权无根树中，对于每一个点 $u$，计算它所有子树中最大的子树的节点数，这个最大值最小的点 $u$ 就是树的重心。 性质 点 $u$ 为重
+    </div>
+    <div class="read-more">
+      <a href="/post/086-%E6%A0%91%E7%9A%84%E9%87%8D%E5%BF%83/" class="read-more-link">阅读更多</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/085-icpc-2019-jakarta-regional/">2019 Jakarta Regional</a></h1>
+    <div class="post-meta">
+      <span class="post-time" title="2022-12-23 18:57:28 -0600 -0600"> 2022-12-23 </span>
+      <div class="post-category">
+          <a href="/categories/%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A/"> 解题报告 </a>
+          </div>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      K. Addition Robot 题意 给定 $n$ 个字母 $s_1, s_2 &hellip;, s_n$，每个字母要么为 $A$ 要么为 $B$。 现在有 $Q$ 个询问，每个询问有两种类型： $1 ~ L ~ R$：将 $i \in [L,R]$ 的所有 $A$ 改成 $
+    </div>
+    <div class="read-more">
+      <a href="/post/085-icpc-2019-jakarta-regional/" class="read-more-link">阅读更多</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/084-icpc-2021-nerc/">2021 NERC</a></h1>
+    <div class="post-meta">
+      <span class="post-time" title="2022-12-20 16:57:11 -0600 -0600"> 2022-12-20 </span>
+      <div class="post-category">
+          <a href="/categories/%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A/"> 解题报告 </a>
+          </div>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      CF1666J Job Lookup 题意 给定一个 $n \times n$ 的矩阵 $c_{ij}$。 求一个BST，使得 $\sum\limits_{i,j} c_{ij} \cdot d_{ij}$ 最小。 其中，$d_{ij}$ 代表节点 $i,j$ 在BST中的距离。 输出这个 BST
+    </div>
+    <div class="read-more">
+      <a href="/post/084-icpc-2021-nerc/" class="read-more-link">阅读更多</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/083-icpc-2022-nerc-regional/">2022 NERC Regional</a></h1>
+    <div class="post-meta">
+      <span class="post-time" title="2022-12-04 23:48:35 -0600 -0600"> 2022-12-04 </span>
+      <div class="post-category">
+          <a href="/categories/%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A/"> 解题报告 </a>
+          </div>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      A. Access Levels 题意 有 $n$ 个程序员，$m$ 个文档。 给定一个 $n \times m$ 的矩阵 $a$，其中 $a_{ij} = 1$ 表示程序员 $i$ 可以访问文档 $j$，否则不行。 现在我们需要选择一个数
+    </div>
+    <div class="read-more">
+      <a href="/post/083-icpc-2022-nerc-regional/" class="read-more-link">阅读更多</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/082-%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92/">线性规划</a></h1>
+    <div class="post-meta">
+      <span class="post-time" title="2022-11-29 22:05:01 -0600 -0600"> 2022-11-29 </span>
+      <div class="post-category">
+          <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
+          </div>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      介绍 线性规划问题一般表示为如下： 给定 $c_j, a_{ij}, b_i$，求 $x$ 的值使得 $$\max_x \sum_{j=1}^d c_jx_j$$ 其中 $$\sum_{j=1}^d a_{ij} x_j \leq b_i, \forall i = 1&hellip;n$$ $$x_j \geq 0, \forall j = 1&hellip;d$$ 等价的，可以把上式写作： $$\max_x ~ c \cdot x$$ 其
+    </div>
+    <div class="read-more">
+      <a href="/post/082-%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92/" class="read-more-link">阅读更多</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/081-kmp/">KMP</a></h1>
+    <div class="post-meta">
+      <span class="post-time" title="2022-10-29 11:43:01 -0500 -0500"> 2022-10-29 </span>
+      <div class="post-category">
+          <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
+          </div>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      介绍 KMP算法能在 $O(n)$ 的时间内，求出一个字符串的每个前缀的最长 border 长度。 利用 border 的性质，也可以在 $O(n)$ 的时间内，求出一个字符串 $t$ 在文本串 $s$ 中出现的所有
+    </div>
+    <div class="read-more">
+      <a href="/post/081-kmp/" class="read-more-link">阅读更多</a>
+    </div>
+  </div>
+</article>
+
+    </section>
+  
+  <nav class="pagination">
+    <a class="prev" href="/page/3/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text">上一页</span>
+      </a>
+    <a class="next" href="/page/5/">
+        <span class="next-text">下一页</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+  </nav>
+        </div>
+        
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://github.com/kiki-yan" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://kiki-yan.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2026
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/kiki-yan/kiki-yan.github.io" target="_blank"></a>
+    </span> 
+    <span class="author">kiki_yan</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/base16/tomorrow.min.css" rel="stylesheet">
+  
+  <script>hljs.configure({tabReplace: '    '});</script><script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

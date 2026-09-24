@@ -1,0 +1,1516 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>[置顶]竞赛注意事项/通用模版 - kiki_yan</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="kiki_yan" /><meta name="description" content="注意事项 Set中的Comparator定义 在定义Set的Comparator时，一定要小心保证元素不会因为定义被判定为重复，例如： • 注意这里" /><meta name="keywords" content="kiki_yan, blog, Codeforces" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
+
+
+<link rel="canonical" href="https://kiki-yan.github.io/post/072-%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9-%E9%80%9A%E7%94%A8%E6%A8%A1%E7%89%88/" />
+<link rel="manifest" href="/manifest.json">
+
+
+
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="[置顶]竞赛注意事项/通用模版" />
+<meta property="og:description" content="注意事项 Set中的Comparator定义 在定义Set的Comparator时，一定要小心保证元素不会因为定义被判定为重复，例如： • 注意这里" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kiki-yan.github.io/post/072-%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9-%E9%80%9A%E7%94%A8%E6%A8%A1%E7%89%88/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2022-09-19T10:26:35-05:00" />
+<meta property="article:modified_time" content="2022-09-19T10:26:35-05:00" />
+
+<meta itemprop="name" content="[置顶]竞赛注意事项/通用模版">
+<meta itemprop="description" content="注意事项 Set中的Comparator定义 在定义Set的Comparator时，一定要小心保证元素不会因为定义被判定为重复，例如： • 注意这里"><meta itemprop="datePublished" content="2022-09-19T10:26:35-05:00" />
+<meta itemprop="dateModified" content="2022-09-19T10:26:35-05:00" />
+<meta itemprop="wordCount" content="6456">
+<meta itemprop="keywords" content=",," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="[置顶]竞赛注意事项/通用模版"/>
+<meta name="twitter:description" content="注意事项 Set中的Comparator定义 在定义Set的Comparator时，一定要小心保证元素不会因为定义被判定为重复，例如： • 注意这里"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">kiki_yan</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF Problems</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">kiki_yan</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF Problems</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">[置顶]竞赛注意事项/通用模版</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2022-09-19 10:26:35 -0500 -0500"> 2022-09-19 </span>
+        <div class="post-category">
+            <a href="/categories//">  </a>
+            </div>
+        
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#注意事项">注意事项</a>
+          <ul>
+            <li><a href="#set中的comparator定义">Set中的Comparator定义</a></li>
+            <li><a href="#swap函数的时间复杂度">swap函数的时间复杂度</a></li>
+            <li><a href="#vector的unique--resize写法">vector的unique + resize写法</a></li>
+            <li><a href="#compile-error-的一些解决方案">Compile Error 的一些解决方案</a></li>
+          </ul>
+        </li>
+        <li><a href="#通用模版">通用模版</a>
+          <ul>
+            <li><a href="#z自动取模整数">Z自动取模整数</a></li>
+            <li><a href="#树状数组">树状数组</a></li>
+            <li><a href="#st表">ST表</a></li>
+            <li><a href="#线段树">线段树</a></li>
+            <li><a href="#dijkstra">dijkstra</a></li>
+          </ul>
+        </li>
+        <li><a href="#计时程序">计时程序</a></li>
+        <li><a href="#几何模版">几何模版</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="注意事项">注意事项</h2>
+<h3 id="set中的comparator定义">Set中的Comparator定义</h3>
+<p>在定义Set的Comparator时，一定要小心保证元素不会因为定义被判定为重复，例如：</p>
+<p>• 注意这里用了更精简的写法，利用 <code>tuple</code> 可以直接快速比较多个元素。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">int</span> cnt[maxn];
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Cmp</span> {
+    <span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">operator</span>()(<span style="color:#66d9ef">int</span> i, <span style="color:#66d9ef">int</span> j) <span style="color:#66d9ef">const</span> {
+		<span style="color:#66d9ef">return</span> tuple {cnt[i], i} <span style="color:#f92672">&lt;</span> tuple {cnt[j], j};  <span style="color:#75715e">// 一定要加上 i,j!
+</span><span style="color:#75715e"></span>    }
+};
+set<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, Cmp<span style="color:#f92672">&gt;</span> s;
+</code></pre></div><p>这里 <code>if (cnt[i] == cnt[j]) return i &lt; j;</code> 非常关键，如果不加的话，那么 <code>cnt[i] == cnt[j]</code> 将会被判定为重复元素，导致 <code>i,j</code> 只能加入一个。</p>
+<h3 id="swap函数的时间复杂度">swap函数的时间复杂度</h3>
+<p>注意如果 $f,g$ 是两个数组，那么 <code>swap(f,g)</code> 的时间复杂度是 $O(n)$ 级别的！</p>
+<h3 id="vector的unique--resize写法">vector的unique + resize写法</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> a {...};
+sort(a.begin(), a.end());  <span style="color:#75715e">// unique 之前需要sort
+</span><span style="color:#75715e"></span>a.resize(unique(a.begin(), a.end()) <span style="color:#f92672">-</span> a.begin());
+</code></pre></div><h3 id="compile-error-的一些解决方案">Compile Error 的一些解决方案</h3>
+<p>除了syntax error以外，一些compile error也有可能是 <code>Compiler Memory Limit Exceeded</code> 导致的。</p>
+<p>一些解决这个错误的方法：</p>
+<ol>
+<li>数组开小一些。</li>
+<li>不要在 struct 内使用初始化。</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Node</span> {
+	<span style="color:#66d9ef">int</span> mx <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1e9</span>, tag <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+};
+</code></pre></div><p>比如这个，就可以把初始化去掉，在代码里手动初始化。</p>
+<h2 id="通用模版">通用模版</h2>
+<h3 id="z自动取模整数">Z自动取模整数</h3>
+<details class="admonition note"><summary class="admonition-title">Z自动取模整数</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> mod <span style="color:#f92672">=</span> <span style="color:#ae81ff">998244353</span>;
+ 
+<span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">T</span><span style="color:#f92672">&gt;</span>
+T qpow(T a, <span style="color:#66d9ef">int</span> b) {
+    T res <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">while</span> (b) {
+        <span style="color:#66d9ef">if</span> (b <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">1</span>) res <span style="color:#f92672">*=</span> a;
+        a <span style="color:#f92672">*=</span> a;
+        b <span style="color:#f92672">&gt;&gt;=</span> <span style="color:#ae81ff">1</span>;
+    }
+    <span style="color:#66d9ef">return</span> res;
+}
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">norm</span>(<span style="color:#66d9ef">int</span> x) {
+    <span style="color:#66d9ef">if</span> (x <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) {
+        x <span style="color:#f92672">+=</span> mod;
+    }
+    <span style="color:#66d9ef">if</span> (x <span style="color:#f92672">&gt;=</span> mod) {
+        x <span style="color:#f92672">-=</span> mod;
+    }
+    <span style="color:#66d9ef">return</span> x;
+}
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Z</span> {
+    <span style="color:#66d9ef">int</span> x;
+    Z(<span style="color:#66d9ef">int</span> x <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>) <span style="color:#f92672">:</span> x(norm(x)) {}
+    Z(ll x) <span style="color:#f92672">:</span> x(norm((<span style="color:#66d9ef">int</span>)(x <span style="color:#f92672">%</span> mod))) {}
+    <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">val</span>() <span style="color:#66d9ef">const</span> {
+        <span style="color:#66d9ef">return</span> x;
+    }
+    Z <span style="color:#66d9ef">operator</span><span style="color:#f92672">-</span>() <span style="color:#66d9ef">const</span> {
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">Z</span>(norm(mod <span style="color:#f92672">-</span> x));
+    }
+    Z <span style="color:#a6e22e">inv</span>() <span style="color:#66d9ef">const</span> {
+        assert(x <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>);
+        <span style="color:#66d9ef">return</span> qpow(<span style="color:#f92672">*</span><span style="color:#66d9ef">this</span>, mod <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>);
+    }
+    Z <span style="color:#f92672">&amp;</span><span style="color:#66d9ef">operator</span><span style="color:#f92672">*=</span>(<span style="color:#66d9ef">const</span> Z <span style="color:#f92672">&amp;</span>rhs) {
+        x <span style="color:#f92672">=</span> (ll)(x) <span style="color:#f92672">*</span> rhs.x <span style="color:#f92672">%</span> mod;
+        <span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">this</span>;
+    }
+    Z <span style="color:#f92672">&amp;</span><span style="color:#66d9ef">operator</span><span style="color:#f92672">+=</span>(<span style="color:#66d9ef">const</span> Z <span style="color:#f92672">&amp;</span>rhs) {
+        x <span style="color:#f92672">=</span> norm(x <span style="color:#f92672">+</span> rhs.x);
+        <span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">this</span>;
+    }
+    Z <span style="color:#f92672">&amp;</span><span style="color:#66d9ef">operator</span><span style="color:#f92672">-=</span>(<span style="color:#66d9ef">const</span> Z <span style="color:#f92672">&amp;</span>rhs) {
+        x <span style="color:#f92672">=</span> norm(x <span style="color:#f92672">-</span> rhs.x);
+        <span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">this</span>;
+    }
+    Z <span style="color:#f92672">&amp;</span><span style="color:#66d9ef">operator</span><span style="color:#f92672">/=</span>(<span style="color:#66d9ef">const</span> Z <span style="color:#f92672">&amp;</span>rhs) {
+        <span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">this</span> <span style="color:#f92672">*=</span> rhs.inv();
+    }
+    <span style="color:#66d9ef">friend</span> Z <span style="color:#66d9ef">operator</span><span style="color:#f92672">*</span>(<span style="color:#66d9ef">const</span> Z <span style="color:#f92672">&amp;</span>lhs, <span style="color:#66d9ef">const</span> Z <span style="color:#f92672">&amp;</span>rhs) {
+        Z res <span style="color:#f92672">=</span> lhs;
+        res <span style="color:#f92672">*=</span> rhs;
+        <span style="color:#66d9ef">return</span> res;
+    }
+    <span style="color:#66d9ef">friend</span> Z <span style="color:#66d9ef">operator</span><span style="color:#f92672">+</span>(<span style="color:#66d9ef">const</span> Z <span style="color:#f92672">&amp;</span>lhs, <span style="color:#66d9ef">const</span> Z <span style="color:#f92672">&amp;</span>rhs) {
+        Z res <span style="color:#f92672">=</span> lhs;
+        res <span style="color:#f92672">+=</span> rhs;
+        <span style="color:#66d9ef">return</span> res;
+    }
+    <span style="color:#66d9ef">friend</span> Z <span style="color:#66d9ef">operator</span><span style="color:#f92672">-</span>(<span style="color:#66d9ef">const</span> Z <span style="color:#f92672">&amp;</span>lhs, <span style="color:#66d9ef">const</span> Z <span style="color:#f92672">&amp;</span>rhs) {
+        Z res <span style="color:#f92672">=</span> lhs;
+        res <span style="color:#f92672">-=</span> rhs;
+        <span style="color:#66d9ef">return</span> res;
+    }
+    <span style="color:#66d9ef">friend</span> Z <span style="color:#66d9ef">operator</span><span style="color:#f92672">/</span>(<span style="color:#66d9ef">const</span> Z <span style="color:#f92672">&amp;</span>lhs, <span style="color:#66d9ef">const</span> Z <span style="color:#f92672">&amp;</span>rhs) {
+        Z res <span style="color:#f92672">=</span> lhs;
+        res <span style="color:#f92672">/=</span> rhs;
+        <span style="color:#66d9ef">return</span> res;
+    }
+    <span style="color:#66d9ef">friend</span> std<span style="color:#f92672">::</span>istream <span style="color:#f92672">&amp;</span><span style="color:#66d9ef">operator</span><span style="color:#f92672">&gt;&gt;</span>(std<span style="color:#f92672">::</span>istream <span style="color:#f92672">&amp;</span>is, Z <span style="color:#f92672">&amp;</span>a) {
+        ll v;
+        is <span style="color:#f92672">&gt;&gt;</span> v;
+        a <span style="color:#f92672">=</span> Z(v);
+        <span style="color:#66d9ef">return</span> is;
+    }
+    <span style="color:#66d9ef">friend</span> std<span style="color:#f92672">::</span>ostream <span style="color:#f92672">&amp;</span><span style="color:#66d9ef">operator</span><span style="color:#f92672">&lt;&lt;</span>(std<span style="color:#f92672">::</span>ostream <span style="color:#f92672">&amp;</span>os, <span style="color:#66d9ef">const</span> Z <span style="color:#f92672">&amp;</span>a) {
+        <span style="color:#66d9ef">return</span> os <span style="color:#f92672">&lt;&lt;</span> a.val();
+    }
+};
+</code></pre></div></details>
+<h3 id="树状数组">树状数组</h3>
+<details class="admonition note"><summary class="admonition-title">树状数组</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">BIT</span> {
+    ll tr[maxn];
+    <span style="color:#66d9ef">inline</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">lowbit</span>(<span style="color:#66d9ef">int</span> x) { <span style="color:#66d9ef">return</span> x <span style="color:#f92672">&amp;</span> <span style="color:#f92672">-</span>x; }
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">update</span>(<span style="color:#66d9ef">int</span> p, <span style="color:#66d9ef">int</span> val) {
+        <span style="color:#66d9ef">while</span> (p <span style="color:#f92672">&lt;=</span> n) {
+            tr[p] <span style="color:#f92672">+=</span> val;
+            p <span style="color:#f92672">+=</span> lowbit(p);
+        }
+    }
+    <span style="color:#75715e">// return sum[1...p]
+</span><span style="color:#75715e"></span>	ll <span style="color:#a6e22e">query</span>(<span style="color:#66d9ef">int</span> p) {
+        ll ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        <span style="color:#66d9ef">while</span> (p <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
+            ans <span style="color:#f92672">+=</span> tr[p];
+            p <span style="color:#f92672">-=</span> lowbit(p);
+        }
+        <span style="color:#66d9ef">return</span> ans;
+    }
+};
+</code></pre></div></details>
+<h3 id="st表">ST表</h3>
+<details class="admonition note"><summary class="admonition-title">ST表</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">SparseTable</span> {
+	vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> a;  <span style="color:#75715e">// 长度应至少为 n+1
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> st[maxn][<span style="color:#ae81ff">18</span>], bin[maxn];
+    <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">ask_st</span>(<span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r) {
+        <span style="color:#66d9ef">int</span> len <span style="color:#f92672">=</span> r<span style="color:#f92672">-</span>l<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> bin[len];
+        <span style="color:#66d9ef">return</span> min(st[l][k], st[r<span style="color:#f92672">-</span>(<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span>k)<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>][k]);
+    }
+ 
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">build_st</span>() {
+        bin[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; bin[<span style="color:#ae81ff">2</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>; i <span style="color:#f92672">&lt;</span> maxn; i<span style="color:#f92672">++</span>) bin[i] <span style="color:#f92672">=</span> bin[i<span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) st[i][<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> a[i];
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; k <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">18</span>; k<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">+</span> (<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span>k) <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>)
+                st[i][k] <span style="color:#f92672">=</span> min(st[i][k<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>], st[i<span style="color:#f92672">+</span>(<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span>(k<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>))][k<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]);
+        }
+    }
+};
+</code></pre></div></details>
+<h3 id="线段树">线段树</h3>
+<details class="admonition note"><summary class="admonition-title">线段树</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">int</span> n, m, a[maxn];
+
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Node</span> {
+    ll sum, tag;
+};
+
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">SegmentTree</span> {
+    Node tr[maxn<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">2</span>];
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">push_up</span>(<span style="color:#66d9ef">int</span> cur) {
+        tr[cur].sum <span style="color:#f92672">=</span> tr[cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>].sum <span style="color:#f92672">+</span> tr[cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span><span style="color:#f92672">|</span><span style="color:#ae81ff">1</span>].sum;
+    }
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">push_down</span>(<span style="color:#66d9ef">int</span> cur, <span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r) {
+        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>tr[cur].tag) <span style="color:#66d9ef">return</span>;
+        ll tag <span style="color:#f92672">=</span> tr[cur].tag;
+        tr[cur].tag <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        <span style="color:#66d9ef">int</span> lc <span style="color:#f92672">=</span> cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>, rc <span style="color:#f92672">=</span> lc <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> (l<span style="color:#f92672">+</span>r) <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+        tr[lc].sum <span style="color:#f92672">+=</span> tag <span style="color:#f92672">*</span> (mid<span style="color:#f92672">-</span>l<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>);
+        tr[rc].sum <span style="color:#f92672">+=</span> tag <span style="color:#f92672">*</span> (r<span style="color:#f92672">-</span>mid);
+        tr[lc].tag <span style="color:#f92672">+=</span> tag;
+        tr[rc].tag <span style="color:#f92672">+=</span> tag;
+    }
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">update</span>(<span style="color:#66d9ef">int</span> cur, <span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r, <span style="color:#66d9ef">int</span> L, <span style="color:#66d9ef">int</span> R, ll x) {
+        <span style="color:#66d9ef">if</span> (L <span style="color:#f92672">&lt;=</span> l <span style="color:#f92672">&amp;&amp;</span> R <span style="color:#f92672">&gt;=</span> r) {
+            tr[cur].tag <span style="color:#f92672">+=</span> x;
+            tr[cur].sum <span style="color:#f92672">+=</span> x <span style="color:#f92672">*</span> (r<span style="color:#f92672">-</span>l<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>);
+            <span style="color:#66d9ef">return</span>;
+        }
+        push_down(cur, l, r);
+        <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> (l<span style="color:#f92672">+</span>r) <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">if</span> (L <span style="color:#f92672">&lt;=</span> mid) update(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>, l, mid, L, R, x);
+        <span style="color:#66d9ef">if</span> (R <span style="color:#f92672">&gt;</span> mid) update(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span><span style="color:#f92672">|</span><span style="color:#ae81ff">1</span>, mid<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, r, L, R, x);
+        push_up(cur);
+    }
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">update</span>(<span style="color:#66d9ef">int</span> cur, <span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r, <span style="color:#66d9ef">int</span> p, ll x) {
+        <span style="color:#66d9ef">if</span> (l <span style="color:#f92672">==</span> r) {
+            tr[cur].sum <span style="color:#f92672">+=</span> x; <span style="color:#66d9ef">return</span>;
+        }
+        push_down(cur, l, r);
+        <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> (l<span style="color:#f92672">+</span>r) <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">if</span> (p <span style="color:#f92672">&lt;=</span> mid) update(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>, l, mid, p, x);
+        <span style="color:#66d9ef">else</span> update(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span><span style="color:#f92672">|</span><span style="color:#ae81ff">1</span>, mid<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, r, p, x);
+        push_up(cur);
+    } 
+    ll <span style="color:#a6e22e">query</span>(<span style="color:#66d9ef">int</span> cur, <span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r, <span style="color:#66d9ef">int</span> L, <span style="color:#66d9ef">int</span> R) {
+        <span style="color:#66d9ef">if</span> (l <span style="color:#f92672">&gt;=</span> L <span style="color:#f92672">&amp;&amp;</span> r <span style="color:#f92672">&lt;=</span> R) <span style="color:#66d9ef">return</span> tr[cur].sum;
+        push_down(cur, l, r);
+        <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> (l<span style="color:#f92672">+</span>r) <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+        ll res <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        <span style="color:#66d9ef">if</span> (L <span style="color:#f92672">&lt;=</span> mid) res <span style="color:#f92672">+=</span> query(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>, l, mid, L, R);
+        <span style="color:#66d9ef">if</span> (R <span style="color:#f92672">&gt;</span> mid) res <span style="color:#f92672">+=</span> query(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span><span style="color:#f92672">|</span><span style="color:#ae81ff">1</span>, mid<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, r, L, R);
+        push_up(cur);
+        <span style="color:#66d9ef">return</span> res;
+    }
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">build</span>(<span style="color:#66d9ef">int</span> cur, <span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r) {
+        <span style="color:#66d9ef">if</span> (l <span style="color:#f92672">==</span> r) {
+            tr[cur].sum <span style="color:#f92672">=</span> a[l];
+            <span style="color:#66d9ef">return</span>;
+        }
+        <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> (l<span style="color:#f92672">+</span>r) <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+        build(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>, l, mid);
+        build(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span><span style="color:#f92672">|</span><span style="color:#ae81ff">1</span>, mid<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, r);
+        push_up(cur);
+    }
+} tr;
+</code></pre></div></details>
+<h3 id="dijkstra">dijkstra</h3>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Edge</span> {
+    <span style="color:#66d9ef">int</span> u, v, w;
+};
+vector<span style="color:#f92672">&lt;</span>Edge<span style="color:#f92672">&gt;</span> adj[maxn];
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Node</span> {
+    <span style="color:#66d9ef">int</span> v; ll d;
+    <span style="color:#66d9ef">bool</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">&lt;</span>(<span style="color:#66d9ef">const</span> Node<span style="color:#f92672">&amp;</span> other) <span style="color:#66d9ef">const</span> {
+        <span style="color:#66d9ef">return</span> d <span style="color:#f92672">&gt;</span> other.d;
+    }
+};
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Dijkstra</span> {
+    <span style="color:#66d9ef">bool</span> vis[maxn];
+    ll dis[maxn];
+    priority_queue<span style="color:#f92672">&lt;</span>Node<span style="color:#f92672">&gt;</span> pq;
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">run</span>(<span style="color:#66d9ef">int</span> x) {
+        memset(dis, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#66d9ef">sizeof</span>(dis));
+        memset(vis, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(vis));
+        pq.push({x, <span style="color:#ae81ff">0</span>});
+        dis[x] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        <span style="color:#66d9ef">while</span> (pq.size()) {
+            <span style="color:#66d9ef">auto</span> [u, d] <span style="color:#f92672">=</span> pq.top(); pq.pop();
+            <span style="color:#66d9ef">if</span> (vis[u]) <span style="color:#66d9ef">continue</span>;
+            vis[u] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> [_, v, w] <span style="color:#f92672">:</span> adj[u]) {
+                <span style="color:#66d9ef">if</span> (dis[v] <span style="color:#f92672">==</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span> <span style="color:#f92672">||</span> dis[v] <span style="color:#f92672">&gt;</span> dis[u] <span style="color:#f92672">+</span> w) {
+                    dis[v] <span style="color:#f92672">=</span> dis[u] <span style="color:#f92672">+</span> w;
+                    pq.push({v, dis[v]});
+                }
+            }
+        }
+    }
+};
+</code></pre></div></details>
+<h2 id="计时程序">计时程序</h2>
+<p>• <code>clock() / CLOCKS_PER_SEC</code> 可以返回程序运行的 <code>ms</code> 数。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> MAX_TIME <span style="color:#f92672">=</span> <span style="color:#ae81ff">950</span>;  <span style="color:#75715e">// 950 ms
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">while</span> ((<span style="color:#66d9ef">double</span>)clock() <span style="color:#f92672">/</span> CLOCKS_PER_SEC <span style="color:#f92672">&lt;</span> MAX_TIME) doSomething();
+</code></pre></div><!-- ## 计算全局变量的Memory Usage -->
+<h2 id="几何模版">几何模版</h2>
+<p>kuangbin的板子：</p>
+<p>链接：<a href="https://kuangbin.github.io/2019/04/28/20190428/" target="_blank">https://kuangbin.github.io/2019/04/28/20190428/</a></p>
+<details class="admonition note"><summary class="admonition-title">kuangbin</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">// `计算几何模板`
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">const</span> <span style="color:#66d9ef">double</span> eps <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e-8</span>;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">double</span> inf <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e20</span>;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">double</span> pi <span style="color:#f92672">=</span> acos(<span style="color:#f92672">-</span><span style="color:#ae81ff">1.0</span>);
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxp <span style="color:#f92672">=</span> <span style="color:#ae81ff">1010</span>;
+<span style="color:#75715e">//`Compares a double to zero`
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">sgn</span>(<span style="color:#66d9ef">double</span> x){
+	<span style="color:#66d9ef">if</span>(fabs(x) <span style="color:#f92672">&lt;</span> eps)<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+	<span style="color:#66d9ef">if</span>(x <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>)<span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+	<span style="color:#66d9ef">else</span> <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+}
+<span style="color:#75715e">//square of a double
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">inline</span> <span style="color:#66d9ef">double</span> <span style="color:#a6e22e">sqr</span>(<span style="color:#66d9ef">double</span> x){<span style="color:#66d9ef">return</span> x<span style="color:#f92672">*</span>x;}
+<span style="color:#75715e">/*
+</span><span style="color:#75715e"> * Point
+</span><span style="color:#75715e"> * Point()               - Empty constructor
+</span><span style="color:#75715e"> * Point(double _x,double _y)  - constructor
+</span><span style="color:#75715e"> * input()             - double input
+</span><span style="color:#75715e"> * output()            - %.2f output
+</span><span style="color:#75715e"> * operator ==         - compares x and y
+</span><span style="color:#75715e"> * operator &lt;          - compares first by x, then by y
+</span><span style="color:#75715e"> * operator -          - return new Point after subtracting curresponging x and y
+</span><span style="color:#75715e"> * operator ^          - cross product of 2d points
+</span><span style="color:#75715e"> * operator *          - dot product
+</span><span style="color:#75715e"> * len()               - gives length from origin
+</span><span style="color:#75715e"> * len2()              - gives square of length from origin
+</span><span style="color:#75715e"> * distance(Point p)   - gives distance from p
+</span><span style="color:#75715e"> * operator + Point b  - returns new Point after adding curresponging x and y
+</span><span style="color:#75715e"> * operator * double k - returns new Point after multiplieing x and y by k
+</span><span style="color:#75715e"> * operator / double k - returns new Point after divideing x and y by k
+</span><span style="color:#75715e"> * rad(Point a,Point b)- returns the angle of Point a and Point b from this Point
+</span><span style="color:#75715e"> * trunc(double r)     - return Point that if truncated the distance from center to r
+</span><span style="color:#75715e"> * rotleft()           - returns 90 degree ccw rotated point
+</span><span style="color:#75715e"> * rotright()          - returns 90 degree cw rotated point
+</span><span style="color:#75715e"> * rotate(Point p,double angle) - returns Point after rotateing the Point centering at p by angle radian ccw
+</span><span style="color:#75715e"> */</span>
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Point</span>{
+	<span style="color:#66d9ef">double</span> x,y;
+	Point(){}
+	Point(<span style="color:#66d9ef">double</span> _x,<span style="color:#66d9ef">double</span> _y){
+		x <span style="color:#f92672">=</span> _x;
+		y <span style="color:#f92672">=</span> _y;
+	}
+	<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">input</span>(){
+		scanf(<span style="color:#e6db74">&#34;%lf%lf&#34;</span>,<span style="color:#f92672">&amp;</span>x,<span style="color:#f92672">&amp;</span>y);
+	}
+	<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">output</span>(){
+		printf(<span style="color:#e6db74">&#34;%.2f %.2f</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>,x,y);
+	}
+	<span style="color:#66d9ef">bool</span> <span style="color:#66d9ef">operator</span> <span style="color:#f92672">==</span> (Point b)<span style="color:#66d9ef">const</span>{
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">sgn</span>(x<span style="color:#f92672">-</span>b.x) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> sgn(y<span style="color:#f92672">-</span>b.y) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>;
+	}
+	<span style="color:#66d9ef">bool</span> <span style="color:#66d9ef">operator</span> <span style="color:#f92672">&lt;</span> (Point b)<span style="color:#66d9ef">const</span>{
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">sgn</span>(x<span style="color:#f92672">-</span>b.x)<span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">?</span>sgn(y<span style="color:#f92672">-</span>b.y)<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">0</span><span style="color:#f92672">:</span>x<span style="color:#f92672">&lt;</span>b.x;
+	}
+	Point <span style="color:#66d9ef">operator</span> <span style="color:#f92672">-</span>(<span style="color:#66d9ef">const</span> Point <span style="color:#f92672">&amp;</span>b)<span style="color:#66d9ef">const</span>{
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">Point</span>(x<span style="color:#f92672">-</span>b.x,y<span style="color:#f92672">-</span>b.y);
+	}
+	<span style="color:#75715e">//叉积
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">double</span> <span style="color:#66d9ef">operator</span> <span style="color:#f92672">^</span>(<span style="color:#66d9ef">const</span> Point <span style="color:#f92672">&amp;</span>b)<span style="color:#66d9ef">const</span>{
+		<span style="color:#66d9ef">return</span> x<span style="color:#f92672">*</span>b.y <span style="color:#f92672">-</span> y<span style="color:#f92672">*</span>b.x;
+	}
+	<span style="color:#75715e">//点积
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">double</span> <span style="color:#66d9ef">operator</span> <span style="color:#f92672">*</span>(<span style="color:#66d9ef">const</span> Point <span style="color:#f92672">&amp;</span>b)<span style="color:#66d9ef">const</span>{
+		<span style="color:#66d9ef">return</span> x<span style="color:#f92672">*</span>b.x <span style="color:#f92672">+</span> y<span style="color:#f92672">*</span>b.y;
+	}
+	<span style="color:#75715e">//返回长度
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">double</span> <span style="color:#a6e22e">len</span>(){
+		<span style="color:#66d9ef">return</span> hypot(x,y);<span style="color:#75715e">//库函数
+</span><span style="color:#75715e"></span>	}
+	<span style="color:#75715e">//返回长度的平方
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">double</span> <span style="color:#a6e22e">len2</span>(){
+		<span style="color:#66d9ef">return</span> x<span style="color:#f92672">*</span>x <span style="color:#f92672">+</span> y<span style="color:#f92672">*</span>y;
+	}
+	<span style="color:#75715e">//返回两点的距离
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">double</span> <span style="color:#a6e22e">distance</span>(Point p){
+		<span style="color:#66d9ef">return</span> hypot(x<span style="color:#f92672">-</span>p.x,y<span style="color:#f92672">-</span>p.y);
+	}
+	Point <span style="color:#66d9ef">operator</span> <span style="color:#f92672">+</span>(<span style="color:#66d9ef">const</span> Point <span style="color:#f92672">&amp;</span>b)<span style="color:#66d9ef">const</span>{
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">Point</span>(x<span style="color:#f92672">+</span>b.x,y<span style="color:#f92672">+</span>b.y);
+	}
+	Point <span style="color:#66d9ef">operator</span> <span style="color:#f92672">*</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">double</span> <span style="color:#f92672">&amp;</span>k)<span style="color:#66d9ef">const</span>{
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">Point</span>(x<span style="color:#f92672">*</span>k,y<span style="color:#f92672">*</span>k);
+	}
+	Point <span style="color:#66d9ef">operator</span> <span style="color:#f92672">/</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">double</span> <span style="color:#f92672">&amp;</span>k)<span style="color:#66d9ef">const</span>{
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">Point</span>(x<span style="color:#f92672">/</span>k,y<span style="color:#f92672">/</span>k);
+	}
+	<span style="color:#75715e">//`计算pa  和  pb 的夹角`
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//`就是求这个点看a,b 所成的夹角`
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//`测试 LightOJ1203`
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">double</span> <span style="color:#a6e22e">rad</span>(Point a,Point b){
+		Point p <span style="color:#f92672">=</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">this</span>;
+		<span style="color:#66d9ef">return</span> fabs(atan2( fabs((a<span style="color:#f92672">-</span>p)<span style="color:#f92672">^</span>(b<span style="color:#f92672">-</span>p)),(a<span style="color:#f92672">-</span>p)<span style="color:#f92672">*</span>(b<span style="color:#f92672">-</span>p) ));
+	}
+	<span style="color:#75715e">//`化为长度为r的向量`
+</span><span style="color:#75715e"></span>	Point <span style="color:#a6e22e">trunc</span>(<span style="color:#66d9ef">double</span> r){
+		<span style="color:#66d9ef">double</span> l <span style="color:#f92672">=</span> len();
+		<span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span>sgn(l))<span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">this</span>;
+		r <span style="color:#f92672">/=</span> l;
+		<span style="color:#66d9ef">return</span> Point(x<span style="color:#f92672">*</span>r,y<span style="color:#f92672">*</span>r);
+	}
+	<span style="color:#75715e">//`逆时针旋转90度`
+</span><span style="color:#75715e"></span>	Point <span style="color:#a6e22e">rotleft</span>(){
+		<span style="color:#66d9ef">return</span> Point(<span style="color:#f92672">-</span>y,x);
+	}
+	<span style="color:#75715e">//`顺时针旋转90度`
+</span><span style="color:#75715e"></span>	Point <span style="color:#a6e22e">rotright</span>(){
+		<span style="color:#66d9ef">return</span> Point(y,<span style="color:#f92672">-</span>x);
+	}
+	<span style="color:#75715e">//`绕着p点逆时针旋转angle`
+</span><span style="color:#75715e"></span>	Point <span style="color:#a6e22e">rotate</span>(Point p,<span style="color:#66d9ef">double</span> angle){
+		Point v <span style="color:#f92672">=</span> (<span style="color:#f92672">*</span><span style="color:#66d9ef">this</span>) <span style="color:#f92672">-</span> p;
+		<span style="color:#66d9ef">double</span> c <span style="color:#f92672">=</span> cos(angle), s <span style="color:#f92672">=</span> sin(angle);
+		<span style="color:#66d9ef">return</span> Point(p.x <span style="color:#f92672">+</span> v.x<span style="color:#f92672">*</span>c <span style="color:#f92672">-</span> v.y<span style="color:#f92672">*</span>s,p.y <span style="color:#f92672">+</span> v.x<span style="color:#f92672">*</span>s <span style="color:#f92672">+</span> v.y<span style="color:#f92672">*</span>c);
+	}
+};
+<span style="color:#75715e">/*
+</span><span style="color:#75715e"> * Stores two points
+</span><span style="color:#75715e"> * Line()                         - Empty constructor
+</span><span style="color:#75715e"> * Line(Point _s,Point _e)        - Line through _s and _e
+</span><span style="color:#75715e"> * operator ==                    - checks if two points are same
+</span><span style="color:#75715e"> * Line(Point p,double angle)     - one end p , another end at angle degree
+</span><span style="color:#75715e"> * Line(double a,double b,double c) - Line of equation ax + by + c = 0
+</span><span style="color:#75715e"> * input()                        - inputs s and e
+</span><span style="color:#75715e"> * adjust()                       - orders in such a way that s &lt; e
+</span><span style="color:#75715e"> * length()                       - distance of se
+</span><span style="color:#75715e"> * angle()                        - return 0 &lt;= angle &lt; pi
+</span><span style="color:#75715e"> * relation(Point p)              - 3 if point is on line
+</span><span style="color:#75715e"> *                                  1 if point on the left of line
+</span><span style="color:#75715e"> *                                  2 if point on the right of line
+</span><span style="color:#75715e"> * pointonseg(double p)           - return true if point on segment
+</span><span style="color:#75715e"> * parallel(Line v)               - return true if they are parallel
+</span><span style="color:#75715e"> * segcrossseg(Line v)            - returns 0 if does not intersect
+</span><span style="color:#75715e"> *                                  returns 1 if non-standard intersection
+</span><span style="color:#75715e"> *                                  returns 2 if intersects
+</span><span style="color:#75715e"> * linecrossseg(Line v)           - line and seg
+</span><span style="color:#75715e"> * linecrossline(Line v)          - 0 if parallel
+</span><span style="color:#75715e"> *                                  1 if coincides
+</span><span style="color:#75715e"> *                                  2 if intersects
+</span><span style="color:#75715e"> * crosspoint(Line v)             - returns intersection point
+</span><span style="color:#75715e"> * dispointtoline(Point p)        - distance from point p to the line
+</span><span style="color:#75715e"> * dispointtoseg(Point p)         - distance from p to the segment
+</span><span style="color:#75715e"> * dissegtoseg(Line v)            - distance of two segment
+</span><span style="color:#75715e"> * lineprog(Point p)              - returns projected point p on se line
+</span><span style="color:#75715e"> * symmetrypoint(Point p)         - returns reflection point of p over se
+</span><span style="color:#75715e"> *
+</span><span style="color:#75715e"> */</span>
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Line</span>{
+	Point s,e;
+	Line(){}
+	Line(Point _s,Point _e){
+		s <span style="color:#f92672">=</span> _s;
+		e <span style="color:#f92672">=</span> _e;
+	}
+	<span style="color:#66d9ef">bool</span> <span style="color:#66d9ef">operator</span> <span style="color:#f92672">==</span>(Line v){
+		<span style="color:#66d9ef">return</span> (s <span style="color:#f92672">==</span> v.s)<span style="color:#f92672">&amp;&amp;</span>(e <span style="color:#f92672">==</span> v.e);
+	}
+	<span style="color:#75715e">//`根据一个点和倾斜角angle确定直线,0&lt;=angle&lt;pi`
+</span><span style="color:#75715e"></span>	Line(Point p,<span style="color:#66d9ef">double</span> angle){
+		s <span style="color:#f92672">=</span> p;
+		<span style="color:#66d9ef">if</span>(sgn(angle<span style="color:#f92672">-</span>pi<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span>) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>){
+			e <span style="color:#f92672">=</span> (s <span style="color:#f92672">+</span> Point(<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">1</span>));
+		}
+		<span style="color:#66d9ef">else</span>{
+			e <span style="color:#f92672">=</span> (s <span style="color:#f92672">+</span> Point(<span style="color:#ae81ff">1</span>,tan(angle)));
+		}
+	}
+	<span style="color:#75715e">//ax+by+c=0
+</span><span style="color:#75715e"></span>	Line(<span style="color:#66d9ef">double</span> a,<span style="color:#66d9ef">double</span> b,<span style="color:#66d9ef">double</span> c){
+		<span style="color:#66d9ef">if</span>(sgn(a) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>){
+			s <span style="color:#f92672">=</span> Point(<span style="color:#ae81ff">0</span>,<span style="color:#f92672">-</span>c<span style="color:#f92672">/</span>b);
+			e <span style="color:#f92672">=</span> Point(<span style="color:#ae81ff">1</span>,<span style="color:#f92672">-</span>c<span style="color:#f92672">/</span>b);
+		}
+		<span style="color:#66d9ef">else</span> <span style="color:#a6e22e">if</span>(sgn(b) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>){
+			s <span style="color:#f92672">=</span> Point(<span style="color:#f92672">-</span>c<span style="color:#f92672">/</span>a,<span style="color:#ae81ff">0</span>);
+			e <span style="color:#f92672">=</span> Point(<span style="color:#f92672">-</span>c<span style="color:#f92672">/</span>a,<span style="color:#ae81ff">1</span>);
+		}
+		<span style="color:#66d9ef">else</span>{
+			s <span style="color:#f92672">=</span> Point(<span style="color:#ae81ff">0</span>,<span style="color:#f92672">-</span>c<span style="color:#f92672">/</span>b);
+			e <span style="color:#f92672">=</span> Point(<span style="color:#ae81ff">1</span>,(<span style="color:#f92672">-</span>c<span style="color:#f92672">-</span>a)<span style="color:#f92672">/</span>b);
+		}
+	}
+	<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">input</span>(){
+		s.input();
+		e.input();
+	}
+	<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">adjust</span>(){
+		<span style="color:#66d9ef">if</span>(e <span style="color:#f92672">&lt;</span> s)swap(s,e);
+	}
+	<span style="color:#75715e">//求线段长度
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">double</span> <span style="color:#a6e22e">length</span>(){
+		<span style="color:#66d9ef">return</span> s.distance(e);
+	}
+	<span style="color:#75715e">//`返回直线倾斜角 0&lt;=angle&lt;pi`
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">double</span> <span style="color:#a6e22e">angle</span>(){
+		<span style="color:#66d9ef">double</span> k <span style="color:#f92672">=</span> atan2(e.y<span style="color:#f92672">-</span>s.y,e.x<span style="color:#f92672">-</span>s.x);
+		<span style="color:#66d9ef">if</span>(sgn(k) <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>)k <span style="color:#f92672">+=</span> pi;
+		<span style="color:#66d9ef">if</span>(sgn(k<span style="color:#f92672">-</span>pi) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>)k <span style="color:#f92672">-=</span> pi;
+		<span style="color:#66d9ef">return</span> k;
+	}
+	<span style="color:#75715e">//`点和直线关系`
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//`1  在左侧`
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//`2  在右侧`
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//`3  在直线上`
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">relation</span>(Point p){
+		<span style="color:#66d9ef">int</span> c <span style="color:#f92672">=</span> sgn((p<span style="color:#f92672">-</span>s)<span style="color:#f92672">^</span>(e<span style="color:#f92672">-</span>s));
+		<span style="color:#66d9ef">if</span>(c <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>)<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+		<span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span>(c <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>)<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">2</span>;
+		<span style="color:#66d9ef">else</span> <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">3</span>;
+	}
+	<span style="color:#75715e">// 点在线段上的判断
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">pointonseg</span>(Point p){
+		<span style="color:#66d9ef">return</span> sgn((p<span style="color:#f92672">-</span>s)<span style="color:#f92672">^</span>(e<span style="color:#f92672">-</span>s)) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> sgn((p<span style="color:#f92672">-</span>s)<span style="color:#f92672">*</span>(p<span style="color:#f92672">-</span>e)) <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">0</span>;
+	}
+	<span style="color:#75715e">//`两向量平行(对应直线平行或重合)`
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">parallel</span>(Line v){
+		<span style="color:#66d9ef">return</span> sgn((e<span style="color:#f92672">-</span>s)<span style="color:#f92672">^</span>(v.e<span style="color:#f92672">-</span>v.s)) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>;
+	}
+	<span style="color:#75715e">//`两线段相交判断`
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//`2 规范相交`
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//`1 非规范相交`
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//`0 不相交`
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">segcrossseg</span>(Line v){
+		<span style="color:#66d9ef">int</span> d1 <span style="color:#f92672">=</span> sgn((e<span style="color:#f92672">-</span>s)<span style="color:#f92672">^</span>(v.s<span style="color:#f92672">-</span>s));
+		<span style="color:#66d9ef">int</span> d2 <span style="color:#f92672">=</span> sgn((e<span style="color:#f92672">-</span>s)<span style="color:#f92672">^</span>(v.e<span style="color:#f92672">-</span>s));
+		<span style="color:#66d9ef">int</span> d3 <span style="color:#f92672">=</span> sgn((v.e<span style="color:#f92672">-</span>v.s)<span style="color:#f92672">^</span>(s<span style="color:#f92672">-</span>v.s));
+		<span style="color:#66d9ef">int</span> d4 <span style="color:#f92672">=</span> sgn((v.e<span style="color:#f92672">-</span>v.s)<span style="color:#f92672">^</span>(e<span style="color:#f92672">-</span>v.s));
+		<span style="color:#66d9ef">if</span>( (d1<span style="color:#f92672">^</span>d2)<span style="color:#f92672">==-</span><span style="color:#ae81ff">2</span> <span style="color:#f92672">&amp;&amp;</span> (d3<span style="color:#f92672">^</span>d4)<span style="color:#f92672">==-</span><span style="color:#ae81ff">2</span> )<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">2</span>;
+		<span style="color:#66d9ef">return</span> (d1<span style="color:#f92672">==</span><span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> sgn((v.s<span style="color:#f92672">-</span>s)<span style="color:#f92672">*</span>(v.s<span style="color:#f92672">-</span>e))<span style="color:#f92672">&lt;=</span><span style="color:#ae81ff">0</span>) <span style="color:#f92672">||</span>
+			(d2<span style="color:#f92672">==</span><span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> sgn((v.e<span style="color:#f92672">-</span>s)<span style="color:#f92672">*</span>(v.e<span style="color:#f92672">-</span>e))<span style="color:#f92672">&lt;=</span><span style="color:#ae81ff">0</span>) <span style="color:#f92672">||</span>
+			(d3<span style="color:#f92672">==</span><span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> sgn((s<span style="color:#f92672">-</span>v.s)<span style="color:#f92672">*</span>(s<span style="color:#f92672">-</span>v.e))<span style="color:#f92672">&lt;=</span><span style="color:#ae81ff">0</span>) <span style="color:#f92672">||</span>
+			(d4<span style="color:#f92672">==</span><span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> sgn((e<span style="color:#f92672">-</span>v.s)<span style="color:#f92672">*</span>(e<span style="color:#f92672">-</span>v.e))<span style="color:#f92672">&lt;=</span><span style="color:#ae81ff">0</span>);
+	}
+	<span style="color:#75715e">//`直线和线段相交判断`
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//`-*this line   -v seg`
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//`2 规范相交`
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//`1 非规范相交`
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//`0 不相交`
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">linecrossseg</span>(Line v){
+		<span style="color:#66d9ef">int</span> d1 <span style="color:#f92672">=</span> sgn((e<span style="color:#f92672">-</span>s)<span style="color:#f92672">^</span>(v.s<span style="color:#f92672">-</span>s));
+		<span style="color:#66d9ef">int</span> d2 <span style="color:#f92672">=</span> sgn((e<span style="color:#f92672">-</span>s)<span style="color:#f92672">^</span>(v.e<span style="color:#f92672">-</span>s));
+		<span style="color:#66d9ef">if</span>((d1<span style="color:#f92672">^</span>d2)<span style="color:#f92672">==-</span><span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">2</span>;
+		<span style="color:#66d9ef">return</span> (d1<span style="color:#f92672">==</span><span style="color:#ae81ff">0</span><span style="color:#f92672">||</span>d2<span style="color:#f92672">==</span><span style="color:#ae81ff">0</span>);
+	}
+	<span style="color:#75715e">//`两直线关系`
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//`0 平行`
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//`1 重合`
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//`2 相交`
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">linecrossline</span>(Line v){
+		<span style="color:#66d9ef">if</span>((<span style="color:#f92672">*</span><span style="color:#66d9ef">this</span>).parallel(v))
+			<span style="color:#66d9ef">return</span> v.relation(s)<span style="color:#f92672">==</span><span style="color:#ae81ff">3</span>;
+		<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">2</span>;
+	}
+	<span style="color:#75715e">//`求两直线的交点`
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//`要保证两直线不平行或重合`
+</span><span style="color:#75715e"></span>	Point <span style="color:#a6e22e">crosspoint</span>(Line v){
+		<span style="color:#66d9ef">double</span> a1 <span style="color:#f92672">=</span> (v.e<span style="color:#f92672">-</span>v.s)<span style="color:#f92672">^</span>(s<span style="color:#f92672">-</span>v.s);
+		<span style="color:#66d9ef">double</span> a2 <span style="color:#f92672">=</span> (v.e<span style="color:#f92672">-</span>v.s)<span style="color:#f92672">^</span>(e<span style="color:#f92672">-</span>v.s);
+		<span style="color:#66d9ef">return</span> Point((s.x<span style="color:#f92672">*</span>a2<span style="color:#f92672">-</span>e.x<span style="color:#f92672">*</span>a1)<span style="color:#f92672">/</span>(a2<span style="color:#f92672">-</span>a1),(s.y<span style="color:#f92672">*</span>a2<span style="color:#f92672">-</span>e.y<span style="color:#f92672">*</span>a1)<span style="color:#f92672">/</span>(a2<span style="color:#f92672">-</span>a1));
+	}
+	<span style="color:#75715e">//点到直线的距离
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">double</span> <span style="color:#a6e22e">dispointtoline</span>(Point p){
+		<span style="color:#66d9ef">return</span> fabs((p<span style="color:#f92672">-</span>s)<span style="color:#f92672">^</span>(e<span style="color:#f92672">-</span>s))<span style="color:#f92672">/</span>length();
+	}
+	<span style="color:#75715e">//点到线段的距离
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">double</span> <span style="color:#a6e22e">dispointtoseg</span>(Point p){
+		<span style="color:#66d9ef">if</span>(sgn((p<span style="color:#f92672">-</span>s)<span style="color:#f92672">*</span>(e<span style="color:#f92672">-</span>s))<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">0</span> <span style="color:#f92672">||</span> sgn((p<span style="color:#f92672">-</span>e)<span style="color:#f92672">*</span>(s<span style="color:#f92672">-</span>e))<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">0</span>)
+			<span style="color:#66d9ef">return</span> min(p.distance(s),p.distance(e));
+		<span style="color:#66d9ef">return</span> dispointtoline(p);
+	}
+	<span style="color:#75715e">//`返回线段到线段的距离`
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//`前提是两线段不相交，相交距离就是0了`
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">double</span> <span style="color:#a6e22e">dissegtoseg</span>(Line v){
+		<span style="color:#66d9ef">return</span> min(min(dispointtoseg(v.s),dispointtoseg(v.e)),min(v.dispointtoseg(s),v.dispointtoseg(e)));
+	}
+	<span style="color:#75715e">//`返回点p在直线上的投影`
+</span><span style="color:#75715e"></span>	Point <span style="color:#a6e22e">lineprog</span>(Point p){
+		<span style="color:#66d9ef">return</span> s <span style="color:#f92672">+</span> ( ((e<span style="color:#f92672">-</span>s)<span style="color:#f92672">*</span>((e<span style="color:#f92672">-</span>s)<span style="color:#f92672">*</span>(p<span style="color:#f92672">-</span>s)))<span style="color:#f92672">/</span>((e<span style="color:#f92672">-</span>s).len2()) );
+	}
+	<span style="color:#75715e">//`返回点p关于直线的对称点`
+</span><span style="color:#75715e"></span>	Point <span style="color:#a6e22e">symmetrypoint</span>(Point p){
+		Point q <span style="color:#f92672">=</span> lineprog(p);
+		<span style="color:#66d9ef">return</span> Point(<span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>q.x<span style="color:#f92672">-</span>p.x,<span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>q.y<span style="color:#f92672">-</span>p.y);
+	}
+};
+<span style="color:#75715e">//圆
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">circle</span>{
+	Point p;<span style="color:#75715e">//圆心
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">double</span> r;<span style="color:#75715e">//半径
+</span><span style="color:#75715e"></span>	circle(){}
+	circle(Point _p,<span style="color:#66d9ef">double</span> _r){
+		p <span style="color:#f92672">=</span> _p;
+		r <span style="color:#f92672">=</span> _r;
+	}
+	circle(<span style="color:#66d9ef">double</span> x,<span style="color:#66d9ef">double</span> y,<span style="color:#66d9ef">double</span> _r){
+		p <span style="color:#f92672">=</span> Point(x,y);
+		r <span style="color:#f92672">=</span> _r;
+	}
+	<span style="color:#75715e">//`三角形的外接圆`
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//`需要Point的+ /  rotate()  以及Line的crosspoint()`
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//`利用两条边的中垂线得到圆心`
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//`测试：UVA12304`
+</span><span style="color:#75715e"></span>	circle(Point a,Point b,Point c){
+		Line u <span style="color:#f92672">=</span> Line((a<span style="color:#f92672">+</span>b)<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span>,((a<span style="color:#f92672">+</span>b)<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span>)<span style="color:#f92672">+</span>((b<span style="color:#f92672">-</span>a).rotleft()));
+		Line v <span style="color:#f92672">=</span> Line((b<span style="color:#f92672">+</span>c)<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span>,((b<span style="color:#f92672">+</span>c)<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span>)<span style="color:#f92672">+</span>((c<span style="color:#f92672">-</span>b).rotleft()));
+		p <span style="color:#f92672">=</span> u.crosspoint(v);
+		r <span style="color:#f92672">=</span> p.distance(a);
+	}
+	<span style="color:#75715e">//`三角形的内切圆`
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//`参数bool t没有作用，只是为了和上面外接圆函数区别`
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//`测试：UVA12304`
+</span><span style="color:#75715e"></span>	circle(Point a,Point b,Point c,<span style="color:#66d9ef">bool</span> t){
+		Line u,v;
+		<span style="color:#66d9ef">double</span> m <span style="color:#f92672">=</span> atan2(b.y<span style="color:#f92672">-</span>a.y,b.x<span style="color:#f92672">-</span>a.x), n <span style="color:#f92672">=</span> atan2(c.y<span style="color:#f92672">-</span>a.y,c.x<span style="color:#f92672">-</span>a.x);
+		u.s <span style="color:#f92672">=</span> a;
+		u.e <span style="color:#f92672">=</span> u.s <span style="color:#f92672">+</span> Point(cos((n<span style="color:#f92672">+</span>m)<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span>),sin((n<span style="color:#f92672">+</span>m)<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span>));
+		v.s <span style="color:#f92672">=</span> b;
+		m <span style="color:#f92672">=</span> atan2(a.y<span style="color:#f92672">-</span>b.y,a.x<span style="color:#f92672">-</span>b.x) , n <span style="color:#f92672">=</span> atan2(c.y<span style="color:#f92672">-</span>b.y,c.x<span style="color:#f92672">-</span>b.x);
+		v.e <span style="color:#f92672">=</span> v.s <span style="color:#f92672">+</span> Point(cos((n<span style="color:#f92672">+</span>m)<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span>),sin((n<span style="color:#f92672">+</span>m)<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span>));
+		p <span style="color:#f92672">=</span> u.crosspoint(v);
+		r <span style="color:#f92672">=</span> Line(a,b).dispointtoseg(p);
+	}
+	<span style="color:#75715e">//输入
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">input</span>(){
+		p.input();
+		scanf(<span style="color:#e6db74">&#34;%lf&#34;</span>,<span style="color:#f92672">&amp;</span>r);
+	}
+	<span style="color:#75715e">//输出
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">output</span>(){
+		printf(<span style="color:#e6db74">&#34;%.2lf %.2lf %.2lf</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>,p.x,p.y,r);
+	}
+	<span style="color:#66d9ef">bool</span> <span style="color:#66d9ef">operator</span> <span style="color:#f92672">==</span> (circle v){
+		<span style="color:#66d9ef">return</span> (p<span style="color:#f92672">==</span>v.p) <span style="color:#f92672">&amp;&amp;</span> sgn(r<span style="color:#f92672">-</span>v.r)<span style="color:#f92672">==</span><span style="color:#ae81ff">0</span>;
+	}
+	<span style="color:#66d9ef">bool</span> <span style="color:#66d9ef">operator</span> <span style="color:#f92672">&lt;</span> (circle v)<span style="color:#66d9ef">const</span>{
+		<span style="color:#66d9ef">return</span> ((p<span style="color:#f92672">&lt;</span>v.p)<span style="color:#f92672">||</span>((p<span style="color:#f92672">==</span>v.p)<span style="color:#f92672">&amp;&amp;</span>sgn(r<span style="color:#f92672">-</span>v.r)<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">0</span>));
+	}
+	<span style="color:#75715e">//面积
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">double</span> <span style="color:#a6e22e">area</span>(){
+		<span style="color:#66d9ef">return</span> pi<span style="color:#f92672">*</span>r<span style="color:#f92672">*</span>r;
+	}
+	<span style="color:#75715e">//周长
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">double</span> <span style="color:#a6e22e">circumference</span>(){
+		<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>pi<span style="color:#f92672">*</span>r;
+	}
+	<span style="color:#75715e">//`点和圆的关系`
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//`0 圆外`
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//`1 圆上`
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//`2 圆内`
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">relation</span>(Point b){
+		<span style="color:#66d9ef">double</span> dst <span style="color:#f92672">=</span> b.distance(p);
+		<span style="color:#66d9ef">if</span>(sgn(dst<span style="color:#f92672">-</span>r) <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>)<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">2</span>;
+		<span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span>(sgn(dst<span style="color:#f92672">-</span>r)<span style="color:#f92672">==</span><span style="color:#ae81ff">0</span>)<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+		<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+	}
+	<span style="color:#75715e">//`线段和圆的关系`
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//`比较的是圆心到线段的距离和半径的关系`
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">relationseg</span>(Line v){
+		<span style="color:#66d9ef">double</span> dst <span style="color:#f92672">=</span> v.dispointtoseg(p);
+		<span style="color:#66d9ef">if</span>(sgn(dst<span style="color:#f92672">-</span>r) <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>)<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">2</span>;
+		<span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span>(sgn(dst<span style="color:#f92672">-</span>r) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>)<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+		<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+	}
+	<span style="color:#75715e">//`直线和圆的关系`
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//`比较的是圆心到直线的距离和半径的关系`
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">relationline</span>(Line v){
+		<span style="color:#66d9ef">double</span> dst <span style="color:#f92672">=</span> v.dispointtoline(p);
+		<span style="color:#66d9ef">if</span>(sgn(dst<span style="color:#f92672">-</span>r) <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>)<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">2</span>;
+		<span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span>(sgn(dst<span style="color:#f92672">-</span>r) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>)<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+		<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+	}
+	<span style="color:#75715e">//`两圆的关系`
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//`5 相离`
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//`4 外切`
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//`3 相交`
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//`2 内切`
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//`1 内含`
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//`需要Point的distance`
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//`测试：UVA12304`
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">relationcircle</span>(circle v){
+		<span style="color:#66d9ef">double</span> d <span style="color:#f92672">=</span> p.distance(v.p);
+		<span style="color:#66d9ef">if</span>(sgn(d<span style="color:#f92672">-</span>r<span style="color:#f92672">-</span>v.r) <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>)<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">5</span>;
+		<span style="color:#66d9ef">if</span>(sgn(d<span style="color:#f92672">-</span>r<span style="color:#f92672">-</span>v.r) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>)<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">4</span>;
+		<span style="color:#66d9ef">double</span> l <span style="color:#f92672">=</span> fabs(r<span style="color:#f92672">-</span>v.r);
+		<span style="color:#66d9ef">if</span>(sgn(d<span style="color:#f92672">-</span>r<span style="color:#f92672">-</span>v.r)<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> sgn(d<span style="color:#f92672">-</span>l)<span style="color:#f92672">&gt;</span><span style="color:#ae81ff">0</span>)<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">3</span>;
+		<span style="color:#66d9ef">if</span>(sgn(d<span style="color:#f92672">-</span>l)<span style="color:#f92672">==</span><span style="color:#ae81ff">0</span>)<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">2</span>;
+		<span style="color:#66d9ef">if</span>(sgn(d<span style="color:#f92672">-</span>l)<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">0</span>)<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+	}
+	<span style="color:#75715e">//`求两个圆的交点，返回0表示没有交点，返回1是一个交点，2是两个交点`
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//`需要relationcircle`
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//`测试：UVA12304`
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">pointcrosscircle</span>(circle v,Point <span style="color:#f92672">&amp;</span>p1,Point <span style="color:#f92672">&amp;</span>p2){
+		<span style="color:#66d9ef">int</span> rel <span style="color:#f92672">=</span> relationcircle(v);
+		<span style="color:#66d9ef">if</span>(rel <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">||</span> rel <span style="color:#f92672">==</span> <span style="color:#ae81ff">5</span>)<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+		<span style="color:#66d9ef">double</span> d <span style="color:#f92672">=</span> p.distance(v.p);
+		<span style="color:#66d9ef">double</span> l <span style="color:#f92672">=</span> (d<span style="color:#f92672">*</span>d<span style="color:#f92672">+</span>r<span style="color:#f92672">*</span>r<span style="color:#f92672">-</span>v.r<span style="color:#f92672">*</span>v.r)<span style="color:#f92672">/</span>(<span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>d);
+		<span style="color:#66d9ef">double</span> h <span style="color:#f92672">=</span> sqrt(r<span style="color:#f92672">*</span>r<span style="color:#f92672">-</span>l<span style="color:#f92672">*</span>l);
+		Point tmp <span style="color:#f92672">=</span> p <span style="color:#f92672">+</span> (v.p<span style="color:#f92672">-</span>p).trunc(l);
+		p1 <span style="color:#f92672">=</span> tmp <span style="color:#f92672">+</span> ((v.p<span style="color:#f92672">-</span>p).rotleft().trunc(h));
+		p2 <span style="color:#f92672">=</span> tmp <span style="color:#f92672">+</span> ((v.p<span style="color:#f92672">-</span>p).rotright().trunc(h));
+		<span style="color:#66d9ef">if</span>(rel <span style="color:#f92672">==</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">||</span> rel <span style="color:#f92672">==</span> <span style="color:#ae81ff">4</span>)
+			<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+		<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">2</span>;
+	}
+	<span style="color:#75715e">//`求直线和圆的交点，返回交点个数`
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">pointcrossline</span>(Line v,Point <span style="color:#f92672">&amp;</span>p1,Point <span style="color:#f92672">&amp;</span>p2){
+		<span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span>(<span style="color:#f92672">*</span><span style="color:#66d9ef">this</span>).relationline(v))<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+		Point a <span style="color:#f92672">=</span> v.lineprog(p);
+		<span style="color:#66d9ef">double</span> d <span style="color:#f92672">=</span> v.dispointtoline(p);
+		d <span style="color:#f92672">=</span> sqrt(r<span style="color:#f92672">*</span>r<span style="color:#f92672">-</span>d<span style="color:#f92672">*</span>d);
+		<span style="color:#66d9ef">if</span>(sgn(d) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>){
+			p1 <span style="color:#f92672">=</span> a;
+			p2 <span style="color:#f92672">=</span> a;
+			<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+		}
+		p1 <span style="color:#f92672">=</span> a <span style="color:#f92672">+</span> (v.e<span style="color:#f92672">-</span>v.s).trunc(d);
+		p2 <span style="color:#f92672">=</span> a <span style="color:#f92672">-</span> (v.e<span style="color:#f92672">-</span>v.s).trunc(d);
+		<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">2</span>;
+	}
+	<span style="color:#75715e">//`得到过a,b两点，半径为r1的两个圆`
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">gercircle</span>(Point a,Point b,<span style="color:#66d9ef">double</span> r1,circle <span style="color:#f92672">&amp;</span>c1,circle <span style="color:#f92672">&amp;</span>c2){
+		circle x(a,r1),y(b,r1);
+		<span style="color:#66d9ef">int</span> t <span style="color:#f92672">=</span> x.pointcrosscircle(y,c1.p,c2.p);
+		<span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span>t)<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+		c1.r <span style="color:#f92672">=</span> c2.r <span style="color:#f92672">=</span> r;
+		<span style="color:#66d9ef">return</span> t;
+	}
+	<span style="color:#75715e">//`得到与直线u相切，过点q,半径为r1的圆`
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//`测试：UVA12304`
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">getcircle</span>(Line u,Point q,<span style="color:#66d9ef">double</span> r1,circle <span style="color:#f92672">&amp;</span>c1,circle <span style="color:#f92672">&amp;</span>c2){
+		<span style="color:#66d9ef">double</span> dis <span style="color:#f92672">=</span> u.dispointtoline(q);
+		<span style="color:#66d9ef">if</span>(sgn(dis<span style="color:#f92672">-</span>r1<span style="color:#f92672">*</span><span style="color:#ae81ff">2</span>)<span style="color:#f92672">&gt;</span><span style="color:#ae81ff">0</span>)<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+		<span style="color:#66d9ef">if</span>(sgn(dis) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>){
+			c1.p <span style="color:#f92672">=</span> q <span style="color:#f92672">+</span> ((u.e<span style="color:#f92672">-</span>u.s).rotleft().trunc(r1));
+			c2.p <span style="color:#f92672">=</span> q <span style="color:#f92672">+</span> ((u.e<span style="color:#f92672">-</span>u.s).rotright().trunc(r1));
+			c1.r <span style="color:#f92672">=</span> c2.r <span style="color:#f92672">=</span> r1;
+			<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">2</span>;
+		}
+		Line u1 <span style="color:#f92672">=</span> Line((u.s <span style="color:#f92672">+</span> (u.e<span style="color:#f92672">-</span>u.s).rotleft().trunc(r1)),(u.e <span style="color:#f92672">+</span> (u.e<span style="color:#f92672">-</span>u.s).rotleft().trunc(r1)));
+		Line u2 <span style="color:#f92672">=</span> Line((u.s <span style="color:#f92672">+</span> (u.e<span style="color:#f92672">-</span>u.s).rotright().trunc(r1)),(u.e <span style="color:#f92672">+</span> (u.e<span style="color:#f92672">-</span>u.s).rotright().trunc(r1)));
+		circle cc <span style="color:#f92672">=</span> circle(q,r1);
+		Point p1,p2;
+		<span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span>cc.pointcrossline(u1,p1,p2))cc.pointcrossline(u2,p1,p2);
+		c1 <span style="color:#f92672">=</span> circle(p1,r1);
+		<span style="color:#66d9ef">if</span>(p1 <span style="color:#f92672">==</span> p2){
+			c2 <span style="color:#f92672">=</span> c1;
+			<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+		}
+		c2 <span style="color:#f92672">=</span> circle(p2,r1);
+		<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">2</span>;
+	}
+	<span style="color:#75715e">//`同时与直线u,v相切，半径为r1的圆`
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//`测试：UVA12304`
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">getcircle</span>(Line u,Line v,<span style="color:#66d9ef">double</span> r1,circle <span style="color:#f92672">&amp;</span>c1,circle <span style="color:#f92672">&amp;</span>c2,circle <span style="color:#f92672">&amp;</span>c3,circle <span style="color:#f92672">&amp;</span>c4){
+		<span style="color:#66d9ef">if</span>(u.parallel(v))<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;<span style="color:#75715e">//两直线平行
+</span><span style="color:#75715e"></span>		Line u1 <span style="color:#f92672">=</span> Line(u.s <span style="color:#f92672">+</span> (u.e<span style="color:#f92672">-</span>u.s).rotleft().trunc(r1),u.e <span style="color:#f92672">+</span> (u.e<span style="color:#f92672">-</span>u.s).rotleft().trunc(r1));
+		Line u2 <span style="color:#f92672">=</span> Line(u.s <span style="color:#f92672">+</span> (u.e<span style="color:#f92672">-</span>u.s).rotright().trunc(r1),u.e <span style="color:#f92672">+</span> (u.e<span style="color:#f92672">-</span>u.s).rotright().trunc(r1));
+		Line v1 <span style="color:#f92672">=</span> Line(v.s <span style="color:#f92672">+</span> (v.e<span style="color:#f92672">-</span>v.s).rotleft().trunc(r1),v.e <span style="color:#f92672">+</span> (v.e<span style="color:#f92672">-</span>v.s).rotleft().trunc(r1));
+		Line v2 <span style="color:#f92672">=</span> Line(v.s <span style="color:#f92672">+</span> (v.e<span style="color:#f92672">-</span>v.s).rotright().trunc(r1),v.e <span style="color:#f92672">+</span> (v.e<span style="color:#f92672">-</span>v.s).rotright().trunc(r1));
+		c1.r <span style="color:#f92672">=</span> c2.r <span style="color:#f92672">=</span> c3.r <span style="color:#f92672">=</span> c4.r <span style="color:#f92672">=</span> r1;
+		c1.p <span style="color:#f92672">=</span> u1.crosspoint(v1);
+		c2.p <span style="color:#f92672">=</span> u1.crosspoint(v2);
+		c3.p <span style="color:#f92672">=</span> u2.crosspoint(v1);
+		c4.p <span style="color:#f92672">=</span> u2.crosspoint(v2);
+		<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">4</span>;
+	}
+	<span style="color:#75715e">//`同时与不相交圆cx,cy相切，半径为r1的圆`
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//`测试：UVA12304`
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">getcircle</span>(circle cx,circle cy,<span style="color:#66d9ef">double</span> r1,circle <span style="color:#f92672">&amp;</span>c1,circle <span style="color:#f92672">&amp;</span>c2){
+		circle x(cx.p,r1<span style="color:#f92672">+</span>cx.r),y(cy.p,r1<span style="color:#f92672">+</span>cy.r);
+		<span style="color:#66d9ef">int</span> t <span style="color:#f92672">=</span> x.pointcrosscircle(y,c1.p,c2.p);
+		<span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span>t)<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+		c1.r <span style="color:#f92672">=</span> c2.r <span style="color:#f92672">=</span> r1;
+		<span style="color:#66d9ef">return</span> t;
+	}
+
+	<span style="color:#75715e">//`过一点作圆的切线(先判断点和圆的关系)`
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//`测试：UVA12304`
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">tangentline</span>(Point q,Line <span style="color:#f92672">&amp;</span>u,Line <span style="color:#f92672">&amp;</span>v){
+		<span style="color:#66d9ef">int</span> x <span style="color:#f92672">=</span> relation(q);
+		<span style="color:#66d9ef">if</span>(x <span style="color:#f92672">==</span> <span style="color:#ae81ff">2</span>)<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+		<span style="color:#66d9ef">if</span>(x <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>){
+			u <span style="color:#f92672">=</span> Line(q,q <span style="color:#f92672">+</span> (q<span style="color:#f92672">-</span>p).rotleft());
+			v <span style="color:#f92672">=</span> u;
+			<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+		}
+		<span style="color:#66d9ef">double</span> d <span style="color:#f92672">=</span> p.distance(q);
+		<span style="color:#66d9ef">double</span> l <span style="color:#f92672">=</span> r<span style="color:#f92672">*</span>r<span style="color:#f92672">/</span>d;
+		<span style="color:#66d9ef">double</span> h <span style="color:#f92672">=</span> sqrt(r<span style="color:#f92672">*</span>r<span style="color:#f92672">-</span>l<span style="color:#f92672">*</span>l);
+		u <span style="color:#f92672">=</span> Line(q,p <span style="color:#f92672">+</span> ((q<span style="color:#f92672">-</span>p).trunc(l) <span style="color:#f92672">+</span> (q<span style="color:#f92672">-</span>p).rotleft().trunc(h)));
+		v <span style="color:#f92672">=</span> Line(q,p <span style="color:#f92672">+</span> ((q<span style="color:#f92672">-</span>p).trunc(l) <span style="color:#f92672">+</span> (q<span style="color:#f92672">-</span>p).rotright().trunc(h)));
+		<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">2</span>;
+	}
+	<span style="color:#75715e">//`求两圆相交的面积`
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">double</span> <span style="color:#a6e22e">areacircle</span>(circle v){
+		<span style="color:#66d9ef">int</span> rel <span style="color:#f92672">=</span> relationcircle(v);
+		<span style="color:#66d9ef">if</span>(rel <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">4</span>)<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0.0</span>;
+		<span style="color:#66d9ef">if</span>(rel <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">2</span>)<span style="color:#66d9ef">return</span> min(area(),v.area());
+		<span style="color:#66d9ef">double</span> d <span style="color:#f92672">=</span> p.distance(v.p);
+		<span style="color:#66d9ef">double</span> hf <span style="color:#f92672">=</span> (r<span style="color:#f92672">+</span>v.r<span style="color:#f92672">+</span>d)<span style="color:#f92672">/</span><span style="color:#ae81ff">2.0</span>;
+		<span style="color:#66d9ef">double</span> ss <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>sqrt(hf<span style="color:#f92672">*</span>(hf<span style="color:#f92672">-</span>r)<span style="color:#f92672">*</span>(hf<span style="color:#f92672">-</span>v.r)<span style="color:#f92672">*</span>(hf<span style="color:#f92672">-</span>d));
+		<span style="color:#66d9ef">double</span> a1 <span style="color:#f92672">=</span> acos((r<span style="color:#f92672">*</span>r<span style="color:#f92672">+</span>d<span style="color:#f92672">*</span>d<span style="color:#f92672">-</span>v.r<span style="color:#f92672">*</span>v.r)<span style="color:#f92672">/</span>(<span style="color:#ae81ff">2.0</span><span style="color:#f92672">*</span>r<span style="color:#f92672">*</span>d));
+		a1 <span style="color:#f92672">=</span> a1<span style="color:#f92672">*</span>r<span style="color:#f92672">*</span>r;
+		<span style="color:#66d9ef">double</span> a2 <span style="color:#f92672">=</span> acos((v.r<span style="color:#f92672">*</span>v.r<span style="color:#f92672">+</span>d<span style="color:#f92672">*</span>d<span style="color:#f92672">-</span>r<span style="color:#f92672">*</span>r)<span style="color:#f92672">/</span>(<span style="color:#ae81ff">2.0</span><span style="color:#f92672">*</span>v.r<span style="color:#f92672">*</span>d));
+		a2 <span style="color:#f92672">=</span> a2<span style="color:#f92672">*</span>v.r<span style="color:#f92672">*</span>v.r;
+		<span style="color:#66d9ef">return</span> a1<span style="color:#f92672">+</span>a2<span style="color:#f92672">-</span>ss;
+	}
+	<span style="color:#75715e">//`求圆和三角形pab的相交面积`
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//`测试：POJ3675 HDU3982 HDU2892`
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">double</span> <span style="color:#a6e22e">areatriangle</span>(Point a,Point b){
+		<span style="color:#66d9ef">if</span>(sgn((p<span style="color:#f92672">-</span>a)<span style="color:#f92672">^</span>(p<span style="color:#f92672">-</span>b)) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>)<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0.0</span>;
+		Point q[<span style="color:#ae81ff">5</span>];
+		<span style="color:#66d9ef">int</span> len <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+		q[len<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> a;
+		Line l(a,b);
+		Point p1,p2;
+		<span style="color:#66d9ef">if</span>(pointcrossline(l,q[<span style="color:#ae81ff">1</span>],q[<span style="color:#ae81ff">2</span>])<span style="color:#f92672">==</span><span style="color:#ae81ff">2</span>){
+			<span style="color:#66d9ef">if</span>(sgn((a<span style="color:#f92672">-</span>q[<span style="color:#ae81ff">1</span>])<span style="color:#f92672">*</span>(b<span style="color:#f92672">-</span>q[<span style="color:#ae81ff">1</span>]))<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">0</span>)q[len<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> q[<span style="color:#ae81ff">1</span>];
+			<span style="color:#66d9ef">if</span>(sgn((a<span style="color:#f92672">-</span>q[<span style="color:#ae81ff">2</span>])<span style="color:#f92672">*</span>(b<span style="color:#f92672">-</span>q[<span style="color:#ae81ff">2</span>]))<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">0</span>)q[len<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> q[<span style="color:#ae81ff">2</span>];
+		}
+		q[len<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> b;
+		<span style="color:#66d9ef">if</span>(len <span style="color:#f92672">==</span> <span style="color:#ae81ff">4</span> <span style="color:#f92672">&amp;&amp;</span> sgn((q[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">-</span>q[<span style="color:#ae81ff">1</span>])<span style="color:#f92672">*</span>(q[<span style="color:#ae81ff">2</span>]<span style="color:#f92672">-</span>q[<span style="color:#ae81ff">1</span>]))<span style="color:#f92672">&gt;</span><span style="color:#ae81ff">0</span>)swap(q[<span style="color:#ae81ff">1</span>],q[<span style="color:#ae81ff">2</span>]);
+		<span style="color:#66d9ef">double</span> res <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+		<span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;i <span style="color:#f92672">&lt;</span> len<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;i<span style="color:#f92672">++</span>){
+			<span style="color:#66d9ef">if</span>(relation(q[i])<span style="color:#f92672">==</span><span style="color:#ae81ff">0</span><span style="color:#f92672">||</span>relation(q[i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>])<span style="color:#f92672">==</span><span style="color:#ae81ff">0</span>){
+				<span style="color:#66d9ef">double</span> arg <span style="color:#f92672">=</span> p.rad(q[i],q[i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>]);
+				res <span style="color:#f92672">+=</span> r<span style="color:#f92672">*</span>r<span style="color:#f92672">*</span>arg<span style="color:#f92672">/</span><span style="color:#ae81ff">2.0</span>;
+			}
+			<span style="color:#66d9ef">else</span>{
+				res <span style="color:#f92672">+=</span> fabs((q[i]<span style="color:#f92672">-</span>p)<span style="color:#f92672">^</span>(q[i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>]<span style="color:#f92672">-</span>p))<span style="color:#f92672">/</span><span style="color:#ae81ff">2.0</span>;
+			}
+		}
+		<span style="color:#66d9ef">return</span> res;
+	}
+};
+
+<span style="color:#75715e">/*
+</span><span style="color:#75715e"> * n,p  Line l for each side
+</span><span style="color:#75715e"> * input(int _n)                        - inputs _n size polygon
+</span><span style="color:#75715e"> * add(Point q)                         - adds a point at end of the list
+</span><span style="color:#75715e"> * getline()                            - populates line array
+</span><span style="color:#75715e"> * cmp                                  - comparision in convex_hull order
+</span><span style="color:#75715e"> * norm()                               - sorting in convex_hull order
+</span><span style="color:#75715e"> * getconvex(polygon &amp;convex)           - returns convex hull in convex
+</span><span style="color:#75715e"> * Graham(polygon &amp;convex)              - returns convex hull in convex
+</span><span style="color:#75715e"> * isconvex()                           - checks if convex
+</span><span style="color:#75715e"> * relationpoint(Point q)               - returns 3 if q is a vertex
+</span><span style="color:#75715e"> *                                                2 if on a side
+</span><span style="color:#75715e"> *                                                1 if inside
+</span><span style="color:#75715e"> *                                                0 if outside
+</span><span style="color:#75715e"> * convexcut(Line u,polygon &amp;po)        - left side of u in po
+</span><span style="color:#75715e"> * gercircumference()                   - returns side length
+</span><span style="color:#75715e"> * getarea()                            - returns area
+</span><span style="color:#75715e"> * getdir()                             - returns 0 for cw, 1 for ccw
+</span><span style="color:#75715e"> * getbarycentre()                      - returns barycenter
+</span><span style="color:#75715e"> *
+</span><span style="color:#75715e"> */</span>
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">polygon</span>{
+	<span style="color:#66d9ef">int</span> n;
+	Point p[maxp];
+	Line l[maxp];
+	<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">input</span>(<span style="color:#66d9ef">int</span> _n){
+		n <span style="color:#f92672">=</span> _n;
+		<span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;i <span style="color:#f92672">&lt;</span> n;i<span style="color:#f92672">++</span>)
+			p[i].input();
+	}
+	<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">add</span>(Point q){
+		p[n<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> q;
+	}
+	<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">getline</span>(){
+		<span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;i <span style="color:#f92672">&lt;</span> n;i<span style="color:#f92672">++</span>){
+			l[i] <span style="color:#f92672">=</span> Line(p[i],p[(i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>)<span style="color:#f92672">%</span>n]);
+		}
+	}
+	<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">cmp</span>{
+		Point p;
+		cmp(<span style="color:#66d9ef">const</span> Point <span style="color:#f92672">&amp;</span>p0){p <span style="color:#f92672">=</span> p0;}
+		<span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">operator</span>()(<span style="color:#66d9ef">const</span> Point <span style="color:#f92672">&amp;</span>aa,<span style="color:#66d9ef">const</span> Point <span style="color:#f92672">&amp;</span>bb){
+			Point a <span style="color:#f92672">=</span> aa, b <span style="color:#f92672">=</span> bb;
+			<span style="color:#66d9ef">int</span> d <span style="color:#f92672">=</span> sgn((a<span style="color:#f92672">-</span>p)<span style="color:#f92672">^</span>(b<span style="color:#f92672">-</span>p));
+			<span style="color:#66d9ef">if</span>(d <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>){
+				<span style="color:#66d9ef">return</span> sgn(a.distance(p)<span style="color:#f92672">-</span>b.distance(p)) <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>;
+			}
+			<span style="color:#66d9ef">return</span> d <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>;
+		}
+	};
+	<span style="color:#75715e">//`进行极角排序`
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//`首先需要找到最左下角的点`
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//`需要重载号好Point的 &lt; 操作符(min函数要用) `
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">norm</span>(){
+		Point mi <span style="color:#f92672">=</span> p[<span style="color:#ae81ff">0</span>];
+		<span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;i <span style="color:#f92672">&lt;</span> n;i<span style="color:#f92672">++</span>)mi <span style="color:#f92672">=</span> min(mi,p[i]);
+		sort(p,p<span style="color:#f92672">+</span>n,cmp(mi));
+	}
+	<span style="color:#75715e">//`得到凸包`
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//`得到的凸包里面的点编号是0$\sim$n-1的`
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//`两种凸包的方法`
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//`注意如果有影响，要特判下所有点共点，或者共线的特殊情况`
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//`测试 LightOJ1203  LightOJ1239`
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">getconvex</span>(polygon <span style="color:#f92672">&amp;</span>convex){
+		sort(p,p<span style="color:#f92672">+</span>n);
+		convex.n <span style="color:#f92672">=</span> n;
+		<span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;i <span style="color:#f92672">&lt;</span> min(n,<span style="color:#ae81ff">2</span>);i<span style="color:#f92672">++</span>){
+			convex.p[i] <span style="color:#f92672">=</span> p[i];
+		}
+		<span style="color:#66d9ef">if</span>(convex.n <span style="color:#f92672">==</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">&amp;&amp;</span> (convex.p[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">==</span> convex.p[<span style="color:#ae81ff">1</span>]))convex.n<span style="color:#f92672">--</span>;<span style="color:#75715e">//特判
+</span><span style="color:#75715e"></span>		<span style="color:#66d9ef">if</span>(n <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">2</span>)<span style="color:#66d9ef">return</span>;
+		<span style="color:#66d9ef">int</span> <span style="color:#f92672">&amp;</span>top <span style="color:#f92672">=</span> convex.n;
+		top <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+		<span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>;i <span style="color:#f92672">&lt;</span> n;i<span style="color:#f92672">++</span>){
+			<span style="color:#66d9ef">while</span>(top <span style="color:#f92672">&amp;&amp;</span> sgn((convex.p[top]<span style="color:#f92672">-</span>p[i])<span style="color:#f92672">^</span>(convex.p[top<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]<span style="color:#f92672">-</span>p[i])) <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">0</span>)
+				top<span style="color:#f92672">--</span>;
+			convex.p[<span style="color:#f92672">++</span>top] <span style="color:#f92672">=</span> p[i];
+		}
+		<span style="color:#66d9ef">int</span> temp <span style="color:#f92672">=</span> top;
+		convex.p[<span style="color:#f92672">++</span>top] <span style="color:#f92672">=</span> p[n<span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>];
+		<span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> n<span style="color:#f92672">-</span><span style="color:#ae81ff">3</span>;i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>;i<span style="color:#f92672">--</span>){
+			<span style="color:#66d9ef">while</span>(top <span style="color:#f92672">!=</span> temp <span style="color:#f92672">&amp;&amp;</span> sgn((convex.p[top]<span style="color:#f92672">-</span>p[i])<span style="color:#f92672">^</span>(convex.p[top<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]<span style="color:#f92672">-</span>p[i])) <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">0</span>)
+				top<span style="color:#f92672">--</span>;
+			convex.p[<span style="color:#f92672">++</span>top] <span style="color:#f92672">=</span> p[i];
+		}
+		<span style="color:#66d9ef">if</span>(convex.n <span style="color:#f92672">==</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">&amp;&amp;</span> (convex.p[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">==</span> convex.p[<span style="color:#ae81ff">1</span>]))convex.n<span style="color:#f92672">--</span>;<span style="color:#75715e">//特判
+</span><span style="color:#75715e"></span>		convex.norm();<span style="color:#75715e">//`原来得到的是顺时针的点，排序后逆时针`
+</span><span style="color:#75715e"></span>	}
+	<span style="color:#75715e">//`得到凸包的另外一种方法`
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//`测试 LightOJ1203  LightOJ1239`
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">Graham</span>(polygon <span style="color:#f92672">&amp;</span>convex){
+		norm();
+		<span style="color:#66d9ef">int</span> <span style="color:#f92672">&amp;</span>top <span style="color:#f92672">=</span> convex.n;
+		top <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+		<span style="color:#66d9ef">if</span>(n <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>){
+			top <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+			convex.p[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> p[<span style="color:#ae81ff">0</span>];
+			<span style="color:#66d9ef">return</span>;
+		}
+		<span style="color:#66d9ef">if</span>(n <span style="color:#f92672">==</span> <span style="color:#ae81ff">2</span>){
+			top <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>;
+			convex.p[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> p[<span style="color:#ae81ff">0</span>];
+			convex.p[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> p[<span style="color:#ae81ff">1</span>];
+			<span style="color:#66d9ef">if</span>(convex.p[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">==</span> convex.p[<span style="color:#ae81ff">1</span>])top<span style="color:#f92672">--</span>;
+			<span style="color:#66d9ef">return</span>;
+		}
+		convex.p[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> p[<span style="color:#ae81ff">0</span>];
+		convex.p[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> p[<span style="color:#ae81ff">1</span>];
+		top <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>;
+		<span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>;i <span style="color:#f92672">&lt;</span> n;i<span style="color:#f92672">++</span>){
+			<span style="color:#66d9ef">while</span>( top <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&amp;&amp;</span> sgn((convex.p[top<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]<span style="color:#f92672">-</span>convex.p[top<span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>])<span style="color:#f92672">^</span>(p[i]<span style="color:#f92672">-</span>convex.p[top<span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>])) <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">0</span> )
+				top<span style="color:#f92672">--</span>;
+			convex.p[top<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> p[i];
+		}
+		<span style="color:#66d9ef">if</span>(convex.n <span style="color:#f92672">==</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">&amp;&amp;</span> (convex.p[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">==</span> convex.p[<span style="color:#ae81ff">1</span>]))convex.n<span style="color:#f92672">--</span>;<span style="color:#75715e">//特判
+</span><span style="color:#75715e"></span>	}
+	<span style="color:#75715e">//`判断是不是凸的`
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">isconvex</span>(){
+		<span style="color:#66d9ef">bool</span> s[<span style="color:#ae81ff">2</span>];
+		memset(s,false,<span style="color:#66d9ef">sizeof</span>(s));
+		<span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;i <span style="color:#f92672">&lt;</span> n;i<span style="color:#f92672">++</span>){
+			<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> (i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>)<span style="color:#f92672">%</span>n;
+			<span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> (j<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>)<span style="color:#f92672">%</span>n;
+			s[sgn((p[j]<span style="color:#f92672">-</span>p[i])<span style="color:#f92672">^</span>(p[k]<span style="color:#f92672">-</span>p[i]))<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> true;
+			<span style="color:#66d9ef">if</span>(s[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">&amp;&amp;</span> s[<span style="color:#ae81ff">2</span>])<span style="color:#66d9ef">return</span> false;
+		}
+		<span style="color:#66d9ef">return</span> true;
+	}
+	<span style="color:#75715e">//`判断点和任意多边形的关系`
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//` 3 点上`
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//` 2 边上`
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//` 1 内部`
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//` 0 外部`
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">relationpoint</span>(Point q){
+		<span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;i <span style="color:#f92672">&lt;</span> n;i<span style="color:#f92672">++</span>){
+			<span style="color:#66d9ef">if</span>(p[i] <span style="color:#f92672">==</span> q)<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">3</span>;
+		}
+		getline();
+		<span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;i <span style="color:#f92672">&lt;</span> n;i<span style="color:#f92672">++</span>){
+			<span style="color:#66d9ef">if</span>(l[i].pointonseg(q))<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">2</span>;
+		}
+		<span style="color:#66d9ef">int</span> cnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+		<span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;i <span style="color:#f92672">&lt;</span> n;i<span style="color:#f92672">++</span>){
+			<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> (i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>)<span style="color:#f92672">%</span>n;
+			<span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> sgn((q<span style="color:#f92672">-</span>p[j])<span style="color:#f92672">^</span>(p[i]<span style="color:#f92672">-</span>p[j]));
+			<span style="color:#66d9ef">int</span> u <span style="color:#f92672">=</span> sgn(p[i].y<span style="color:#f92672">-</span>q.y);
+			<span style="color:#66d9ef">int</span> v <span style="color:#f92672">=</span> sgn(p[j].y<span style="color:#f92672">-</span>q.y);
+			<span style="color:#66d9ef">if</span>(k <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> u <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> v <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>)cnt<span style="color:#f92672">++</span>;
+			<span style="color:#66d9ef">if</span>(k <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> v <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> u <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>)cnt<span style="color:#f92672">--</span>;
+		}
+		<span style="color:#66d9ef">return</span> cnt <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>;
+	}
+	<span style="color:#75715e">//`直线u切割凸多边形左侧`
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//`注意直线方向`
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//`测试：HDU3982`
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">convexcut</span>(Line u,polygon <span style="color:#f92672">&amp;</span>po){
+		<span style="color:#66d9ef">int</span> <span style="color:#f92672">&amp;</span>top <span style="color:#f92672">=</span> po.n;<span style="color:#75715e">//注意引用
+</span><span style="color:#75715e"></span>		top <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+		<span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;i <span style="color:#f92672">&lt;</span> n;i<span style="color:#f92672">++</span>){
+			<span style="color:#66d9ef">int</span> d1 <span style="color:#f92672">=</span> sgn((u.e<span style="color:#f92672">-</span>u.s)<span style="color:#f92672">^</span>(p[i]<span style="color:#f92672">-</span>u.s));
+			<span style="color:#66d9ef">int</span> d2 <span style="color:#f92672">=</span> sgn((u.e<span style="color:#f92672">-</span>u.s)<span style="color:#f92672">^</span>(p[(i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>)<span style="color:#f92672">%</span>n]<span style="color:#f92672">-</span>u.s));
+			<span style="color:#66d9ef">if</span>(d1 <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>)po.p[top<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> p[i];
+			<span style="color:#66d9ef">if</span>(d1<span style="color:#f92672">*</span>d2 <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>)po.p[top<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> u.crosspoint(Line(p[i],p[(i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>)<span style="color:#f92672">%</span>n]));
+		}
+	}
+	<span style="color:#75715e">//`得到周长`
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//`测试 LightOJ1239`
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">double</span> <span style="color:#a6e22e">getcircumference</span>(){
+		<span style="color:#66d9ef">double</span> sum <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+		<span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;i <span style="color:#f92672">&lt;</span> n;i<span style="color:#f92672">++</span>){
+			sum <span style="color:#f92672">+=</span> p[i].distance(p[(i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>)<span style="color:#f92672">%</span>n]);
+		}
+		<span style="color:#66d9ef">return</span> sum;
+	}
+	<span style="color:#75715e">//`得到面积`
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">double</span> <span style="color:#a6e22e">getarea</span>(){
+		<span style="color:#66d9ef">double</span> sum <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+		<span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;i <span style="color:#f92672">&lt;</span> n;i<span style="color:#f92672">++</span>){
+			sum <span style="color:#f92672">+=</span> (p[i]<span style="color:#f92672">^</span>p[(i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>)<span style="color:#f92672">%</span>n]);
+		}
+		<span style="color:#66d9ef">return</span> fabs(sum)<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span>;
+	}
+	<span style="color:#75715e">//`得到方向`
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//` 1 表示逆时针，0表示顺时针`
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">getdir</span>(){
+		<span style="color:#66d9ef">double</span> sum <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+		<span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;i <span style="color:#f92672">&lt;</span> n;i<span style="color:#f92672">++</span>)
+			sum <span style="color:#f92672">+=</span> (p[i]<span style="color:#f92672">^</span>p[(i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>)<span style="color:#f92672">%</span>n]);
+		<span style="color:#66d9ef">if</span>(sgn(sum) <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>)<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+		<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+	}
+	<span style="color:#75715e">//`得到重心`
+</span><span style="color:#75715e"></span>	Point <span style="color:#a6e22e">getbarycentre</span>(){
+		Point ret(<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">0</span>);
+		<span style="color:#66d9ef">double</span> area <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+		<span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;i <span style="color:#f92672">&lt;</span> n<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;i<span style="color:#f92672">++</span>){
+			<span style="color:#66d9ef">double</span> tmp <span style="color:#f92672">=</span> (p[i]<span style="color:#f92672">-</span>p[<span style="color:#ae81ff">0</span>])<span style="color:#f92672">^</span>(p[i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>]<span style="color:#f92672">-</span>p[<span style="color:#ae81ff">0</span>]);
+			<span style="color:#66d9ef">if</span>(sgn(tmp) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>)<span style="color:#66d9ef">continue</span>;
+			area <span style="color:#f92672">+=</span> tmp;
+			ret.x <span style="color:#f92672">+=</span> (p[<span style="color:#ae81ff">0</span>].x<span style="color:#f92672">+</span>p[i].x<span style="color:#f92672">+</span>p[i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>].x)<span style="color:#f92672">/</span><span style="color:#ae81ff">3</span><span style="color:#f92672">*</span>tmp;
+			ret.y <span style="color:#f92672">+=</span> (p[<span style="color:#ae81ff">0</span>].y<span style="color:#f92672">+</span>p[i].y<span style="color:#f92672">+</span>p[i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>].y)<span style="color:#f92672">/</span><span style="color:#ae81ff">3</span><span style="color:#f92672">*</span>tmp;
+		}
+		<span style="color:#66d9ef">if</span>(sgn(area)) ret <span style="color:#f92672">=</span> ret<span style="color:#f92672">/</span>area;
+		<span style="color:#66d9ef">return</span> ret;
+	}
+	<span style="color:#75715e">//`多边形和圆交的面积`
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//`测试：POJ3675 HDU3982 HDU2892`
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">double</span> <span style="color:#a6e22e">areacircle</span>(circle c){
+		<span style="color:#66d9ef">double</span> ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+		<span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;i <span style="color:#f92672">&lt;</span> n;i<span style="color:#f92672">++</span>){
+			<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> (i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>)<span style="color:#f92672">%</span>n;
+			<span style="color:#66d9ef">if</span>(sgn( (p[j]<span style="color:#f92672">-</span>c.p)<span style="color:#f92672">^</span>(p[i]<span style="color:#f92672">-</span>c.p) ) <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>)
+				ans <span style="color:#f92672">+=</span> c.areatriangle(p[i],p[j]);
+			<span style="color:#66d9ef">else</span> ans <span style="color:#f92672">-=</span> c.areatriangle(p[i],p[j]);
+		}
+		<span style="color:#66d9ef">return</span> fabs(ans);
+	}
+	<span style="color:#75715e">//`多边形和圆关系`
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//` 2 圆完全在多边形内`
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//` 1 圆在多边形里面，碰到了多边形边界`
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//` 0 其它`
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">relationcircle</span>(circle c){
+		getline();
+		<span style="color:#66d9ef">int</span> x <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>;
+		<span style="color:#66d9ef">if</span>(relationpoint(c.p) <span style="color:#f92672">!=</span> <span style="color:#ae81ff">1</span>)<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;<span style="color:#75715e">//圆心不在内部
+</span><span style="color:#75715e"></span>		<span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;i <span style="color:#f92672">&lt;</span> n;i<span style="color:#f92672">++</span>){
+			<span style="color:#66d9ef">if</span>(c.relationseg(l[i])<span style="color:#f92672">==</span><span style="color:#ae81ff">2</span>)<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+			<span style="color:#66d9ef">if</span>(c.relationseg(l[i])<span style="color:#f92672">==</span><span style="color:#ae81ff">1</span>)x <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+		}
+		<span style="color:#66d9ef">return</span> x;
+	}
+};
+<span style="color:#75715e">//`AB X AC`
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">double</span> <span style="color:#a6e22e">cross</span>(Point A,Point B,Point C){
+	<span style="color:#66d9ef">return</span> (B<span style="color:#f92672">-</span>A)<span style="color:#f92672">^</span>(C<span style="color:#f92672">-</span>A);
+}
+<span style="color:#75715e">//`AB*AC`
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">double</span> <span style="color:#a6e22e">dot</span>(Point A,Point B,Point C){
+	<span style="color:#66d9ef">return</span> (B<span style="color:#f92672">-</span>A)<span style="color:#f92672">*</span>(C<span style="color:#f92672">-</span>A);
+}
+<span style="color:#75715e">//`最小矩形面积覆盖`
+</span><span style="color:#75715e">//` A 必须是凸包(而且是逆时针顺序)`
+</span><span style="color:#75715e">//` 测试 UVA 10173`
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">double</span> <span style="color:#a6e22e">minRectangleCover</span>(polygon A){
+	<span style="color:#75715e">//`要特判A.n &lt; 3的情况`
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">if</span>(A.n <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">3</span>)<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0.0</span>;
+	A.p[A.n] <span style="color:#f92672">=</span> A.p[<span style="color:#ae81ff">0</span>];
+	<span style="color:#66d9ef">double</span> ans <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+	<span style="color:#66d9ef">int</span> r <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, p <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, q;
+	<span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;i <span style="color:#f92672">&lt;</span> A.n;i<span style="color:#f92672">++</span>){
+		<span style="color:#75715e">//`卡出离边A.p[i] - A.p[i+1]最远的点`
+</span><span style="color:#75715e"></span>		<span style="color:#66d9ef">while</span>( sgn( cross(A.p[i],A.p[i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>],A.p[r<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>]) <span style="color:#f92672">-</span> cross(A.p[i],A.p[i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>],A.p[r]) ) <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span> )
+			r <span style="color:#f92672">=</span> (r<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>)<span style="color:#f92672">%</span>A.n;
+		<span style="color:#75715e">//`卡出A.p[i] - A.p[i+1]方向上正向n最远的点`
+</span><span style="color:#75715e"></span>		<span style="color:#66d9ef">while</span>(sgn( dot(A.p[i],A.p[i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>],A.p[p<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>]) <span style="color:#f92672">-</span> dot(A.p[i],A.p[i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>],A.p[p]) ) <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span> )
+			p <span style="color:#f92672">=</span> (p<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>)<span style="color:#f92672">%</span>A.n;
+		<span style="color:#66d9ef">if</span>(i <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>)q <span style="color:#f92672">=</span> p;
+		<span style="color:#75715e">//`卡出A.p[i] - A.p[i+1]方向上负向最远的点`
+</span><span style="color:#75715e"></span>		<span style="color:#66d9ef">while</span>(sgn(dot(A.p[i],A.p[i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>],A.p[q<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>]) <span style="color:#f92672">-</span> dot(A.p[i],A.p[i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>],A.p[q])) <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">0</span>)
+			q <span style="color:#f92672">=</span> (q<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>)<span style="color:#f92672">%</span>A.n;
+		<span style="color:#66d9ef">double</span> d <span style="color:#f92672">=</span> (A.p[i] <span style="color:#f92672">-</span> A.p[i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>]).len2();
+		<span style="color:#66d9ef">double</span> tmp <span style="color:#f92672">=</span> cross(A.p[i],A.p[i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>],A.p[r]) <span style="color:#f92672">*</span>
+			(dot(A.p[i],A.p[i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>],A.p[p]) <span style="color:#f92672">-</span> dot(A.p[i],A.p[i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>],A.p[q]))<span style="color:#f92672">/</span>d;
+		<span style="color:#66d9ef">if</span>(ans <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">||</span> ans <span style="color:#f92672">&gt;</span> tmp)ans <span style="color:#f92672">=</span> tmp;
+	}
+	<span style="color:#66d9ef">return</span> ans;
+}
+
+<span style="color:#75715e">//`直线切凸多边形`
+</span><span style="color:#75715e">//`多边形是逆时针的，在q1q2的左侧`
+</span><span style="color:#75715e">//`测试:HDU3982`
+</span><span style="color:#75715e"></span>vector<span style="color:#f92672">&lt;</span>Point<span style="color:#f92672">&gt;</span> convexCut(<span style="color:#66d9ef">const</span> vector<span style="color:#f92672">&lt;</span>Point<span style="color:#f92672">&gt;</span> <span style="color:#f92672">&amp;</span>ps,Point q1,Point q2){
+	vector<span style="color:#f92672">&lt;</span>Point<span style="color:#f92672">&gt;</span>qs;
+	<span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> ps.size();
+	<span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;i <span style="color:#f92672">&lt;</span> n;i<span style="color:#f92672">++</span>){
+		Point p1 <span style="color:#f92672">=</span> ps[i], p2 <span style="color:#f92672">=</span> ps[(i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>)<span style="color:#f92672">%</span>n];
+		<span style="color:#66d9ef">int</span> d1 <span style="color:#f92672">=</span> sgn((q2<span style="color:#f92672">-</span>q1)<span style="color:#f92672">^</span>(p1<span style="color:#f92672">-</span>q1)), d2 <span style="color:#f92672">=</span> sgn((q2<span style="color:#f92672">-</span>q1)<span style="color:#f92672">^</span>(p2<span style="color:#f92672">-</span>q1));
+		<span style="color:#66d9ef">if</span>(d1 <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>)
+			qs.push_back(p1);
+		<span style="color:#66d9ef">if</span>(d1 <span style="color:#f92672">*</span> d2 <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>)
+			qs.push_back(Line(p1,p2).crosspoint(Line(q1,q2)));
+	}
+	<span style="color:#66d9ef">return</span> qs;
+}
+<span style="color:#75715e">//`半平面交`
+</span><span style="color:#75715e">//`测试 POJ3335 POJ1474 POJ1279`
+</span><span style="color:#75715e">//***************************
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">halfplane</span><span style="color:#f92672">:</span><span style="color:#66d9ef">public</span> Line{
+	<span style="color:#66d9ef">double</span> angle;
+	halfplane(){}
+	<span style="color:#75715e">//`表示向量s-&gt;e逆时针(左侧)的半平面`
+</span><span style="color:#75715e"></span>	halfplane(Point _s,Point _e){
+		s <span style="color:#f92672">=</span> _s;
+		e <span style="color:#f92672">=</span> _e;
+	}
+	halfplane(Line v){
+		s <span style="color:#f92672">=</span> v.s;
+		e <span style="color:#f92672">=</span> v.e;
+	}
+	<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">calcangle</span>(){
+		angle <span style="color:#f92672">=</span> atan2(e.y<span style="color:#f92672">-</span>s.y,e.x<span style="color:#f92672">-</span>s.x);
+	}
+	<span style="color:#66d9ef">bool</span> <span style="color:#66d9ef">operator</span> <span style="color:#f92672">&lt;</span>(<span style="color:#66d9ef">const</span> halfplane <span style="color:#f92672">&amp;</span>b)<span style="color:#66d9ef">const</span>{
+		<span style="color:#66d9ef">return</span> angle <span style="color:#f92672">&lt;</span> b.angle;
+	}
+};
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">halfplanes</span>{
+	<span style="color:#66d9ef">int</span> n;
+	halfplane hp[maxp];
+	Point p[maxp];
+	<span style="color:#66d9ef">int</span> que[maxp];
+	<span style="color:#66d9ef">int</span> st,ed;
+	<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">push</span>(halfplane tmp){
+		hp[n<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> tmp;
+	}
+	<span style="color:#75715e">//去重
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">unique</span>(){
+		<span style="color:#66d9ef">int</span> m <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+		<span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;i <span style="color:#f92672">&lt;</span> n;i<span style="color:#f92672">++</span>){
+			<span style="color:#66d9ef">if</span>(sgn(hp[i].angle<span style="color:#f92672">-</span>hp[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>].angle) <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>)
+				hp[m<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> hp[i];
+			<span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span>(sgn( (hp[m<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>].e<span style="color:#f92672">-</span>hp[m<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>].s)<span style="color:#f92672">^</span>(hp[i].s<span style="color:#f92672">-</span>hp[m<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>].s) ) <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>)
+				hp[m<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> hp[i];
+		}
+		n <span style="color:#f92672">=</span> m;
+	}
+	<span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">halfplaneinsert</span>(){
+		<span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;i <span style="color:#f92672">&lt;</span> n;i<span style="color:#f92672">++</span>)hp[i].calcangle();
+		sort(hp,hp<span style="color:#f92672">+</span>n);
+		unique();
+		que[st<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+		que[ed<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+		p[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> hp[<span style="color:#ae81ff">0</span>].crosspoint(hp[<span style="color:#ae81ff">1</span>]);
+		<span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>;i <span style="color:#f92672">&lt;</span> n;i<span style="color:#f92672">++</span>){
+			<span style="color:#66d9ef">while</span>(st<span style="color:#f92672">&lt;</span>ed <span style="color:#f92672">&amp;&amp;</span> sgn((hp[i].e<span style="color:#f92672">-</span>hp[i].s)<span style="color:#f92672">^</span>(p[ed]<span style="color:#f92672">-</span>hp[i].s))<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">0</span>)ed<span style="color:#f92672">--</span>;
+			<span style="color:#66d9ef">while</span>(st<span style="color:#f92672">&lt;</span>ed <span style="color:#f92672">&amp;&amp;</span> sgn((hp[i].e<span style="color:#f92672">-</span>hp[i].s)<span style="color:#f92672">^</span>(p[st<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>]<span style="color:#f92672">-</span>hp[i].s))<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">0</span>)st<span style="color:#f92672">++</span>;
+			que[<span style="color:#f92672">++</span>ed] <span style="color:#f92672">=</span> i;
+			<span style="color:#66d9ef">if</span>(hp[i].parallel(hp[que[ed<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]]))<span style="color:#66d9ef">return</span> false;
+			p[ed]<span style="color:#f92672">=</span>hp[i].crosspoint(hp[que[ed<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]]);
+		}
+		<span style="color:#66d9ef">while</span>(st<span style="color:#f92672">&lt;</span>ed <span style="color:#f92672">&amp;&amp;</span> sgn((hp[que[st]].e<span style="color:#f92672">-</span>hp[que[st]].s)<span style="color:#f92672">^</span>(p[ed]<span style="color:#f92672">-</span>hp[que[st]].s))<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">0</span>)ed<span style="color:#f92672">--</span>;
+		<span style="color:#66d9ef">while</span>(st<span style="color:#f92672">&lt;</span>ed <span style="color:#f92672">&amp;&amp;</span> sgn((hp[que[ed]].e<span style="color:#f92672">-</span>hp[que[ed]].s)<span style="color:#f92672">^</span>(p[st<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>]<span style="color:#f92672">-</span>hp[que[ed]].s))<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">0</span>)st<span style="color:#f92672">++</span>;
+		<span style="color:#66d9ef">if</span>(st<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span><span style="color:#f92672">&gt;=</span>ed)<span style="color:#66d9ef">return</span> false;
+		<span style="color:#66d9ef">return</span> true;
+	}
+	<span style="color:#75715e">//`得到最后半平面交得到的凸多边形`
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//`需要先调用halfplaneinsert() 且返回true`
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">getconvex</span>(polygon <span style="color:#f92672">&amp;</span>con){
+		p[st] <span style="color:#f92672">=</span> hp[que[st]].crosspoint(hp[que[ed]]);
+		con.n <span style="color:#f92672">=</span> ed<span style="color:#f92672">-</span>st<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>;
+		<span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> st,i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;j <span style="color:#f92672">&lt;=</span> ed;i<span style="color:#f92672">++</span>,j<span style="color:#f92672">++</span>)
+			con.p[i] <span style="color:#f92672">=</span> p[j];
+	}
+};
+<span style="color:#75715e">//***************************
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">1010</span>;
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">circles</span>{
+	circle c[maxn];
+	<span style="color:#66d9ef">double</span> ans[maxn];<span style="color:#75715e">//`ans[i]表示被覆盖了i次的面积`
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">double</span> pre[maxn];
+	<span style="color:#66d9ef">int</span> n;
+	circles(){}
+	<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">add</span>(circle cc){
+		c[n<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> cc;
+	}
+	<span style="color:#75715e">//`x包含在y中`
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">inner</span>(circle x,circle y){
+		<span style="color:#66d9ef">if</span>(x.relationcircle(y) <span style="color:#f92672">!=</span> <span style="color:#ae81ff">1</span>)<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+		<span style="color:#66d9ef">return</span> sgn(x.r<span style="color:#f92672">-</span>y.r)<span style="color:#f92672">&lt;=</span><span style="color:#ae81ff">0</span><span style="color:#f92672">?</span><span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">0</span>;
+	}
+	<span style="color:#75715e">//圆的面积并去掉内含的圆
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">init_or</span>(){
+		<span style="color:#66d9ef">bool</span> mark[maxn] <span style="color:#f92672">=</span> {<span style="color:#ae81ff">0</span>};
+		<span style="color:#66d9ef">int</span> i,j,k<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>;
+		<span style="color:#66d9ef">for</span>(i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;i <span style="color:#f92672">&lt;</span> n;i<span style="color:#f92672">++</span>){
+			<span style="color:#66d9ef">for</span>(j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;j <span style="color:#f92672">&lt;</span> n;j<span style="color:#f92672">++</span>)
+				<span style="color:#66d9ef">if</span>(i <span style="color:#f92672">!=</span> j <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span>mark[j]){
+					<span style="color:#66d9ef">if</span>( (c[i]<span style="color:#f92672">==</span>c[j])<span style="color:#f92672">||</span>inner(c[i],c[j]) )<span style="color:#66d9ef">break</span>;
+				}
+			<span style="color:#66d9ef">if</span>(j <span style="color:#f92672">&lt;</span> n)mark[i] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+		}
+		<span style="color:#66d9ef">for</span>(i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;i <span style="color:#f92672">&lt;</span> n;i<span style="color:#f92672">++</span>)
+			<span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span>mark[i])
+				c[k<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> c[i];
+		n <span style="color:#f92672">=</span> k;
+	}
+	<span style="color:#75715e">//`圆的面积交去掉内含的圆`
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">init_add</span>(){
+		<span style="color:#66d9ef">int</span> i,j,k;
+		<span style="color:#66d9ef">bool</span> mark[maxn] <span style="color:#f92672">=</span> {<span style="color:#ae81ff">0</span>};
+		<span style="color:#66d9ef">for</span>(i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;i <span style="color:#f92672">&lt;</span> n;i<span style="color:#f92672">++</span>){
+			<span style="color:#66d9ef">for</span>(j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;j <span style="color:#f92672">&lt;</span> n;j<span style="color:#f92672">++</span>)
+				<span style="color:#66d9ef">if</span>(i <span style="color:#f92672">!=</span> j <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span>mark[j]){
+					<span style="color:#66d9ef">if</span>( (c[i]<span style="color:#f92672">==</span>c[j])<span style="color:#f92672">||</span>inner(c[j],c[i]) )<span style="color:#66d9ef">break</span>;
+				}
+			<span style="color:#66d9ef">if</span>(j <span style="color:#f92672">&lt;</span> n)mark[i] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+		}
+		<span style="color:#66d9ef">for</span>(i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;i <span style="color:#f92672">&lt;</span> n;i<span style="color:#f92672">++</span>)
+			<span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span>mark[i])
+				c[k<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> c[i];
+		n <span style="color:#f92672">=</span> k;
+	}
+	<span style="color:#75715e">//`半径为r的圆，弧度为th对应的弓形的面积`
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">double</span> <span style="color:#a6e22e">areaarc</span>(<span style="color:#66d9ef">double</span> th,<span style="color:#66d9ef">double</span> r){
+		<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0.5</span><span style="color:#f92672">*</span>r<span style="color:#f92672">*</span>r<span style="color:#f92672">*</span>(th<span style="color:#f92672">-</span>sin(th));
+	}
+	<span style="color:#75715e">//`测试SPOJVCIRCLES SPOJCIRUT`
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//`SPOJVCIRCLES求n个圆并的面积，需要加上init\_or()去掉重复圆（否则WA）`
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//`SPOJCIRUT 是求被覆盖k次的面积，不能加init\_or()`
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//`对于求覆盖多少次面积的问题，不能解决相同圆，而且不能init\_or()`
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//`求多圆面积并，需要init\_or,其中一个目的就是去掉相同圆`
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">getarea</span>(){
+		memset(ans,<span style="color:#ae81ff">0</span>,<span style="color:#66d9ef">sizeof</span>(ans));
+		vector<span style="color:#f92672">&lt;</span>pair<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">double</span>,<span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">&gt;</span>v;
+		<span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;i <span style="color:#f92672">&lt;</span> n;i<span style="color:#f92672">++</span>){
+			v.clear();
+			v.push_back(make_pair(<span style="color:#f92672">-</span>pi,<span style="color:#ae81ff">1</span>));
+			v.push_back(make_pair(pi,<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>));
+			<span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;j <span style="color:#f92672">&lt;</span> n;j<span style="color:#f92672">++</span>)
+				<span style="color:#66d9ef">if</span>(i <span style="color:#f92672">!=</span> j){
+					Point q <span style="color:#f92672">=</span> (c[j].p <span style="color:#f92672">-</span> c[i].p);
+					<span style="color:#66d9ef">double</span> ab <span style="color:#f92672">=</span> q.len(),ac <span style="color:#f92672">=</span> c[i].r, bc <span style="color:#f92672">=</span> c[j].r;
+					<span style="color:#66d9ef">if</span>(sgn(ab<span style="color:#f92672">+</span>ac<span style="color:#f92672">-</span>bc)<span style="color:#f92672">&lt;=</span><span style="color:#ae81ff">0</span>){
+						v.push_back(make_pair(<span style="color:#f92672">-</span>pi,<span style="color:#ae81ff">1</span>));
+						v.push_back(make_pair(pi,<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>));
+						<span style="color:#66d9ef">continue</span>;
+					}
+					<span style="color:#66d9ef">if</span>(sgn(ab<span style="color:#f92672">+</span>bc<span style="color:#f92672">-</span>ac)<span style="color:#f92672">&lt;=</span><span style="color:#ae81ff">0</span>)<span style="color:#66d9ef">continue</span>;
+					<span style="color:#66d9ef">if</span>(sgn(ab<span style="color:#f92672">-</span>ac<span style="color:#f92672">-</span>bc)<span style="color:#f92672">&gt;</span><span style="color:#ae81ff">0</span>)<span style="color:#66d9ef">continue</span>;
+					<span style="color:#66d9ef">double</span> th <span style="color:#f92672">=</span> atan2(q.y,q.x), fai <span style="color:#f92672">=</span> acos((ac<span style="color:#f92672">*</span>ac<span style="color:#f92672">+</span>ab<span style="color:#f92672">*</span>ab<span style="color:#f92672">-</span>bc<span style="color:#f92672">*</span>bc)<span style="color:#f92672">/</span>(<span style="color:#ae81ff">2.0</span><span style="color:#f92672">*</span>ac<span style="color:#f92672">*</span>ab));
+					<span style="color:#66d9ef">double</span> a0 <span style="color:#f92672">=</span> th<span style="color:#f92672">-</span>fai;
+					<span style="color:#66d9ef">if</span>(sgn(a0<span style="color:#f92672">+</span>pi)<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">0</span>)a0<span style="color:#f92672">+=</span><span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>pi;
+					<span style="color:#66d9ef">double</span> a1 <span style="color:#f92672">=</span> th<span style="color:#f92672">+</span>fai;
+					<span style="color:#66d9ef">if</span>(sgn(a1<span style="color:#f92672">-</span>pi)<span style="color:#f92672">&gt;</span><span style="color:#ae81ff">0</span>)a1<span style="color:#f92672">-=</span><span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>pi;
+					<span style="color:#66d9ef">if</span>(sgn(a0<span style="color:#f92672">-</span>a1)<span style="color:#f92672">&gt;</span><span style="color:#ae81ff">0</span>){
+						v.push_back(make_pair(a0,<span style="color:#ae81ff">1</span>));
+						v.push_back(make_pair(pi,<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>));
+						v.push_back(make_pair(<span style="color:#f92672">-</span>pi,<span style="color:#ae81ff">1</span>));
+						v.push_back(make_pair(a1,<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>));
+					}
+					<span style="color:#66d9ef">else</span>{
+						v.push_back(make_pair(a0,<span style="color:#ae81ff">1</span>));
+						v.push_back(make_pair(a1,<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>));
+					}
+				}
+			sort(v.begin(),v.end());
+			<span style="color:#66d9ef">int</span> cur <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+			<span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;j <span style="color:#f92672">&lt;</span> v.size();j<span style="color:#f92672">++</span>){
+				<span style="color:#66d9ef">if</span>(cur <span style="color:#f92672">&amp;&amp;</span> sgn(v[j].first<span style="color:#f92672">-</span>pre[cur])){
+					ans[cur] <span style="color:#f92672">+=</span> areaarc(v[j].first<span style="color:#f92672">-</span>pre[cur],c[i].r);
+					ans[cur] <span style="color:#f92672">+=</span> <span style="color:#ae81ff">0.5</span><span style="color:#f92672">*</span>(Point(c[i].p.x<span style="color:#f92672">+</span>c[i].r<span style="color:#f92672">*</span>cos(pre[cur]),c[i].p.y<span style="color:#f92672">+</span>c[i].r<span style="color:#f92672">*</span>sin(pre[cur]))<span style="color:#f92672">^</span>Point(c[i].p.x<span style="color:#f92672">+</span>c[i].r<span style="color:#f92672">*</span>cos(v[j].first),c[i].p.y<span style="color:#f92672">+</span>c[i].r<span style="color:#f92672">*</span>sin(v[j].first)));
+				}
+				cur <span style="color:#f92672">+=</span> v[j].second;
+				pre[cur] <span style="color:#f92672">=</span> v[j].first;
+			}
+		}
+		<span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;i <span style="color:#f92672">&lt;</span> n;i<span style="color:#f92672">++</span>)
+			ans[i] <span style="color:#f92672">-=</span> ans[i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>];
+	}
+};
+</code></pre></div></details>
+<p>以下记录一些用法：</p>
+<details class="admonition note"><summary class="admonition-title">用法</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    <span style="color:#75715e">// 求凸包
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> n; cin <span style="color:#f92672">&gt;&gt;</span> n;
+    poly2.input(n);  <span style="color:#75715e">// 先 input 到其他的 polygon 里面去
+</span><span style="color:#75715e"></span>    poly2.getconvex(poly);
+    printf(<span style="color:#e6db74">&#34;%.15lf</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, poly.getarea());
+}
+</code></pre></div></details>
+<div class="admonition info">
+  <p class="admonition-title">注意事项</p>
+<p>如果题目中给的点都是整数，要将板子中的 Point 的 <code>double</code> 改成 <code>ll</code>，以避免精度问题！</p>
+</div>
+
+    </div>
+
+    
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags//"></a>
+          <a href="/tags//"></a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/119-%E6%95%B0%E8%AE%BA%E6%80%A7%E8%B4%A8/">
+            <span class="next-text nav-default">一些数论性质与方法</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://github.com/kiki-yan" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://kiki-yan.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2026
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/kiki-yan/kiki-yan.github.io" target="_blank"></a>
+    </span> 
+    <span class="author">kiki_yan</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/base16/tomorrow.min.css" rel="stylesheet">
+  
+  <script>hljs.configure({tabReplace: '    '});</script><script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

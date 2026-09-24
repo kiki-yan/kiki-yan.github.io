@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>并查集 - kiki_yan</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="kiki_yan" /><meta name="description" content="介绍 这篇博客主要介绍一些并查集的高级应用。 目前我所知的并查集应用有： 权值并查集 可撤销并查集 可持久化并查集（还没学） 权值并查集 略，目前我所知的" /><meta name="keywords" content="kiki_yan, blog, Codeforces" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
+
+
+<link rel="canonical" href="https://kiki-yan.github.io/post/062-%E5%B9%B6%E6%9F%A5%E9%9B%86/" />
+<link rel="manifest" href="/manifest.json">
+
+
+
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="并查集" />
+<meta property="og:description" content="介绍 这篇博客主要介绍一些并查集的高级应用。 目前我所知的并查集应用有： 权值并查集 可撤销并查集 可持久化并查集（还没学） 权值并查集 略，目前我所知的" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kiki-yan.github.io/post/062-%E5%B9%B6%E6%9F%A5%E9%9B%86/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2021-12-27T18:43:41+08:00" />
+<meta property="article:modified_time" content="2021-12-27T18:43:41+08:00" />
+
+<meta itemprop="name" content="并查集">
+<meta itemprop="description" content="介绍 这篇博客主要介绍一些并查集的高级应用。 目前我所知的并查集应用有： 权值并查集 可撤销并查集 可持久化并查集（还没学） 权值并查集 略，目前我所知的"><meta itemprop="datePublished" content="2021-12-27T18:43:41+08:00" />
+<meta itemprop="dateModified" content="2021-12-27T18:43:41+08:00" />
+<meta itemprop="wordCount" content="4406">
+<meta itemprop="keywords" content="并查集,," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="并查集"/>
+<meta name="twitter:description" content="介绍 这篇博客主要介绍一些并查集的高级应用。 目前我所知的并查集应用有： 权值并查集 可撤销并查集 可持久化并查集（还没学） 权值并查集 略，目前我所知的"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">kiki_yan</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF Problems</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">kiki_yan</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF Problems</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">并查集</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2021-12-27 18:43:41 &#43;0800 &#43;0800"> 2021-12-27 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
+            </div>
+        
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#介绍">介绍</a></li>
+        <li><a href="#权值并查集">权值并查集</a></li>
+        <li><a href="#可撤销并查集">可撤销并查集</a></li>
+        <li><a href="#并查集维护仅删除的单向链表树">并查集维护仅删除的单向链表/树</a></li>
+        <li><a href="#例题">例题</a>
+          <ul>
+            <li><a href="#例1-hnoi2016最小公倍数httpswwwluogucomcnproblemp3247">例1 <a href="https://www.luogu.com.cn/problem/P3247">[HNOI2016]最小公倍数</a></a></li>
+            <li><a href="#例2-bzoj4668-冷战httpsdarkbzojtkproblem4668">例2 <a href="https://darkbzoj.tk/problem/4668">BZOJ4668 冷战</a></a></li>
+            <li><a href="#例3-do-not-try-this-problemhttpscodeforcescomgym102307problemd">例3 <a href="https://codeforces.com/gym/102307/problem/D">Do Not Try This Problem</a></a></li>
+            <li><a href="#例4-tjoi2016-树httpswwwluogucomcnproblemp4092">例4 TJOI2016 <a href="https://www.luogu.com.cn/problem/P4092">树</a></a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="介绍">介绍</h2>
+<p>这篇博客主要介绍一些并查集的高级应用。</p>
+<p>目前我所知的并查集应用有：</p>
+<ol>
+<li>权值并查集</li>
+<li>可撤销并查集</li>
+<li>可持久化并查集（还没学）</li>
+</ol>
+<h2 id="权值并查集">权值并查集</h2>
+<p>略，目前我所知的方法就只有开多倍空间，维护不同元素之间的关系，经典例题见 <a href="https://www.luogu.com.cn/problem/P2024" target="_blank">NOI2001 食物链</a>。</p>
+<h2 id="可撤销并查集">可撤销并查集</h2>
+<p>意思如其名，可以将之前合并的操作撤销。</p>
+<p>思想并不难，只要拿一个额外的 <code>stack</code> 记录一下每次操作 <strong>更改的信息</strong>，然后回退的时候将 <code>stack</code> 内的信息 pop 出来，恢复一下当时的状态即可。</p>
+<p>有几个需要注意的点：</p>
+<ol>
+<li>并查集 <strong>不能路径压缩</strong>，否则会破坏结构。为了保证时间复杂度，需要使用启发式合并。</li>
+<li>无论 <code>unions(u,v)</code> 是否成功，都要记录在栈中。因为我们回退时并不知道这一步合并当时是否成功了。</li>
+</ol>
+<details class="admonition note"><summary class="admonition-title">模版</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">ll ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+ll <span style="color:#a6e22e">cal</span>(ll x) {
+    <span style="color:#66d9ef">return</span> x<span style="color:#f92672">*</span>(x<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>;
+}
+
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">State</span> {
+    <span style="color:#66d9ef">int</span> u, v, szu, szv;
+} st[maxm];  <span style="color:#75715e">// 注意这里是 maxm，应该是边的数量
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">DSU</span> {
+    <span style="color:#66d9ef">int</span> par[maxn], sz[maxn], tail <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">inline</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">init</span>() {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) par[i] <span style="color:#f92672">=</span> i, sz[i] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        tail <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    }
+    <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">finds</span>(<span style="color:#66d9ef">int</span> u) {
+        <span style="color:#66d9ef">if</span> (par[u] <span style="color:#f92672">==</span> u) <span style="color:#66d9ef">return</span> u;
+        <span style="color:#66d9ef">return</span> finds(par[u]);  <span style="color:#75715e">// 无路径压缩
+</span><span style="color:#75715e"></span>    }
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">unions</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> v) {
+        u <span style="color:#f92672">=</span> finds(u), v <span style="color:#f92672">=</span> finds(v);
+        <span style="color:#66d9ef">if</span> (sz[u] <span style="color:#f92672">&lt;</span> sz[v]) swap(u,v);  <span style="color:#75715e">// sz[u] &gt;= sz[v]
+</span><span style="color:#75715e"></span>        st[<span style="color:#f92672">++</span>tail] <span style="color:#f92672">=</span> {u, v, sz[u], sz[v]};   <span style="color:#75715e">// 无论是否 union 成功都要push到 stack 里
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> (u <span style="color:#f92672">==</span> v) <span style="color:#66d9ef">return</span>;
+        par[v] <span style="color:#f92672">=</span> u;
+        ans <span style="color:#f92672">=</span> ans <span style="color:#f92672">-</span> cal(sz[u]) <span style="color:#f92672">-</span> cal(sz[v]) <span style="color:#f92672">+</span> cal(sz[u] <span style="color:#f92672">+</span> sz[v]);
+        sz[u] <span style="color:#f92672">+=</span> sz[v];
+    }
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">cancel</span>() {
+        <span style="color:#66d9ef">if</span> (tail <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
+            <span style="color:#66d9ef">int</span> u <span style="color:#f92672">=</span> st[tail].u, v <span style="color:#f92672">=</span> st[tail].v;
+            par[v] <span style="color:#f92672">=</span> v;
+            <span style="color:#66d9ef">if</span> (sz[u] <span style="color:#f92672">!=</span> st[tail].szu) {
+                ans <span style="color:#f92672">=</span> ans <span style="color:#f92672">-</span> cal(sz[u]) <span style="color:#f92672">+</span> cal(st[tail].szu) <span style="color:#f92672">+</span> cal(st[tail].szv);
+            }
+            sz[u] <span style="color:#f92672">=</span> st[tail].szu;
+            sz[v] <span style="color:#f92672">=</span> st[tail].szv;
+            tail<span style="color:#f92672">--</span>;
+        }
+    }
+} dsu;
+</code></pre></div></details>
+<h2 id="并查集维护仅删除的单向链表树">并查集维护仅删除的单向链表/树</h2>
+<p>并查集还可以用于维护一个只有删除操作的单向链表 / 树，维护的信息是一个节点的 “下一个xx” 相关信息。</p>
+<p>例如在一棵树上，支持两种操作：</p>
+<ol>
+<li>删除一个节点 $u$，将其所有 child 连到节点 $u$ 的parent上。</li>
+<li>查询一个节点的parent。</li>
+</ol>
+<p>就可以将它看作并查集问题，每个节点 $u$ 的并查集中，<code>par[u]</code> 记录的是：在它的上方，第一个还存在的节点是谁。</p>
+<p>所以当一个节点还存在时，<code>par[u] = u</code>，当它被删除时，就 <code>unions(u, p)</code>，其中 $p$ 是 $u$ 在树上的 parent。</p>
+<p>• 需要注意，<code>unions(u,p)</code> 时不能随便 <code>unions</code>，我们需要保证 <code>par[finds(u)] = finds(p)</code>。</p>
+<h2 id="例题">例题</h2>
+<h3 id="例1-hnoi2016最小公倍数httpswwwluogucomcnproblemp3247">例1 <a href="https://www.luogu.com.cn/problem/P3247" target="_blank">[HNOI2016]最小公倍数</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个 $n$ 个节点，$m$ 条边的无向图。每个边有权值，权值都可以被表示为 $2^a \times 3^b$ 的形式。</p>
+<p>现在给出 $q$ 个询问，每次询问 $u ~ v ~ a ~ b$，我们需要回答在 $u,v$ 之间，是否存在一条路径使得路径上所有边权的 LCM 等于 $2^a \times 3^b$？</p>
+<p>路径可以不为简单路径（可以经过重复的边）。</p>
+<p>其中，$1 \leq n,q \leq 5 \times 10^4, 1 \leq m \leq 10^5, 0 \leq a_i,b_i \leq 10^9$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>题目实际上就想要我们找，每条边的权值表示为 $(a_i,b_i)$，每次询问 $u ~ v ~ a ~ b$，回答是否存在路径使得路径上的 $\max \{a_i\} = a, \max \{b_i\} = b$？</p>
+<p>我们先用最暴力的思路来想：</p>
+<p>对于每次询问，我们只要把所有满足 $a_i \leq a, b_i \leq b$ 的边全都加进去，然后判断一下 $u,v$ 是否联通，并且这个联通块内 $\max \{a_i\} = a, \max \{b_i\} = b$ 是否成立即可。这可以用并查集实现。</p>
+<p>接下来考虑优化。</p>
+<hr>
+<p>对于这种拥有 $2$ 个条件的题目，一种套路是：</p>
+<blockquote>
+<p>将第一种权值 <code>sort</code> 一下，然后分块。</p>
+<p>每个块内（或者多个块一起）对第二种权值 <code>sort</code>。然后把所有询问放进对应的块内进行处理。</p>
+</blockquote>
+<p>对于本题，我们先把所有的边按照 $a_i$ 的大小进行 <code>sort</code>，然后进行分块。</p>
+<p>对于每一条边 $(u,v,a,b)$，我们找到一个块 $B$ 满足，在 $[1,B-1]$ 这些块内，最大的 $a_i$ 都 $\leq a$，且这个 $B$ 尽可能大。</p>
+<p>之后，我们对于每一个块进行处理。</p>
+<p>假设我们现在在块 $B$ 内，那么我们将 $[1,B-1]$ 这些块看作一个整体，然后对这个整体，按照 <strong>第二种权值</strong> $b_i$ 进行 <code>sort</code>。</p>
+<p>然后我们将块 $B$ 内的所有询问按照 $b_i$ 进行 <code>sort</code>。</p>
+<p>然后我们开始回答询问 $(u,v,a,b)$。</p>
+<p>首先注意到此时，$[1,B-1]$ 这些块内的元素一定满足 $a_i \leq a$，所以不用关心前面这些块内的 $a_i$。</p>
+<p>然后考虑 $[1,B-1]$ 这些块内的元素的 $b_i$，注意到它们此时是按照 $b_i$ <code>sort</code> 好的，而我们的询问也是按照 $b$ <code>sort</code> 的，所以我们可以直接用一个指针维护一下现在我们在 $[1,B-1]$ 这些块内，有哪些元素的 $b_i$ 是 $\leq b$ 的。</p>
+<p>这样，$[1,B-1]$ 这些块就都处理好了，只剩下当前这个块 $B$ 了。</p>
+<p>对于当前块 $B$，我们只要暴力向并查集内加入当前块内，所有满足 $a_i \leq a, b_i \leq b$ 的边即可。</p>
+<p>在回答完这个询问后，把当前块 $B$ 的所有边都从并查集中撤销，然后开始回答下一个询问。</p>
+<hr>
+<p>总时间复杂度：设块的大小为 $B$，那么总共有 $\frac{m}{B}$ 个块。</p>
+<p>每一个块的处理：首先要对前面的块进行sort，所以是 $O(m\log m)$。</p>
+<p>对于每一个询问，我们都要暴力遍历一个块内的所有边，总共有 $B$ 条边，每次加入操作需要 $O(\log m)$（因为没有路径压缩），所以是 $O(B \log m)$。</p>
+<p>于是最终的复杂度就是：</p>
+<p>$$T(n) = \frac{m}{B} m\log m + qB \log m$$</p>
+<p>取 $B = \sqrt m$ 或者 $\frac{m}{\sqrt q}$ 之类的都可以过。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">5e4</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxm <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e5</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>;
+
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Query</span> {
+    <span style="color:#66d9ef">int</span> u, v, a, b, be, id;
+} query[maxn];
+vector<span style="color:#f92672">&lt;</span>Query<span style="color:#f92672">&gt;</span> vec[maxn];
+
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Edge</span> {
+    <span style="color:#66d9ef">int</span> from, to, a, b;
+} edges[maxm];
+<span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">cmpA</span>(<span style="color:#66d9ef">const</span> Edge<span style="color:#f92672">&amp;</span> e1, <span style="color:#66d9ef">const</span> Edge<span style="color:#f92672">&amp;</span> e2) {
+    <span style="color:#66d9ef">return</span> e1.a <span style="color:#f92672">&lt;</span> e2.a;
+}
+<span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">cmpB</span>(<span style="color:#66d9ef">const</span> Edge<span style="color:#f92672">&amp;</span> e1, <span style="color:#66d9ef">const</span> Edge<span style="color:#f92672">&amp;</span> e2) {
+    <span style="color:#66d9ef">return</span> e1.b <span style="color:#f92672">&lt;</span> e2.b;
+}
+
+<span style="color:#66d9ef">int</span> ecnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, n, m, B, blockcnt, Q;
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">addEdge</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> v, <span style="color:#66d9ef">int</span> a, <span style="color:#66d9ef">int</span> b) {
+    Edge e <span style="color:#f92672">=</span> {u, v, a, b};
+    edges[<span style="color:#f92672">++</span>ecnt] <span style="color:#f92672">=</span> e;
+}
+
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">State</span> {
+    <span style="color:#66d9ef">int</span> u, v, szu, amaxu, bmaxu;
+} st[maxm];
+<span style="color:#66d9ef">int</span> tail <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+
+<span style="color:#66d9ef">int</span> par[maxn], sz[maxn], amax[maxn], bmax[maxn];
+<span style="color:#66d9ef">inline</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">init</span>() {
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) par[i] <span style="color:#f92672">=</span> i, sz[i] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, amax[i] <span style="color:#f92672">=</span> bmax[i] <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+    tail <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">finds</span>(<span style="color:#66d9ef">int</span> u) {
+    <span style="color:#66d9ef">if</span> (par[u] <span style="color:#f92672">==</span> u) <span style="color:#66d9ef">return</span> u;
+    <span style="color:#66d9ef">return</span> finds(par[u]);
+}
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">unions</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> v, <span style="color:#66d9ef">int</span> a, <span style="color:#66d9ef">int</span> b) {
+    u <span style="color:#f92672">=</span> finds(u), v <span style="color:#f92672">=</span> finds(v);
+    <span style="color:#66d9ef">if</span> (sz[u] <span style="color:#f92672">&lt;</span> sz[v]) swap(u,v);
+    st[<span style="color:#f92672">++</span>tail] <span style="color:#f92672">=</span> {u, v, sz[u], amax[u], bmax[u]};
+    amax[u] <span style="color:#f92672">=</span> max(amax[u], a);   <span style="color:#75715e">// 注意不管是否成功，都要更改 amax, bmax
+</span><span style="color:#75715e"></span>    bmax[u] <span style="color:#f92672">=</span> max(bmax[u], b);
+    <span style="color:#66d9ef">if</span> (u <span style="color:#f92672">==</span> v) <span style="color:#66d9ef">return</span>;
+    par[v] <span style="color:#f92672">=</span> u;
+    sz[u] <span style="color:#f92672">+=</span> sz[v];
+    amax[u] <span style="color:#f92672">=</span> max(amax[u], amax[v]);
+    bmax[u] <span style="color:#f92672">=</span> max(bmax[u], bmax[v]);
+}
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">cancel</span>() {
+    <span style="color:#66d9ef">if</span> (tail <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
+        <span style="color:#66d9ef">int</span> u <span style="color:#f92672">=</span> st[tail].u, v <span style="color:#f92672">=</span> st[tail].v;
+        par[v] <span style="color:#f92672">=</span> v;
+        sz[u] <span style="color:#f92672">=</span> st[tail].szu;
+        amax[u] <span style="color:#f92672">=</span> st[tail].amaxu;
+        bmax[u] <span style="color:#f92672">=</span> st[tail].bmaxu;
+        tail<span style="color:#f92672">--</span>;
+    }
+}
+
+<span style="color:#66d9ef">bool</span> ans[maxn];
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> m;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> m; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">int</span> u,v,a,b; cin <span style="color:#f92672">&gt;&gt;</span> u <span style="color:#f92672">&gt;&gt;</span> v <span style="color:#f92672">&gt;&gt;</span> a <span style="color:#f92672">&gt;&gt;</span> b;
+        addEdge(u,v,a,b);
+    }
+    sort(edges<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, edges<span style="color:#f92672">+</span>ecnt<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, cmpA);
+    B <span style="color:#f92672">=</span> sqrt(n);  <span style="color:#75715e">// block size
+</span><span style="color:#75715e"></span>    blockcnt <span style="color:#f92672">=</span> (ecnt <span style="color:#f92672">+</span> B <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">/</span> B;
+
+    cin <span style="color:#f92672">&gt;&gt;</span> Q;
+
+    <span style="color:#75715e">// block 1: [1 ... B], block 2: [B+1, ... , 2B], 
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> Q; i<span style="color:#f92672">++</span>) {
+        cin <span style="color:#f92672">&gt;&gt;</span> query[i].u <span style="color:#f92672">&gt;&gt;</span> query[i].v <span style="color:#f92672">&gt;&gt;</span> query[i].a <span style="color:#f92672">&gt;&gt;</span> query[i].b;
+        query[i].id <span style="color:#f92672">=</span> i;
+        query[i].be <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> b <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; b <span style="color:#f92672">&lt;=</span> blockcnt<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>; b<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">if</span> (edges[b <span style="color:#f92672">*</span> B].a <span style="color:#f92672">&lt;=</span> query[i].a) {
+                query[i].be <span style="color:#f92672">=</span> b<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>;
+            }
+        }
+        vec[query[i].be].push_back(query[i]);
+    }
+
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> b <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; b <span style="color:#f92672">&lt;=</span> blockcnt; b<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>vec[b].size()) <span style="color:#66d9ef">continue</span>;  <span style="color:#75715e">// 若这个块为空
+</span><span style="color:#75715e"></span>        sort(vec[b].begin(), vec[b].end(), [](<span style="color:#66d9ef">auto</span> a, <span style="color:#66d9ef">auto</span> b) {
+            <span style="color:#66d9ef">return</span> a.b <span style="color:#f92672">&lt;</span> b.b;  <span style="color:#75715e">// 把所有询问按照 b 的大小 sort 一下
+</span><span style="color:#75715e"></span>        });
+        init();
+        <span style="color:#66d9ef">if</span> (b <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">1</span>) {
+            <span style="color:#66d9ef">int</span> R <span style="color:#f92672">=</span> (b<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) <span style="color:#f92672">*</span> B;  <span style="color:#75715e">// 前一个块的右端点
+</span><span style="color:#75715e"></span>            sort(edges<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, edges<span style="color:#f92672">+</span>R<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, cmpB);
+
+            <span style="color:#75715e">// 开始处理询问
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+            <span style="color:#66d9ef">for</span> (Query que : vec[b]) {
+                <span style="color:#66d9ef">int</span> qa <span style="color:#f92672">=</span> que.a, qb <span style="color:#f92672">=</span> que.b;
+
+                <span style="color:#75715e">// 先将前面的块满足条件的都加进去
+</span><span style="color:#75715e"></span>                <span style="color:#66d9ef">while</span> (j <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;=</span> R <span style="color:#f92672">&amp;&amp;</span> edges[j<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>].b <span style="color:#f92672">&lt;=</span> qb) {
+                    unions(edges[j<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>].from, edges[j<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>].to, edges[j<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>].a, edges[j<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>].b);
+                    j<span style="color:#f92672">++</span>;
+                }
+
+                <span style="color:#75715e">// 然后开始处理当前块
+</span><span style="color:#75715e"></span>                <span style="color:#66d9ef">int</span> curt <span style="color:#f92672">=</span> tail;  <span style="color:#75715e">// 记录当前 stack 的 tail 位置
+</span><span style="color:#75715e"></span>                <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> R<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> min(b<span style="color:#f92672">*</span>B, ecnt); i<span style="color:#f92672">++</span>) {   <span style="color:#75715e">// 当前块
+</span><span style="color:#75715e"></span>                    <span style="color:#66d9ef">if</span> (edges[i].a <span style="color:#f92672">&lt;=</span> qa <span style="color:#f92672">&amp;&amp;</span> edges[i].b <span style="color:#f92672">&lt;=</span> qb) {
+                        unions(edges[i].from, edges[i].to, edges[i].a, edges[i].b);
+                    }
+                }
+
+                <span style="color:#66d9ef">int</span> u <span style="color:#f92672">=</span> finds(que.u), v <span style="color:#f92672">=</span> finds(que.v);
+                <span style="color:#66d9ef">if</span> (u <span style="color:#f92672">==</span> v <span style="color:#f92672">&amp;&amp;</span> amax[u] <span style="color:#f92672">==</span> qa <span style="color:#f92672">&amp;&amp;</span> bmax[u] <span style="color:#f92672">==</span> qb) {
+                    ans[que.id] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+                }
+
+                <span style="color:#66d9ef">while</span> (tail <span style="color:#f92672">!=</span> curt) cancel();  <span style="color:#75715e">// 退回当前块的所有操作
+</span><span style="color:#75715e"></span>            }
+        }
+    }
+
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> Q; i<span style="color:#f92672">++</span>) {
+        cout <span style="color:#f92672">&lt;&lt;</span> (ans[i] <span style="color:#f92672">?</span> <span style="color:#e6db74">&#34;Yes&#34;</span> <span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;No&#34;</span>) <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+    }
+}
+
+</code></pre></div></details>
+<div class="admonition info">
+  <p class="admonition-title">注意事项</p>
+<ol>
+<li>在 <code>unions(u,v,a,b)</code> 时，无论 <code>u,v</code> 是否已经联通，都要更新 <code>a,b</code>。</li>
+<li>可撤销并查集的栈只记录被更改的信息，其他的就不用记了。</li>
+</ol>
+</div>
+<h3 id="例2-bzoj4668-冷战httpsdarkbzojtkproblem4668">例2 <a href="https://darkbzoj.tk/problem/4668" target="_blank">BZOJ4668 冷战</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $n$ 个点 和 $m$ 次询问。</p>
+<p>每次询问有两种格式：</p>
+<p>$0 ~ u ~ v$：将 $u,v$ 用一条边链接起来。</p>
+<p>$1 ~ u ~ v$：询问最早在加入哪条边以后，$u,v$ 在同一个联通块中。如果此时尚未联通，则输出 $0$。</p>
+<p>所有询问强制在线。</p>
+<p>其中，$n,m \leq 5 \times 10^5$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>启发式合并并查集的题。</p>
+<p>第一反应是每次链接的时候，新建一个 parent 节点储存这是第几条边，然后把 $u', v'$ 作为它的两个 child。（$u',v'$ 是在 <code>finds(u), finds(v)</code> 得到的根节点）。类似于 kruskal 重构树的思路。</p>
+<p>然后每次询问 $1 ~ u ~ v$ 的时候，直接找到 LCA 位置的那个节点即可。</p>
+<hr>
+<p>这样是正确的，不过有个更优雅的写法：</p>
+<p>注意到有效的链接只有 $(n-1)$ 次，普通的启发式合并刚好生成的就是一棵树，也不用新建节点了。直接启发式合并的时候，把当前是第几条边，记录在链接用的那一条树边上。</p>
+<p>这样，$(n-1)$ 条树边，刚好对应的就是 $(n-1)$ 次启发式合并。</p>
+<p>每次询问 $1 ~ u ~ v$ 的时候，直接暴力往上跳到 LCA，然后取边上的最大值即可。（就相当于 $u,v$ 之间链上的边权最大值）。</p>
+<p>由于启发式合并的性质，暴力跳 LCA 的时间是 $O(\log n)$。</p>
+<p>所以复杂度就是 $O(n \log n)$。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">5e5</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>;
+
+<span style="color:#66d9ef">int</span> n,m, dep[maxn], par[maxn], sz[maxn], val[maxn];
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">finds</span>(<span style="color:#66d9ef">int</span> u) {
+    <span style="color:#66d9ef">if</span> (par[u] <span style="color:#f92672">==</span> u) {
+        dep[u] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        <span style="color:#66d9ef">return</span> u;
+    }
+    <span style="color:#66d9ef">int</span> res <span style="color:#f92672">=</span> finds(par[u]);
+    dep[u] <span style="color:#f92672">=</span> dep[par[u]] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">return</span> res;
+}
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">unions</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> v, <span style="color:#66d9ef">int</span> id) {
+    u <span style="color:#f92672">=</span> finds(u), v <span style="color:#f92672">=</span> finds(v);
+    <span style="color:#66d9ef">if</span> (u <span style="color:#f92672">==</span> v) <span style="color:#66d9ef">return</span>;
+    <span style="color:#66d9ef">if</span> (sz[u] <span style="color:#f92672">&lt;</span> sz[v]) swap(u,v);
+    sz[u] <span style="color:#f92672">+=</span> sz[v];
+    par[v] <span style="color:#f92672">=</span> u;
+    val[v] <span style="color:#f92672">=</span> id;  <span style="color:#75715e">// 链接 (v,u) 的边权为 id
+</span><span style="color:#75715e"></span>}
+<span style="color:#75715e">// 寻找 u,v 链上最大的值
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">find_max</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> v) {
+    <span style="color:#66d9ef">if</span> (finds(u) <span style="color:#f92672">!=</span> finds(v)) <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">if</span> (dep[u] <span style="color:#f92672">&lt;</span> dep[v]) swap(u,v);
+    <span style="color:#66d9ef">int</span> res <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">while</span> (dep[u] <span style="color:#f92672">&gt;</span> dep[v]) {
+        res <span style="color:#f92672">=</span> max(res, val[u]);
+        u <span style="color:#f92672">=</span> par[u];
+    }
+    <span style="color:#66d9ef">if</span> (u <span style="color:#f92672">==</span> v) <span style="color:#66d9ef">return</span> res;
+    <span style="color:#66d9ef">while</span> (u <span style="color:#f92672">!=</span> v) {
+        res <span style="color:#f92672">=</span> max({res, val[u], val[v]});
+        u <span style="color:#f92672">=</span> par[u];
+        v <span style="color:#f92672">=</span> par[v];
+    }
+    <span style="color:#66d9ef">return</span> res;
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> m;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        par[i] <span style="color:#f92672">=</span> i;
+        sz[i] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    }
+    <span style="color:#66d9ef">int</span> last <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, id <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">while</span> (m<span style="color:#f92672">--</span>) {
+        <span style="color:#66d9ef">int</span> op,u,v; cin <span style="color:#f92672">&gt;&gt;</span> op <span style="color:#f92672">&gt;&gt;</span> u <span style="color:#f92672">&gt;&gt;</span> v;
+        u <span style="color:#f92672">^=</span> last, v <span style="color:#f92672">^=</span> last;
+        <span style="color:#66d9ef">if</span> (op <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+            unions(u, v, <span style="color:#f92672">++</span>id);
+        } <span style="color:#66d9ef">else</span> {
+            <span style="color:#66d9ef">int</span> res <span style="color:#f92672">=</span> find_max(u, v);
+            cout <span style="color:#f92672">&lt;&lt;</span> res <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+            last <span style="color:#f92672">=</span> res;
+        }
+    }
+}
+</code></pre></div></details>
+<h3 id="例3-do-not-try-this-problemhttpscodeforcescomgym102307problemd">例3 <a href="https://codeforces.com/gym/102307/problem/D" target="_blank">Do Not Try This Problem</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个长度为 $n$ 的 string $s$，给定 $q$ 个操作，每次操作的格式是 $i~a~k~c$，将从index $i$ 开始，将 $s_i,s_{i+a},&hellip;,s_{i+ka}$ 替换为字符 $c$。</p>
+<p>输出所有操作结束后的string。</p>
+<p>其中，$n, q \leq 10^5, i \in [1,n], a \in [1, n), k \in [0,n), i+ka \leq n$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>由于询问离线，所以可以从后向前处理。因为后面的操作优先级更高，当一个后面的操作更改了某个位置，说明之后再也不用改这个位置了。</p>
+<p>然后考虑分块，对于 $a &gt; \sqrt n$ 的操作，直接暴力修改即可。</p>
+<p>对于 $a \leq \sqrt n$ 的操作，我们利用 <strong>并查集维护仅带删除的单向链表</strong>。</p>
+<p>由于一个位置被更改以后，就再也不用改这个位置了，把它当作被修改后，<strong>直接删除</strong>这个位置，那么我们维护 $\sqrt n$ 种链表，第 $j$ 种链表将会维护 $j$ 个跨度为 $j$ 的链表，例如 $j=3$，那么维护的就是 $1 \rightarrow 4 \rightarrow 7 \rightarrow &hellip;$ 和 $2 \rightarrow 5 \rightarrow 8 \rightarrow&hellip;$ 和 $3 \rightarrow 6 \rightarrow 9 \rightarrow &hellip;$。</p>
+<p>而每一种链表就是一个并查集，每一个元素的parent是它 <strong>下一个存在的元素</strong>。</p>
+<p>在删除一个元素时，更新其 parent 即可。</p>
+<p>按理说，删除一个元素时，应该更新其所有的parent，即更新 $\sqrt n$ 种链表，如：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">del</span>(<span style="color:#66d9ef">int</span> p, <span style="color:#66d9ef">char</span> c) {  <span style="color:#75715e">// 删除位置p
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> (vis[p]) <span style="color:#66d9ef">return</span>;
+    vis[p] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    s[p] <span style="color:#f92672">=</span> c;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;</span> m; i<span style="color:#f92672">++</span>) {
+        uf[i].unions(p, min(p<span style="color:#f92672">+</span>i, n<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>));
+    }
+}
+</code></pre></div><p>但是这样每次删除一个元素都要更新，虽然复杂度还是 $O(n \log n)$ ，但常数略高会T。</p>
+<p>我们改成在询问 $&lt; \sqrt n$ 的情况下才更新，并且只更新对应的 $a$，详情见代码。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e5</span><span style="color:#f92672">+</span><span style="color:#ae81ff">3</span>;
+ 
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">UnionFind</span> {
+    <span style="color:#66d9ef">int</span> par[maxn];
+    <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">finds</span>(<span style="color:#66d9ef">int</span> u) {
+        <span style="color:#66d9ef">if</span> (par[u] <span style="color:#f92672">==</span> u) <span style="color:#66d9ef">return</span> u;
+        <span style="color:#66d9ef">return</span> par[u] <span style="color:#f92672">=</span> finds(par[u]);
+    }
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">unions</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> v) {
+        u <span style="color:#f92672">=</span> finds(u), v <span style="color:#f92672">=</span> finds(v);
+        <span style="color:#66d9ef">if</span> (u <span style="color:#f92672">&lt;</span> v) swap(u, v);
+        par[v] <span style="color:#f92672">=</span> u;
+    }
+} uf[<span style="color:#ae81ff">320</span>];
+ 
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Query</span> {
+    <span style="color:#66d9ef">int</span> i, a, k;
+    <span style="color:#66d9ef">char</span> c;
+} q[maxn];
+<span style="color:#66d9ef">int</span> n, m, Q;
+string s;
+ 
+<span style="color:#66d9ef">bool</span> vis[maxn];
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">del</span>(<span style="color:#66d9ef">int</span> p, <span style="color:#66d9ef">char</span> c) {  <span style="color:#75715e">// 删除位置p
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> (vis[p]) <span style="color:#66d9ef">return</span>;
+    vis[p] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    s[p] <span style="color:#f92672">=</span> c;
+}
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    fastio;
+    cin <span style="color:#f92672">&gt;&gt;</span> s;
+    n <span style="color:#f92672">=</span> s.size();
+    s <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;#&#34;</span> <span style="color:#f92672">+</span> s;
+    m <span style="color:#f92672">=</span> sqrt(n);
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;</span> m; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;=</span> n<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>; j<span style="color:#f92672">++</span>) uf[i].par[j] <span style="color:#f92672">=</span> j;
+    }
+    cin <span style="color:#f92672">&gt;&gt;</span> Q;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> Q; i<span style="color:#f92672">++</span>) cin <span style="color:#f92672">&gt;&gt;</span> q[i].i <span style="color:#f92672">&gt;&gt;</span> q[i].a <span style="color:#f92672">&gt;&gt;</span> q[i].k <span style="color:#f92672">&gt;&gt;</span> q[i].c;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> Q; i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">1</span>; i<span style="color:#f92672">--</span>) {
+        <span style="color:#66d9ef">auto</span> [st, a, k, c] <span style="color:#f92672">=</span> q[i];
+        <span style="color:#66d9ef">if</span> (a <span style="color:#f92672">&gt;=</span> m) {
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> st; j <span style="color:#f92672">&lt;=</span> st<span style="color:#f92672">+</span>a<span style="color:#f92672">*</span>k; j <span style="color:#f92672">+=</span> a) {
+                del(j, c);
+            }
+        } <span style="color:#66d9ef">else</span> {
+            <span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> st;
+            <span style="color:#66d9ef">while</span> (j <span style="color:#f92672">&lt;=</span> st<span style="color:#f92672">+</span>a<span style="color:#f92672">*</span>k) {
+                del(j, c);
+                uf[a].unions(j, min(j<span style="color:#f92672">+</span>a, n<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>));
+                j <span style="color:#f92672">=</span> uf[a].finds(j);
+            }
+        }
+    }
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) cout <span style="color:#f92672">&lt;&lt;</span> s[i];
+    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+}
+
+</code></pre></div></details>
+<h3 id="例4-tjoi2016-树httpswwwluogucomcnproblemp4092">例4 TJOI2016 <a href="https://www.luogu.com.cn/problem/P4092" target="_blank">树</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一棵树，根为 $1$，现在有两个操作：</p>
+<p><code>C u</code>：给节点 $u$ 打标记（一个节点可能被打上多次标记）。</p>
+<p><code>Q u</code>：询问节点 $u$ 打了标记的最近祖先（算上它自己）。</p>
+<p>一开始 $1$ 被标记了，其他所有节点无标记。</p>
+<p>其中，$n,q \leq 10^5$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>离线操作，将问题反过来看：</p>
+<p>先给所有节点打上标记，然后利用并查集来维护支持删点的树。并查集上维护每一个节点上方的第一个打了标记的点。</p>
+<p>然后将所有询问从后往前处理，遇到一个标记操作，就将这个节点的标记次数 -1（因为一个节点可以被标记多次），当一个节点的标记次数归0时，将这个节点从树中删除。</p>
+<p>这样就可以 $O(n)$ 解决这个问题了。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e5</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>;
+pair<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> q[maxn];
+vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> adj[maxn];
+<span style="color:#66d9ef">int</span> f[maxn];
+<span style="color:#66d9ef">int</span> par[maxn], dep[maxn];
+
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">UnionFind</span> {
+    <span style="color:#66d9ef">int</span> par[maxn];
+    <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">finds</span>(<span style="color:#66d9ef">int</span> u) {
+        <span style="color:#66d9ef">if</span> (par[u] <span style="color:#f92672">==</span> u) <span style="color:#66d9ef">return</span> u;
+        <span style="color:#66d9ef">return</span> par[u] <span style="color:#f92672">=</span> finds(par[u]);
+    }
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">unions</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> v) {
+        u <span style="color:#f92672">=</span> finds(u), v <span style="color:#f92672">=</span> finds(v);
+        <span style="color:#66d9ef">if</span> (dep[u] <span style="color:#f92672">&gt;</span> dep[v]) swap(u, v);
+        par[v] <span style="color:#f92672">=</span> u;
+    }
+} uf;
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">dfs</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> p) {
+    par[u] <span style="color:#f92672">=</span> p;
+    dep[u] <span style="color:#f92672">=</span> dep[p] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>f[u]) {
+        uf.unions(u, p);
+    }
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> v : adj[u]) {
+        <span style="color:#66d9ef">if</span> (v <span style="color:#f92672">==</span> p) <span style="color:#66d9ef">continue</span>;
+        dfs(v, u);
+    }
+}
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    <span style="color:#66d9ef">int</span> n, Q; cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> Q;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">int</span> u, v; cin <span style="color:#f92672">&gt;&gt;</span> u <span style="color:#f92672">&gt;&gt;</span> v;
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+    }
+    f[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> Q; i<span style="color:#f92672">++</span>) {
+        cin <span style="color:#f92672">&gt;&gt;</span> q[i].first <span style="color:#f92672">&gt;&gt;</span> q[i].second;
+        <span style="color:#66d9ef">if</span> (q[i].first <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;C&#39;</span>) {
+            f[q[i].second]<span style="color:#f92672">++</span>;
+        }
+    }
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) uf.par[i] <span style="color:#f92672">=</span> i;
+
+    dfs(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>);
+    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> ans;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> Q; i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">1</span>; i<span style="color:#f92672">--</span>) {
+        <span style="color:#66d9ef">int</span> u <span style="color:#f92672">=</span> q[i].second;
+        <span style="color:#66d9ef">if</span> (q[i].first <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;C&#39;</span>) {
+            f[u]<span style="color:#f92672">--</span>;
+            <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>f[u])
+                uf.unions(u, par[u]);
+        } <span style="color:#66d9ef">else</span> {
+            ans.push_back(uf.finds(u));
+        }
+    }
+    reverse(ans.begin(), ans.end());
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i : ans) cout <span style="color:#f92672">&lt;&lt;</span> i <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+}
+</code></pre></div></details>
+
+    </div>
+
+    
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E5%B9%B6%E6%9F%A5%E9%9B%86/">并查集</a>
+          <a href="/tags//"></a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/063-%E6%9B%BC%E5%93%88%E9%A1%BF-%E5%88%87%E6%AF%94%E9%9B%AA%E5%A4%AB%E8%B7%9D%E7%A6%BB/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">曼哈顿距离 和 切比雪夫距离</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/061-%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84%E6%A0%91/">
+            <span class="next-text nav-default">最短路径树</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://github.com/kiki-yan" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://kiki-yan.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2026
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/kiki-yan/kiki-yan.github.io" target="_blank"></a>
+    </span> 
+    <span class="author">kiki_yan</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/base16/tomorrow.min.css" rel="stylesheet">
+  
+  <script>hljs.configure({tabReplace: '    '});</script><script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

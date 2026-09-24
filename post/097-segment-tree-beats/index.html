@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>吉司机线段树（Segment Tree Beats） - kiki_yan</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="kiki_yan" /><meta name="description" content="介绍 吉司机线段树可以做到： 区间最大/最小操作（对一个区间内的所有数取 max 或者 min） 维护区间历史最值 我们直接看一道例题： 题意 给定一个数组 $a_1, a_2, &amp;hellip;" /><meta name="keywords" content="kiki_yan, blog, Codeforces" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
+
+
+<link rel="canonical" href="https://kiki-yan.github.io/post/097-segment-tree-beats/" />
+<link rel="manifest" href="/manifest.json">
+
+
+
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="吉司机线段树（Segment Tree Beats）" />
+<meta property="og:description" content="介绍 吉司机线段树可以做到： 区间最大/最小操作（对一个区间内的所有数取 max 或者 min） 维护区间历史最值 我们直接看一道例题： 题意 给定一个数组 $a_1, a_2, &hellip;" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kiki-yan.github.io/post/097-segment-tree-beats/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2023-02-22T15:48:08-06:00" />
+<meta property="article:modified_time" content="2026-09-24T14:30:49+08:00" />
+
+<meta itemprop="name" content="吉司机线段树（Segment Tree Beats）">
+<meta itemprop="description" content="介绍 吉司机线段树可以做到： 区间最大/最小操作（对一个区间内的所有数取 max 或者 min） 维护区间历史最值 我们直接看一道例题： 题意 给定一个数组 $a_1, a_2, &hellip;"><meta itemprop="datePublished" content="2023-02-22T15:48:08-06:00" />
+<meta itemprop="dateModified" content="2026-09-24T14:30:49+08:00" />
+<meta itemprop="wordCount" content="2797">
+<meta itemprop="keywords" content="线段树,," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="吉司机线段树（Segment Tree Beats）"/>
+<meta name="twitter:description" content="介绍 吉司机线段树可以做到： 区间最大/最小操作（对一个区间内的所有数取 max 或者 min） 维护区间历史最值 我们直接看一道例题： 题意 给定一个数组 $a_1, a_2, &hellip;"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">kiki_yan</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF Problems</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">kiki_yan</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF Problems</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">吉司机线段树（Segment Tree Beats）</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2023-02-22 15:48:08 -0600 -0600"> 2023-02-22 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
+            </div>
+        
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#介绍">介绍</a>
+          <ul>
+            <li><a href="#区间历史最值">区间历史最值</a></li>
+            <li><a href="#区间取最小操作">区间取最小操作</a></li>
+          </ul>
+        </li>
+        <li><a href="#例题">例题</a>
+          <ul>
+            <li><a href="#例1-洛谷p4314-cpu-监控httpswwwluogucomcnproblemp4314">例1 洛谷P4314 <a href="https://www.luogu.com.cn/problem/P4314">CPU 监控</a></a></li>
+          </ul>
+        </li>
+        <li><a href="#参考链接">参考链接</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="介绍">介绍</h2>
+<p>吉司机线段树可以做到：</p>
+<ol>
+<li>区间最大/最小操作（对一个区间内的所有数取 max 或者 min）</li>
+<li>维护区间历史最值</li>
+</ol>
+<p>我们直接看一道例题：</p>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个数组 $a_1, a_2, &hellip; a_n$，同时给定一个数组 $b_1, b_2&hellip;, b_n$（初始状态下 $a,b$ 相同）。</p>
+<p>进行 $m$ 次操作，操作有 $5$ 种：</p>
+<p>$1 ~ l ~ r ~ x$：$\forall i \in [l,r]$，将 $a_i$ 加上 $x$。</p>
+<p>$2 ~ l ~ r ~ x$：$\forall i \in [l,r]$，将 $a_i$ 变成 $\min(a_i, x)$。</p>
+<p>$3 ~ l ~ r$：求 $[l,r]$ 之间 $a_i$ 的区间和。</p>
+<p>$4 ~ l ~ r$：求 $[l,r]$ 之间 $a_i$ 的区间最大值。</p>
+<p>$5 ~ l ~ r$：求 $[l,r]$ 之间 $b_i$ 的区间最大值。</p>
+<p>在每一次操作后，我们进行一次更新，使得 $\forall i \in [1,n], b_i \leftarrow \max(b_i, a_i)$。</p>
+</div>
+<p>吉司机线段树可以在 $O((n+m) \log^2n)$ 的时间内解决这个问题。</p>
+<p>具体的，我们先看一下线段树的节点需要维护什么。</p>
+<h3 id="区间历史最值">区间历史最值</h3>
+<p>先考虑第 $5$ 个操作。首先 $b_i$ 其实是一个历史最大值数组（即 $a_i$ 在任意时刻，所存放过的最大的值）。我们要求的是 $b_i$ 的区间最大值。</p>
+<p>在区间加的时候，我们会维护一个最大值的懒标记 <code>add1</code>。不过这个懒标记可能会被多次更新，所以我们只要维护在<strong>任意时刻</strong>，这个懒标记的最大值 <code>add3</code>（也就是懒标记本身的 <strong>历史最大值</strong>）即可。</p>
+<p>• 简而言之 <code>add3</code> 就是 <code>add1</code> 在任意时刻所达到的最大值。</p>
+<h3 id="区间取最小操作">区间取最小操作</h3>
+<p>区间怎么取最小？考虑一下，如果我们要对一个区间取 $\min$，要取的值是 $x$。</p>
+<p>那么假设这个区间只有 <strong>一种值</strong> 是 $&gt;x$ 的，那么就可以取最小了。</p>
+<p>所以我们需要维护区间的<strong>最大值 <code>maxa</code>，和次大值 <code>se</code></strong>。一个区间可以取 <code>min</code> 当且仅当 $se &lt; x &lt; maxa$。</p>
+<p>如果不满足这个条件，则要么直接退出（$x \geq maxa$），或者继续递归（$x &lt; maxa$）。</p>
+<p>由于我们需要维护次大值，而区间加也有可能会更新次大值，所以我们还需要 <strong>非最大值</strong>的懒标记 <code>add2</code>，同上理由还需要一个 <strong>非最大值懒标记</strong> 的历史最大值 <code>add4</code>。</p>
+<p>• 简而言之 <code>add4</code> 就是 <code>add2</code> 在任意时刻所达到的最大值。</p>
+<details class="admonition note"><summary class="admonition-title">模版</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">5e5</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>;
+
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">SegTreeBeats</span> {
+    <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> INF <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e9</span>;
+    <span style="color:#66d9ef">int</span> a[maxn];  <span style="color:#75715e">// 原数组
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Node</span> {
+        ll sum;
+        <span style="color:#66d9ef">int</span> maxa, maxb, cnt, se;  
+        <span style="color:#75715e">// maxa: 区间最大值, maxb: 区间历史最大值, cnt: 区间最大值的数量, se: 区间严格次大值
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">int</span> add1, add2, add3, add4;
+        <span style="color:#75715e">// add1: 区间最大值懒标记, add2: 区间非最大值懒标记, add3: 区间历史最大值懒标记, add4: 区间历史非最大值懒标记
+</span><span style="color:#75715e"></span>    } tr[maxn<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">2</span>];
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">push_up</span>(<span style="color:#66d9ef">int</span> cur) {
+        <span style="color:#66d9ef">int</span> lc <span style="color:#f92672">=</span> cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>, rc <span style="color:#f92672">=</span> cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span><span style="color:#f92672">|</span><span style="color:#ae81ff">1</span>;
+        tr[cur].sum <span style="color:#f92672">=</span> tr[lc].sum <span style="color:#f92672">+</span> tr[rc].sum;
+        tr[cur].maxa <span style="color:#f92672">=</span> max(tr[lc].maxa, tr[rc].maxa);
+        tr[cur].maxb <span style="color:#f92672">=</span> max(tr[lc].maxb, tr[rc].maxb);
+        <span style="color:#66d9ef">if</span> (tr[lc].maxa <span style="color:#f92672">==</span> tr[rc].maxa) {
+            tr[cur].se <span style="color:#f92672">=</span> max(tr[lc].se, tr[rc].se);
+            tr[cur].cnt <span style="color:#f92672">=</span> tr[lc].cnt <span style="color:#f92672">+</span> tr[rc].cnt;
+        } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (tr[lc].maxa <span style="color:#f92672">&gt;</span> tr[rc].maxa) {
+            tr[cur].se <span style="color:#f92672">=</span> max(tr[lc].se, tr[rc].maxa);
+            tr[cur].cnt <span style="color:#f92672">=</span> tr[lc].cnt;
+        } <span style="color:#66d9ef">else</span> {  <span style="color:#75715e">// rc.maxa &gt; lc.maxa
+</span><span style="color:#75715e"></span>            tr[cur].se <span style="color:#f92672">=</span> max(tr[lc].maxa, tr[rc].se);
+            tr[cur].cnt <span style="color:#f92672">=</span> tr[rc].cnt;
+        }
+    }
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">helper</span>(<span style="color:#66d9ef">int</span> cur, <span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r, ll k1, ll k2, ll k3, ll k4) {
+        tr[cur].sum <span style="color:#f92672">+=</span> k1 <span style="color:#f92672">*</span> tr[cur].cnt <span style="color:#f92672">+</span> k2 <span style="color:#f92672">*</span> (r<span style="color:#f92672">-</span>l<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span><span style="color:#f92672">-</span>tr[cur].cnt);
+        tr[cur].maxb <span style="color:#f92672">=</span> max((ll)tr[cur].maxb, tr[cur].maxa <span style="color:#f92672">+</span> k3);
+        tr[cur].maxa <span style="color:#f92672">+=</span> k1;
+        <span style="color:#66d9ef">if</span> (tr[cur].se <span style="color:#f92672">!=</span> <span style="color:#f92672">-</span>INF) tr[cur].se <span style="color:#f92672">+=</span> k2;
+        tr[cur].add3 <span style="color:#f92672">=</span> max((ll)tr[cur].add3, tr[cur].add1 <span style="color:#f92672">+</span> k3);
+        tr[cur].add4 <span style="color:#f92672">=</span> max((ll)tr[cur].add4, tr[cur].add2 <span style="color:#f92672">+</span> k4);
+        tr[cur].add1 <span style="color:#f92672">+=</span> k1, tr[cur].add2 <span style="color:#f92672">+=</span> k2;
+    }
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">push_down</span>(<span style="color:#66d9ef">int</span> cur, <span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r) {
+        <span style="color:#66d9ef">int</span> lc <span style="color:#f92672">=</span> cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>, rc <span style="color:#f92672">=</span> cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span><span style="color:#f92672">|</span><span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">int</span> mx <span style="color:#f92672">=</span> max(tr[lc].maxa, tr[rc].maxa);
+        <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> (l<span style="color:#f92672">+</span>r) <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">if</span> (tr[lc].maxa <span style="color:#f92672">==</span> mx) helper(lc, l, mid, tr[cur].add1, tr[cur].add2, tr[cur].add3, tr[cur].add4); <span style="color:#75715e">// 注意这里是 1,2,3,4
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">else</span> helper(lc, l, mid, tr[cur].add2, tr[cur].add2, tr[cur].add4, tr[cur].add4);  <span style="color:#75715e">// 注意这里是 2,2,4,4
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> (tr[rc].maxa <span style="color:#f92672">==</span> mx) helper(rc, mid<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, r, tr[cur].add1, tr[cur].add2, tr[cur].add3, tr[cur].add4);  <span style="color:#75715e">// 注意这里是 1,2,3,4
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">else</span> helper(rc, mid<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, r, tr[cur].add2, tr[cur].add2, tr[cur].add4, tr[cur].add4);  <span style="color:#75715e">// 注意这里是 2,2,4,4
+</span><span style="color:#75715e"></span>        tr[cur].add1 <span style="color:#f92672">=</span> tr[cur].add2 <span style="color:#f92672">=</span> tr[cur].add3 <span style="color:#f92672">=</span> tr[cur].add4 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    }
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">build</span>(<span style="color:#66d9ef">int</span> cur, <span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r) {
+        <span style="color:#66d9ef">if</span> (l <span style="color:#f92672">==</span> r) {
+            tr[cur].sum <span style="color:#f92672">=</span> tr[cur].maxa <span style="color:#f92672">=</span> tr[cur].maxb <span style="color:#f92672">=</span> a[l];
+            tr[cur].cnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+            tr[cur].se <span style="color:#f92672">=</span> <span style="color:#f92672">-</span>INF;
+            <span style="color:#66d9ef">return</span>;
+        }
+        <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> (l<span style="color:#f92672">+</span>r) <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+        build(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>, l, mid);
+        build(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span><span style="color:#f92672">|</span><span style="color:#ae81ff">1</span>, mid<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, r);
+        push_up(cur);
+    }
+    ll <span style="color:#a6e22e">query_sum</span>(<span style="color:#66d9ef">int</span> cur, <span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r, <span style="color:#66d9ef">int</span> L, <span style="color:#66d9ef">int</span> R) {
+        <span style="color:#66d9ef">if</span> (L <span style="color:#f92672">&lt;=</span> l <span style="color:#f92672">&amp;&amp;</span> R <span style="color:#f92672">&gt;=</span> r) {
+            <span style="color:#66d9ef">return</span> tr[cur].sum;
+        }
+        push_down(cur, l, r);
+        <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> (l<span style="color:#f92672">+</span>r) <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+        ll res <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        <span style="color:#66d9ef">if</span> (L <span style="color:#f92672">&lt;=</span> mid) res <span style="color:#f92672">+=</span> query_sum(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>, l, mid, L, R);
+        <span style="color:#66d9ef">if</span> (R <span style="color:#f92672">&gt;</span> mid) res <span style="color:#f92672">+=</span> query_sum(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span><span style="color:#f92672">|</span><span style="color:#ae81ff">1</span>, mid<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, r, L, R);
+        <span style="color:#66d9ef">return</span> res;
+    }
+    <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">query_maxa</span>(<span style="color:#66d9ef">int</span> cur, <span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r, <span style="color:#66d9ef">int</span> L, <span style="color:#66d9ef">int</span> R) {
+        <span style="color:#66d9ef">if</span> (L <span style="color:#f92672">&lt;=</span> l <span style="color:#f92672">&amp;&amp;</span> R <span style="color:#f92672">&gt;=</span> r) {
+            <span style="color:#66d9ef">return</span> tr[cur].maxa;
+        }
+        push_down(cur, l, r);
+        <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> (l<span style="color:#f92672">+</span>r) <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">int</span> res <span style="color:#f92672">=</span> <span style="color:#f92672">-</span>INF;
+        <span style="color:#66d9ef">if</span> (L <span style="color:#f92672">&lt;=</span> mid) res <span style="color:#f92672">=</span> max(res, query_maxa(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>, l, mid, L, R));
+        <span style="color:#66d9ef">if</span> (R <span style="color:#f92672">&gt;</span> mid) res <span style="color:#f92672">=</span> max(res, query_maxa(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span><span style="color:#f92672">|</span><span style="color:#ae81ff">1</span>, mid<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, r, L, R));
+        <span style="color:#66d9ef">return</span> res;
+    }
+    <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">query_maxb</span>(<span style="color:#66d9ef">int</span> cur, <span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r, <span style="color:#66d9ef">int</span> L, <span style="color:#66d9ef">int</span> R) {
+        <span style="color:#66d9ef">if</span> (L <span style="color:#f92672">&lt;=</span> l <span style="color:#f92672">&amp;&amp;</span> R <span style="color:#f92672">&gt;=</span> r) {
+            <span style="color:#66d9ef">return</span> tr[cur].maxb;
+        }
+        push_down(cur, l, r);
+        <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> (l<span style="color:#f92672">+</span>r) <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">int</span> res <span style="color:#f92672">=</span> <span style="color:#f92672">-</span>INF;
+        <span style="color:#66d9ef">if</span> (L <span style="color:#f92672">&lt;=</span> mid) res <span style="color:#f92672">=</span> max(res, query_maxb(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>, l, mid, L, R));
+        <span style="color:#66d9ef">if</span> (R <span style="color:#f92672">&gt;</span> mid) res <span style="color:#f92672">=</span> max(res, query_maxb(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span><span style="color:#f92672">|</span><span style="color:#ae81ff">1</span>, mid<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, r, L, R));
+        <span style="color:#66d9ef">return</span> res;
+    }
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">update_add</span>(<span style="color:#66d9ef">int</span> cur, <span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r, <span style="color:#66d9ef">int</span> L, <span style="color:#66d9ef">int</span> R, ll x) {
+        <span style="color:#66d9ef">if</span> (L <span style="color:#f92672">&lt;=</span> l <span style="color:#f92672">&amp;&amp;</span> R <span style="color:#f92672">&gt;=</span> r) {
+            tr[cur].sum <span style="color:#f92672">+=</span> x <span style="color:#f92672">*</span> (r<span style="color:#f92672">-</span>l<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>);
+            tr[cur].maxa <span style="color:#f92672">+=</span> x;
+            tr[cur].maxb <span style="color:#f92672">=</span> max(tr[cur].maxb, tr[cur].maxa);
+            <span style="color:#66d9ef">if</span> (tr[cur].se <span style="color:#f92672">!=</span> <span style="color:#f92672">-</span>INF) tr[cur].se <span style="color:#f92672">+=</span> x;
+            tr[cur].add1 <span style="color:#f92672">+=</span> x, tr[cur].add2 <span style="color:#f92672">+=</span> x;
+            tr[cur].add3 <span style="color:#f92672">=</span> max(tr[cur].add3, tr[cur].add1);
+            tr[cur].add4 <span style="color:#f92672">=</span> max(tr[cur].add4, tr[cur].add2);
+            <span style="color:#66d9ef">return</span>;
+        }
+        push_down(cur, l, r);
+        <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> (l<span style="color:#f92672">+</span>r) <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">if</span> (L <span style="color:#f92672">&lt;=</span> mid) update_add(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>, l, mid, L, R, x);
+        <span style="color:#66d9ef">if</span> (R <span style="color:#f92672">&gt;</span> mid) update_add(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span><span style="color:#f92672">|</span><span style="color:#ae81ff">1</span>, mid<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, r, L, R, x);
+        push_up(cur);
+    }
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">update_min</span>(<span style="color:#66d9ef">int</span> cur, <span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r, <span style="color:#66d9ef">int</span> L, <span style="color:#66d9ef">int</span> R, <span style="color:#66d9ef">int</span> x) {
+        <span style="color:#66d9ef">if</span> (x <span style="color:#f92672">&gt;=</span> tr[cur].maxa) <span style="color:#66d9ef">return</span>;
+        <span style="color:#66d9ef">if</span> (L <span style="color:#f92672">&lt;=</span> l <span style="color:#f92672">&amp;&amp;</span> R <span style="color:#f92672">&gt;=</span> r <span style="color:#f92672">&amp;&amp;</span> x <span style="color:#f92672">&gt;</span> tr[cur].se) {  <span style="color:#75715e">// 保证 se &gt; x
+</span><span style="color:#75715e"></span>            ll k <span style="color:#f92672">=</span> tr[cur].maxa <span style="color:#f92672">-</span> x;  <span style="color:#75715e">// 最大值减少的幅度
+</span><span style="color:#75715e"></span>            tr[cur].sum <span style="color:#f92672">-=</span> tr[cur].cnt <span style="color:#f92672">*</span> k;
+            tr[cur].maxa <span style="color:#f92672">=</span> x;
+            tr[cur].add1 <span style="color:#f92672">-=</span> k;
+            <span style="color:#66d9ef">return</span>;
+        }
+        push_down(cur, l, r);
+        <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> (l<span style="color:#f92672">+</span>r) <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">if</span> (L <span style="color:#f92672">&lt;=</span> mid) update_min(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>, l, mid, L, R, x);
+        <span style="color:#66d9ef">if</span> (R <span style="color:#f92672">&gt;</span> mid) update_min(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span><span style="color:#f92672">|</span><span style="color:#ae81ff">1</span>, mid<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, r, L, R, x);
+        push_up(cur);
+    }
+} seg;
+
+<span style="color:#66d9ef">int</span> n, m;
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> m;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) cin <span style="color:#f92672">&gt;&gt;</span> seg.a[i];
+    seg.build(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, n);
+    <span style="color:#66d9ef">while</span> (m<span style="color:#f92672">--</span>) {
+        <span style="color:#66d9ef">int</span> op, l, r; cin <span style="color:#f92672">&gt;&gt;</span> op <span style="color:#f92672">&gt;&gt;</span> l <span style="color:#f92672">&gt;&gt;</span> r;
+        <span style="color:#66d9ef">if</span> (op <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>) {
+            ll x; cin <span style="color:#f92672">&gt;&gt;</span> x;
+            seg.update_add(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, n, l, r, x);
+        } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (op <span style="color:#f92672">==</span> <span style="color:#ae81ff">2</span>) {
+            ll x; cin <span style="color:#f92672">&gt;&gt;</span> x;
+            seg.update_min(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, n, l, r, x);
+        } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (op <span style="color:#f92672">==</span> <span style="color:#ae81ff">3</span>) {
+            cout <span style="color:#f92672">&lt;&lt;</span> seg.query_sum(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, n, l, r) <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+        } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (op <span style="color:#f92672">==</span> <span style="color:#ae81ff">4</span>) {
+            cout <span style="color:#f92672">&lt;&lt;</span> seg.query_maxa(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, n, l, r) <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+        } <span style="color:#66d9ef">else</span> {
+            cout <span style="color:#f92672">&lt;&lt;</span> seg.query_maxb(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, n, l, r) <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+        }
+    }
+}
+</code></pre></div></details>
+<h2 id="例题">例题</h2>
+<h3 id="例1-洛谷p4314-cpu-监控httpswwwluogucomcnproblemp4314">例1 洛谷P4314 <a href="https://www.luogu.com.cn/problem/P4314" target="_blank">CPU 监控</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个数组 $a_1,a_2&hellip;,a_n$，有 $m$ 个询问。</p>
+<p>进行 $m$ 次操作，操作有 $4$ 种：</p>
+<p>$Q ~ l ~ r$：求 $[l,r]$ 之间 $a_i$ 的区间最大值。</p>
+<p>$A ~ l ~ r$：求 $[l,r]$ 之间 $a_i$ 的区间历史最大值。</p>
+<p>$P ~ l ~ r ~ x$：将 $[l,r]$ 之间的 $a_i$ 增加 $x$。</p>
+<p>$C ~ l ~ r ~ x$：将 $[l,r]$ 之间的 $a_i$ 变为 $x$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>题解链接：<a href="https://www.luogu.com.cn/blog/He-Ren/solution-p4314" target="_blank">https://www.luogu.com.cn/blog/He-Ren/solution-p4314</a></p>
+<p>带有区间赋值，维护历史最大值。</p>
+<p>我们对于一个区间，在 <code>push_down()</code> 之后，所有之前的操作都可以看作不存在。</p>
+<p>那么我们按照每次 <code>push_down()</code> 作为分隔符来考虑这些操作序列，以下的讨论都仅限于 <strong>一次 <code>push_down()</code> 以内的</strong>。</p>
+<p>一个区间的操作只有区间加和区间赋值，并且相邻的相同类型操作可以合并为一个。</p>
+<p>所以最终操作序列肯定可以被简化为 区间加 + 区间赋值 + 区间加 + 区间赋值 + 区间加 &hellip;</p>
+<p>我们可以发现，区间赋值后，所有的区间加操作都可以被重新看作为赋值，所以我们维护一个 <code>set_tag</code> 表示在此次 <code>push_down()</code> 内是否有赋值操作即可。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">5e5</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>;
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">SegTreeBeats</span> {
+    <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> INF <span style="color:#f92672">=</span> <span style="color:#ae81ff">2e9</span>;
+    <span style="color:#66d9ef">int</span> a[maxn];  <span style="color:#75715e">// 原数组
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Node</span> {
+        ll sum;
+        <span style="color:#66d9ef">int</span> maxa, maxb; 
+        <span style="color:#75715e">// maxa: 区间最大值, maxb: 区间历史最大值, cnt: 区间最大值的数量, se: 区间严格次大值
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">int</span> add1, add2;
+        <span style="color:#66d9ef">int</span> set1, set2;
+        <span style="color:#66d9ef">bool</span> set_tag;
+        <span style="color:#75715e">// add1: 区间最大值懒标记, add2: 区间非最大值懒标记, add2: 区间历史最大值懒标记, add4: 区间历史非最大值懒标记
+</span><span style="color:#75715e"></span>    } tr[maxn<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">2</span>];
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">push_up</span>(<span style="color:#66d9ef">int</span> cur) {
+        <span style="color:#66d9ef">int</span> lc <span style="color:#f92672">=</span> cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>, rc <span style="color:#f92672">=</span> cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span><span style="color:#f92672">|</span><span style="color:#ae81ff">1</span>;
+        tr[cur].maxa <span style="color:#f92672">=</span> max(tr[lc].maxa, tr[rc].maxa);
+        tr[cur].maxb <span style="color:#f92672">=</span> max(tr[lc].maxb, tr[rc].maxb);
+    }
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">add_helper</span>(<span style="color:#66d9ef">int</span> cur, ll x, ll max_add) {
+        <span style="color:#66d9ef">if</span> (tr[cur].set_tag) {
+            tr[cur].set2 <span style="color:#f92672">=</span> max((ll)tr[cur].set2, tr[cur].set1 <span style="color:#f92672">+</span> max_add);
+            tr[cur].maxb <span style="color:#f92672">=</span> max((ll)tr[cur].maxb, tr[cur].maxa <span style="color:#f92672">+</span> max_add);
+            tr[cur].maxa <span style="color:#f92672">+=</span> x;
+            tr[cur].set1 <span style="color:#f92672">+=</span> x;
+        } <span style="color:#66d9ef">else</span> {
+            tr[cur].add2 <span style="color:#f92672">=</span> max((ll)tr[cur].add2, tr[cur].add1 <span style="color:#f92672">+</span> max_add);
+            tr[cur].maxb <span style="color:#f92672">=</span> max((ll)tr[cur].maxb, tr[cur].maxa <span style="color:#f92672">+</span> max_add);
+            tr[cur].maxa <span style="color:#f92672">+=</span> x;
+            tr[cur].add1 <span style="color:#f92672">+=</span> x;
+        }
+    }
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">set_helper</span>(<span style="color:#66d9ef">int</span> cur, ll x, ll max_set) {
+        tr[cur].set2 <span style="color:#f92672">=</span> max((ll)(tr[cur].set2), max_set);
+        tr[cur].maxb <span style="color:#f92672">=</span> max((ll)tr[cur].maxb, max_set);
+        tr[cur].set_tag <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        tr[cur].maxa <span style="color:#f92672">=</span> tr[cur].set1 <span style="color:#f92672">=</span> x;
+    }
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">push_down</span>(<span style="color:#66d9ef">int</span> cur, <span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r) {
+        <span style="color:#66d9ef">int</span> lc <span style="color:#f92672">=</span> cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>, rc <span style="color:#f92672">=</span> cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span><span style="color:#f92672">|</span><span style="color:#ae81ff">1</span>;
+        add_helper(lc, tr[cur].add1, tr[cur].add2);
+        add_helper(rc, tr[cur].add1, tr[cur].add2);
+        tr[cur].add1 <span style="color:#f92672">=</span> tr[cur].add2 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+
+        <span style="color:#66d9ef">if</span> (tr[cur].set_tag) {
+            set_helper(lc, tr[cur].set1, tr[cur].set2);
+            set_helper(rc, tr[cur].set1, tr[cur].set2);
+            tr[cur].set_tag <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+            tr[cur].set1 <span style="color:#f92672">=</span> tr[cur].set2 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+            <span style="color:#66d9ef">return</span>;
+        }
+    }
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">build</span>(<span style="color:#66d9ef">int</span> cur, <span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r) {
+        <span style="color:#66d9ef">if</span> (l <span style="color:#f92672">==</span> r) {
+            tr[cur].sum <span style="color:#f92672">=</span> tr[cur].maxa <span style="color:#f92672">=</span> tr[cur].maxb <span style="color:#f92672">=</span> a[l];
+            <span style="color:#66d9ef">return</span>;
+        }
+        <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> (l<span style="color:#f92672">+</span>r) <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+        build(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>, l, mid);
+        build(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span><span style="color:#f92672">|</span><span style="color:#ae81ff">1</span>, mid<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, r);
+        push_up(cur);
+    }
+    ll <span style="color:#a6e22e">query_sum</span>(<span style="color:#66d9ef">int</span> cur, <span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r, <span style="color:#66d9ef">int</span> L, <span style="color:#66d9ef">int</span> R) {
+        <span style="color:#66d9ef">if</span> (L <span style="color:#f92672">&lt;=</span> l <span style="color:#f92672">&amp;&amp;</span> R <span style="color:#f92672">&gt;=</span> r) {
+            <span style="color:#66d9ef">return</span> tr[cur].sum;
+        }
+        push_down(cur, l, r);
+        <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> (l<span style="color:#f92672">+</span>r) <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+        ll res <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        <span style="color:#66d9ef">if</span> (L <span style="color:#f92672">&lt;=</span> mid) res <span style="color:#f92672">+=</span> query_sum(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>, l, mid, L, R);
+        <span style="color:#66d9ef">if</span> (R <span style="color:#f92672">&gt;</span> mid) res <span style="color:#f92672">+=</span> query_sum(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span><span style="color:#f92672">|</span><span style="color:#ae81ff">1</span>, mid<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, r, L, R);
+        <span style="color:#66d9ef">return</span> res;
+    }
+    <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">query_maxa</span>(<span style="color:#66d9ef">int</span> cur, <span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r, <span style="color:#66d9ef">int</span> L, <span style="color:#66d9ef">int</span> R) {
+        <span style="color:#66d9ef">if</span> (L <span style="color:#f92672">&lt;=</span> l <span style="color:#f92672">&amp;&amp;</span> R <span style="color:#f92672">&gt;=</span> r) {
+            <span style="color:#66d9ef">return</span> tr[cur].maxa;
+        }
+        push_down(cur, l, r);
+        <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> (l<span style="color:#f92672">+</span>r) <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">int</span> res <span style="color:#f92672">=</span> <span style="color:#f92672">-</span>INF;
+        <span style="color:#66d9ef">if</span> (L <span style="color:#f92672">&lt;=</span> mid) res <span style="color:#f92672">=</span> max(res, query_maxa(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>, l, mid, L, R));
+        <span style="color:#66d9ef">if</span> (R <span style="color:#f92672">&gt;</span> mid) res <span style="color:#f92672">=</span> max(res, query_maxa(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span><span style="color:#f92672">|</span><span style="color:#ae81ff">1</span>, mid<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, r, L, R));
+        <span style="color:#66d9ef">return</span> res;
+    }
+    <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">query_maxb</span>(<span style="color:#66d9ef">int</span> cur, <span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r, <span style="color:#66d9ef">int</span> L, <span style="color:#66d9ef">int</span> R) {
+        <span style="color:#66d9ef">if</span> (L <span style="color:#f92672">&lt;=</span> l <span style="color:#f92672">&amp;&amp;</span> R <span style="color:#f92672">&gt;=</span> r) {
+            <span style="color:#66d9ef">return</span> tr[cur].maxb;
+        }
+        push_down(cur, l, r);
+        <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> (l<span style="color:#f92672">+</span>r) <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">int</span> res <span style="color:#f92672">=</span> <span style="color:#f92672">-</span>INF;
+        <span style="color:#66d9ef">if</span> (L <span style="color:#f92672">&lt;=</span> mid) res <span style="color:#f92672">=</span> max(res, query_maxb(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>, l, mid, L, R));
+        <span style="color:#66d9ef">if</span> (R <span style="color:#f92672">&gt;</span> mid) res <span style="color:#f92672">=</span> max(res, query_maxb(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span><span style="color:#f92672">|</span><span style="color:#ae81ff">1</span>, mid<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, r, L, R));
+        <span style="color:#66d9ef">return</span> res;
+    }
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">update_set</span>(<span style="color:#66d9ef">int</span> cur, <span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r, <span style="color:#66d9ef">int</span> L, <span style="color:#66d9ef">int</span> R, ll x) {
+        <span style="color:#66d9ef">if</span> (L <span style="color:#f92672">&lt;=</span> l <span style="color:#f92672">&amp;&amp;</span> R <span style="color:#f92672">&gt;=</span> r) {
+            set_helper(cur, x, x);
+            <span style="color:#66d9ef">return</span>;
+        }
+        push_down(cur, l, r);
+        <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> (l<span style="color:#f92672">+</span>r) <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">if</span> (L <span style="color:#f92672">&lt;=</span> mid) update_set(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>, l, mid, L, R, x);
+        <span style="color:#66d9ef">if</span> (R <span style="color:#f92672">&gt;</span> mid) update_set(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span><span style="color:#f92672">|</span><span style="color:#ae81ff">1</span>, mid<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, r, L, R, x);
+        push_up(cur);
+    }
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">update_add</span>(<span style="color:#66d9ef">int</span> cur, <span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r, <span style="color:#66d9ef">int</span> L, <span style="color:#66d9ef">int</span> R, ll x) {
+        <span style="color:#66d9ef">if</span> (L <span style="color:#f92672">&lt;=</span> l <span style="color:#f92672">&amp;&amp;</span> R <span style="color:#f92672">&gt;=</span> r) {
+            add_helper(cur, x, x);
+            <span style="color:#66d9ef">return</span>;
+        }
+        push_down(cur, l, r);
+        <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> (l<span style="color:#f92672">+</span>r) <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">if</span> (L <span style="color:#f92672">&lt;=</span> mid) update_add(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>, l, mid, L, R, x);
+        <span style="color:#66d9ef">if</span> (R <span style="color:#f92672">&gt;</span> mid) update_add(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span><span style="color:#f92672">|</span><span style="color:#ae81ff">1</span>, mid<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, r, L, R, x);
+        push_up(cur);
+    }
+} seg;
+
+<span style="color:#66d9ef">int</span> n, m;
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> n;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) cin <span style="color:#f92672">&gt;&gt;</span> seg.a[i];
+    seg.build(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, n);
+    cin <span style="color:#f92672">&gt;&gt;</span> m;
+    <span style="color:#66d9ef">while</span> (m<span style="color:#f92672">--</span>) {
+        <span style="color:#66d9ef">char</span> op; <span style="color:#66d9ef">int</span> l, r; 
+        cin <span style="color:#f92672">&gt;&gt;</span> op <span style="color:#f92672">&gt;&gt;</span> l <span style="color:#f92672">&gt;&gt;</span> r;
+        <span style="color:#66d9ef">if</span> (op <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;Q&#39;</span>) {
+            cout <span style="color:#f92672">&lt;&lt;</span> seg.query_maxa(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, n, l, r) <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+        } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (op <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;A&#39;</span>) {
+            cout <span style="color:#f92672">&lt;&lt;</span> seg.query_maxb(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, n, l, r) <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+        } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (op <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;P&#39;</span>) {
+            ll x; cin <span style="color:#f92672">&gt;&gt;</span> x;
+            seg.update_add(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, n, l, r, x);
+        } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (op <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;C&#39;</span>) {
+            ll x; cin <span style="color:#f92672">&gt;&gt;</span> x;
+            seg.update_set(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, n, l, r, x);
+        }
+    }
+}
+</code></pre></div></details>
+<h2 id="参考链接">参考链接</h2>
+<ol>
+<li><a href="https://www.luogu.com.cn/problem/P6242" target="_blank">https://www.luogu.com.cn/problem/P6242</a></li>
+</ol>
+
+    </div>
+
+    
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E7%BA%BF%E6%AE%B5%E6%A0%91/">线段树</a>
+          <a href="/tags//"></a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/098-nac2022/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">NAC2022</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/096-bfs01/">
+            <span class="next-text nav-default">01BFS 最短路</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://github.com/kiki-yan" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://kiki-yan.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2026
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/kiki-yan/kiki-yan.github.io" target="_blank"></a>
+    </span> 
+    <span class="author">kiki_yan</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/base16/tomorrow.min.css" rel="stylesheet">
+  
+  <script>hljs.configure({tabReplace: '    '});</script><script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

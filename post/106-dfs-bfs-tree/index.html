@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>DFS/BFS树 - kiki_yan</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="kiki_yan" /><meta name="description" content="介绍 在一个 无向图 中，DFS树是一个生成树（包含 $n-1$ 条边）。DFS树是在DFS过程中，如果从 dfs(u) 走到 dfs(v)，那么 $(u,v)$ 这条边将会加入DFS树。 B" /><meta name="keywords" content="kiki_yan, blog, Codeforces" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
+
+
+<link rel="canonical" href="https://kiki-yan.github.io/post/106-dfs-bfs-tree/" />
+<link rel="manifest" href="/manifest.json">
+
+
+
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="DFS/BFS树" />
+<meta property="og:description" content="介绍 在一个 无向图 中，DFS树是一个生成树（包含 $n-1$ 条边）。DFS树是在DFS过程中，如果从 dfs(u) 走到 dfs(v)，那么 $(u,v)$ 这条边将会加入DFS树。 B" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kiki-yan.github.io/post/106-dfs-bfs-tree/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2023-05-15T23:50:50-05:00" />
+<meta property="article:modified_time" content="2026-09-24T14:30:49+08:00" />
+
+<meta itemprop="name" content="DFS/BFS树">
+<meta itemprop="description" content="介绍 在一个 无向图 中，DFS树是一个生成树（包含 $n-1$ 条边）。DFS树是在DFS过程中，如果从 dfs(u) 走到 dfs(v)，那么 $(u,v)$ 这条边将会加入DFS树。 B"><meta itemprop="datePublished" content="2023-05-15T23:50:50-05:00" />
+<meta itemprop="dateModified" content="2026-09-24T14:30:49+08:00" />
+<meta itemprop="wordCount" content="3387">
+<meta itemprop="keywords" content=",," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="DFS/BFS树"/>
+<meta name="twitter:description" content="介绍 在一个 无向图 中，DFS树是一个生成树（包含 $n-1$ 条边）。DFS树是在DFS过程中，如果从 dfs(u) 走到 dfs(v)，那么 $(u,v)$ 这条边将会加入DFS树。 B"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">kiki_yan</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF Problems</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">kiki_yan</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF Problems</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">DFS/BFS树</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2023-05-15 23:50:50 -0500 -0500"> 2023-05-15 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
+            </div>
+        
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#介绍">介绍</a></li>
+        <li><a href="#性质">性质</a>
+          <ul>
+            <li><a href="#dfs树">DFS树</a></li>
+            <li><a href="#bfs树">BFS树</a></li>
+          </ul>
+        </li>
+        <li><a href="#例题">例题</a>
+          <ul>
+            <li><a href="#例1-abc251f-two-spanning-treeshttpsatcoderjpcontestsabc251tasksabc251_f">例1 ABC251F. <a href="https://atcoder.jp/contests/abc251/tasks/abc251_f">Two Spanning Trees</a></a></li>
+            <li><a href="#例2-cf118e-bertown-roadshttpscodeforcescomcontest118probleme">例2 CF118E. <a href="https://codeforces.com/contest/118/problem/E">Bertown roads</a></a></li>
+            <li><a href="#例3-universal-cup-16-h-classical-maximization-problemhttpsqojaccontest1223problem6414v1">例3 Universal Cup 16 H. <a href="https://qoj.ac/contest/1223/problem/6414?v=1">Classical Maximization Problem</a></a></li>
+            <li><a href="#例4-cf19e-fairyhttpscodeforcescomproblemsetproblem19e">例4 CF19E. <a href="https://codeforces.com/problemset/problem/19/E">Fairy</a></a></li>
+          </ul>
+        </li>
+        <li><a href="#参考链接">参考链接</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="介绍">介绍</h2>
+<p>在一个 <strong>无向图</strong> 中，DFS树是一个生成树（包含 $n-1$ 条边）。DFS树是在DFS过程中，如果从 <code>dfs(u)</code> 走到 <code>dfs(v)</code>，那么 $(u,v)$ 这条边将会加入DFS树。</p>
+<p>BFS树同理。</p>
+<p><img src="/images/106/1.png" alt="img"></p>
+<div style='max-width:50%'>
+<p>上图是一个 DFS 树的形状。</p>
+</div>
+<h2 id="性质">性质</h2>
+<h3 id="dfs树">DFS树</h3>
+<ol>
+<li>在 DFS 树中，所有的 <strong>非树边 $(u,v)$</strong> 都一定<strong>是 back edge</strong>，即 $u$ 是 $v$ 的祖先（或者反过来），不可能出现 cross edge。</li>
+<li>只有 DFS 的树边可能是桥，DFS的非树边不可能是桥。</li>
+<li>如果一条树边 $(u,v)$ 是桥，那么 $v$ 的子树内不存在非树边指向 $u$ 的任意祖先。</li>
+<li>对于任意的非树边 $(u,v)$，LCA一定是 $u$ （假设 $d_u &lt; d_v$）。</li>
+</ol>
+<p>证明：</p>
+<ol>
+<li>如果一条非树边是 cross edge，那么 DFS 的过程中应该会沿着这条边访问，这条边应该是树边。</li>
+<li>因为 DFS树 本身是一棵生成树，所以去掉所有非树边都仍然联通。</li>
+<li>这其实就是 tarjan 的原理。</li>
+<li>根据性质1易证。</li>
+</ol>
+<h3 id="bfs树">BFS树</h3>
+<ol>
+<li>在 BFS 树中，所有的 <strong>非树边 $(u,v)$</strong> 一定 <strong>不是 back edge</strong>，即 $u$ 一定与 $v$ 没有祖孙关系，并且 $u,v$ 的深度相差至多 $1$。</li>
+</ol>
+<p>证明：</p>
+<ol>
+<li>如果一条非树边 $(u,v)$ 中，$u,v$ 的深度相差 $\geq 2$，那么 BFS 的过程一定会通过 $u$ 走到 $v$，所以 $(u,v)$ 是树边。</li>
+</ol>
+<h2 id="例题">例题</h2>
+<h3 id="例1-abc251f-two-spanning-treeshttpsatcoderjpcontestsabc251tasksabc251_f">例1 ABC251F. <a href="https://atcoder.jp/contests/abc251/tasks/abc251_f" target="_blank">Two Spanning Trees</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个无向图，求两个生成树 $T_1,T_2$ 分别满足：</p>
+<p>$T_1$：若以 $1$ 为根，对于所有的非树边 $(u,v)$，$u,v$ 互为子孙。</p>
+<p>$T_2$：若以 $1$ 为根，对于所有的非树边 $(u,v)$，$u,v$ 互不为子孙。</p>
+<p>其中，$n,m \leq 2 \times 10^5$，保证图是联通的。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>$T_1$ 就是 DFS 树，而 $T_2$ 就是 BFS 树。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">2e5</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>;
+
+<span style="color:#66d9ef">int</span> n, m;
+vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> adj[maxn];
+<span style="color:#66d9ef">bool</span> vis[maxn];
+vector<span style="color:#f92672">&lt;</span>pii<span style="color:#f92672">&gt;</span> dft, bft;
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">dfs</span>(<span style="color:#66d9ef">int</span> u) {
+    vis[u] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> v : adj[u]) {
+        <span style="color:#66d9ef">if</span> (vis[v]) <span style="color:#66d9ef">continue</span>;
+        dft.push_back({u,v});
+        dfs(v);
+    }
+}
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">bfs</span>() {
+    queue<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> q;
+    q.push(<span style="color:#ae81ff">1</span>);
+    memset(vis, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(vis));
+    vis[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">while</span> (q.size()) {
+        <span style="color:#66d9ef">int</span> u <span style="color:#f92672">=</span> q.front(); q.pop();
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> v : adj[u]) {
+            <span style="color:#66d9ef">if</span> (vis[v]) <span style="color:#66d9ef">continue</span>;
+            vis[v] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+            q.push(v);
+            bft.push_back({u,v});
+        }
+    }
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> m;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> m; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">int</span> u, v; cin <span style="color:#f92672">&gt;&gt;</span> u <span style="color:#f92672">&gt;&gt;</span> v;
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+    }
+    dfs(<span style="color:#ae81ff">1</span>);
+    bfs();
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> [u, v] <span style="color:#f92672">:</span> dft) cout <span style="color:#f92672">&lt;&lt;</span> u <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; &#34;</span> <span style="color:#f92672">&lt;&lt;</span> v <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> [u, v] <span style="color:#f92672">:</span> bft) cout <span style="color:#f92672">&lt;&lt;</span> u <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; &#34;</span> <span style="color:#f92672">&lt;&lt;</span> v <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+}
+</code></pre></div></details>
+<h3 id="例2-cf118e-bertown-roadshttpscodeforcescomcontest118probleme">例2 CF118E. <a href="https://codeforces.com/contest/118/problem/E" target="_blank">Bertown roads</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个无向图，求是否存在一种方案让它变成有向图，并且任意两点之间仍然可以到达？如果有，输出这个方案。</p>
+<p>其中，$n \leq 10^5, m \leq 3 \times 10^5$，原图是一个联通图。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>首先，如果原图存在桥，那么无解。</p>
+<p>因为如果 $u,v$ 是一个桥，那么如果让它变成有向的 $u \rightarrow v$，那么 $v$ 就无法到达 $u$ 了。</p>
+<p>判桥用 tarjan 即可。</p>
+<hr>
+<p>没有桥说明有解，接下来考虑怎么变成有向图。</p>
+<p>跑一个 DFS 树，然后结论是：</p>
+<blockquote>
+<p>所有树边都从 parent 连向 child，所有非树边都从 child 连向 ancestor。</p>
+</blockquote>
+<p>证明：首先可知根节点可以到达所有的点，只要证明<strong>所有的点均可以到达根节点</strong>即可。</p>
+<p>考虑到这个图没有桥，意味着对于任意的树边 $u \rightarrow v$，$v$ 的子树内一定存在一个点，指向了 $u$ 的某个祖先。所以我们可以从 $u$ 出发，来到 $v$ 的子树中的某一个点，然后通过这条非树边来到 $u$ 的某个祖先。</p>
+<p>由于没有桥，这个过程可以一直重复，也就是从任意点出发，都可以一直往它的祖先走，直到走到根。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">2e5</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>;
+
+<span style="color:#66d9ef">int</span> n, m, dfn[maxn], low[maxn], id <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> adj[maxn];
+<span style="color:#66d9ef">bool</span> bridge <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+set<span style="color:#f92672">&lt;</span>pii<span style="color:#f92672">&gt;</span> se;
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">tarjan</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> p) {
+    dfn[u] <span style="color:#f92672">=</span> low[u] <span style="color:#f92672">=</span> <span style="color:#f92672">++</span>id;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> to : adj[u]) {
+        <span style="color:#66d9ef">if</span> (to <span style="color:#f92672">==</span> p) <span style="color:#66d9ef">continue</span>;  <span style="color:#75715e">// 注意不能用parent
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> (dfn[to]) low[u] <span style="color:#f92672">=</span> min(low[u], dfn[to]);
+        <span style="color:#66d9ef">else</span> {
+            tarjan(to, u);
+            se.insert({u, to});
+            low[u] <span style="color:#f92672">=</span> min(low[u], low[to]);
+            <span style="color:#66d9ef">if</span> (low[to] <span style="color:#f92672">&gt;</span> dfn[u]) {  <span style="color:#75715e">// 注意这里的条件
+</span><span style="color:#75715e"></span>                bridge <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+            }
+        }
+    }
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> m;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> m; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">int</span> u, v; cin <span style="color:#f92672">&gt;&gt;</span> u <span style="color:#f92672">&gt;&gt;</span> v;
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+    }
+    tarjan(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>);
+    <span style="color:#66d9ef">if</span> (bridge) {
+        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+    }
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> u <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; u <span style="color:#f92672">&lt;=</span> n; u<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> v : adj[u]) {
+            <span style="color:#66d9ef">if</span> (dfn[u] <span style="color:#f92672">&lt;</span> dfn[v]) {
+                <span style="color:#66d9ef">if</span> (se.count({u,v})) cout <span style="color:#f92672">&lt;&lt;</span> u <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; &#34;</span> <span style="color:#f92672">&lt;&lt;</span> v <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+                <span style="color:#66d9ef">else</span> cout <span style="color:#f92672">&lt;&lt;</span> v <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; &#34;</span> <span style="color:#f92672">&lt;&lt;</span> u <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+            }
+        }
+    }
+}
+</code></pre></div></details>
+<h3 id="例3-universal-cup-16-h-classical-maximization-problemhttpsqojaccontest1223problem6414v1">例3 Universal Cup 16 H. <a href="https://qoj.ac/contest/1223/problem/6414?v=1" target="_blank">Classical Maximization Problem</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $2n$ 个二维平面上的互不相同的点。</p>
+<p>求出最大数量的 pair，使得每一个pair都是两个点 $i,j$ 使得 $x_i = x_j$ 或者 $y_i = y_j$。</p>
+<p>每个点只能存在于至多一个 pair 中。</p>
+<p>输出最大pair的数量，以及pair的方案。</p>
+<p>其中，$n \leq 10^5, x_i,y_i \in [-10^9, 10^9]$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>将所有的 $x$ 坐标，$y$ 坐标作为一个点，每个点 $(x_i,y_i)$ 就是 $x_i \rightarrow y_i$ 的一条边。</p>
+<p>这样可以多个联通分量，每个联通分量都是一个二分图。很明显联通分量之间是分开的。</p>
+<p>然后问题转变成，找出最多的pair使得每两条边之间都有一个共同的点。先给一个结论：</p>
+<blockquote>
+<p>对于大小为 $n$ 的联通分量，一定可以找到一种方案使得有 $\frac{n}{2}$ 个pair。</p>
+</blockquote>
+<p>证明：</p>
+<p>我们在这个图上跑一个 DFS 树，对于每棵子树 $v$，如果里面有偶数条边，那么它们一定可以在 $v$ 的子树内匹配完成。如果这个子树有奇数条边，那么它可以匹配到只剩下一条边，这条边就是连向 parent 的边。</p>
+<p>如何证明？用归纳法：</p>
+<p>考虑当前的节点 $u$，这个节点会有很多个儿子的子树，如果子树 $v$ 里面多了一条边，那么就是 $(u,v)$ 这条树边。</p>
+<p>并且节点 $u$ 自己也会连一些非树边出来，由于这是 DFS 树，这个树边一定是连到 $u$ 的子树内的某个节点。</p>
+<p>也就是说，这些多余的边全部都有 $u$ 这个共同点，那么它们之间就可以俩俩匹配了，所以 $u$ 也满足了偶数条边就可以全部匹配，奇数条边就只贡献一条边的特点。</p>
+<p>这样递归的解决问题即可。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">2e5</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxm <span style="color:#f92672">=</span> <span style="color:#ae81ff">6e5</span><span style="color:#f92672">+</span><span style="color:#ae81ff">55</span>;
+
+<span style="color:#66d9ef">int</span> n;
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Node</span> {
+    <span style="color:#66d9ef">int</span> x, y, idx;
+} a[maxn];
+
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Edge</span> {
+    <span style="color:#66d9ef">int</span> to, idx;
+};
+
+vector<span style="color:#f92672">&lt;</span>Edge<span style="color:#f92672">&gt;</span> adj[maxn<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>];
+<span style="color:#66d9ef">bool</span> vis[maxn<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>];
+vector<span style="color:#f92672">&lt;</span>pii<span style="color:#f92672">&gt;</span> ans;
+<span style="color:#66d9ef">int</span> dep[maxn<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>];
+
+<span style="color:#75715e">// dfs 返回 &gt;0 代表里面剩了一个边，这个边与 v 直接相连，编号就是返回值
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">dfs</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> p) {
+    dep[u] <span style="color:#f92672">=</span> dep[p] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+    vis[u] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> vec;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> [v, idx] <span style="color:#f92672">:</span> adj[u]) {
+        <span style="color:#66d9ef">if</span> (v <span style="color:#f92672">==</span> p) <span style="color:#66d9ef">continue</span>;
+        <span style="color:#66d9ef">if</span> (vis[v] <span style="color:#f92672">&amp;&amp;</span> dep[v] <span style="color:#f92672">&lt;</span> dep[u]) <span style="color:#66d9ef">continue</span>;  <span style="color:#75715e">// 如果这是一个backward edge
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">int</span> r <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>vis[v]) {
+            r <span style="color:#f92672">=</span> dfs(v, u);
+            <span style="color:#66d9ef">if</span> (r) {
+                ans.push_back({r, idx});
+            } <span style="color:#66d9ef">else</span> {
+                vec.push_back(idx);
+            }
+        } <span style="color:#66d9ef">else</span> vec.push_back(idx);
+    }
+    <span style="color:#75715e">// vec 里面所有都是与 u 直接相连的
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">while</span> (vec.size() <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">2</span>) {
+        <span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> vec.back(); vec.pop_back();
+        <span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> vec.back(); vec.pop_back();
+        assert(i <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>); assert(j <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>);
+        ans.push_back({i,j});
+    }
+    <span style="color:#66d9ef">if</span> (vec.size()) <span style="color:#66d9ef">return</span> vec[<span style="color:#ae81ff">0</span>];
+    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">solve</span>() {
+    <span style="color:#66d9ef">int</span> N <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    cin <span style="color:#f92672">&gt;&gt;</span> n; n<span style="color:#f92672">*=</span><span style="color:#ae81ff">2</span>;
+    map<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> xs, ys;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        cin <span style="color:#f92672">&gt;&gt;</span> a[i].x <span style="color:#f92672">&gt;&gt;</span> a[i].y;
+        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>xs.count(a[i].x)) xs[a[i].x] <span style="color:#f92672">=</span> <span style="color:#f92672">++</span>N;
+        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>ys.count(a[i].y)) ys[a[i].y] <span style="color:#f92672">=</span> <span style="color:#f92672">++</span>N;
+        a[i].idx <span style="color:#f92672">=</span> i;
+        <span style="color:#66d9ef">int</span> u <span style="color:#f92672">=</span> xs[a[i].x], v <span style="color:#f92672">=</span> ys[a[i].y];
+        adj[u].push_back({v, i});
+        adj[v].push_back({u, i});
+    }
+
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> N; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>vis[i]) dfs(i, <span style="color:#ae81ff">0</span>);
+    }
+
+    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">bool</span><span style="color:#f92672">&gt;</span> used(n<span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">0</span>);
+    cout <span style="color:#f92672">&lt;&lt;</span> ans.size() <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> [u,v] <span style="color:#f92672">:</span> ans) {
+        cout <span style="color:#f92672">&lt;&lt;</span> u <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; &#34;</span> <span style="color:#f92672">&lt;&lt;</span> v <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+        used[u] <span style="color:#f92672">=</span> used[v] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    }
+    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> tmp;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>used[i]) tmp.push_back(i);
+    }
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> tmp.size(); i<span style="color:#f92672">+=</span><span style="color:#ae81ff">2</span>) cout <span style="color:#f92672">&lt;&lt;</span> tmp[i] <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; &#34;</span> <span style="color:#f92672">&lt;&lt;</span> tmp[i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+
+    ans.clear();
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> N; i<span style="color:#f92672">++</span>) adj[i].clear();
+    fill(vis, vis<span style="color:#f92672">+</span>N<span style="color:#f92672">+</span><span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">0</span>);
+    fill(dep, dep<span style="color:#f92672">+</span>N<span style="color:#f92672">+</span><span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">0</span>);
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    <span style="color:#66d9ef">int</span> T; cin <span style="color:#f92672">&gt;&gt;</span> T;
+    <span style="color:#66d9ef">while</span> (T<span style="color:#f92672">--</span>) {
+        solve();
+    }
+}
+
+</code></pre></div></details>
+<h3 id="例4-cf19e-fairyhttpscodeforcescomproblemsetproblem19e">例4 CF19E. <a href="https://codeforces.com/problemset/problem/19/E" target="_blank">Fairy</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一张无向图，现在需要恰好删掉一条边，问有多少种方案，使得恰好删除一条边后，得到的图是二分图。</p>
+<p>输出所有的方案。</p>
+<p>其中，$n,m \leq 10^4$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>注意到一个图是二分图 $\iff$ 可以被二分染色 $\iff$ 没有奇环。</p>
+<p>我们先跑一个 DFS 树出来，由于一棵树一定可以被二分染色，我们不妨先只考虑所有的树边，然后进行一个二分染色。</p>
+<p>然后分别讨论树边和非树边。</p>
+<p>首先，由于我们是根据树的结构来染色的，所以树边肯定不会有问题。但是非树边有可能会两端颜色相同，我们把两端颜色相同的非树边叫做 <strong>坏边</strong>，否则叫做 <strong>好边</strong>。</p>
+<ol>
+<li>非树边：</li>
+</ol>
+<p>在染色后，一个非树边可以成为答案，当且仅当 <strong>只有一条非树边是坏边</strong>。显然，如果有至少 $2$ 个坏边，那么怎么remove都不可能得到一个二分图的。</p>
+<ol start="2">
+<li>树边：</li>
+</ol>
+<p>一个树边 $e$ 可以成为答案，当且仅当 <strong>所有的坏边 $(u,v)$</strong> 在树上的路径均穿过 $e$，并且 <strong>没有好边</strong> 在树上的路径穿过 $e$。</p>
+<p>所有的坏边必须穿过 $e$ 这一点好理解，由于坏边一定是构成了奇环，所以要断掉这个奇环，肯定得断掉环上的某一条边，如果存在一个坏边所在的奇环没有经过 $e$，那么断掉 $e$ 以后仍然存在奇环。</p>
+<p>为什么还要保证没有好边在树上的路径穿过 $e$ 呢？</p>
+<p><img src="/images/106/2.jpg" alt="img"></p>
+<p>考虑这个例子，我们断开一条树边以后，如果我们暂时忽略掉非树边，那么我们可以得到两个联通块。由于坏边没有被删掉，所以坏边两端颜色还是相同。那么我们希望调整其中一个联通块的颜色，使得坏边两端的颜色不同。</p>
+<p>而一个联通块内部为了保证染色的正确性，只能将<strong>整个联通块的颜色反转</strong>。此时如果有一个原先的好边，连接了这两个联通块，那么反转后它反而会变成坏边。</p>
+<p>所以我们要保证没有好边在树上的路径穿过 $e$。</p>
+<hr>
+<p>于是我们对于每个树边，都统计有多少条好边的路径，多少条坏边的路径穿过了它即可。</p>
+<p>这是一个路径加，然后询问的问题。用树上差分即可实现，由于 DFS树 的特殊性质，一条非树边 $(u,v)$ 的 LCA 一定是 $u$，所以我们在 $O(1)$ 的时间就可以完成树上差分了。</p>
+<p>• 最后注意一下原图并非联通图。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">2e5</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxm <span style="color:#f92672">=</span> <span style="color:#ae81ff">6e5</span><span style="color:#f92672">+</span><span style="color:#ae81ff">55</span>;
+
+<span style="color:#66d9ef">int</span> n, m, color[maxn];
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Edge</span> {
+    <span style="color:#66d9ef">int</span> u, v, idx;
+};
+vector<span style="color:#f92672">&lt;</span>Edge<span style="color:#f92672">&gt;</span> adj[maxn];
+<span style="color:#66d9ef">bool</span> vis[maxn], istree[maxn];  <span style="color:#75715e">// istree[i]: 第i条边是树边
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">bool</span> bad[maxn];  <span style="color:#75715e">// bad[i]: 第i条边不是树边，并且是坏边 (u,v颜色相同)
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> badcnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;  <span style="color:#75715e">// 有多少个联通块不是二分的
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> badcomp <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;  <span style="color:#75715e">// 这个联通块里有几个边是坏的
+</span><span style="color:#75715e"></span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> tmp;
+
+<span style="color:#66d9ef">int</span> good_dp[maxn], bad_dp[maxn], dep[maxn];
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">dfs</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> p) {
+    dep[u] <span style="color:#f92672">=</span> dep[p] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+    vis[u] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> [_, v, idx] <span style="color:#f92672">:</span> adj[u]) {
+        <span style="color:#66d9ef">if</span> (v <span style="color:#f92672">==</span> p) <span style="color:#66d9ef">continue</span>;
+        <span style="color:#66d9ef">if</span> (vis[v] <span style="color:#f92672">&amp;&amp;</span> dep[u] <span style="color:#f92672">&gt;</span> dep[v]) <span style="color:#66d9ef">continue</span>;  <span style="color:#75715e">// 必须是 ancestor -&gt; child
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>vis[v]) {
+            istree[idx] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+            color[v] <span style="color:#f92672">=</span> color[u] <span style="color:#f92672">^</span> <span style="color:#ae81ff">1</span>;
+            dfs(v, u);
+        } <span style="color:#66d9ef">else</span> {
+            istree[idx] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+            <span style="color:#75715e">// 坏边
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">if</span> (color[u] <span style="color:#f92672">==</span> color[v]) {
+                badcomp<span style="color:#f92672">++</span>;
+                bad[idx] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+                tmp.push_back(idx);
+                bad_dp[v]<span style="color:#f92672">++</span>, bad_dp[u]<span style="color:#f92672">--</span>;
+            } <span style="color:#66d9ef">else</span> {
+                good_dp[v]<span style="color:#f92672">++</span>, good_dp[u]<span style="color:#f92672">--</span>;
+            }
+        }
+    }
+}
+
+vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> ans;
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">dfs2</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> p) {
+    <span style="color:#66d9ef">int</span> pidx <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> [_, v, idx] <span style="color:#f92672">:</span> adj[u]) {
+        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>istree[idx]) <span style="color:#66d9ef">continue</span>;
+        <span style="color:#75715e">// 树边
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> (v <span style="color:#f92672">==</span> p) {
+            pidx <span style="color:#f92672">=</span> idx;
+            LOG(pidx);
+            <span style="color:#66d9ef">continue</span>;
+        }
+        dfs2(v, u);
+        good_dp[u] <span style="color:#f92672">+=</span> good_dp[v];
+        bad_dp[u] <span style="color:#f92672">+=</span> bad_dp[v];
+    }
+    <span style="color:#66d9ef">if</span> (good_dp[u] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> bad_dp[u] <span style="color:#f92672">==</span> badcomp <span style="color:#f92672">&amp;&amp;</span> badcomp <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) ans.push_back(pidx);
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> m;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> m; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">int</span> u, v; cin <span style="color:#f92672">&gt;&gt;</span> u <span style="color:#f92672">&gt;&gt;</span> v;
+        adj[u].push_back({u, v, i});
+        adj[v].push_back({v, u, i});
+    }
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>vis[i]) {
+            tmp.clear();
+
+            badcomp <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+            dfs(i, <span style="color:#ae81ff">0</span>);
+            badcnt <span style="color:#f92672">+=</span> (badcomp <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>);
+
+            <span style="color:#66d9ef">if</span> (badcomp <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>) ans.push_back(tmp[<span style="color:#ae81ff">0</span>]); 
+
+            dfs2(i, <span style="color:#ae81ff">0</span>);
+        }
+    }
+
+    <span style="color:#66d9ef">if</span> (badcnt <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+        cout <span style="color:#f92672">&lt;&lt;</span> m <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> m; i<span style="color:#f92672">++</span>) cout <span style="color:#f92672">&lt;&lt;</span> i <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; &#34;</span>;
+        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+    } 
+    <span style="color:#66d9ef">if</span> (badcnt <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">2</span>) {
+        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+    }
+    sort(ans.begin(), ans.end());
+    cout <span style="color:#f92672">&lt;&lt;</span> ans.size() <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i : ans) cout <span style="color:#f92672">&lt;&lt;</span> i <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; &#34;</span>;
+    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+
+
+}
+</code></pre></div></details>
+<h2 id="参考链接">参考链接</h2>
+<ol>
+<li><a href="https://codeforces.com/blog/entry/68138" target="_blank">https://codeforces.com/blog/entry/68138</a></li>
+<li><a href="https://www.cnblogs.com/miraclepbc/p/16280781.html" target="_blank">https://www.cnblogs.com/miraclepbc/p/16280781.html</a></li>
+</ol>
+
+    </div>
+
+    
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags//"></a>
+          <a href="/tags//"></a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/107-%E7%BA%BF%E6%AE%B5%E6%A0%91%E5%88%86%E6%B2%BB/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">线段树分治</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/105-nac2020/">
+            <span class="next-text nav-default">NAC2020</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://github.com/kiki-yan" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://kiki-yan.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2026
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/kiki-yan/kiki-yan.github.io" target="_blank"></a>
+    </span> 
+    <span class="author">kiki_yan</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/base16/tomorrow.min.css" rel="stylesheet">
+  
+  <script>hljs.configure({tabReplace: '    '});</script><script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

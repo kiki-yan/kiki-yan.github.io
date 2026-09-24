@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>COMPFEST13 - kiki_yan</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="kiki_yan" /><meta name="description" content="B. Building an Amusement Park 题意 二维平面上给定 $n$ 个点，求一个最小的圆，使得： $(0,0)$ 在圆上。 圆内（包括圆上）包含至少 $k$ 个点。 输出最小圆半径。 其中，$1 \leq n \leq 10^5, 1 \leq k" /><meta name="keywords" content="kiki_yan, blog, Codeforces" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
+
+
+<link rel="canonical" href="https://kiki-yan.github.io/post/078-icpc-compfest13/" />
+<link rel="manifest" href="/manifest.json">
+
+
+
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="COMPFEST13" />
+<meta property="og:description" content="B. Building an Amusement Park 题意 二维平面上给定 $n$ 个点，求一个最小的圆，使得： $(0,0)$ 在圆上。 圆内（包括圆上）包含至少 $k$ 个点。 输出最小圆半径。 其中，$1 \leq n \leq 10^5, 1 \leq k" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kiki-yan.github.io/post/078-icpc-compfest13/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2022-10-23T23:48:58-05:00" />
+<meta property="article:modified_time" content="2026-09-24T14:30:49+08:00" />
+
+<meta itemprop="name" content="COMPFEST13">
+<meta itemprop="description" content="B. Building an Amusement Park 题意 二维平面上给定 $n$ 个点，求一个最小的圆，使得： $(0,0)$ 在圆上。 圆内（包括圆上）包含至少 $k$ 个点。 输出最小圆半径。 其中，$1 \leq n \leq 10^5, 1 \leq k"><meta itemprop="datePublished" content="2022-10-23T23:48:58-05:00" />
+<meta itemprop="dateModified" content="2026-09-24T14:30:49+08:00" />
+<meta itemprop="wordCount" content="1765">
+<meta itemprop="keywords" content=",," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="COMPFEST13"/>
+<meta name="twitter:description" content="B. Building an Amusement Park 题意 二维平面上给定 $n$ 个点，求一个最小的圆，使得： $(0,0)$ 在圆上。 圆内（包括圆上）包含至少 $k$ 个点。 输出最小圆半径。 其中，$1 \leq n \leq 10^5, 1 \leq k"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">kiki_yan</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF Problems</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">kiki_yan</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF Problems</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">COMPFEST13</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2022-10-23 23:48:58 -0500 -0500"> 2022-10-23 </span>
+        <div class="post-category">
+            <a href="/categories/%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A/"> 解题报告 </a>
+            </div>
+        
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#b-building-an-amusement-parkhttpscodeforcescomcontest1575problemb">B. <a href="https://codeforces.com/contest/1575/problem/B">Building an Amusement Park</a></a></li>
+            <li><a href="#l-longest-array-deconstructionhttpscodeforcescomcontest1575probleml">L. <a href="https://codeforces.com/contest/1575/problem/L">Longest Array Deconstruction</a></a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h3 id="b-building-an-amusement-parkhttpscodeforcescomcontest1575problemb">B. <a href="https://codeforces.com/contest/1575/problem/B" target="_blank">Building an Amusement Park</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>二维平面上给定 $n$ 个点，求一个最小的圆，使得：</p>
+<ol>
+<li>$(0,0)$ 在圆上。</li>
+<li>圆内（包括圆上）包含至少 $k$ 个点。</li>
+</ol>
+<p><img src="/images/078/1.png" alt="img"></p>
+<p>输出最小圆半径。</p>
+<p>其中，$1 \leq n \leq 10^5, 1 \leq k \leq n, |x_i|, |y_i| \in [0, 10^5]$。</p>
+<p>相对误差 $\leq 10^{-4}$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>首先二分半径 $r$，</p>
+<p><img src="/images/078/3.jpg" alt="img"></p>
+<p>我们已知一个半径 $r$，已知圆需要过原点 $(0,0)$，那么我们只需要再确定圆上的一个点即可得到一个圆。</p>
+<p>显然，想让半径最小，那么我们应该在此时 <strong>恰好</strong> 包括了一个点 $p_i$，这意味着只要枚举圆上的点 $p_i$ 即可确认 $n$ 个圆，只要判断这 $n$ 个圆中是否存在一个使得它包含了至少 $k$ 个点即可。</p>
+<p>然而直接判断复杂度太高了，我们换种思考方式：</p>
+<p>因为对于每个点 $p_i$，能够恰好让 $p_i$ 在圆上的圆有 $2$ 个，如果我们是逆时针旋转这个圆，那么恰好有 $2$ 个角度，使得这个圆恰好让这个点 $p_i$ <strong>进来/出来</strong>。</p>
+<p>所以如果圆心恰好在这两个角度 $a_1, a_2$ 之间，即圆心的极角在 $[a_1,a_2]$ 之间，说明这个点被包含进去了。</p>
+<hr>
+<p>这个圆心的极角怎么计算呢？</p>
+<p>可以先计算出每个点 $p_i$ 的极角 <code>ang[i]</code> 和距离圆心的距离 $d$，然后计算点 $p_i$ 与圆心的极角差 <code>rot</code>，可以得到 $\cos(rot) = \frac{d}{2r}$，这样就可以得到两个圆心的极角了。</p>
+<hr>
+<p>剩下的就相当于一个区间覆盖问题了，可以直接 <code>sort()</code> 一下然后从左往右枚举，过程中维护当前覆盖点数（有优雅的写法连差分数组都不需要）。</p>
+<p>更优雅的是，可以直接给所有的点加上 $2\pi$ 这样可以断环成链，剩下的完全一致，具体操作看代码吧。</p>
+<p>• 最后注意特判一下某些点可能位于 $(0,0)$。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">2e5</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>;
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">sgn</span>(<span style="color:#66d9ef">double</span> x){
+	<span style="color:#66d9ef">if</span>(fabs(x) <span style="color:#f92672">&lt;</span> eps)<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+	<span style="color:#66d9ef">if</span>(x <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>)<span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+	<span style="color:#66d9ef">else</span> <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+}
+<span style="color:#75715e">//square of a double
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">inline</span> <span style="color:#66d9ef">double</span> <span style="color:#a6e22e">sqr</span>(<span style="color:#66d9ef">double</span> x){<span style="color:#66d9ef">return</span> x<span style="color:#f92672">*</span>x;}
+
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Point</span>{
+	<span style="color:#66d9ef">double</span> x,y;
+	Point(){}
+	Point(<span style="color:#66d9ef">double</span> _x,<span style="color:#66d9ef">double</span> _y){
+		x <span style="color:#f92672">=</span> _x;
+		y <span style="color:#f92672">=</span> _y;
+	}
+	<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">input</span>(){
+		scanf(<span style="color:#e6db74">&#34;%lf%lf&#34;</span>,<span style="color:#f92672">&amp;</span>x,<span style="color:#f92672">&amp;</span>y);
+	}
+	<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">output</span>(){
+		printf(<span style="color:#e6db74">&#34;%.2f %.2f</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>,x,y);
+	}
+	<span style="color:#66d9ef">bool</span> <span style="color:#66d9ef">operator</span> <span style="color:#f92672">==</span> (Point b)<span style="color:#66d9ef">const</span>{
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">sgn</span>(x<span style="color:#f92672">-</span>b.x) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> sgn(y<span style="color:#f92672">-</span>b.y) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>;
+	}
+	<span style="color:#66d9ef">bool</span> <span style="color:#66d9ef">operator</span> <span style="color:#f92672">&lt;</span> (Point b)<span style="color:#66d9ef">const</span>{
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">sgn</span>(x<span style="color:#f92672">-</span>b.x)<span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">?</span>sgn(y<span style="color:#f92672">-</span>b.y)<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">0</span><span style="color:#f92672">:</span>x<span style="color:#f92672">&lt;</span>b.x;
+	}
+	Point <span style="color:#66d9ef">operator</span> <span style="color:#f92672">-</span>(<span style="color:#66d9ef">const</span> Point <span style="color:#f92672">&amp;</span>b)<span style="color:#66d9ef">const</span>{
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">Point</span>(x<span style="color:#f92672">-</span>b.x,y<span style="color:#f92672">-</span>b.y);
+	}
+	<span style="color:#75715e">//叉积
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">double</span> <span style="color:#66d9ef">operator</span> <span style="color:#f92672">^</span>(<span style="color:#66d9ef">const</span> Point <span style="color:#f92672">&amp;</span>b)<span style="color:#66d9ef">const</span>{
+		<span style="color:#66d9ef">return</span> x<span style="color:#f92672">*</span>b.y <span style="color:#f92672">-</span> y<span style="color:#f92672">*</span>b.x;
+	}
+	<span style="color:#75715e">//点积
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">double</span> <span style="color:#66d9ef">operator</span> <span style="color:#f92672">*</span>(<span style="color:#66d9ef">const</span> Point <span style="color:#f92672">&amp;</span>b)<span style="color:#66d9ef">const</span>{
+		<span style="color:#66d9ef">return</span> x<span style="color:#f92672">*</span>b.x <span style="color:#f92672">+</span> y<span style="color:#f92672">*</span>b.y;
+	}
+	<span style="color:#75715e">//返回长度
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">double</span> <span style="color:#a6e22e">len</span>(){
+		<span style="color:#66d9ef">return</span> hypot(x,y);<span style="color:#75715e">//库函数
+</span><span style="color:#75715e"></span>	}
+	<span style="color:#75715e">//返回长度的平方
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">double</span> <span style="color:#a6e22e">len2</span>(){
+		<span style="color:#66d9ef">return</span> x<span style="color:#f92672">*</span>x <span style="color:#f92672">+</span> y<span style="color:#f92672">*</span>y;
+	}
+	<span style="color:#75715e">//返回两点的距离
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">double</span> <span style="color:#a6e22e">distance</span>(Point p){
+		<span style="color:#66d9ef">return</span> hypot(x<span style="color:#f92672">-</span>p.x,y<span style="color:#f92672">-</span>p.y);
+	}
+	Point <span style="color:#66d9ef">operator</span> <span style="color:#f92672">+</span>(<span style="color:#66d9ef">const</span> Point <span style="color:#f92672">&amp;</span>b)<span style="color:#66d9ef">const</span>{
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">Point</span>(x<span style="color:#f92672">+</span>b.x,y<span style="color:#f92672">+</span>b.y);
+	}
+	Point <span style="color:#66d9ef">operator</span> <span style="color:#f92672">*</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">double</span> <span style="color:#f92672">&amp;</span>k)<span style="color:#66d9ef">const</span>{
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">Point</span>(x<span style="color:#f92672">*</span>k,y<span style="color:#f92672">*</span>k);
+	}
+	Point <span style="color:#66d9ef">operator</span> <span style="color:#f92672">/</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">double</span> <span style="color:#f92672">&amp;</span>k)<span style="color:#66d9ef">const</span>{
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">Point</span>(x<span style="color:#f92672">/</span>k,y<span style="color:#f92672">/</span>k);
+	}
+	<span style="color:#75715e">//`计算pa  和  pb 的夹角`
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//`就是求这个点看a,b 所成的夹角`
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//`测试 LightOJ1203`
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">double</span> <span style="color:#a6e22e">rad</span>(Point a,Point b){
+		Point p <span style="color:#f92672">=</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">this</span>;
+		<span style="color:#66d9ef">return</span> fabs(atan2( fabs((a<span style="color:#f92672">-</span>p)<span style="color:#f92672">^</span>(b<span style="color:#f92672">-</span>p)),(a<span style="color:#f92672">-</span>p)<span style="color:#f92672">*</span>(b<span style="color:#f92672">-</span>p) ));
+	}
+	<span style="color:#75715e">//`化为长度为r的向量`
+</span><span style="color:#75715e"></span>	Point <span style="color:#a6e22e">trunc</span>(<span style="color:#66d9ef">double</span> r){
+		<span style="color:#66d9ef">double</span> l <span style="color:#f92672">=</span> len();
+		<span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span>sgn(l))<span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">this</span>;
+		r <span style="color:#f92672">/=</span> l;
+		<span style="color:#66d9ef">return</span> Point(x<span style="color:#f92672">*</span>r,y<span style="color:#f92672">*</span>r);
+	}
+};
+
+
+<span style="color:#66d9ef">int</span> n, k;
+vector<span style="color:#f92672">&lt;</span>pair<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">double</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> vec;
+<span style="color:#66d9ef">long</span> <span style="color:#66d9ef">double</span> dis[maxn], ang[maxn];
+Point p[maxn];
+<span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">check</span>(<span style="color:#66d9ef">long</span> <span style="color:#66d9ef">double</span> x) {
+    <span style="color:#66d9ef">int</span> cur <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    vec.clear();
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">if</span> (dis[i] <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> dis[i] <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">2.0</span><span style="color:#f92672">*</span>x) {
+            <span style="color:#66d9ef">double</span> rot <span style="color:#f92672">=</span> acos(dis[i] <span style="color:#f92672">/</span> <span style="color:#ae81ff">2.0</span> <span style="color:#f92672">/</span> x);
+            vec.push_back({ang[i] <span style="color:#f92672">-</span> rot, <span style="color:#ae81ff">1</span>});  <span style="color:#75715e">// 直接利用 +1, -1 来完成区间覆盖操作
+</span><span style="color:#75715e"></span>            vec.push_back({ang[i] <span style="color:#f92672">+</span> rot, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>});
+            vec.push_back({ang[i] <span style="color:#f92672">-</span> rot <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> pi, <span style="color:#ae81ff">1</span>});   <span style="color:#75715e">// 直接加上 2pi
+</span><span style="color:#75715e"></span>            vec.push_back({ang[i] <span style="color:#f92672">+</span> rot <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> pi, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>});
+        }
+    }
+    sort(vec.begin(), vec.end());  <span style="color:#75715e">// -1 在前所以没问题
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> di : vec) {
+        cur <span style="color:#f92672">+=</span> di.second;
+        <span style="color:#66d9ef">if</span> (cur <span style="color:#f92672">&gt;=</span> k) <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+    }
+
+    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+
+
+<span style="color:#66d9ef">long</span> <span style="color:#66d9ef">double</span> ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.0</span>;
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    scanf(<span style="color:#e6db74">&#34;%d%d&#34;</span>, <span style="color:#f92672">&amp;</span>n,<span style="color:#f92672">&amp;</span>k);
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        p[i].input();
+        <span style="color:#66d9ef">if</span> (abs(p[i].x) <span style="color:#f92672">&lt;</span> eps <span style="color:#f92672">&amp;&amp;</span> abs(p[i].y) <span style="color:#f92672">&lt;</span> eps) k<span style="color:#f92672">--</span>;
+        <span style="color:#66d9ef">else</span> {
+            dis[i] <span style="color:#f92672">=</span> p[i].len();
+            ang[i] <span style="color:#f92672">=</span> atan2(p[i].y, p[i].x);
+        }
+    }
+    <span style="color:#66d9ef">if</span> (k <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">0</span>) {
+        ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        printf(<span style="color:#e6db74">&#34;%.15Lf</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, ans);
+        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+    }
+
+    <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">double</span> low <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.0</span>, high <span style="color:#f92672">=</span> <span style="color:#ae81ff">2e5</span>;
+    <span style="color:#66d9ef">int</span> T <span style="color:#f92672">=</span> <span style="color:#ae81ff">100</span>;
+    <span style="color:#66d9ef">while</span> (high <span style="color:#f92672">-</span> low <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">1e-6</span> <span style="color:#f92672">&amp;&amp;</span> T<span style="color:#f92672">--</span>) {
+        <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">double</span> mid <span style="color:#f92672">=</span> (high <span style="color:#f92672">+</span> low) <span style="color:#f92672">*</span> <span style="color:#ae81ff">0.5</span>;
+        <span style="color:#66d9ef">if</span> (check(mid)) {
+            ans <span style="color:#f92672">=</span> mid;
+            high <span style="color:#f92672">=</span> mid;
+        } <span style="color:#66d9ef">else</span> low <span style="color:#f92672">=</span> mid;
+    }
+    printf(<span style="color:#e6db74">&#34;%.15Lf</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, ans);
+}
+</code></pre></div></details>
+<h3 id="l-longest-array-deconstructionhttpscodeforcescomcontest1575probleml">L. <a href="https://codeforces.com/contest/1575/problem/L" target="_blank">Longest Array Deconstruction</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $n$ 个正整数 $a_i$，我们可以从中remove掉若干个元素，求remove后，最多有多少个 $i$ 满足 $a_i = i$？</p>
+<p>其中，$n \leq 2 \times 10^5, a_i \in [1, 2 \times 10^5]$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>先处理 $b_i = i - a_i$，如果 $b_i &lt; 0$ 这意味着这个数字不可能对答案有贡献。</p>
+<p>如果 $i &gt; j$ 并且 $i - a_i \geq j - a_j$，那么就有办法通过 remove $(j, i)$ 中的一些元素来让 $i$ 满足条件。</p>
+<p>• 一个特例是 $1, 1, 1$，这里 <code>i[] = [1, 2, 3], a[] = [1, 1, 1], b[] = [0, 1, 2]</code>，但是答案只能是 $1$，所以还得加个限制条件代表每个数只能被用一次。</p>
+<p>所以我们需要找一个最长的 subsequence 使得序列中均为 index，并且转移时保证：</p>
+<ol>
+<li>$j - a_j \leq i - a_i$。</li>
+<li>$a_j &lt; a_i$。</li>
+<li>$j &lt; i$。</li>
+</ol>
+<p>看样子是个三维偏序，但实际上知道 $1,2$ 就可以推出 $3$，所以是二维偏序。</p>
+<p>做二维偏序的方法：先根据一个维度 sort 一下，然后按照这个顺序加入元素，用线段树维护另外一个维度（另外一个维度的值作为 index），线段树里的值是转移的 dp值。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e5</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>;
+
+<span style="color:#66d9ef">int</span> n;
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Node</span> {
+    <span style="color:#66d9ef">int</span> a, b, i;  <span style="color:#75715e">// a : a[i], b : i - a[i], i : idx
+</span><span style="color:#75715e"></span>} arr[maxn];  
+<span style="color:#66d9ef">int</span> tr[maxn<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">2</span>];
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">push_up</span>(<span style="color:#66d9ef">int</span> cur) {
+    tr[cur] <span style="color:#f92672">=</span> max(tr[cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>], tr[cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span><span style="color:#f92672">|</span><span style="color:#ae81ff">1</span>]);
+}
+
+<span style="color:#75715e">// 给位置 p 赋值为 x
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">update</span>(<span style="color:#66d9ef">int</span> cur, <span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r, <span style="color:#66d9ef">int</span> p, <span style="color:#66d9ef">int</span> x) {
+    tr[cur] <span style="color:#f92672">=</span> max(tr[cur], x);
+    <span style="color:#66d9ef">if</span> (l <span style="color:#f92672">==</span> r) <span style="color:#66d9ef">return</span>;
+    <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> (l<span style="color:#f92672">+</span>r) <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">if</span> (p <span style="color:#f92672">&lt;=</span> mid) update(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>, l, mid, p, x);
+    <span style="color:#66d9ef">else</span> update(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span><span style="color:#f92672">|</span><span style="color:#ae81ff">1</span>, mid<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, r, p, x);
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">query</span>(<span style="color:#66d9ef">int</span> cur, <span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r, <span style="color:#66d9ef">int</span> L, <span style="color:#66d9ef">int</span> R) {
+    <span style="color:#66d9ef">if</span> (L <span style="color:#f92672">&lt;=</span> l <span style="color:#f92672">&amp;&amp;</span> R <span style="color:#f92672">&gt;=</span> r) <span style="color:#66d9ef">return</span> tr[cur];
+    <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> (l<span style="color:#f92672">+</span>r) <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">int</span> res <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">if</span> (L <span style="color:#f92672">&lt;=</span> mid) res <span style="color:#f92672">=</span> max(res, query(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>, l, mid, L, R));
+    <span style="color:#66d9ef">if</span> (R <span style="color:#f92672">&gt;</span> mid) res <span style="color:#f92672">=</span> max(res, query(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span><span style="color:#f92672">|</span><span style="color:#ae81ff">1</span>, mid<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, r, L, R));
+    <span style="color:#66d9ef">return</span> res;
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    fastio;
+    cin <span style="color:#f92672">&gt;&gt;</span> n;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        cin <span style="color:#f92672">&gt;&gt;</span> arr[i].a;
+        arr[i].b <span style="color:#f92672">=</span> i <span style="color:#f92672">-</span> arr[i].a;
+        arr[i].i <span style="color:#f92672">=</span> i;
+    }
+    sort(arr<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, arr<span style="color:#f92672">+</span>n<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, [](<span style="color:#66d9ef">auto</span> a, <span style="color:#66d9ef">auto</span> b) {
+        <span style="color:#66d9ef">if</span> (a.b <span style="color:#f92672">==</span> b.b) <span style="color:#66d9ef">return</span> a.a <span style="color:#f92672">&lt;</span> b.a;
+        <span style="color:#66d9ef">return</span> a.b <span style="color:#f92672">&lt;</span> b.b;
+    });
+    <span style="color:#66d9ef">int</span> N <span style="color:#f92672">=</span> <span style="color:#ae81ff">2e5</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">int</span> res <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        <span style="color:#66d9ef">if</span> (arr[i].a <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>)
+            res <span style="color:#f92672">=</span> query(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, N, <span style="color:#ae81ff">1</span>, arr[i].a <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>);
+        
+        <span style="color:#66d9ef">if</span> (arr[i].b <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>)
+            update(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, N, arr[i].a, res <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>);
+    }
+    <span style="color:#66d9ef">int</span> ans <span style="color:#f92672">=</span> query(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, N, <span style="color:#ae81ff">1</span>, N);
+    cout <span style="color:#f92672">&lt;&lt;</span> ans <span style="color:#f92672">&lt;&lt;</span> endl;
+}
+</code></pre></div></details>
+
+    </div>
+
+    
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags//"></a>
+          <a href="/tags//"></a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/079-meissel-lehmer/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Meissel-Lehmer算法</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/077-icpc-2020-nerc-regional/">
+            <span class="next-text nav-default">2020-2021 ICPC, NERC, Southern and Volga Russian Regional Contest</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://github.com/kiki-yan" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://kiki-yan.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2026
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/kiki-yan/kiki-yan.github.io" target="_blank"></a>
+    </span> 
+    <span class="author">kiki_yan</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/base16/tomorrow.min.css" rel="stylesheet">
+  
+  <script>hljs.configure({tabReplace: '    '});</script><script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

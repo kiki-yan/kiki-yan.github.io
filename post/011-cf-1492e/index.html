@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>CF 1492E(暴搜) - kiki_yan</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="kiki_yan" /><meta name="description" content="题目链接 https://codeforces.com/contest/1492/problem/E 题意 给定 $n$ 个长度为 $m$ 的正整数array，其中 $n \geq 2, m \geq 1, n \times m \leq 250000$ 问是否存在一个array，使得这个array 与 其他每个array" /><meta name="keywords" content="kiki_yan, blog, Codeforces" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
+
+
+<link rel="canonical" href="https://kiki-yan.github.io/post/011-cf-1492e/" />
+<link rel="manifest" href="/manifest.json">
+
+
+
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="CF 1492E(暴搜)" />
+<meta property="og:description" content="题目链接 https://codeforces.com/contest/1492/problem/E 题意 给定 $n$ 个长度为 $m$ 的正整数array，其中 $n \geq 2, m \geq 1, n \times m \leq 250000$ 问是否存在一个array，使得这个array 与 其他每个array" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kiki-yan.github.io/post/011-cf-1492e/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2021-02-24T22:27:41+08:00" />
+<meta property="article:modified_time" content="2026-09-24T14:30:49+08:00" />
+
+<meta itemprop="name" content="CF 1492E(暴搜)">
+<meta itemprop="description" content="题目链接 https://codeforces.com/contest/1492/problem/E 题意 给定 $n$ 个长度为 $m$ 的正整数array，其中 $n \geq 2, m \geq 1, n \times m \leq 250000$ 问是否存在一个array，使得这个array 与 其他每个array"><meta itemprop="datePublished" content="2021-02-24T22:27:41+08:00" />
+<meta itemprop="dateModified" content="2026-09-24T14:30:49+08:00" />
+<meta itemprop="wordCount" content="588">
+<meta itemprop="keywords" content="搜索,dfs优化," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="CF 1492E(暴搜)"/>
+<meta name="twitter:description" content="题目链接 https://codeforces.com/contest/1492/problem/E 题意 给定 $n$ 个长度为 $m$ 的正整数array，其中 $n \geq 2, m \geq 1, n \times m \leq 250000$ 问是否存在一个array，使得这个array 与 其他每个array"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">kiki_yan</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF Problems</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">kiki_yan</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF Problems</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">CF 1492E(暴搜)</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2021-02-24 22:27:41 &#43;0800 &#43;0800"> 2021-02-24 </span>
+        <div class="post-category">
+            <a href="/categories/%E9%A2%98%E8%A7%A3/"> 题解 </a>
+            </div>
+        
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#题目链接">题目链接</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="题目链接">题目链接</h2>
+<p><a href="https://codeforces.com/contest/1492/problem/E" target="_blank">https://codeforces.com/contest/1492/problem/E</a></p>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $n$ 个长度为 $m$ 的正整数array，其中 $n \geq 2, m \geq 1, n \times m \leq 250000$</p>
+<p>问是否存在一个array，使得这个array 与 其他每个array的difference（不同元素的个数） $\leq 2$？</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>暴搜，我们可以先令 $ans$ 等于第一个array，然后看一下其他array中，有没有 $diff &gt; 2$ 的，如果有，尝试更改 $ans$ 中的一个元素，更改后再看一下其他array的difference情况，如果还是不行，就继续尝试更改其他元素。
+直到所有array的 $diff \leq 2$</p>
+<p>注意到，因为$ans$基于第一个array，所以最多只能更改两个元素，我们可以给在搜索的时候设置一个深度 <code>left</code>，代表还可以更改几个元素。一开始就是<code>dfs(2)</code>。</p>
+<blockquote>
+<p>注1: 本题时限卡的比较紧，时限为2s，我们可以设定2s内如果搜索不出结果就直接返回&quot;No&quot;。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">double</span> start <span style="color:#f92672">=</span> clock();
+<span style="color:#66d9ef">double</span> passed <span style="color:#f92672">=</span> clock() <span style="color:#f92672">-</span> start;
+<span style="color:#66d9ef">if</span> (passed <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">1950.0</span>) {  <span style="color:#75715e">// 1950ms
+</span><span style="color:#75715e"></span>   cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;No&#34;</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>
+   exit(<span style="color:#ae81ff">0</span>);
+}
+</code></pre></div></blockquote>
+<blockquote>
+<p>注2: 暴搜的时候记得回溯！</p>
+</blockquote>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+
+<span style="color:#66d9ef">int</span> n,m; 
+vector<span style="color:#f92672">&lt;</span> vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">&gt;</span> arr;
+vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> ans;
+vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> cnt;
+<span style="color:#66d9ef">double</span> start;
+
+<span style="color:#66d9ef">inline</span> <span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">check</span>() {
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">if</span> (cnt[i] <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+    }
+    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+}
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">dfs</span>(<span style="color:#66d9ef">int</span> left) {
+    <span style="color:#66d9ef">if</span> (left <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">return</span>;
+
+    <span style="color:#66d9ef">if</span> (clock()<span style="color:#f92672">-</span>start <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">1950</span>) {
+        printf(<span style="color:#e6db74">&#34;No</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+        exit(<span style="color:#ae81ff">0</span>);
+    }
+
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>) {
+        cnt[i] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> pos;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> m; j<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">if</span> (ans[j] <span style="color:#f92672">!=</span> arr[i][j]) {
+                cnt[i] <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>;
+                pos.push_back(j);
+            }
+        }
+        <span style="color:#66d9ef">if</span> (cnt[i]<span style="color:#f92672">-</span>left <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">2</span>) {
+            <span style="color:#66d9ef">return</span>;
+        }
+
+        <span style="color:#66d9ef">if</span> (cnt[i] <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">2</span>) {
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j : pos) {
+                <span style="color:#66d9ef">int</span> pre <span style="color:#f92672">=</span> ans[j];
+                ans[j] <span style="color:#f92672">=</span> arr[i][j];
+                dfs(left<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>);
+                ans[j] <span style="color:#f92672">=</span> pre;  <span style="color:#75715e">//记得回溯
+</span><span style="color:#75715e"></span>            }
+        } 
+    }
+
+    <span style="color:#66d9ef">if</span> (check()) {
+        printf(<span style="color:#e6db74">&#34;Yes</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> m; j<span style="color:#f92672">++</span>) printf(<span style="color:#e6db74">&#34;%d &#34;</span>, ans[j]);
+        printf(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+        exit(<span style="color:#ae81ff">0</span>);
+    }
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    scanf(<span style="color:#e6db74">&#34;%d%d&#34;</span>,<span style="color:#f92672">&amp;</span>n,<span style="color:#f92672">&amp;</span>m);
+    start <span style="color:#f92672">=</span> clock();
+
+    arr <span style="color:#f92672">=</span> vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">&gt;</span> (n, vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span>(m,<span style="color:#ae81ff">0</span>));
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> m; j<span style="color:#f92672">++</span>) {
+            scanf(<span style="color:#e6db74">&#34;%d&#34;</span>, <span style="color:#f92672">&amp;</span>arr[i][j]);
+        }
+    }
+    ans <span style="color:#f92672">=</span> arr[<span style="color:#ae81ff">0</span>];
+    cnt <span style="color:#f92672">=</span> vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span>(n,<span style="color:#ae81ff">0</span>);
+    dfs(<span style="color:#ae81ff">2</span>);
+    printf(<span style="color:#e6db74">&#34;No</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+}
+</code></pre></div></details>
+    </div>
+
+    
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E6%90%9C%E7%B4%A2/">搜索</a>
+          <a href="/tags/dfs%E4%BC%98%E5%8C%96/">dfs优化</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/012-cf-1395e/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">CF 1395E(集合哈希)</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/010-%E7%BD%91%E9%A1%B5%E5%BC%80%E5%8F%91/">
+            <span class="next-text nav-default">HTML/CSS/JS笔记</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://github.com/kiki-yan" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://kiki-yan.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2026
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/kiki-yan/kiki-yan.github.io" target="_blank"></a>
+    </span> 
+    <span class="author">kiki_yan</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/base16/tomorrow.min.css" rel="stylesheet">
+  
+  <script>hljs.configure({tabReplace: '    '});</script><script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

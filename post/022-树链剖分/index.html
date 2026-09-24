@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>树链剖分 - kiki_yan</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="kiki_yan" /><meta name="description" content="介绍 树链剖分主要用于将 树上修改/查询 通过 DFS序 变成 区间修改/查询，然后利用 线段树 进行修改/查询。 我们可以用模版来举个例子： 题意 已知一棵包含" /><meta name="keywords" content="kiki_yan, blog, Codeforces" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
+
+
+<link rel="canonical" href="https://kiki-yan.github.io/post/022-%E6%A0%91%E9%93%BE%E5%89%96%E5%88%86/" />
+<link rel="manifest" href="/manifest.json">
+
+
+
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="树链剖分" />
+<meta property="og:description" content="介绍 树链剖分主要用于将 树上修改/查询 通过 DFS序 变成 区间修改/查询，然后利用 线段树 进行修改/查询。 我们可以用模版来举个例子： 题意 已知一棵包含" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kiki-yan.github.io/post/022-%E6%A0%91%E9%93%BE%E5%89%96%E5%88%86/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2021-03-06T15:58:27+08:00" />
+<meta property="article:modified_time" content="2021-03-06T15:58:27+08:00" />
+
+<meta itemprop="name" content="树链剖分">
+<meta itemprop="description" content="介绍 树链剖分主要用于将 树上修改/查询 通过 DFS序 变成 区间修改/查询，然后利用 线段树 进行修改/查询。 我们可以用模版来举个例子： 题意 已知一棵包含"><meta itemprop="datePublished" content="2021-03-06T15:58:27+08:00" />
+<meta itemprop="dateModified" content="2021-03-06T15:58:27+08:00" />
+<meta itemprop="wordCount" content="4409">
+<meta itemprop="keywords" content="树链剖分," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="树链剖分"/>
+<meta name="twitter:description" content="介绍 树链剖分主要用于将 树上修改/查询 通过 DFS序 变成 区间修改/查询，然后利用 线段树 进行修改/查询。 我们可以用模版来举个例子： 题意 已知一棵包含"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">kiki_yan</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF Problems</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">kiki_yan</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF Problems</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">树链剖分</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2021-03-06 15:58:27 &#43;0800 &#43;0800"> 2021-03-06 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
+            </div>
+        
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#介绍">介绍</a></li>
+        <li><a href="#前置知识回顾">前置知识回顾</a>
+          <ul>
+            <li><a href="#dfs序">DFS序</a></li>
+            <li><a href="#lca最近公共祖先">LCA（最近公共祖先）</a></li>
+            <li><a href="#线段树">线段树</a></li>
+          </ul>
+        </li>
+        <li><a href="#概念定义">概念定义</a></li>
+        <li><a href="#算法">算法</a>
+          <ul>
+            <li><a href="#第一次dfs">第一次DFS</a></li>
+            <li><a href="#第二次dfs">第二次DFS</a></li>
+            <li><a href="#建线段树">建线段树</a></li>
+            <li><a href="#将树上操作对应到区间上">将树上操作对应到区间上</a></li>
+          </ul>
+        </li>
+        <li><a href="#树链剖分变种询问边">树链剖分变种（询问边）</a></li>
+        <li><a href="#时间复杂度">时间复杂度</a>
+          <ul>
+            <li><a href="#性质1">性质1</a></li>
+            <li><a href="#性质2">性质2</a></li>
+          </ul>
+        </li>
+        <li><a href="#代码">代码</a></li>
+        <li><a href="#例题">例题</a>
+          <ul>
+            <li><a href="#例1-洛谷p2486-sdoi2011染色httpswwwluogucomcnproblemp2486">例1 <a href="https://www.luogu.com.cn/problem/P2486">洛谷P2486 [SDOI2011]染色</a></a></li>
+          </ul>
+        </li>
+        <li><a href="#其他例题">其他例题</a></li>
+        <li><a href="#参考链接">参考链接</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="介绍">介绍</h2>
+<p>树链剖分主要用于将 <strong>树上修改/查询</strong> 通过 <strong>DFS序</strong> 变成 <strong>区间修改/查询</strong>，然后利用 <strong>线段树</strong> 进行修改/查询。</p>
+<p>我们可以用模版来举个例子：</p>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>已知一棵包含 $N$ 个结点的树（连通且无环），每个节点上包含一个数值，需要支持以下操作：</p>
+<p>$1\ x\ y\ z$ ：将树从 $x$ 到 $y$ 结点最短路径上所有节点的值都加上 $z$。</p>
+<p>$2\ x\ y$ ：求树从 $x$ 到 $y$ 结点最短路径上所有节点的值之和。</p>
+<p>$3\ x\ z$ ：将以 $x$ 为根节点的子树内所有节点值都加上 $z$。</p>
+<p>$4\ x$ ：求以 $x$ 为根节点的子树内所有节点值之和。</p>
+</div>
+<p>主要知识点有三个：DFS序，LCA，线段树</p>
+<h2 id="前置知识回顾">前置知识回顾</h2>
+<h3 id="dfs序">DFS序</h3>
+<p>DFS序的作用是，根据DFS的顺序将节点编号，就可以得到以下性质：</p>
+<ol>
+<li><strong>同一个subtree</strong>内的编号是<strong>连续</strong>的，且parent的编号最小。</li>
+<li>在从上到下的DFS过程中，一条<strong>链</strong>上的编号也是连续的，且越靠上，编号越小。</li>
+</ol>
+<blockquote>
+<p>注：记得将原array中的节点权值（或者其他信息） map 到dfs序上的新节点。</p>
+</blockquote>
+<hr>
+<h3 id="lca最近公共祖先">LCA（最近公共祖先）</h3>
+<p>在 LCA 中，寻找共同祖先的过程中，要注意不能往上跳过头了，在树链剖分中也一样，只不过没有采用倍增思想。</p>
+<hr>
+<h3 id="线段树">线段树</h3>
+<p>在树链剖分中，线段树的应用并没有什么变化。</p>
+<hr>
+<h2 id="概念定义">概念定义</h2>
+<ol>
+<li>
+<p>重儿子：每一个节点的child中，<strong>所在subtree（包括它自己）节点数最多</strong>的child 叫做该节点的重儿子（每个节点<strong>有且仅有一个</strong>重儿子）。</p>
+</li>
+<li>
+<p>轻儿子：除了重儿子的所有节点，都是轻儿子。（我们可以把 <strong>root</strong> 看作一个轻儿子）</p>
+</li>
+<li>
+<p>重边：一个节点连接它的重儿子的edge就是重边。</p>
+</li>
+<li>
+<p>重链：<strong>以轻儿子作为起点</strong>，向下延伸，连接<strong>子树内的所有重儿子</strong>，形成的链叫做重链。</p>
+<p>（对于一个<strong>leaf</strong>，如果它是一个<strong>轻儿子</strong>，那么它自己形成一条重链）</p>
+</li>
+</ol>
+<p><img src="/images/022/1.png" alt="images"></p>
+<h2 id="算法">算法</h2>
+<p>算法步骤如下：</p>
+<ol>
+<li>进行第一次DFS <code>dfs1()</code></li>
+<li>进行第二次DFS <code>dfs2()</code></li>
+<li>建线段树</li>
+<li>将树上操作 对应到 区间上，然后用线段树解决</li>
+</ol>
+<h3 id="第一次dfs">第一次DFS</h3>
+<p>第一次DFS，我们需要维护的信息有：</p>
+<ol>
+<li>记录每个点的 <strong>深度</strong>： <code>dep[]</code></li>
+<li>记录每个点的 <strong>parent</strong>： <code>par[]</code></li>
+<li>记录每个点的 <strong>subtree</strong>大小（包括它自己）：<code>sz[]</code></li>
+<li>记录每个点的 <strong>重儿子</strong>：<code>son[]</code></li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">int</span> dep[maxn], par[maxn], sz[maxn], son[maxn];
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">dfs1</span>(<span style="color:#66d9ef">int</span> cur, <span style="color:#66d9ef">int</span> p) {
+    dep[cur] <span style="color:#f92672">=</span> dep[p] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+    par[cur] <span style="color:#f92672">=</span> p;
+    sz[cur] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;  <span style="color:#75715e">// subtree包括自己
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> maxsz <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> e <span style="color:#f92672">=</span> head[cur]; e; e <span style="color:#f92672">=</span> edges[e].nxt) {
+        <span style="color:#66d9ef">int</span> to <span style="color:#f92672">=</span> edges[e].to;
+        <span style="color:#66d9ef">if</span> (to <span style="color:#f92672">==</span> p) <span style="color:#66d9ef">continue</span>;
+
+        dfs1(to, cur);
+        sz[cur] <span style="color:#f92672">+=</span> sz[to];
+        <span style="color:#66d9ef">if</span> (sz[to] <span style="color:#f92672">&gt;</span> maxsz) {  <span style="color:#75715e">// 判断重儿子
+</span><span style="color:#75715e"></span>            maxsz <span style="color:#f92672">=</span> sz[to];
+            son[cur] <span style="color:#f92672">=</span> to;
+        }
+    }
+}
+</code></pre></div><h3 id="第二次dfs">第二次DFS</h3>
+<p>第二次DFS，我们需要维护的信息有：</p>
+<ol>
+<li>记录每个点的 <strong>DFS序编号</strong>：<code>id[]</code></li>
+<li>记录每个点 <strong>所在重链的最顶端</strong>：<code>top[]</code></li>
+<li>（如果有），将树上的信息通过DFS序编号 转移到 区间上</li>
+</ol>
+<blockquote>
+<p>注意：<code>dfs2()</code> 过程中，我们需要 <strong>优先处理重儿子</strong>，这是为了保证 <strong>同一条重链</strong> 对应的必然是 <strong>一段连续的区间</strong>。</p>
+</blockquote>
+<p>这样处理以后，我们能得到如下的DFS序编号：</p>
+<p><img src="/images/022/2.png" alt="img"></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">int</span> w[maxn];  <span style="color:#75715e">//weight
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> arr[maxn];  <span style="color:#75715e">// array for segment tree to use
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">int</span> top[maxn], id[maxn];
+<span style="color:#66d9ef">int</span> cnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;  <span style="color:#75715e">//current id
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">dfs2</span>(<span style="color:#66d9ef">int</span> cur, <span style="color:#66d9ef">int</span> t) {
+    id[cur] <span style="color:#f92672">=</span> cnt<span style="color:#f92672">++</span>;
+    top[cur] <span style="color:#f92672">=</span> t;
+    arr[id[cur]] <span style="color:#f92672">=</span> w[cur];
+
+    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>son[cur]) <span style="color:#66d9ef">return</span>;  <span style="color:#75715e">// 这个节点是leaf
+</span><span style="color:#75715e"></span>    dfs2(son[cur], t);  <span style="color:#75715e">// 优先处理重儿子
+</span><span style="color:#75715e"></span>
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> e <span style="color:#f92672">=</span> head[cur]; e; e <span style="color:#f92672">=</span> edges[e].nxt) {
+        <span style="color:#66d9ef">int</span> to <span style="color:#f92672">=</span> edges[e].to;
+        <span style="color:#66d9ef">if</span> (to <span style="color:#f92672">==</span> par[cur] <span style="color:#f92672">||</span> to <span style="color:#f92672">==</span> son[cur]) <span style="color:#66d9ef">continue</span>;  <span style="color:#75715e">//重儿子处理过了
+</span><span style="color:#75715e"></span>        dfs2(to, to);  <span style="color:#75715e">// 轻儿子是重链的开始
+</span><span style="color:#75715e"></span>    }
+}
+</code></pre></div><h3 id="建线段树">建线段树</h3>
+<p>常规操作，并没有什么不同。</p>
+<h3 id="将树上操作对应到区间上">将树上操作对应到区间上</h3>
+<p>操作 $3,4$ （更新/查询一个子树内的值）：</p>
+<p>在DFS序中，同一个子树内的DFS序编号是连续的，我们有了 parent 对应的编号，就有了区间上的<strong>左端点</strong>，利用 <code>sz[]</code> 来找到 <strong>右端点</strong>，左右端点都有了，就用线段树处理即可。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">update_tree</span>(<span style="color:#66d9ef">int</span> u, ll x) {
+    update(<span style="color:#ae81ff">1</span>, id[u], id[u]<span style="color:#f92672">+</span>sz[u]<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, x);
+}
+
+ll <span style="color:#a6e22e">query_tree</span>(<span style="color:#66d9ef">int</span> u) {
+    <span style="color:#66d9ef">return</span> query(<span style="color:#ae81ff">1</span>, id[u], id[u]<span style="color:#f92672">+</span>sz[u]<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>);
+}
+</code></pre></div><hr>
+<p>操作 $1,2$ （更新/查询两个点之间最短路径的值）：</p>
+<p>给定两个点 <code>u,v</code>：</p>
+<ol>
+<li>
+<p>如果 <code>u,v</code> 在<strong>同一条重链</strong>上，那么对应的是区间上的一段连续区间（<code>dep</code> 较小的那个对应左端点，<code>dep</code>较深的那个对应右端点），直接用线段树即可。</p>
+</li>
+<li>
+<p>否则，比较 <code>top[u]</code> 和 <code>top[v]</code>，如果 <code>dep[top[u]] &gt; dep[top[v]]</code> （<code>top[u]</code> 比 <code>top[v]</code> 更深），就将 <code>u</code> 往上跳，在线段树上操作 <strong><code>u</code> 到 <code>top[u]</code></strong> 的这一段操作，然后跳到 <code>par[top[u]]</code> 上（即，重链顶端<strong>再往上一格</strong>），然后重新执行上述判断。</p>
+</li>
+</ol>
+<blockquote>
+<p>为什么要让 <code>top</code> 更深的来跳？为了保证不会跳过头！</p>
+</blockquote>
+<p>证明：无论怎么跳，我们都不能超过 <code>u,v</code> 的LCA。设 <code>LCA(u,v) = x</code>，因为它们不在同一条链上，那么 <code>u,v</code> 必然在 <code>x</code> 的两边（或者，其中之一刚好等于 <code>x</code>，另外一个被一个轻儿子挡住了）。无论是哪种情况，因为重链有可能直接从 <code>root</code> 一直延伸下来，所以肯定不能选 <code>top</code> 更靠上层的那个。</p>
+<p>而选择 <code>top</code> 更深的那个，能够保证我们 <strong>最远只能刚好跳到x处</strong>（因为 <code>x</code> 有且仅有一个重儿子，如果不跳这个重儿子，必然不会跳出 <code>x</code> 的范围）。</p>
+<p>• 由上分析，我们还能发现：在往上跳的过程中，如果发现 <code>u,v</code> 在同一条重链上，那么 <code>dep</code> 较小的那个节点，就是 <strong><code>u,v</code> 的LCA</strong>！</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">update_path</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> v, ll x) {
+    <span style="color:#66d9ef">while</span> (top[u] <span style="color:#f92672">!=</span> top[v]) {  <span style="color:#75715e">// u,v 还不是同一个重链上
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> (dep[top[u]] <span style="color:#f92672">&lt;</span> dep[top[v]]) swap(u,v);
+        update(<span style="color:#ae81ff">1</span>, id[top[u]], id[u], x);
+        u <span style="color:#f92672">=</span> par[top[u]];  <span style="color:#75715e">// 往上跳
+</span><span style="color:#75715e"></span>    }
+    <span style="color:#66d9ef">if</span> (dep[u] <span style="color:#f92672">&gt;</span> dep[v]) swap(u,v);  <span style="color:#75715e">// dep较小的是左端点
+</span><span style="color:#75715e"></span>    update(<span style="color:#ae81ff">1</span>, id[u], id[v], x);
+}
+
+ll <span style="color:#a6e22e">query_path</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> v) {
+    ll res <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">while</span> (top[u] <span style="color:#f92672">!=</span> top[v]) {
+        <span style="color:#66d9ef">if</span> (dep[top[u]] <span style="color:#f92672">&lt;</span> dep[top[v]]) swap(u,v);
+        res <span style="color:#f92672">=</span> (res <span style="color:#f92672">+</span> query(<span style="color:#ae81ff">1</span>, id[top[u]], id[u])) <span style="color:#f92672">%</span> mod;
+        u <span style="color:#f92672">=</span> par[top[u]];
+    }
+    <span style="color:#66d9ef">if</span> (dep[u] <span style="color:#f92672">&gt;</span> dep[v]) swap(u,v);
+    res <span style="color:#f92672">=</span> (res <span style="color:#f92672">+</span> query(<span style="color:#ae81ff">1</span>, id[u], id[v])) <span style="color:#f92672">%</span> mod;
+    <span style="color:#66d9ef">return</span> res;
+}
+</code></pre></div><h2 id="树链剖分变种询问边">树链剖分变种（询问边）</h2>
+<p>如果我们把问题稍微改一下：</p>
+<p>假如现在不再是点上有权值，而是 <strong>边上有权值</strong>，修改/询问 $(u,v)$ 之间路径上<strong>所有边的权值</strong>，怎么处理？</p>
+<p>注意到树有一个特别的性质：</p>
+<p><strong>每个节点只有 $1$ 个parent</strong>。</p>
+<p>所以我们可以将 <strong>边</strong> 转化为 <strong>点</strong>。</p>
+<p>对于一个节点 $u$，如果它有一个parent $p$，那么我们就可以将 $(u,p)$ 这条边，转化为 $u$ 这个点。</p>
+<p>对于每次修改/询问 $(u,v)$，先找到 $LCA(u,v) = x$，然后正常更新，最后将 $x$ 的修改/询问全部撤销掉即可。</p>
+<p>• 或者，注意到在树链剖分每次 <code>query(u,v)</code> 的最后一个阶段，$u,v$ 中深度较浅的那个是 $LCA(u,v)=x$，所以如果要忽略 $x$ 的影响，我们最后一次 <code>query</code> 的时候可以把线段树上的 index + 1 即可。</p>
+<p>例如这样：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">update_path</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> v, <span style="color:#66d9ef">int</span> x) {
+    <span style="color:#66d9ef">while</span> (top[u] <span style="color:#f92672">!=</span> top[v]) {
+        <span style="color:#66d9ef">if</span> (dep[top[u]] <span style="color:#f92672">&lt;</span> dep[top[v]]) swap(u,v);
+        update(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, n, id[top[u]], id[u], x);
+        u <span style="color:#f92672">=</span> par[top[u]];
+    }
+    <span style="color:#66d9ef">if</span> (dep[u] <span style="color:#f92672">&gt;</span> dep[v]) swap(u,v);
+    <span style="color:#66d9ef">if</span> (id[u] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;=</span> id[v])
+        update(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, n, id[u]<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, id[v], x);  <span style="color:#75715e">// 给它 + 1
+</span><span style="color:#75715e"></span>}
+</code></pre></div><hr>
+<p><img src="/images/022/3.png" alt="img"></p>
+<p>如上图，$(6,2)$ 这个边，就可以用 $6$ 这个点来表示。</p>
+<p>修改 $6,5$ 之间的路径，就相当于修改 $[6,2]$ 和 修改 $[5,3]$。</p>
+<h2 id="时间复杂度">时间复杂度</h2>
+<h3 id="性质1">性质1</h3>
+<p>如果 $v$ 是 $u$ 的轻儿子，那么 $size(v) \leq \frac{size(u)}{2}$</p>
+<p>证明：根据定义即可。</p>
+<hr>
+<h3 id="性质2">性质2</h3>
+<p>树中任意两条节点之间，重链的数量 $\leq \log_2(n)$</p>
+<p>证明：因为每出现一个重链，意味着出现了一个轻儿子，根据性质1，size减少一半，所以</p>
+<p><code>#重链</code> $=$ <code>#轻儿子</code> $= log_2(n)$</p>
+<hr>
+<p>由性质1，2，我们可知：</p>
+<ol>
+<li>
+<p>路径修改/查询：每个重链进行一次线段树操作，有 $log_2(n)$ 个重链，每次线段树操作复杂度为 $log_2(n)$，所以每次路径操作的总复杂度为 $(log_2(n))^2$</p>
+</li>
+<li>
+<p>子树修改/查询：只有一次线段树操作，所以复杂度为 $log_2(n)$</p>
+</li>
+</ol>
+<h2 id="代码">代码</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#define ll long long
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e5</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>;
+
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Edge</span> {
+    <span style="color:#66d9ef">int</span> to, nxt;
+} edges[maxn<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>];
+<span style="color:#66d9ef">int</span> head[maxn], ecnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">addEdge</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> v) {
+    Edge e <span style="color:#f92672">=</span> {v, head[u]};
+    head[u] <span style="color:#f92672">=</span> ecnt;
+    edges[ecnt<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> e;
+}
+
+<span style="color:#66d9ef">int</span> n,m,root;
+<span style="color:#66d9ef">int</span> w[maxn];  <span style="color:#75715e">//weight
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> dep[maxn], par[maxn], sz[maxn], son[maxn];
+<span style="color:#66d9ef">int</span> top[maxn], id[maxn];
+<span style="color:#66d9ef">int</span> arr[maxn];  <span style="color:#75715e">// array for segment tree to use
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> cnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;  <span style="color:#75715e">//current id
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">dfs1</span>(<span style="color:#66d9ef">int</span> cur, <span style="color:#66d9ef">int</span> p) {
+    dep[cur] <span style="color:#f92672">=</span> dep[p] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+    par[cur] <span style="color:#f92672">=</span> p;
+    sz[cur] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;  <span style="color:#75715e">// 包括自己
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> maxsz <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> e <span style="color:#f92672">=</span> head[cur]; e; e <span style="color:#f92672">=</span> edges[e].nxt) {
+        <span style="color:#66d9ef">int</span> to <span style="color:#f92672">=</span> edges[e].to;
+        <span style="color:#66d9ef">if</span> (to <span style="color:#f92672">==</span> p) <span style="color:#66d9ef">continue</span>;
+
+        dfs1(to, cur);
+        sz[cur] <span style="color:#f92672">+=</span> sz[to];
+        <span style="color:#66d9ef">if</span> (sz[to] <span style="color:#f92672">&gt;</span> maxsz) {  <span style="color:#75715e">// 更新重儿子
+</span><span style="color:#75715e"></span>            maxsz <span style="color:#f92672">=</span> sz[to];
+            son[cur] <span style="color:#f92672">=</span> to;
+        }
+    }
+}
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">dfs2</span>(<span style="color:#66d9ef">int</span> cur, <span style="color:#66d9ef">int</span> t) {
+    id[cur] <span style="color:#f92672">=</span> cnt<span style="color:#f92672">++</span>;
+    top[cur] <span style="color:#f92672">=</span> t;
+    arr[id[cur]] <span style="color:#f92672">=</span> w[cur];
+
+    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>son[cur]) <span style="color:#66d9ef">return</span>;  <span style="color:#75715e">// leaf
+</span><span style="color:#75715e"></span>    dfs2(son[cur], t);
+
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> e <span style="color:#f92672">=</span> head[cur]; e; e <span style="color:#f92672">=</span> edges[e].nxt) {
+        <span style="color:#66d9ef">int</span> to <span style="color:#f92672">=</span> edges[e].to;
+        <span style="color:#66d9ef">if</span> (to <span style="color:#f92672">==</span> par[cur] <span style="color:#f92672">||</span> to <span style="color:#f92672">==</span> son[cur]) <span style="color:#66d9ef">continue</span>;
+        dfs2(to, to);  <span style="color:#75715e">// 轻儿子是重链的开始
+</span><span style="color:#75715e"></span>    }
+}
+
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">node</span> {
+    ll sum <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    ll lazy <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+} tr[<span style="color:#ae81ff">4</span><span style="color:#f92672">*</span>maxn];
+
+<span style="color:#66d9ef">inline</span> ll <span style="color:#a6e22e">len</span>(<span style="color:#66d9ef">int</span> cur, <span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r) {
+    <span style="color:#66d9ef">return</span> r <span style="color:#f92672">-</span> l <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+}
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">push_up</span>(<span style="color:#66d9ef">int</span> cur) {
+    tr[cur].sum <span style="color:#f92672">=</span> tr[cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>].sum <span style="color:#f92672">+</span> tr[cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span><span style="color:#f92672">|</span><span style="color:#ae81ff">1</span>].sum;
+}
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">push_down</span>(<span style="color:#66d9ef">int</span> cur) {
+    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>tr[cur].lazy) <span style="color:#66d9ef">return</span>;
+    <span style="color:#66d9ef">int</span> lc <span style="color:#f92672">=</span> cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>, rc <span style="color:#f92672">=</span> lc<span style="color:#f92672">|</span><span style="color:#ae81ff">1</span>;
+    tr[lc].lazy <span style="color:#f92672">=</span> tr[lc].lazy <span style="color:#f92672">+</span> tr[cur].lazy;
+    tr[rc].lazy <span style="color:#f92672">=</span> tr[rc].lazy <span style="color:#f92672">+</span> tr[cur].lazy);
+    tr[lc].sum <span style="color:#f92672">=</span> tr[lc].sum <span style="color:#f92672">+</span> len(lc) <span style="color:#f92672">*</span> tr[cur].lazy;
+    tr[rc].sum <span style="color:#f92672">=</span> tr[rc].sum <span style="color:#f92672">+</span> len(rc) <span style="color:#f92672">*</span> tr[cur].lazy;
+    tr[cur].lazy <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+}
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">build</span>(<span style="color:#66d9ef">int</span> cur, <span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r) {
+    <span style="color:#66d9ef">if</span> (l <span style="color:#f92672">==</span> r) {
+        tr[cur].sum <span style="color:#f92672">=</span> arr[l];
+        <span style="color:#66d9ef">return</span>;
+    }
+    <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> (l<span style="color:#f92672">+</span>r) <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+    build(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>, l, mid);
+    build(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span><span style="color:#f92672">|</span><span style="color:#ae81ff">1</span>, mid<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, r);
+    push_up(cur);
+}
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">update</span>(<span style="color:#66d9ef">int</span> cur, <span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r, <span style="color:#66d9ef">int</span> L, <span style="color:#66d9ef">int</span> R, ll x) {
+    <span style="color:#66d9ef">if</span> (L <span style="color:#f92672">&lt;=</span> l <span style="color:#f92672">&amp;&amp;</span> r <span style="color:#f92672">&lt;=</span> R) {
+        tr[cur].lazy <span style="color:#f92672">=</span> tr[cur].lazy <span style="color:#f92672">+</span> x;
+        tr[cur].sum <span style="color:#f92672">=</span> tr[cur].sum <span style="color:#f92672">+</span> x <span style="color:#f92672">*</span> len(cur);
+        <span style="color:#66d9ef">return</span>;
+    }
+    <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> (l<span style="color:#f92672">+</span>r) <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+    push_down(cur);
+    <span style="color:#66d9ef">if</span> (L <span style="color:#f92672">&lt;=</span> mid) update(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>, l, mid, L, R, x);
+    <span style="color:#66d9ef">if</span> (R <span style="color:#f92672">&gt;</span> mid) update(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span><span style="color:#f92672">|</span><span style="color:#ae81ff">1</span>, mid<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, r, L, R, x);
+    push_up(cur);
+}
+
+ll <span style="color:#a6e22e">query</span>(<span style="color:#66d9ef">int</span> cur, <span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r, <span style="color:#66d9ef">int</span> L, <span style="color:#66d9ef">int</span> R) {
+    ll res <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">if</span> (L <span style="color:#f92672">&lt;=</span> l <span style="color:#f92672">&amp;&amp;</span> r <span style="color:#f92672">&lt;=</span> R) {
+        <span style="color:#66d9ef">return</span> tr[cur].sum;
+    }
+    <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> (l<span style="color:#f92672">+</span>r) <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+    push_down(cur);
+    <span style="color:#66d9ef">if</span> (L <span style="color:#f92672">&lt;=</span> mid) res <span style="color:#f92672">+=</span> query(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>, l, mid, L, R);
+    <span style="color:#66d9ef">if</span> (R <span style="color:#f92672">&gt;</span> mid) res <span style="color:#f92672">+=</span> query(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span><span style="color:#f92672">|</span><span style="color:#ae81ff">1</span>, mid<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, r, L, R);
+    push_up(cur);
+    <span style="color:#66d9ef">return</span> res;
+}
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">update_tree</span>(<span style="color:#66d9ef">int</span> u, ll x) {
+    update(<span style="color:#ae81ff">1</span>, id[u], id[u]<span style="color:#f92672">+</span>sz[u]<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, x);
+}
+
+ll <span style="color:#a6e22e">query_tree</span>(<span style="color:#66d9ef">int</span> u) {
+    <span style="color:#66d9ef">return</span> query(<span style="color:#ae81ff">1</span>, id[u], id[u]<span style="color:#f92672">+</span>sz[u]<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>);
+}
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">update_path</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> v, ll x) {
+    <span style="color:#66d9ef">while</span> (top[u] <span style="color:#f92672">!=</span> top[v]) {
+        <span style="color:#66d9ef">if</span> (dep[top[u]] <span style="color:#f92672">&lt;</span> dep[top[v]]) swap(u,v);
+        update(<span style="color:#ae81ff">1</span>, id[top[u]], id[u], x);
+        u <span style="color:#f92672">=</span> par[top[u]];
+    }
+    <span style="color:#66d9ef">if</span> (dep[u] <span style="color:#f92672">&gt;</span> dep[v]) swap(u,v);
+    update(<span style="color:#ae81ff">1</span>, id[u], id[v], x);
+}
+
+ll <span style="color:#a6e22e">query_path</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> v) {
+    ll res <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">while</span> (top[u] <span style="color:#f92672">!=</span> top[v]) {
+        <span style="color:#66d9ef">if</span> (dep[top[u]] <span style="color:#f92672">&lt;</span> dep[top[v]]) swap(u,v);
+        res <span style="color:#f92672">=</span> (res <span style="color:#f92672">+</span> query(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, n, id[top[u]], id[u])) <span style="color:#f92672">%</span> mod;
+        u <span style="color:#f92672">=</span> par[top[u]];
+    }
+    <span style="color:#66d9ef">if</span> (dep[u] <span style="color:#f92672">&gt;</span> dep[v]) swap(u,v);
+    res <span style="color:#f92672">=</span> res <span style="color:#f92672">+</span> query(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, n, id[u], id[v]);
+    <span style="color:#66d9ef">return</span> res;
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> m <span style="color:#f92672">&gt;&gt;</span> root <span style="color:#f92672">&gt;&gt;</span> mod;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) cin <span style="color:#f92672">&gt;&gt;</span> w[i];
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">int</span> u,v; cin <span style="color:#f92672">&gt;&gt;</span> u <span style="color:#f92672">&gt;&gt;</span> v;
+        addEdge(u,v); addEdge(v,u);
+    }
+    dfs1(root, <span style="color:#ae81ff">0</span>);
+    dfs2(root, root);
+    build(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, n);
+
+    <span style="color:#66d9ef">while</span> (m<span style="color:#f92672">--</span>) {
+        <span style="color:#66d9ef">int</span> op; cin <span style="color:#f92672">&gt;&gt;</span> op;
+        <span style="color:#66d9ef">if</span> (op <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>) {
+            <span style="color:#66d9ef">int</span> u,v,x;
+            cin <span style="color:#f92672">&gt;&gt;</span> u <span style="color:#f92672">&gt;&gt;</span> v <span style="color:#f92672">&gt;&gt;</span> x;
+            update_path(u,v,x);
+        } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (op <span style="color:#f92672">==</span> <span style="color:#ae81ff">2</span>) {
+            <span style="color:#66d9ef">int</span> u,v; cin <span style="color:#f92672">&gt;&gt;</span> u <span style="color:#f92672">&gt;&gt;</span> v;
+            ll res <span style="color:#f92672">=</span> query_path(u,v);
+            cout <span style="color:#f92672">&lt;&lt;</span> res <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+        } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (op <span style="color:#f92672">==</span> <span style="color:#ae81ff">3</span>) {
+            <span style="color:#66d9ef">int</span> u,x; cin <span style="color:#f92672">&gt;&gt;</span> u <span style="color:#f92672">&gt;&gt;</span> x;
+            update_tree(u, x);
+        } <span style="color:#66d9ef">else</span> {
+            <span style="color:#66d9ef">int</span> u; cin <span style="color:#f92672">&gt;&gt;</span> u;
+            ll res <span style="color:#f92672">=</span> query_tree(u);
+            cout <span style="color:#f92672">&lt;&lt;</span> res <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+        }
+    }
+}
+</code></pre></div><h2 id="例题">例题</h2>
+<h3 id="例1-洛谷p2486-sdoi2011染色httpswwwluogucomcnproblemp2486">例1 <a href="https://www.luogu.com.cn/problem/P2486" target="_blank">洛谷P2486 [SDOI2011]染色</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $n$ 个节点的树，每个节点都有一个初始的颜色 $c_i$。</p>
+<p>有 $m$ 个操作，操作共两种：</p>
+<p>$C ~ a ~ b ~ c$：将 $a$ 到 $b$ 的路径上的所有节点染色为 $c$。</p>
+<p>$Q ~ a ~ b$：输出 $a$ 到 $b$ 的路径上的颜色段数量。</p>
+<p>• 颜色段的定义：每个最长的同颜色的连续子序列，叫做一个颜色段。例如 $[2,1,1,2,2,1]$ 具有 $4$ 个颜色段。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>比较明显的树剖思路。问题在于如何维护颜色段的数量？</p>
+<p>先思考一下在一个 <strong>数组</strong> 上，如何维护？</p>
+<blockquote>
+<p>如果两个相邻的区间，相邻的部分的颜色相同，那么它们将合并为一个颜色段。</p>
+</blockquote>
+<p>所以，对于每一个区间，我们维护它 <strong>左端点的颜色</strong> 和 <strong>右端点的颜色</strong>，并且维护 <strong>区间内颜色段的数量</strong>。</p>
+<p>在 <code>push_up()</code> 的时候，记得检查一下左区间的右端点 和 右区间的左端点颜色是否相同即可。</p>
+<hr>
+<p>那么如何在树上进行查询？</p>
+<p>需要注意的是 在树剖中，查询的不一定是数组上的连续区间，但是在树上是连续的。</p>
+<p>所以每次查询完一段区间 $[top[u], u]$，要记录<strong>这段区间的左端点</strong> $top[u]$ 的颜色。</p>
+<p>继续往上跳的时候，<strong>下一段区间的右端点</strong>是 $par[top[u]]$。</p>
+<p>所以要比较一下 $top[u]$ 和 $par[top[u]]$ 的颜色是否相同。相同的话，把答案减 $1$。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e5</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>;
+
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">node</span> {
+    <span style="color:#66d9ef">int</span> l,r;
+    <span style="color:#66d9ef">int</span> lc, rc, cnt;  <span style="color:#75715e">//left color, right color
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">bool</span> lazy <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+} tr[maxn<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">2</span>];
+<span style="color:#66d9ef">int</span> color[maxn], last, ori[maxn], par[maxn];  <span style="color:#75715e">// ori[u] 代表u的颜色
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> n,m; 
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">push_up</span>(<span style="color:#66d9ef">int</span> cur) {
+    <span style="color:#66d9ef">int</span> l <span style="color:#f92672">=</span> cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>, r <span style="color:#f92672">=</span> cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span><span style="color:#f92672">|</span><span style="color:#ae81ff">1</span>;
+    tr[cur].cnt <span style="color:#f92672">=</span> tr[l].cnt <span style="color:#f92672">+</span> tr[r].cnt;
+    tr[cur].lc <span style="color:#f92672">=</span> tr[l].lc, tr[cur].rc <span style="color:#f92672">=</span> tr[r].rc;
+    <span style="color:#66d9ef">if</span> (tr[l].rc <span style="color:#f92672">==</span> tr[r].lc) tr[cur].cnt<span style="color:#f92672">--</span>;  <span style="color:#75715e">// 合并颜色段
+</span><span style="color:#75715e"></span>}
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">push_down</span>(<span style="color:#66d9ef">int</span> cur) {
+    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>tr[cur].lazy) <span style="color:#66d9ef">return</span>;
+    <span style="color:#66d9ef">int</span> l <span style="color:#f92672">=</span> cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>, r <span style="color:#f92672">=</span> cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span><span style="color:#f92672">|</span><span style="color:#ae81ff">1</span>;
+    tr[cur].lazy <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+
+    tr[l].cnt <span style="color:#f92672">=</span> tr[r].cnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    tr[l].lazy <span style="color:#f92672">=</span> tr[r].lazy <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+
+    <span style="color:#66d9ef">int</span> c <span style="color:#f92672">=</span> tr[cur].lc;
+    tr[l].lc <span style="color:#f92672">=</span> tr[r].lc <span style="color:#f92672">=</span> tr[l].rc <span style="color:#f92672">=</span> tr[r].rc <span style="color:#f92672">=</span> c;
+}
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">build</span>(<span style="color:#66d9ef">int</span> cur, <span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r) {
+    tr[cur].l <span style="color:#f92672">=</span> l, tr[cur].r <span style="color:#f92672">=</span> r;
+    <span style="color:#66d9ef">if</span> (l <span style="color:#f92672">==</span> r) {
+        tr[cur].cnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        tr[cur].lc <span style="color:#f92672">=</span> tr[cur].rc <span style="color:#f92672">=</span> color[l];
+        <span style="color:#66d9ef">return</span>;
+    }
+    <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> (l<span style="color:#f92672">+</span>r) <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+    build(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>, l, mid);
+    build(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span><span style="color:#f92672">|</span><span style="color:#ae81ff">1</span>, mid<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, r);
+    push_up(cur);
+}
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">update</span>(<span style="color:#66d9ef">int</span> cur, <span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r, <span style="color:#66d9ef">int</span> L, <span style="color:#66d9ef">int</span> R, <span style="color:#66d9ef">int</span> c) {
+    <span style="color:#66d9ef">if</span> (l <span style="color:#f92672">&gt;=</span> L <span style="color:#f92672">&amp;&amp;</span> r <span style="color:#f92672">&lt;=</span> R) {
+        tr[cur].cnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        tr[cur].lc <span style="color:#f92672">=</span> tr[cur].rc <span style="color:#f92672">=</span> c;
+        tr[cur].lazy <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">return</span>;
+    }
+    push_down(cur);
+    <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> (l<span style="color:#f92672">+</span>r) <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">if</span> (L <span style="color:#f92672">&lt;=</span> mid) update(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>, l, mid, L, R, c);
+    <span style="color:#66d9ef">if</span> (R <span style="color:#f92672">&gt;</span> mid) update(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span><span style="color:#f92672">|</span><span style="color:#ae81ff">1</span>, mid<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, r, L, R, c);
+    push_up(cur);
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">query</span>(<span style="color:#66d9ef">int</span> cur, <span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r, <span style="color:#66d9ef">int</span> L, <span style="color:#66d9ef">int</span> R) {
+    <span style="color:#66d9ef">if</span> (l <span style="color:#f92672">&gt;=</span> L <span style="color:#f92672">&amp;&amp;</span> r <span style="color:#f92672">&lt;=</span> R) {
+        <span style="color:#66d9ef">return</span> tr[cur].cnt;
+    }
+    push_down(cur);
+    <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> (l<span style="color:#f92672">+</span>r) <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">int</span> res <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">if</span> (L <span style="color:#f92672">&lt;=</span> mid) res <span style="color:#f92672">+=</span> query(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>, l, mid, L, R);
+    <span style="color:#66d9ef">if</span> (R <span style="color:#f92672">&gt;</span> mid) res <span style="color:#f92672">+=</span> query(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span><span style="color:#f92672">|</span><span style="color:#ae81ff">1</span>, mid<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, r, L, R);
+    <span style="color:#66d9ef">if</span> (L <span style="color:#f92672">&lt;=</span> mid <span style="color:#f92672">&amp;&amp;</span> R <span style="color:#f92672">&gt;</span> mid <span style="color:#f92672">&amp;&amp;</span> tr[cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>].rc <span style="color:#f92672">==</span> tr[cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span><span style="color:#f92672">|</span><span style="color:#ae81ff">1</span>].lc) res<span style="color:#f92672">--</span>;  <span style="color:#75715e">// 合并颜色段
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> res;
+}
+
+<span style="color:#66d9ef">int</span> head[maxn], ecnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, son[maxn], id[maxn], idcnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, top[maxn], sz[maxn], dep[maxn];
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Edge</span> {
+    <span style="color:#66d9ef">int</span> to,nxt;
+} edges[maxn<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>];
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">addEdge</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> v) {
+    Edge e <span style="color:#f92672">=</span> {v, head[u]};
+    head[u] <span style="color:#f92672">=</span> ecnt;
+    edges[ecnt<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> e;
+}
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">dfs</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> p) {
+    sz[u] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    par[u] <span style="color:#f92672">=</span> p;
+    dep[u] <span style="color:#f92672">=</span> dep[p] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">int</span> maxsz <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> e <span style="color:#f92672">=</span> head[u]; e; e <span style="color:#f92672">=</span> edges[e].nxt) {
+        <span style="color:#66d9ef">int</span> to <span style="color:#f92672">=</span> edges[e].to;
+        <span style="color:#66d9ef">if</span> (to <span style="color:#f92672">==</span> p) <span style="color:#66d9ef">continue</span>;
+        dfs(to, u);
+        sz[u] <span style="color:#f92672">+=</span> sz[to];
+        <span style="color:#66d9ef">if</span> (sz[to] <span style="color:#f92672">&gt;</span> maxsz) son[u] <span style="color:#f92672">=</span> to, maxsz <span style="color:#f92672">=</span> sz[to];
+    }
+}
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">dfs2</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> p, <span style="color:#66d9ef">int</span> topf) {
+    id[u] <span style="color:#f92672">=</span> <span style="color:#f92672">++</span>idcnt;
+    color[idcnt] <span style="color:#f92672">=</span> ori[u];
+    top[u] <span style="color:#f92672">=</span> topf;
+    <span style="color:#66d9ef">if</span> (son[u]) dfs2(son[u], u, topf);
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> e <span style="color:#f92672">=</span> head[u]; e; e <span style="color:#f92672">=</span> edges[e].nxt) {
+        <span style="color:#66d9ef">int</span> to <span style="color:#f92672">=</span> edges[e].to;
+        <span style="color:#66d9ef">if</span> (to <span style="color:#f92672">==</span> p <span style="color:#f92672">||</span> to <span style="color:#f92672">==</span> son[u]) <span style="color:#66d9ef">continue</span>;
+        dfs2(to, u, to);
+    }
+}
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">update</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> v, <span style="color:#66d9ef">int</span> c) {
+    <span style="color:#66d9ef">while</span> (top[u] <span style="color:#f92672">!=</span> top[v]) {
+        <span style="color:#66d9ef">if</span> (dep[top[u]] <span style="color:#f92672">&lt;</span> dep[top[v]]) swap(u,v);
+        <span style="color:#66d9ef">int</span> p <span style="color:#f92672">=</span> top[u];
+        <span style="color:#66d9ef">int</span> L <span style="color:#f92672">=</span> id[p], R <span style="color:#f92672">=</span> id[u];
+        update(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, n, L, R, c);
+        u <span style="color:#f92672">=</span> par[p];
+    }
+    <span style="color:#66d9ef">if</span> (dep[u] <span style="color:#f92672">&gt;</span> dep[v]) swap(u,v);
+    update(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, n, id[u], id[v], c);
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">query_color</span>(<span style="color:#66d9ef">int</span> cur, <span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r, <span style="color:#66d9ef">int</span> p) {
+    <span style="color:#66d9ef">if</span> (l <span style="color:#f92672">==</span> r) <span style="color:#66d9ef">return</span> tr[cur].lc;
+    push_down(cur);
+    <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> (l<span style="color:#f92672">+</span>r) <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">if</span> (p <span style="color:#f92672">&lt;=</span> mid) <span style="color:#66d9ef">return</span> query_color(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>, l, mid, p);
+    <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">return</span> query_color(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span><span style="color:#f92672">|</span><span style="color:#ae81ff">1</span>, mid<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, r, p);
+}
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">query</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> v) {
+    <span style="color:#66d9ef">int</span> ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">int</span> lastu <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, lastv <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;  <span style="color:#75715e">// u和v 的上一次查询的左端点
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">while</span> (top[u] <span style="color:#f92672">!=</span> top[v]) {
+        <span style="color:#66d9ef">if</span> (dep[top[u]] <span style="color:#f92672">&lt;</span> dep[top[v]]) swap(u,v), swap(lastu, lastv);
+        <span style="color:#66d9ef">int</span> p <span style="color:#f92672">=</span> top[u];
+        <span style="color:#66d9ef">int</span> L <span style="color:#f92672">=</span> id[p], R <span style="color:#f92672">=</span> id[u];
+        ans <span style="color:#f92672">+=</span> query(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, n, L, R);
+        <span style="color:#66d9ef">if</span> (lastu <span style="color:#f92672">==</span> query_color(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, n, R)) {  <span style="color:#75715e">// 如果上一次查询的左端点，等于这次查询的右端点
+</span><span style="color:#75715e"></span>            ans<span style="color:#f92672">--</span>;
+        }
+        lastu <span style="color:#f92672">=</span> query_color(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, n, L);  <span style="color:#75715e">// u和v 的上一次查询的左端点
+</span><span style="color:#75715e"></span>        u <span style="color:#f92672">=</span> par[p];
+    }
+    <span style="color:#66d9ef">if</span> (dep[u] <span style="color:#f92672">&gt;</span> dep[v]) swap(u,v), swap(lastu, lastv);
+    ans <span style="color:#f92672">+=</span> query(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, n, id[u], id[v]);
+
+    <span style="color:#66d9ef">if</span> (lastv <span style="color:#f92672">==</span> query_color(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, n, id[v])) ans<span style="color:#f92672">--</span>;
+    <span style="color:#66d9ef">if</span> (lastu <span style="color:#f92672">==</span> query_color(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, n, id[u])) ans<span style="color:#f92672">--</span>;
+    cout <span style="color:#f92672">&lt;&lt;</span> ans <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    fastio;
+    cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> m;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) cin <span style="color:#f92672">&gt;&gt;</span> ori[i];
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">int</span> u,v; cin <span style="color:#f92672">&gt;&gt;</span> u <span style="color:#f92672">&gt;&gt;</span> v;
+        addEdge(u,v); addEdge(v,u);
+    }
+    dfs(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>);
+    dfs2(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>);
+    build(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, n);
+
+    <span style="color:#66d9ef">while</span> (m<span style="color:#f92672">--</span>) {
+        <span style="color:#66d9ef">char</span> op;
+        <span style="color:#66d9ef">int</span> u,v; cin <span style="color:#f92672">&gt;&gt;</span> op <span style="color:#f92672">&gt;&gt;</span> u <span style="color:#f92672">&gt;&gt;</span> v;
+        <span style="color:#66d9ef">if</span> (op <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;Q&#39;</span>) {
+            query(u,v);
+        } <span style="color:#66d9ef">else</span> {
+            <span style="color:#66d9ef">int</span> c; cin <span style="color:#f92672">&gt;&gt;</span> c;
+            update(u,v,c);
+        }
+    }
+}
+</code></pre></div></details>
+<h2 id="其他例题">其他例题</h2>
+<ol>
+<li><a href="https://codeforces.com/problemset/problem/343/D" target="_blank">https://codeforces.com/problemset/problem/343/D</a></li>
+</ol>
+<h2 id="参考链接">参考链接</h2>
+<ol>
+<li><a href="https://www.luogu.com.cn/problem/P3384" target="_blank">https://www.luogu.com.cn/problem/P3384</a>  （模版题，上面的AC代码）</li>
+<li><a href="https://www.cnblogs.com/chinhhh/p/7965433.html" target="_blank">https://www.cnblogs.com/chinhhh/p/7965433.html</a> （强烈推荐）</li>
+<li><a href="https://www.cnblogs.com/zwfymqz/p/8094500.html" target="_blank">https://www.cnblogs.com/zwfymqz/p/8094500.html</a></li>
+</ol>
+
+    </div>
+
+    
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E6%A0%91%E9%93%BE%E5%89%96%E5%88%86/">树链剖分</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/023-at-abc194f/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Atcoder ABC 194F（数位DP，进制处理）</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/021-lca/">
+            <span class="next-text nav-default">最近公共祖先 LCA</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://github.com/kiki-yan" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://kiki-yan.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2026
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/kiki-yan/kiki-yan.github.io" target="_blank"></a>
+    </span> 
+    <span class="author">kiki_yan</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/base16/tomorrow.min.css" rel="stylesheet">
+  
+  <script>hljs.configure({tabReplace: '    '});</script><script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

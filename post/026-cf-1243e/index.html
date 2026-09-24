@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>CF1243E 题解（图论，状压dp） - kiki_yan</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="kiki_yan" /><meta name="description" content="题目链接 https://codeforces.com/contest/1243/problem/E 题意 给定 $k$ 个 box，每个 box $i$ 里有 $n_i$ 个整数，所有整数均不同。 现在我们需要执行 Exactly Once 以下操作： 从每一个box中拿一个数出来，然后以per" /><meta name="keywords" content="kiki_yan, blog, Codeforces" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
+
+
+<link rel="canonical" href="https://kiki-yan.github.io/post/026-cf-1243e/" />
+<link rel="manifest" href="/manifest.json">
+
+
+
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="CF1243E 题解（图论，状压dp）" />
+<meta property="og:description" content="题目链接 https://codeforces.com/contest/1243/problem/E 题意 给定 $k$ 个 box，每个 box $i$ 里有 $n_i$ 个整数，所有整数均不同。 现在我们需要执行 Exactly Once 以下操作： 从每一个box中拿一个数出来，然后以per" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kiki-yan.github.io/post/026-cf-1243e/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2021-03-09T12:34:01+08:00" />
+<meta property="article:modified_time" content="2026-09-24T14:30:49+08:00" />
+
+<meta itemprop="name" content="CF1243E 题解（图论，状压dp）">
+<meta itemprop="description" content="题目链接 https://codeforces.com/contest/1243/problem/E 题意 给定 $k$ 个 box，每个 box $i$ 里有 $n_i$ 个整数，所有整数均不同。 现在我们需要执行 Exactly Once 以下操作： 从每一个box中拿一个数出来，然后以per"><meta itemprop="datePublished" content="2021-03-09T12:34:01+08:00" />
+<meta itemprop="dateModified" content="2026-09-24T14:30:49+08:00" />
+<meta itemprop="wordCount" content="1462">
+<meta itemprop="keywords" content="图论,dp," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="CF1243E 题解（图论，状压dp）"/>
+<meta name="twitter:description" content="题目链接 https://codeforces.com/contest/1243/problem/E 题意 给定 $k$ 个 box，每个 box $i$ 里有 $n_i$ 个整数，所有整数均不同。 现在我们需要执行 Exactly Once 以下操作： 从每一个box中拿一个数出来，然后以per"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">kiki_yan</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF Problems</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">kiki_yan</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF Problems</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">CF1243E 题解（图论，状压dp）</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2021-03-09 12:34:01 &#43;0800 &#43;0800"> 2021-03-09 </span>
+        <div class="post-category">
+            <a href="/categories/%E9%A2%98%E8%A7%A3/"> 题解 </a>
+            </div>
+        
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#题目链接">题目链接</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="题目链接">题目链接</h2>
+<p><a href="https://codeforces.com/contest/1243/problem/E" target="_blank">https://codeforces.com/contest/1243/problem/E</a></p>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $k$ 个 box，每个 box $i$ 里有 $n_i$ 个整数，所有整数均不同。</p>
+<p>现在我们需要执行 <strong>Exactly Once</strong> 以下操作：</p>
+<p>从每一个box中拿一个数出来，然后以permutation的形式放回每一个box（即每一个box放入且仅放入一个数）。</p>
+<p>判断是否存在这样的操作使得所有box里的sum相同，如果有，输出具体方案。</p>
+<p>其中，$k \leq 15, n \leq 5000$</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>首先，所有box的sum必须被 $k$ 整除，否则无解。</p>
+<p>令 $tar$ 为最终每个box的sum。</p>
+<p>我们可以枚举 $box ~1$ 要拿哪个数出来（叫做 $a_1$），这样我们就可以知道它需要被放入哪个数（叫做 $b_1$）。又因为所有数字都不相同，故我们就可以知道 $b_1$ 的来源是哪个box，假设来自 $box_i$，那么我们就可以得到 $a_i = b_1$，于是就可以计算出 $b_i$，一直这么继续下去。</p>
+<p>如果最终形成了一个 <strong>完整环</strong>（以 $box_1$ 作为起点，并且以 $box_1$ 作为终点）的话，就说明这个方案可行。</p>
+<p>但是，这个环不一定覆盖了所有的点。所以我们需要找到所有的环，我们分别以 $1,2,3,&hellip;,k$ 作为起点，并且对于每个box都枚举一下要拿的数。这样我们可以最多形成 $\sum\limits_{i=1}^k n_i \leq 75000$ 个环。并且每个环一定互不相同。</p>
+<hr>
+<p>现在的问题就转化为：给定了这些环，我们能否从中挑选出几个环，使得每个 $box$ <strong>被访问，且仅被访问一次</strong>？</p>
+<p>用 <strong>Bitmask</strong> ！</p>
+<p>因为 $k \leq 15$，我们将每个环表示为一个bitmask，比如某个环是 $1 \rightarrow 2 \rightarrow 4 \rightarrow 1$，那么对应的bitmask就是 $000&hellip;1011$。</p>
+<p>我们会发现，可能会有很多个环对应同一个bitmask，但是没关系，我们只需要输出一个解即可。</p>
+<hr>
+<p>最后，问题转化为：给定一些bitmask，如何让它们组合成 $2^k-1$，且每个bit<strong>仅被覆盖一次</strong>？</p>
+<p>用 <strong>状压dp</strong>！</p>
+<p>定义 <code>bool ori[(1&lt;&lt;16)+2], dp[(1&lt;&lt;16)+2];</code></p>
+<p>其中 <code>ori[mask]</code> 代表这个mask是否由 <strong>单独一个环</strong> 所组成，而 <code>dp[mask]</code> 代表这个mask能否由 $1$ 个 <strong>或多个环</strong> 组成。</p>
+<p>然后就是一个很经典的模版了：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> mask <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; mask <span style="color:#f92672">&lt;=</span> (<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span>k)<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>; mask<span style="color:#f92672">++</span>) {
+    <span style="color:#66d9ef">if</span> (ori[mask]) {
+        dp[mask] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">continue</span>;
+    }
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> sub <span style="color:#f92672">=</span> mask; sub; sub <span style="color:#f92672">=</span> (sub<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) <span style="color:#f92672">&amp;</span> mask) {   <span style="color:#75715e">// 枚举mask的子集，使用 (sub-1) &amp; mask来加速枚举
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> (dp[sub] <span style="color:#f92672">&amp;&amp;</span> dp[mask <span style="color:#f92672">^</span> sub]) {  <span style="color:#75715e">// 使用xor保证同一个bit只被覆盖一次
+</span><span style="color:#75715e"></span>            dp[mask] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+            <span style="color:#66d9ef">break</span>;
+        }
+    }
+}
+</code></pre></div><hr>
+<p>最后就是实现了，本题实现起来相当麻烦，找 <strong>完整环</strong> 用的是 $dfs$ + $bitmask$ + 记录起点（和起点使用的数），每次找到一个环，就把 <strong>起点</strong> 放在对应的 $bitmask$ 数组 <code>plan[]</code> 里。</p>
+<p>在找完所有的环之后，再根据每个 $bitmask$，再进行一次 $dfs$ 来找到这个环的具体路径。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">#define ll long long
+</span><span style="color:#75715e">#define pii pair&lt;int,int&gt;
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">int</span> k;
+<span style="color:#66d9ef">int</span> adj[<span style="color:#ae81ff">16</span>][<span style="color:#ae81ff">5002</span>];  <span style="color:#75715e">//记录第i个box的第j个数
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> sz[<span style="color:#ae81ff">16</span>];  <span style="color:#75715e">//记录第i个box的大小
+</span><span style="color:#75715e"></span>ll sum[<span style="color:#ae81ff">16</span>];
+ll diff[<span style="color:#ae81ff">16</span>];  <span style="color:#75715e">// 记录第i个box的sum和target的差
+</span><span style="color:#75715e"></span>unordered_map<span style="color:#f92672">&lt;</span>ll, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> belong;  <span style="color:#75715e">// 记录某个数属于第几个box
+</span><span style="color:#75715e"></span>
+pii plan[(<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">16</span>)<span style="color:#f92672">+</span><span style="color:#ae81ff">2</span>];  <span style="color:#75715e">// 储存每个bitmask对应的起点 {start, a}
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">bool</span> ori[(<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">16</span>)<span style="color:#f92672">+</span><span style="color:#ae81ff">2</span>];
+<span style="color:#66d9ef">bool</span> dp[(<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">16</span>)<span style="color:#f92672">+</span><span style="color:#ae81ff">2</span>];
+<span style="color:#66d9ef">int</span> from[(<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">16</span>)<span style="color:#f92672">+</span><span style="color:#ae81ff">2</span>];  <span style="color:#75715e">// 记录每个bitmask在dp过程中由哪个子集转移过来的
+</span><span style="color:#75715e"></span>pii ans[<span style="color:#ae81ff">16</span>];
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">dfs</span>(<span style="color:#66d9ef">int</span> cur, ll a, <span style="color:#66d9ef">int</span> mask, <span style="color:#66d9ef">int</span> start, ll oa) {  <span style="color:#75715e">//cur: current vertex, a: the number we are taking OUT from cur, start: the starting vertex, oa: the &#34;a&#34; for starting vertex
+</span><span style="color:#75715e"></span>    ll need <span style="color:#f92672">=</span> a <span style="color:#f92672">-</span> diff[cur];
+
+    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>belong.count(need)) <span style="color:#66d9ef">return</span>;  <span style="color:#75715e">// no vertex to go
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> to <span style="color:#f92672">=</span> belong[need];
+    mask <span style="color:#f92672">|=</span> (<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span>(cur<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>));
+    <span style="color:#66d9ef">if</span> (to <span style="color:#f92672">==</span> start <span style="color:#f92672">&amp;&amp;</span> need <span style="color:#f92672">==</span> oa) {
+        ori[mask] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        plan[mask] <span style="color:#f92672">=</span> {start, oa};
+        <span style="color:#66d9ef">return</span>;
+    }
+
+    <span style="color:#66d9ef">if</span> (mask <span style="color:#f92672">&amp;</span> (<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span>(to<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>))) <span style="color:#66d9ef">return</span>;  <span style="color:#75715e">// form a cycle, but not a cycle start with &#34;start&#34;
+</span><span style="color:#75715e"></span>    dfs(to, need, mask, start, oa);
+}
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">dfs2</span>(<span style="color:#66d9ef">int</span> cur, ll a, <span style="color:#66d9ef">int</span> mask, <span style="color:#66d9ef">int</span> start) {
+    ll need <span style="color:#f92672">=</span> a <span style="color:#f92672">-</span> diff[cur];
+    <span style="color:#66d9ef">int</span> to <span style="color:#f92672">=</span> belong[need];
+    mask <span style="color:#f92672">|=</span> (<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span>(cur<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>));
+    ans[to] <span style="color:#f92672">=</span> {need, cur};
+    <span style="color:#66d9ef">if</span> (to <span style="color:#f92672">==</span> start) {
+        <span style="color:#66d9ef">return</span>;
+    }
+
+    dfs2(to, need, mask, start);
+}
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">findans</span>(<span style="color:#66d9ef">int</span> mask) {
+    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>ori[mask]) {
+        findans(from[mask]);
+        findans(from[mask] <span style="color:#f92672">^</span> mask);
+        <span style="color:#66d9ef">return</span>;
+    }
+
+    <span style="color:#66d9ef">int</span> start <span style="color:#f92672">=</span> plan[mask].first;
+    ll a <span style="color:#f92672">=</span> plan[mask].second;
+    dfs2(start, a, <span style="color:#ae81ff">0</span>, start);
+}
+
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> k;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> k; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">int</span> n; cin <span style="color:#f92672">&gt;&gt;</span> n;
+        sz[i] <span style="color:#f92672">=</span> n;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;=</span> n; j<span style="color:#f92672">++</span>) {
+            ll a; cin <span style="color:#f92672">&gt;&gt;</span> a;
+            adj[i][j] <span style="color:#f92672">=</span> a;
+            sum[i] <span style="color:#f92672">+=</span> a;
+            belong[a] <span style="color:#f92672">=</span> i;
+        }
+    }
+    ll tar <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> k; i<span style="color:#f92672">++</span>) tar <span style="color:#f92672">+=</span> sum[i];
+    <span style="color:#66d9ef">if</span> (tar <span style="color:#f92672">%</span> k) {
+        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;No&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+    }
+    tar <span style="color:#f92672">=</span> tar<span style="color:#f92672">/</span>k;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> k; i<span style="color:#f92672">++</span>) {
+        diff[i] <span style="color:#f92672">=</span> sum[i] <span style="color:#f92672">-</span> tar;
+    }
+
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> start <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; start <span style="color:#f92672">&lt;=</span> k; start<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;=</span> sz[start]; j<span style="color:#f92672">++</span>) {
+            dfs(start, (ll)adj[start][j], <span style="color:#ae81ff">0</span>, start, adj[start][j]);
+        }
+    }
+
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> mask <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; mask <span style="color:#f92672">&lt;=</span> (<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span>k)<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>; mask<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">if</span> (ori[mask]) {
+            dp[mask] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+            <span style="color:#66d9ef">continue</span>;
+        }
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> sub <span style="color:#f92672">=</span> mask; sub; sub <span style="color:#f92672">=</span> (sub<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) <span style="color:#f92672">&amp;</span> mask) {
+            <span style="color:#66d9ef">if</span> (dp[sub] <span style="color:#f92672">&amp;&amp;</span> dp[mask <span style="color:#f92672">^</span> sub]) {
+                dp[mask] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+                from[mask] <span style="color:#f92672">=</span> sub;
+                <span style="color:#66d9ef">break</span>;
+            }
+        }
+    }
+
+    <span style="color:#66d9ef">if</span> (dp[(<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span>k)<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]) {
+        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Yes&#34;</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+        findans((<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span>k)<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>);
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> k; i<span style="color:#f92672">++</span>) printf(<span style="color:#e6db74">&#34;%d %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, ans[i].first, ans[i].second);
+    } <span style="color:#66d9ef">else</span> {
+        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;No&#34;</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+    }
+}
+</code></pre></div></details>
+
+    </div>
+
+    
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E5%9B%BE%E8%AE%BA/">图论</a>
+          <a href="/tags/dp/">dp</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/027-%E6%95%B0%E8%AE%BA%E5%88%86%E5%9D%97/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">数论分块</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/025-cf-1154g/">
+            <span class="next-text nav-default">CF1154G 题解（gcd/lcm的枚举优化）</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://github.com/kiki-yan" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://kiki-yan.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2026
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/kiki-yan/kiki-yan.github.io" target="_blank"></a>
+    </span> 
+    <span class="author">kiki_yan</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/base16/tomorrow.min.css" rel="stylesheet">
+  
+  <script>hljs.configure({tabReplace: '    '});</script><script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

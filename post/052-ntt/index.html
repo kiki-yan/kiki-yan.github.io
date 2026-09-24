@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>NTT - kiki_yan</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="kiki_yan" /><meta name="description" content="模版 NTT const int mod = 998244353; const int maxn = (1&amp;lt;&amp;lt;22) &#43; 5; struct NTT { const ll g = 3, invg = inv(g); // mod = 998244353 inline ll qpow(ll a, ll b) { ll res = 1; while (b) { if (b &amp;amp; 1) res = res * a % mod; a = a * a % mod; b &amp;gt;&amp;gt;= 1; } return res; } inline" /><meta name="keywords" content="kiki_yan, blog, Codeforces" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
+
+
+<link rel="canonical" href="https://kiki-yan.github.io/post/052-ntt/" />
+<link rel="manifest" href="/manifest.json">
+
+
+
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="NTT" />
+<meta property="og:description" content="模版 NTT const int mod = 998244353; const int maxn = (1&lt;&lt;22) &#43; 5; struct NTT { const ll g = 3, invg = inv(g); // mod = 998244353 inline ll qpow(ll a, ll b) { ll res = 1; while (b) { if (b &amp; 1) res = res * a % mod; a = a * a % mod; b &gt;&gt;= 1; } return res; } inline" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kiki-yan.github.io/post/052-ntt/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2021-09-18T19:51:17+08:00" />
+<meta property="article:modified_time" content="2026-09-24T14:30:49+08:00" />
+
+<meta itemprop="name" content="NTT">
+<meta itemprop="description" content="模版 NTT const int mod = 998244353; const int maxn = (1&lt;&lt;22) &#43; 5; struct NTT { const ll g = 3, invg = inv(g); // mod = 998244353 inline ll qpow(ll a, ll b) { ll res = 1; while (b) { if (b &amp; 1) res = res * a % mod; a = a * a % mod; b &gt;&gt;= 1; } return res; } inline"><meta itemprop="datePublished" content="2021-09-18T19:51:17+08:00" />
+<meta itemprop="dateModified" content="2026-09-24T14:30:49+08:00" />
+<meta itemprop="wordCount" content="930">
+<meta itemprop="keywords" content="NTT," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="NTT"/>
+<meta name="twitter:description" content="模版 NTT const int mod = 998244353; const int maxn = (1&lt;&lt;22) &#43; 5; struct NTT { const ll g = 3, invg = inv(g); // mod = 998244353 inline ll qpow(ll a, ll b) { ll res = 1; while (b) { if (b &amp; 1) res = res * a % mod; a = a * a % mod; b &gt;&gt;= 1; } return res; } inline"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">kiki_yan</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF Problems</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">kiki_yan</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF Problems</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">NTT</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2021-09-18 19:51:17 &#43;0800 &#43;0800"> 2021-09-18 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
+            </div>
+        
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#模版">模版</a></li>
+        <li><a href="#介绍">介绍</a></li>
+        <li><a href="#原根">原根</a></li>
+        <li><a href="#ntt原理">NTT原理</a></li>
+        <li><a href="#参考链接">参考链接</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="模版">模版</h2>
+<details class="admonition note"><summary class="admonition-title">NTT</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> mod <span style="color:#f92672">=</span> <span style="color:#ae81ff">998244353</span>;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> (<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">22</span>) <span style="color:#f92672">+</span> <span style="color:#ae81ff">5</span>;
+
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">NTT</span> {
+    <span style="color:#66d9ef">const</span> ll g <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>, invg <span style="color:#f92672">=</span> inv(g);  <span style="color:#75715e">// mod = 998244353
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">inline</span> ll <span style="color:#a6e22e">qpow</span>(ll a, ll b) {
+        ll res <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">while</span> (b) {
+            <span style="color:#66d9ef">if</span> (b <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">1</span>) res <span style="color:#f92672">=</span> res <span style="color:#f92672">*</span> a <span style="color:#f92672">%</span> mod;
+            a <span style="color:#f92672">=</span> a <span style="color:#f92672">*</span> a <span style="color:#f92672">%</span> mod;
+            b <span style="color:#f92672">&gt;&gt;=</span> <span style="color:#ae81ff">1</span>;
+        }
+        <span style="color:#66d9ef">return</span> res;
+    }
+    <span style="color:#66d9ef">inline</span> ll <span style="color:#a6e22e">inv</span>(ll a) {
+        <span style="color:#66d9ef">return</span> qpow(a, mod<span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>);
+    }
+
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">rearrange</span>(ll a[], <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> n) {
+        <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">int</span> rev[maxn];  <span style="color:#75715e">// maxn &gt; deg(h) 且 maxn 为 2的k次方 + 5
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+            rev[i] <span style="color:#f92672">=</span> rev[i <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+            <span style="color:#66d9ef">if</span> (i <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">1</span>) rev[i] <span style="color:#f92672">|=</span> (n <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>);
+        }
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">if</span> (i <span style="color:#f92672">&lt;</span> rev[i]) swap(a[i], a[rev[i]]);  <span style="color:#75715e">// 保证每对数字只翻转一次
+</span><span style="color:#75715e"></span>        }
+    }
+
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">ntt</span>(ll a[], <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> n, <span style="color:#66d9ef">int</span> on) {
+        rearrange(a, n);
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>; k <span style="color:#f92672">&lt;=</span> n; k <span style="color:#f92672">&lt;&lt;=</span> <span style="color:#ae81ff">1</span>) {   <span style="color:#75715e">// 模拟分治的合并过程
+</span><span style="color:#75715e"></span>            ll wn <span style="color:#f92672">=</span> qpow(on <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">?</span> g : invg, (mod<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)<span style="color:#f92672">/</span>k);
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i <span style="color:#f92672">+=</span> k) {
+                ll w <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+                <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> i; j <span style="color:#f92672">&lt;</span> i <span style="color:#f92672">+</span> (k<span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">1</span>); j<span style="color:#f92672">++</span>) {
+                    ll x <span style="color:#f92672">=</span> a[j], y <span style="color:#f92672">=</span> w <span style="color:#f92672">*</span> a[j<span style="color:#f92672">+</span>(k<span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">1</span>)] <span style="color:#f92672">%</span> mod;
+                    a[j] <span style="color:#f92672">=</span> (x <span style="color:#f92672">+</span> y) <span style="color:#f92672">%</span> mod;
+                    a[j<span style="color:#f92672">+</span>(k<span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">1</span>)] <span style="color:#f92672">=</span> (x <span style="color:#f92672">-</span> y <span style="color:#f92672">+</span> mod) <span style="color:#f92672">%</span> mod;
+                    w <span style="color:#f92672">=</span> w <span style="color:#f92672">*</span> wn <span style="color:#f92672">%</span> mod;
+                }
+            }
+        }
+        <span style="color:#66d9ef">if</span> (on <span style="color:#f92672">==</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) {
+            ll invn <span style="color:#f92672">=</span> inv(n);
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>) a[i] <span style="color:#f92672">=</span> a[i] <span style="color:#f92672">*</span> invn <span style="color:#f92672">%</span> mod;
+        }
+    }
+} ntt;
+
+<span style="color:#75715e">// calculate h(x) = f(x) * g(x), n1 = deg(f) + 1, n2 = deg(g) + 1
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">poly_multiply</span>(ll f[], <span style="color:#66d9ef">int</span> n1, ll g[], <span style="color:#66d9ef">int</span> n2, ll h[]) {
+    <span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    n1<span style="color:#f92672">--</span>, n2<span style="color:#f92672">--</span>;
+    <span style="color:#66d9ef">while</span> (n <span style="color:#f92672">&lt;=</span> n1 <span style="color:#f92672">+</span> n2) n <span style="color:#f92672">&lt;&lt;=</span> <span style="color:#ae81ff">1</span>;  <span style="color:#75715e">// deg(h) = n1 + n2
+</span><span style="color:#75715e"></span>    memset(h, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(ll) <span style="color:#f92672">*</span> n);
+    ntt.ntt(f, n, <span style="color:#ae81ff">1</span>);  <span style="color:#75715e">// 注意这里用的是 n (不是 n1)
+</span><span style="color:#75715e"></span>    ntt.ntt(g, n, <span style="color:#ae81ff">1</span>);
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>) h[i] <span style="color:#f92672">=</span> f[i] <span style="color:#f92672">*</span> g[i] <span style="color:#f92672">%</span> mod;
+    ntt.ntt(h, n, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>);
+}
+
+<span style="color:#66d9ef">int</span> n1, n2;
+ll f[maxn<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span>], g[maxn<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span>], h[maxn];
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> n1 <span style="color:#f92672">&gt;&gt;</span> n2;  <span style="color:#75715e">// deg(f) = n1 - 1, deg(g) = n2 - 1
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n1; i<span style="color:#f92672">++</span>) cin <span style="color:#f92672">&gt;&gt;</span> f[i];
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n2; i<span style="color:#f92672">++</span>) cin <span style="color:#f92672">&gt;&gt;</span> g[i];
+    poly_multiply(f, n1, g, n2, h);
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;=</span> n1<span style="color:#f92672">+</span>n2<span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>; i<span style="color:#f92672">++</span>) cout <span style="color:#f92672">&lt;&lt;</span> h[i] <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; &#34;</span>;
+}
+</code></pre></div></details>
+<h2 id="介绍">介绍</h2>
+<p>NTT（快速数论变换）和 FFT 一样，都是用来解决多项式乘法问题。</p>
+<p>NTT可以处理在 $mod ~ p$ 意义下的多项式乘法，并且不需要处理复数和小数。</p>
+<p>在开始介绍 NTT 之前，我们需要一些基本的前置知识。</p>
+<h2 id="原根">原根</h2>
+<p>对于一个质数 $p$，在 $mod ~ p$ 意义下，原根 $g$ 满足：</p>
+<p>$$ord(g) = |Z_p^{\times}| = \phi(p)$$</p>
+<p>• 注意 $\phi(p)$ 是 $p$ 的欧拉函数，代表 $[1,p]$ 中与 $p$ 互质的数的数量。</p>
+<p>• $ord(g)$ 代表一个最小的数字 $r = ord(g)$ 使得 $g^r \equiv 1(mod ~ p)$，且 $\forall k \in [1,r-1], g^k \neq 1(mod ~ p)$</p>
+<h2 id="ntt原理">NTT原理</h2>
+<p>使用 NTT 的限制条件：</p>
+<ol>
+<li>模数 $p$ 需要满足 $p = k \times 2^m + 1$，其中 $k, m \geq 1$，$p$ 为质数。</li>
+<li>若 $p = k \times 2^m + 1$，则只能处理 $deg(h) \leq 2^m$ 的情况。</li>
+</ol>
+<hr>
+<p>在发现了原根 $g$ 以后，我们会发现令 $g_n = g^{\frac{p-1}{n}}$，则 $g_n$ 拥有着 FFT 中，$\omega$ 的优秀性质：</p>
+<ol>
+<li>$g_n^n = 1$，且 $\forall k \in [1, n-1], g_n ^ k \neq 1$</li>
+<li>$g_n^{k+\frac{n}{2}} = -g_n^{k}$</li>
+</ol>
+<p>证明：</p>
+<ol>
+<li>根据原根的定义即可。</li>
+<li>只要证 $g_n^{\frac{n}{2}} = -1$ 即可。因为 $g_n^n = 1$，所以 $g_n^{\frac{n}{2}} = \pm 1$，而因为 $\forall k \in [1, n-1], g_n ^ k \neq 1$，所以 $g_n^{\frac{n}{2}} = -1$</li>
+</ol>
+<hr>
+<p>剩下的就和 FFT 一样了，只不过把 $\omega$ 换成 $g_n = g^{\frac{p-1}{n}}$ 而已。</p>
+<p>当然注意到，由于 $n$ 需要是 $2^k$，所以 $p-1$ 需要是 $2^k$ 的倍数，故我们需要满足 $p = k \times 2^m + 1$。</p>
+<p>常用的组合：</p>
+<p>$$p = 998244353, ~~g = 3$$</p>
+<h2 id="参考链接">参考链接</h2>
+<ol>
+<li><a href="https://blog.csdn.net/a_forever_dream/article/details/102469390" target="_blank">https://blog.csdn.net/a_forever_dream/article/details/102469390</a></li>
+<li><a href="https://oi-wiki.org/math/poly/ntt/" target="_blank">https://oi-wiki.org/math/poly/ntt/</a></li>
+</ol>
+
+    </div>
+
+    
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/ntt/">NTT</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/053-polynomial/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">多项式全家桶</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/051-fft/">
+            <span class="next-text nav-default">FFT</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://github.com/kiki-yan" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://kiki-yan.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2026
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/kiki-yan/kiki-yan.github.io" target="_blank"></a>
+    </span> 
+    <span class="author">kiki_yan</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/base16/tomorrow.min.css" rel="stylesheet">
+  
+  <script>hljs.configure({tabReplace: '    '});</script><script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

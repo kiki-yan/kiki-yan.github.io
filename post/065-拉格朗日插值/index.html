@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>拉格朗日插值 - kiki_yan</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="kiki_yan" /><meta name="description" content="拉格朗日插值 给定 $n$ 个点，我们可以确定唯一的最高 degree 为 $(n-1)$ 的多项式。 设多项式为 $f(x)$，第 $i$ 个点的坐标为 $(x_i,y_i)$，那么这个多项式" /><meta name="keywords" content="kiki_yan, blog, Codeforces" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
+
+
+<link rel="canonical" href="https://kiki-yan.github.io/post/065-%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E6%8F%92%E5%80%BC/" />
+<link rel="manifest" href="/manifest.json">
+
+
+
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="拉格朗日插值" />
+<meta property="og:description" content="拉格朗日插值 给定 $n$ 个点，我们可以确定唯一的最高 degree 为 $(n-1)$ 的多项式。 设多项式为 $f(x)$，第 $i$ 个点的坐标为 $(x_i,y_i)$，那么这个多项式" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kiki-yan.github.io/post/065-%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E6%8F%92%E5%80%BC/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2022-01-12T12:43:19+08:00" />
+<meta property="article:modified_time" content="2022-01-12T12:43:19+08:00" />
+
+<meta itemprop="name" content="拉格朗日插值">
+<meta itemprop="description" content="拉格朗日插值 给定 $n$ 个点，我们可以确定唯一的最高 degree 为 $(n-1)$ 的多项式。 设多项式为 $f(x)$，第 $i$ 个点的坐标为 $(x_i,y_i)$，那么这个多项式"><meta itemprop="datePublished" content="2022-01-12T12:43:19+08:00" />
+<meta itemprop="dateModified" content="2022-01-12T12:43:19+08:00" />
+<meta itemprop="wordCount" content="2885">
+<meta itemprop="keywords" content="拉格朗日插值,," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="拉格朗日插值"/>
+<meta name="twitter:description" content="拉格朗日插值 给定 $n$ 个点，我们可以确定唯一的最高 degree 为 $(n-1)$ 的多项式。 设多项式为 $f(x)$，第 $i$ 个点的坐标为 $(x_i,y_i)$，那么这个多项式"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">kiki_yan</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF Problems</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">kiki_yan</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF Problems</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">拉格朗日插值</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2022-01-12 12:43:19 &#43;0800 &#43;0800"> 2022-01-12 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
+            </div>
+        
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#拉格朗日插值">拉格朗日插值</a></li>
+        <li><a href="#x-坐标为连续整数的拉格朗日插值">$x$ 坐标为连续整数的拉格朗日插值</a></li>
+        <li><a href="#重心拉格朗日插值">重心拉格朗日插值</a></li>
+        <li><a href="#常用模型">常用模型</a></li>
+        <li><a href="#例题">例题</a>
+          <ul>
+            <li><a href="#例1-cf622f-the-sum-of-the-k-th-powershttpswwwluogucomcnproblemcf622f">例1 <a href="https://www.luogu.com.cn/problem/CF622F">CF622F The Sum of the k-th Powers</a></a></li>
+            <li><a href="#例2-cf1731f-function-sumhttpscodeforcescomcontest1731problemf">例2 CF1731F. <a href="https://codeforces.com/contest/1731/problem/F">Function Sum</a></a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="拉格朗日插值">拉格朗日插值</h2>
+<p>给定 $n$ 个点，我们可以确定唯一的最高 degree 为 $(n-1)$ 的多项式。</p>
+<p>设多项式为 $f(x)$，第 $i$ 个点的坐标为 $(x_i,y_i)$，那么这个多项式在 $k$ 处的取值为：</p>
+<p>$$f(k) = \sum\limits_{i=1}^ny_i \prod\limits_{i\neq j} \frac{k-x_j}{x_i-x_j}$$</p>
+<p>时间复杂度：$O(n^2)$</p>
+<details class="admonition note"><summary class="admonition-title">拉格朗日插值板子</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">2005</span>;
+
+<span style="color:#66d9ef">int</span> n;
+ll k;
+ll x[maxn], y[maxn];
+
+ll <span style="color:#a6e22e">qpow</span>(ll a, ll b) {
+    ll res <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">while</span> (b) {
+        <span style="color:#66d9ef">if</span> (b <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">1</span>)
+            res <span style="color:#f92672">=</span> res <span style="color:#f92672">*</span> a <span style="color:#f92672">%</span> mod;
+        a <span style="color:#f92672">=</span> a <span style="color:#f92672">*</span> a <span style="color:#f92672">%</span> mod;
+        b <span style="color:#f92672">&gt;&gt;=</span> <span style="color:#ae81ff">1</span>;
+    }
+    <span style="color:#66d9ef">return</span> res;
+}
+
+ll <span style="color:#a6e22e">solve</span>(ll k) {
+    ll ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        ll nu <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, de <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;=</span> n; j<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">if</span> (j <span style="color:#f92672">==</span> i) <span style="color:#66d9ef">continue</span>;
+            nu <span style="color:#f92672">=</span> nu <span style="color:#f92672">*</span> (k <span style="color:#f92672">-</span> x[j] <span style="color:#f92672">+</span> mod) <span style="color:#f92672">%</span> mod;
+            de <span style="color:#f92672">=</span> de <span style="color:#f92672">*</span> (x[i] <span style="color:#f92672">-</span> x[j] <span style="color:#f92672">+</span> mod) <span style="color:#f92672">%</span> mod;
+        }
+        de <span style="color:#f92672">=</span> qpow(de, mod<span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>);
+        ans <span style="color:#f92672">=</span> (ans <span style="color:#f92672">+</span> y[i] <span style="color:#f92672">*</span> nu <span style="color:#f92672">%</span> mod <span style="color:#f92672">*</span> de <span style="color:#f92672">%</span> mod) <span style="color:#f92672">%</span> mod;
+    }
+    <span style="color:#66d9ef">return</span> ans;
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> k;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) cin <span style="color:#f92672">&gt;&gt;</span> x[i] <span style="color:#f92672">&gt;&gt;</span> y[i];
+    ll ans <span style="color:#f92672">=</span> solve(k);
+    cout <span style="color:#f92672">&lt;&lt;</span> ans <span style="color:#f92672">&lt;&lt;</span> endl;
+}
+</code></pre></div></details>
+<h2 id="x-坐标为连续整数的拉格朗日插值">$x$ 坐标为连续整数的拉格朗日插值</h2>
+<p>如果 $x$ 坐标是连续的整数，那么我们可以在 $O(n)$ 求出 $f(k)$。</p>
+<p>我们假设 $x_i = i$，那么：</p>
+<p>$$f(k) = \sum\limits_{i=1}^ny_i \prod\limits_{i\neq j} \frac{k-x_j}{x_i-x_j}$$</p>
+<p>可以转化为：</p>
+<p>$$f(k) = \sum\limits_{i=1}^ny_i \prod\limits_{i\neq j} \frac{k-j}{i-j}$$</p>
+<p>分类讨论 $j &lt; i$ 和 $j &gt; i$ 的情况：</p>
+<p>$$f(k) = \sum\limits_{i=1}^ny_i \prod\limits_{j=1}^{i-1} \frac{k-j}{i-j} \prod\limits_{j=i+1}^n \frac{k-j}{i-j}$$</p>
+<p>所以可得：</p>
+<p>$$f(k) = \sum\limits_{i=1}^ny_i \frac{1}{(i-1)!} (k-1)(k-2)&hellip;(k-(i-1)) \frac{1}{-1*-2*&hellip;*(-(n-i))} (k-i)(k-(i+1))&hellip;(k-n)$$</p>
+<p>化简得到：</p>
+<p>$$f(k) = \sum\limits_{i=1}^n \frac{y_i}{(-1)^{n-i} *i! * (n-i)!} \prod\limits_{j=1}^{i-1}(k-j) \prod\limits_{j=i+1}^n(k-j)$$</p>
+<p>• 注意，后面这部分<strong>不能</strong>变成 $\frac{\prod\limits_{j=1}^{n}(k-j)}{k-i}$，因为我们无法确定 $k-i \neq 0$。</p>
+<p>对于 $\prod\limits_{j=1}^{i-1}(k-j) \prod\limits_{j=i+1}^n(k-j)$，我们只要预处理出来一个前缀积和后缀积即可。</p>
+<p>所以对于每一项（每个 $i$），我们都可以 $O(1)$ 时间算出对应值，总复杂度 $O(n)$。</p>
+<h2 id="重心拉格朗日插值">重心拉格朗日插值</h2>
+<p>用于解决动态加点的问题。</p>
+<p>利用重心拉格朗日插值，每加入一个新的点，我们可以在 $O(n)$ 时间内算出新的多项式。</p>
+<p>$$f(k) = \sum\limits_{i=1}^ny_i \prod\limits_{i\neq j}^n \frac{k-x_j}{x_i-x_j}$$</p>
+<p>我们设 $g(k) = \prod\limits_{i=1}^n(k-x_i)$，则有：</p>
+<p>$$f(k) = g(k)\sum\limits_{i=1}^n \frac{1}{k-x_i} \prod\limits_{i\neq j}^n \frac{y_i}{x_i-x_j}$$</p>
+<p>设 $t_i = \frac{y_i}{\prod\limits_{j \neq i}^n (x_i-x_j)}$，则有：</p>
+<p>$$f(k) = g(k) \sum\limits_{i=1}^n \frac{t_i}{k-x_i}$$</p>
+<p>所以每次添加一个新的点 $(x_{n+1}, y_{n+1})$ 时：</p>
+<ol>
+<li>重新计算一下所有的 $t_i = t_i * \frac{1}{x_i - x_{n+1}}, i \in [1,n]$。</li>
+<li>计算 $t_{n+1}$。</li>
+<li>计算 $g(k)$。</li>
+</ol>
+<p>• 注意，在求 $f(k)$ 时需要先判断一下是否有 $k=x_i$，有的话直接返回 $y_i$。（这个特判仅需要在重心拉格朗日插值中进行）。</p>
+<details class="admonition note"><summary class="admonition-title">重心拉格朗日插值板子</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">int</span> Q;
+ll x[maxn], y[maxn], t[maxn];
+<span style="color:#66d9ef">int</span> n;
+
+ll <span style="color:#a6e22e">qpow</span>(ll a, ll b) {
+    ll res <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+
+    <span style="color:#66d9ef">while</span> (b) {
+        <span style="color:#66d9ef">if</span> (b <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">1</span>)
+            res <span style="color:#f92672">=</span> res <span style="color:#f92672">*</span> a <span style="color:#f92672">%</span> mod;
+
+        a <span style="color:#f92672">=</span> a <span style="color:#f92672">*</span> a <span style="color:#f92672">%</span> mod;
+        b <span style="color:#f92672">&gt;&gt;=</span> <span style="color:#ae81ff">1</span>;
+    }
+
+    <span style="color:#66d9ef">return</span> res;
+}
+
+ll <span style="color:#a6e22e">solve</span>(ll k) {
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">if</span> (x[i] <span style="color:#f92672">==</span> k)  <span style="color:#75715e">// 需要特判是否 k = x[i]
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">return</span> y[i];
+    }
+
+    ll ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    ll g <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    ll sum <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        g <span style="color:#f92672">=</span> g <span style="color:#f92672">*</span> (k <span style="color:#f92672">-</span> x[i] <span style="color:#f92672">+</span> mod) <span style="color:#f92672">%</span> mod;
+        sum <span style="color:#f92672">=</span> (sum <span style="color:#f92672">+</span> t[i] <span style="color:#f92672">*</span> qpow((k <span style="color:#f92672">-</span> x[i] <span style="color:#f92672">+</span> mod) <span style="color:#f92672">%</span> mod, mod <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>) <span style="color:#f92672">%</span> mod) <span style="color:#f92672">%</span> mod;
+    }
+
+    ans <span style="color:#f92672">=</span> g <span style="color:#f92672">*</span> sum <span style="color:#f92672">%</span> mod;
+    <span style="color:#66d9ef">return</span> ans;
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> Q;
+    <span style="color:#66d9ef">while</span> (Q<span style="color:#f92672">--</span>) {
+        <span style="color:#66d9ef">int</span> op; cin <span style="color:#f92672">&gt;&gt;</span> op;
+
+        <span style="color:#66d9ef">if</span> (op <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>) {  <span style="color:#75715e">// 添加 (xx,yy) 的点
+</span><span style="color:#75715e"></span>            ll xx, yy;
+            cin <span style="color:#f92672">&gt;&gt;</span> xx <span style="color:#f92672">&gt;&gt;</span> yy;
+            n<span style="color:#f92672">++</span>;
+            x[n] <span style="color:#f92672">=</span> xx, y[n] <span style="color:#f92672">=</span> yy;
+            ll de <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;</span> n; j<span style="color:#f92672">++</span>) {
+                de <span style="color:#f92672">=</span> de <span style="color:#f92672">*</span> (x[n] <span style="color:#f92672">-</span> x[j] <span style="color:#f92672">+</span> mod) <span style="color:#f92672">%</span> mod;  <span style="color:#75715e">// 更新 t[n]
+</span><span style="color:#75715e"></span>                t[j] <span style="color:#f92672">=</span> t[j] <span style="color:#f92672">*</span> qpow((x[j] <span style="color:#f92672">-</span> x[n] <span style="color:#f92672">+</span> mod) <span style="color:#f92672">%</span> mod, mod <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>) <span style="color:#f92672">%</span> mod;
+            }
+            de <span style="color:#f92672">=</span> qpow(de, mod <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>);
+            t[n] <span style="color:#f92672">=</span> y[n] <span style="color:#f92672">*</span> de <span style="color:#f92672">%</span> mod;
+        } <span style="color:#66d9ef">else</span> {
+            ll k; cin <span style="color:#f92672">&gt;&gt;</span> k;  <span style="color:#75715e">// 求 f(k)
+</span><span style="color:#75715e"></span>            cout <span style="color:#f92672">&lt;&lt;</span> solve(k) <span style="color:#f92672">&lt;&lt;</span> endl;
+        }
+    }
+}
+</code></pre></div></details>
+<h2 id="常用模型">常用模型</h2>
+<ol>
+<li>$\sum\limits_{i=1}^k i^n = 1^n+2^n+&hellip;k^n$ 是一个多项式 $f(k)$，其中 $deg(f)=n+1$（意味着需要 $n+2$ 个点进行插值）。</li>
+</ol>
+<h2 id="例题">例题</h2>
+<h3 id="例1-cf622f-the-sum-of-the-k-th-powershttpswwwluogucomcnproblemcf622f">例1 <a href="https://www.luogu.com.cn/problem/CF622F" target="_blank">CF622F The Sum of the k-th Powers</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $k,n$，求：</p>
+<p>$$\sum\limits_{i=1}^k i^n = 1^n+2^n+&hellip;k^n$$</p>
+<p>其中，$0 \leq k \leq 10^9, 1 \leq n \leq 10^6$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>上面说了这是一个多项式 $f(k)$，其中 $deg(f)=n+1$，意味着需要 $n+2$ 个点进行插值。</p>
+<p>又因为 $x_i = i, y_i = \sum\limits_{j=1}^i j^n$，我们直接按照上述 $O(n)$ 的连续整数来插值即可。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e6</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>;
+
+ll <span style="color:#a6e22e">qpow</span>(ll a, ll b) {
+    ll res <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">while</span> (b) {
+        <span style="color:#66d9ef">if</span> (b <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">1</span>)
+            res <span style="color:#f92672">=</span> res <span style="color:#f92672">*</span> a <span style="color:#f92672">%</span> mod;
+        a <span style="color:#f92672">=</span> a <span style="color:#f92672">*</span> a <span style="color:#f92672">%</span> mod;
+        b <span style="color:#f92672">&gt;&gt;=</span> <span style="color:#ae81ff">1</span>;
+    }
+    <span style="color:#66d9ef">return</span> res;
+}
+
+ll k,n;
+ll fac[maxn], inv_fac[maxn], t[maxn];
+ll y[maxn], pre[maxn], suf[maxn];
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    fastio;
+    cin <span style="color:#f92672">&gt;&gt;</span> k <span style="color:#f92672">&gt;&gt;</span> n;
+    n <span style="color:#f92672">+=</span> <span style="color:#ae81ff">2</span>;
+
+    fac[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> inv_fac[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    pre[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> suf[n<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">for</span> (ll i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        fac[i] <span style="color:#f92672">=</span> fac[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">*</span> i <span style="color:#f92672">%</span> mod;
+        y[i] <span style="color:#f92672">=</span> (y[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> qpow(i, n<span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>)) <span style="color:#f92672">%</span> mod;
+        pre[i] <span style="color:#f92672">=</span> pre[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">*</span> (k <span style="color:#f92672">-</span> i <span style="color:#f92672">+</span> mod) <span style="color:#f92672">%</span> mod;
+    }
+    <span style="color:#66d9ef">for</span> (ll i <span style="color:#f92672">=</span> n; i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">1</span>; i<span style="color:#f92672">--</span>) suf[i] <span style="color:#f92672">=</span> suf[i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">*</span> (k <span style="color:#f92672">-</span> i <span style="color:#f92672">+</span> mod) <span style="color:#f92672">%</span> mod;
+    inv_fac[n] <span style="color:#f92672">=</span> qpow(fac[n], mod<span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>);
+    <span style="color:#66d9ef">for</span> (ll i <span style="color:#f92672">=</span> n<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">1</span>; i<span style="color:#f92672">--</span>) {
+        inv_fac[i] <span style="color:#f92672">=</span> inv_fac[i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">*</span> (i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>) <span style="color:#f92672">%</span> mod;
+    }
+
+    ll ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (ll i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">int</span> flag <span style="color:#f92672">=</span> ((n<span style="color:#f92672">-</span>i) <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">?</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span> <span style="color:#f92672">:</span> <span style="color:#ae81ff">1</span>);
+        ll res <span style="color:#f92672">=</span> y[i] <span style="color:#f92672">%</span> mod <span style="color:#f92672">*</span> inv_fac[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">%</span> mod <span style="color:#f92672">*</span> inv_fac[n<span style="color:#f92672">-</span>i] <span style="color:#f92672">%</span> mod <span style="color:#f92672">*</span> pre[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">%</span> mod <span style="color:#f92672">*</span> suf[i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">%</span> mod;
+        res <span style="color:#f92672">=</span> (res <span style="color:#f92672">*</span> flag <span style="color:#f92672">+</span> mod) <span style="color:#f92672">%</span> mod;
+        ans <span style="color:#f92672">=</span> (ans <span style="color:#f92672">+</span> res) <span style="color:#f92672">%</span> mod;
+    }
+    cout <span style="color:#f92672">&lt;&lt;</span> ans <span style="color:#f92672">&lt;&lt;</span> endl;
+}
+</code></pre></div></details>
+<h3 id="例2-cf1731f-function-sumhttpscodeforcescomcontest1731problemf">例2 CF1731F. <a href="https://codeforces.com/contest/1731/problem/F" target="_blank">Function Sum</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>如果我们有一个正整数数组 $a_1,a_2&hellip;,a_n$，定义 $ls(i)$ 为：$i$ 的左边比它小的数量，$gr(i)$ 为：$i$ 的右边比它大的数量。</p>
+<p>如果对于index $i$，$ls(i) &lt; gr(i)$，说明 $i$ 是good的。</p>
+<p>定义 $f(a)$（$a$ 是一个数组 $a_1,a_2&hellip;,a_n$）的值为：所有的 good $i$ 的对应 $a_i$ 的和。</p>
+<hr>
+<p>现给定 $n, k$，求所有长度为 $n$，保证 $\forall i \in [1,n], a_i \in [1,k]$ 的所有可能的数组 $a$，$f(a)$ 的和。</p>
+<p>其中，$n \in [1, 50], k \in [2, 998244353)$，答案对 $998244353$ 取模。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>典中典之：看见 <strong>“所有满足xx条件”</strong> 就想到贡献。</p>
+<p>考虑每一个位置 $i$ 的每一个可能的值 $j$ 对答案会贡献多少？</p>
+<p>我们设 $f(i,j)$ 为：如果 $a_i = j$，那么满足 $ls(i) &lt; gr(i)$ 的数组数量。</p>
+<p>则 $j$ 这个数的贡献就是 $j * f(i,j)$。</p>
+<p>形式化的，我们最终要求的答案就是</p>
+<p>$$\sum\limits_{i=1}^n \sum\limits_{j=1}^k j * f(i,j)$$</p>
+<hr>
+<p>怎么求 $f(i,j)$？</p>
+<p>我们枚举 $ls(i)$ 和 $gr(i)$ 的值，设 $k_1 = ls(i), k_2 = gr(i)$，有：</p>
+<p>$$f(i,j) = \sum\limits_{k_1=0}^{i-1} \sum\limits_{k_2 = k_1+1}^{n-i} C_{i-1}^{k_1} (j-1)^{k_1}(k-j+1)^{i-1-k_1} C_{n-i}^{k_2}(k-j)^{k_2}(j)^{n-i-k_2}$$</p>
+<p>简单解释一下：</p>
+<p>$C_{i-1}^{k_1} (j-1)^{k_1}(k-j+1)^{i-1-k_1}$：其中 $C_{i-1}^{k_1}$ 代表从 $i$ 左边元素里选出 $k_1$ 个比它小的，而这 $k_1$ 个元素取的值只要 $&lt;j$ 就可以了，所以有 $(j-1)^{k_1}$ 种，而剩下的 $(i-1-k_1)$ 个元素则只要满足 $\geq j$ 即可，所以有 $(k-j+1)^{i-1-k_1}$ 种。</p>
+<p>$C_{n-i}^{k_2}(k-j)^{k_2}(j)^{n-i-k_2}$ 同理。</p>
+<hr>
+<p>注意到 $n \leq 50$，所以枚举 $i$ 是没问题，但是 $k$ 非常大所以不能枚举。</p>
+<p>但是，我们发现如果固定了 $i$，那么就只有一个变量 $j$ 了。</p>
+<p>看一下 $\sum\limits_{j=1}^k j * f(i,j)$ 中，$j$ 的最高系数是 $1 + k_1 + (i-1-k_1) + k_2 + (n-i-k_2) = n$。</p>
+<p>所以 $\sum\limits_{j=1}^k j * f(i,j)$ 是一个多项式，参考上面的常用模型，$\sum\limits_{j=1}^k a_j j^n$ 是一个 $deg = n+1$ 的多项式，需要 $(n+2)$ 个点来插值。</p>
+<p>插值的点，我们就选 $j' = 1&hellip;55$，$x_{j'} = j'$，而 $y_{j'} = \sum\limits_{j'=1}^j f(i,j')$。插值结束后可以得到一个多项式 $h(x)$，直接求 $h(k)$ 的值即可。</p>
+<hr>
+<p>如果 $k \leq 55$ 使得插值的点数量不够呢？那对于较小的 $k$ 我们直接暴力计算就可以了。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> mod <span style="color:#f92672">=</span> <span style="color:#ae81ff">998244353</span>;
+
+<span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">T</span><span style="color:#f92672">&gt;</span>
+T qpow(T a, <span style="color:#66d9ef">int</span> b) {
+    T res <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">while</span> (b) {
+        <span style="color:#66d9ef">if</span> (b <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">1</span>) res <span style="color:#f92672">*=</span> a;
+        a <span style="color:#f92672">*=</span> a;
+        b <span style="color:#f92672">&gt;&gt;=</span> <span style="color:#ae81ff">1</span>;
+    }
+    <span style="color:#66d9ef">return</span> res;
+}
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">norm</span>(<span style="color:#66d9ef">int</span> x) {
+    <span style="color:#66d9ef">if</span> (x <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) {
+        x <span style="color:#f92672">+=</span> mod;
+    }
+    <span style="color:#66d9ef">if</span> (x <span style="color:#f92672">&gt;=</span> mod) {
+        x <span style="color:#f92672">-=</span> mod;
+    }
+    <span style="color:#66d9ef">return</span> x;
+}
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Z</span> {
+    <span style="color:#66d9ef">int</span> x;
+    Z(<span style="color:#66d9ef">int</span> x <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>) <span style="color:#f92672">:</span> x(norm(x)) {}
+    Z(ll x) <span style="color:#f92672">:</span> x(norm(x <span style="color:#f92672">%</span> mod)) {}
+    <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">val</span>() <span style="color:#66d9ef">const</span> {
+        <span style="color:#66d9ef">return</span> x;
+    }
+    Z <span style="color:#66d9ef">operator</span><span style="color:#f92672">-</span>() <span style="color:#66d9ef">const</span> {
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">Z</span>(norm(mod <span style="color:#f92672">-</span> x));
+    }
+    Z <span style="color:#a6e22e">inv</span>() <span style="color:#66d9ef">const</span> {
+        assert(x <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>);
+        <span style="color:#66d9ef">return</span> qpow(<span style="color:#f92672">*</span><span style="color:#66d9ef">this</span>, mod <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>);
+    }
+    Z <span style="color:#f92672">&amp;</span><span style="color:#66d9ef">operator</span><span style="color:#f92672">*=</span>(<span style="color:#66d9ef">const</span> Z <span style="color:#f92672">&amp;</span>rhs) {
+        x <span style="color:#f92672">=</span> (ll)(x) <span style="color:#f92672">*</span> rhs.x <span style="color:#f92672">%</span> mod;
+        <span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">this</span>;
+    }
+    Z <span style="color:#f92672">&amp;</span><span style="color:#66d9ef">operator</span><span style="color:#f92672">+=</span>(<span style="color:#66d9ef">const</span> Z <span style="color:#f92672">&amp;</span>rhs) {
+        x <span style="color:#f92672">=</span> norm(x <span style="color:#f92672">+</span> rhs.x);
+        <span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">this</span>;
+    }
+    Z <span style="color:#f92672">&amp;</span><span style="color:#66d9ef">operator</span><span style="color:#f92672">-=</span>(<span style="color:#66d9ef">const</span> Z <span style="color:#f92672">&amp;</span>rhs) {
+        x <span style="color:#f92672">=</span> norm(x <span style="color:#f92672">-</span> rhs.x);
+        <span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">this</span>;
+    }
+    Z <span style="color:#f92672">&amp;</span><span style="color:#66d9ef">operator</span><span style="color:#f92672">/=</span>(<span style="color:#66d9ef">const</span> Z <span style="color:#f92672">&amp;</span>rhs) {
+        <span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">this</span> <span style="color:#f92672">*=</span> rhs.inv();
+    }
+    <span style="color:#66d9ef">friend</span> Z <span style="color:#66d9ef">operator</span><span style="color:#f92672">*</span>(<span style="color:#66d9ef">const</span> Z <span style="color:#f92672">&amp;</span>lhs, <span style="color:#66d9ef">const</span> Z <span style="color:#f92672">&amp;</span>rhs) {
+        Z res <span style="color:#f92672">=</span> lhs;
+        res <span style="color:#f92672">*=</span> rhs;
+        <span style="color:#66d9ef">return</span> res;
+    }
+    <span style="color:#66d9ef">friend</span> Z <span style="color:#66d9ef">operator</span><span style="color:#f92672">+</span>(<span style="color:#66d9ef">const</span> Z <span style="color:#f92672">&amp;</span>lhs, <span style="color:#66d9ef">const</span> Z <span style="color:#f92672">&amp;</span>rhs) {
+        Z res <span style="color:#f92672">=</span> lhs;
+        res <span style="color:#f92672">+=</span> rhs;
+        <span style="color:#66d9ef">return</span> res;
+    }
+    <span style="color:#66d9ef">friend</span> Z <span style="color:#66d9ef">operator</span><span style="color:#f92672">-</span>(<span style="color:#66d9ef">const</span> Z <span style="color:#f92672">&amp;</span>lhs, <span style="color:#66d9ef">const</span> Z <span style="color:#f92672">&amp;</span>rhs) {
+        Z res <span style="color:#f92672">=</span> lhs;
+        res <span style="color:#f92672">-=</span> rhs;
+        <span style="color:#66d9ef">return</span> res;
+    }
+    <span style="color:#66d9ef">friend</span> Z <span style="color:#66d9ef">operator</span><span style="color:#f92672">/</span>(<span style="color:#66d9ef">const</span> Z <span style="color:#f92672">&amp;</span>lhs, <span style="color:#66d9ef">const</span> Z <span style="color:#f92672">&amp;</span>rhs) {
+        Z res <span style="color:#f92672">=</span> lhs;
+        res <span style="color:#f92672">/=</span> rhs;
+        <span style="color:#66d9ef">return</span> res;
+    }
+    <span style="color:#66d9ef">friend</span> std<span style="color:#f92672">::</span>istream <span style="color:#f92672">&amp;</span><span style="color:#66d9ef">operator</span><span style="color:#f92672">&gt;&gt;</span>(std<span style="color:#f92672">::</span>istream <span style="color:#f92672">&amp;</span>is, Z <span style="color:#f92672">&amp;</span>a) {
+        ll v;
+        is <span style="color:#f92672">&gt;&gt;</span> v;
+        a <span style="color:#f92672">=</span> Z(v);
+        <span style="color:#66d9ef">return</span> is;
+    }
+    <span style="color:#66d9ef">friend</span> std<span style="color:#f92672">::</span>ostream <span style="color:#f92672">&amp;</span><span style="color:#66d9ef">operator</span><span style="color:#f92672">&lt;&lt;</span>(std<span style="color:#f92672">::</span>ostream <span style="color:#f92672">&amp;</span>os, <span style="color:#66d9ef">const</span> Z <span style="color:#f92672">&amp;</span>a) {
+        <span style="color:#66d9ef">return</span> os <span style="color:#f92672">&lt;&lt;</span> a.val();
+    }
+};
+
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e4</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxm <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e5</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>;
+
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> M <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e4</span>;
+<span style="color:#66d9ef">int</span> n, k;
+Z x[maxn], y[maxn];
+Z <span style="color:#a6e22e">solve</span>(Z k) {
+    Z ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">55</span>; i<span style="color:#f92672">++</span>) {
+        Z nu <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, de <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">55</span>; j<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">if</span> (j <span style="color:#f92672">==</span> i) <span style="color:#66d9ef">continue</span>;
+            nu <span style="color:#f92672">=</span> nu <span style="color:#f92672">*</span> (k <span style="color:#f92672">-</span> x[j]);
+            de <span style="color:#f92672">=</span> de <span style="color:#f92672">*</span> (x[i] <span style="color:#f92672">-</span> x[j]);
+        }
+        de <span style="color:#f92672">=</span> de.inv();
+        ans <span style="color:#f92672">=</span> ans <span style="color:#f92672">+</span> y[i] <span style="color:#f92672">*</span> nu <span style="color:#f92672">*</span> de;
+    }
+    <span style="color:#66d9ef">return</span> ans;
+}
+
+Z fac[maxm], inv_fac[maxm];
+Z <span style="color:#a6e22e">C</span>(Z i, Z j) {
+    <span style="color:#66d9ef">return</span> fac[i.val()] <span style="color:#f92672">*</span> inv_fac[j.val()] <span style="color:#f92672">*</span> inv_fac[(i<span style="color:#f92672">-</span>j).val()];
+}
+
+<span style="color:#75715e">// brute force calculate f(i, j)
+</span><span style="color:#75715e"></span>Z <span style="color:#a6e22e">cal</span>(Z i, Z j) {
+    Z ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (Z k1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; k1.val() <span style="color:#f92672">&lt;=</span> (i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>).val(); k1 <span style="color:#f92672">=</span> k1<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>) {
+        <span style="color:#66d9ef">for</span> (Z k2 <span style="color:#f92672">=</span> k1<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>; k2.val() <span style="color:#f92672">&lt;=</span> (n<span style="color:#f92672">-</span>i).val(); k2 <span style="color:#f92672">=</span> k2<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>) {
+            ans <span style="color:#f92672">=</span> ans <span style="color:#f92672">+</span> C(i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, k1) <span style="color:#f92672">*</span> qpow(j<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, k1.val()) <span style="color:#f92672">*</span> qpow(k<span style="color:#f92672">-</span>j<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, (i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span><span style="color:#f92672">-</span>k1).val()) <span style="color:#f92672">*</span> C(n<span style="color:#f92672">-</span>i, k2) <span style="color:#f92672">*</span> qpow(k<span style="color:#f92672">-</span>j, k2.val()) <span style="color:#f92672">*</span> qpow(j, (n<span style="color:#f92672">-</span>i<span style="color:#f92672">-</span>k2).val());
+        }
+    }
+    <span style="color:#66d9ef">return</span> ans;
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> k;
+    fac[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> M; i<span style="color:#f92672">++</span>) fac[i] <span style="color:#f92672">=</span> fac[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">*</span> i;
+    inv_fac[M] <span style="color:#f92672">=</span> fac[M].inv();
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> M<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>; i<span style="color:#f92672">--</span>) inv_fac[i] <span style="color:#f92672">=</span> inv_fac[i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">*</span> (i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>);
+
+    <span style="color:#66d9ef">if</span> (k <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">55</span>) {
+        Z ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        <span style="color:#66d9ef">for</span> (Z i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i.val() <span style="color:#f92672">&lt;=</span> n; i <span style="color:#f92672">=</span> i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) {
+            <span style="color:#66d9ef">for</span> (Z j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; j.val() <span style="color:#f92672">&lt;=</span> k; j <span style="color:#f92672">=</span> j <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) {
+                ans <span style="color:#f92672">=</span> ans <span style="color:#f92672">+</span> (j <span style="color:#f92672">*</span> cal(i, j));
+            }
+        }
+        cout <span style="color:#f92672">&lt;&lt;</span> ans.val() <span style="color:#f92672">&lt;&lt;</span> endl;
+    } <span style="color:#66d9ef">else</span> {
+        Z ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        <span style="color:#66d9ef">for</span> (Z i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i.val() <span style="color:#f92672">&lt;=</span> n; i <span style="color:#f92672">=</span> i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) {
+            <span style="color:#75715e">// 插值 f(i,j)
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">55</span>; j<span style="color:#f92672">++</span>) {
+                x[j] <span style="color:#f92672">=</span> j;
+                y[j] <span style="color:#f92672">=</span> y[j<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> cal(i, j) <span style="color:#f92672">*</span> j;
+            }
+            ans <span style="color:#f92672">+=</span> solve(k);
+        }
+        cout <span style="color:#f92672">&lt;&lt;</span> ans <span style="color:#f92672">&lt;&lt;</span> endl;
+    }
+}
+</code></pre></div></details>
+
+    </div>
+
+    
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E6%8F%92%E5%80%BC/">拉格朗日插值</a>
+          <a href="/tags//"></a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/066-%E7%BB%84%E5%90%88%E6%95%B0%E5%AD%A6/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">组合数学</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/064-%E6%9C%80%E5%A4%A7%E6%9D%83%E9%97%AD%E5%90%88%E5%AD%90%E5%9B%BE/">
+            <span class="next-text nav-default">最大权闭合子图</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://github.com/kiki-yan" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://kiki-yan.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2026
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/kiki-yan/kiki-yan.github.io" target="_blank"></a>
+    </span> 
+    <span class="author">kiki_yan</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/base16/tomorrow.min.css" rel="stylesheet">
+  
+  <script>hljs.configure({tabReplace: '    '});</script><script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>
