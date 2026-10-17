@@ -40,23 +40,104 @@ def load_contest_json():
     print(f"Current file size = {os.path.getsize(FILE_PATH)}")
 
 
+
 def load_contest_by_id(contest_id):
-    url = (
-        "https://codeforces.com/api/contest.standings"
-        f"?contestId={contest_id}&showUnofficial=false"
-    )
-    try:
-        response = requests.get(url, timeout=30)
-        if response.status_code != 200:
-            print(f"Skipping contest {contest_id}: API returned {response.status_code}")
+    url = "https://codeforces.com/api/contest.standings"
+
+    for attempt in range(5):
+        # Codeforces API 最多每两秒调用一次
+        time.sleep(2.1)
+
+        try:
+            response = requests.get(
+                url,
+                params={"contestId": contest_id},
+                timeout=30,
+            )
+            response.raise_for_status()
+            info = response.json()
+
+            if info.get("status") == "OK":
+                break
+
+            comment = info.get("comment", "Unknown API error")
+            print(
+                f"Contest {contest_id}, "
+                f"attempt {attempt + 1}/5: {comment}"
+            )
+
+        except (requests.RequestException, ValueError) as error:
+            print(
+                f"Contest {contest_id}, "
+                f"attempt {attempt + 1}/5: {error}"
+            )
+
+        if attempt == 4:
+            print(f"Failed to load contest {contest_id} after 5 attempts")
             return None
-        info = response.json()
-        if info.get("status") != "OK":
-            print(f"Skipping contest {contest_id}: {info.get('comment', 'API error')}")
-            return None
-    except (requests.RequestException, ValueError) as error:
-        print(f"Skipping contest {contest_id}: {error}")
+
+    result = info["result"]
+    name = result["contest"]["name"]
+    compact_name = "".join(name.split())
+
+    problems = []
+    for problem in result.get("problems", []):
+        if not problem.get("index") or not problem.get("name"):
+            continue
+        problems.append(process(problem))
+
+    if not problems:
+        print(f"Skipping contest {contest_id}: no valid problem data")
         return None
+
+    unique_indexes = {
+        p["index"][0]
+        if isinstance(p["index"], str) and len(p["index"]) > 1
+        else p["index"]
+        for p in problems
+    }
+    problem_count = len(unique_indexes)
+
+    contest_type = "Others"
+    if "Global" in compact_name:
+        contest_type = "Global"
+    elif "Educational" in compact_name:
+        contest_type = "Educational"
+    elif problem_count >= 10:
+        contest_type = "ICPC"
+    elif "Div.1+Div.2" in compact_name:
+        contest_type = "Div1 + Div2"
+    elif "Div.1" in compact_name and problem_count <= 8:
+        contest_type = "Div1"
+    elif "Div.2" in compact_name and problem_count <= 8:
+        contest_type = "Div2"
+    elif "Div.3" in compact_name:
+        contest_type = "Div3"
+    elif "Div.4" in compact_name:
+        contest_type = "Div4"
+
+    for row in result.get("rows", []):
+        for index, problem_result in enumerate(row.get("problemResults", [])):
+            if index >= len(problems):
+                continue
+            if problem_result.get("points", 0) > 0:
+                problems[index]["attempted"] += (
+                    1 + problem_result.get("rejectedAttemptCount", 0)
+                )
+                problems[index]["solved"] += 1
+
+    return {
+        "id": contest_id,
+        "type": contest_type,
+        "problems": problems,
+        "name": name,
+        "problem_cnt": problem_count,
+        "sub": int(any(
+            isinstance(p["index"], str) and len(p["index"]) > 1
+            for p in problems
+        )),
+    }
+
 
     result = info["result"]
     name = result["contest"]["name"]
