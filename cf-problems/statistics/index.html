@@ -1,0 +1,213 @@
+
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CF Statistics · kiki_yan</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+:root{color-scheme:light;--bg:#f6f8fb;--card:#fff;--text:#202938;--muted:#718096;--border:#e5eaf1;--blue:#4776d0;--green:#45a66b}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+main{max-width:1120px;margin:auto;padding:28px 18px 60px}
+a{color:var(--blue);text-decoration:none}
+header{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:24px}
+h1{font-size:27px;margin:0}h2{font-size:17px;margin:0 0 18px}
+.muted{color:var(--muted);font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:20px 0}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;min-width:0}
+.metric{font-size:30px;font-weight:700;margin-top:8px;overflow-wrap:anywhere}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0}
+.chart{height:290px;position:relative}
+#heatmap{display:grid;grid-auto-flow:column;grid-template-rows:repeat(7,12px);grid-auto-columns:12px;gap:3px;overflow-x:auto;padding:6px 0 12px}
+.day{width:12px;height:12px;border-radius:3px;background:#e9edf3}
+.day[data-n="1"]{background:#c8e9d2}.day[data-n="2"]{background:#8bd1a2}.day[data-n="3"]{background:#4caf72}.day[data-n="4"]{background:#247b49}
+.tags{display:flex;flex-wrap:wrap;gap:8px}
+.tag{background:#eef3fb;border-radius:7px;padding:5px 9px;font-size:13px}
+.tag b{margin-left:6px}
+#status{padding:14px;background:#fff;border:1px solid var(--border);border-radius:10px;margin:14px 0}
+button{border:1px solid var(--border);background:#fff;border-radius:8px;padding:8px 12px;cursor:pointer;color:var(--text)}
+@media(max-width:760px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.two{grid-template-columns:1fr}main{padding:18px 12px}.metric{font-size:25px}header{align-items:flex-start}}
+</style>
+</head>
+<body>
+<main>
+<header>
+  <div>
+    <h1>CF Statistics</h1>
+    <div class="muted">Codeforces 用户：<a href="https://codeforces.com/profile/kiki_yan">kiki_yan ↗</a></div>
+  </div>
+  <a href="/cf-problems/">← 返回题库</a>
+</header>
+
+<div id="status">正在加载 Codeforces 数据，请稍候……</div>
+
+<section class="grid">
+  <div class="card"><div class="muted">已解决题目</div><div class="metric" id="solved">—</div></div>
+  <div class="card"><div class="muted">总提交次数</div><div class="metric" id="submissions">—</div></div>
+  <div class="card"><div class="muted">提交正确率</div><div class="metric" id="accuracy">—</div></div>
+  <div class="card"><div class="muted">当前 / 最高 Rating</div><div class="metric" id="rating">—</div><div class="muted" id="rank"></div></div>
+</section>
+
+<section class="card">
+  <h2>Rating 历史</h2>
+  <div class="chart"><canvas id="ratingChart"></canvas></div>
+</section>
+
+<section class="card" style="margin-top:14px">
+  <h2>每日做题热力图（近一年）</h2>
+  <div class="muted">统计每一天首次 AC 的不同题目数；颜色越深表示做题越多。</div>
+  <div id="heatmap"></div>
+  <div class="muted" id="streak"></div>
+</section>
+
+<div class="two">
+  <section class="card">
+    <h2>已解决题目的难度分布</h2>
+    <div class="chart"><canvas id="difficultyChart"></canvas></div>
+  </section>
+  <section class="card">
+    <h2>最常解决的算法标签</h2>
+    <div class="tags" id="tags">等待数据……</div>
+  </section>
+</div>
+
+<div class="muted">数据来自 Codeforces 官方 API。统计结果取决于 API 可返回的提交记录。</div>
+</main>
+<script>
+const HANDLE = "kiki_yan";
+const API = "https://codeforces.com/api/";
+const $ = id => document.getElementById(id);
+const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+async function api(method, params = {}) {
+  const query = new URLSearchParams(params);
+  const response = await fetch(API + method + "?" + query);
+  if (!response.ok) throw new Error(method + " HTTP " + response.status);
+  const data = await response.json();
+  if (data.status !== "OK") throw new Error(data.comment || method + " 请求失败");
+  return data.result;
+}
+function dateKey(seconds) {
+  const d = new Date(seconds * 1000);
+  return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+}
+function problemKey(p) {
+  return (p.contestId ?? "unknown") + "/" + (p.index ?? p.name);
+}
+function drawHeatmap(daily) {
+  const root = $("heatmap");
+  root.replaceChildren();
+  const today = new Date();
+  today.setHours(0,0,0,0);
+  const start = new Date(today);
+  start.setDate(start.getDate()-364);
+  // Align to Sunday so columns form calendar weeks.
+  start.setDate(start.getDate()-start.getDay());
+  const frag = document.createDocumentFragment();
+  for (let d = new Date(start); d <= today; d.setDate(d.getDate()+1)) {
+    const key = dateKey(d.getTime()/1000);
+    const count = daily.get(key) || 0;
+    const cell = document.createElement("div");
+    cell.className = "day";
+    cell.dataset.n = count === 0 ? "0" : count === 1 ? "1" : count <= 3 ? "2" : count <= 5 ? "3" : "4";
+    cell.title = key + ": " + count + " solved";
+    frag.appendChild(cell);
+  }
+  root.appendChild(frag);
+
+  let streak = 0;
+  const cursor = new Date(today);
+  let key = dateKey(cursor.getTime()/1000);
+  if (!(daily.get(key) > 0)) cursor.setDate(cursor.getDate()-1);
+  while (daily.get(dateKey(cursor.getTime()/1000)) > 0) {
+    streak++;
+    cursor.setDate(cursor.getDate()-1);
+  }
+  $("streak").textContent = "当前连续做题天数：" + streak + " 天";
+}
+function chart(id, type, labels, datasets, extra={}) {
+  if (typeof Chart === "undefined") return;
+  new Chart($(id), {
+    type,
+    data:{labels,datasets},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:type!=="bar"}},
+      scales:type==="line"||type==="bar"?{y:{beginAtZero:type==="bar"}}:{},
+      ...extra
+    }
+  });
+}
+async function main() {
+  try {
+    // Keep requests spaced to respect Codeforces API rate limits.
+    const user = (await api("user.info",{handles:HANDLE}))[0];
+    await sleep(2100);
+    const ratings = await api("user.rating",{handle:HANDLE});
+    await sleep(2100);
+    const submissions = await api("user.status",{handle:HANDLE});
+
+    const accepted = submissions.filter(s=>s.verdict==="OK" && s.problem);
+    const solved = new Map();
+    const daily = new Map();
+    const difficulty = new Map();
+    const tags = new Map();
+    for (const s of accepted) {
+      const p=s.problem, key=problemKey(p);
+      if (!solved.has(key)) {
+        solved.set(key,p);
+        const day=dateKey(s.creationTimeSeconds);
+        if (!daily.has(day)) daily.set(day,new Set());
+        daily.get(day).add(key);
+      }
+    }
+    for (const [day,set] of daily) daily.set(day,set.size);
+
+    for (const p of solved.values()) {
+      if (Number.isFinite(p.rating)) {
+        const bucket=Math.floor(p.rating/200)*200;
+        const label=bucket+"–"+(bucket+199);
+        difficulty.set(label,(difficulty.get(label)||0)+1);
+      } else {
+        difficulty.set("未标注",(difficulty.get("未标注")||0)+1);
+      }
+      for (const tag of (p.tags||[])) tags.set(tag,(tags.get(tag)||0)+1);
+    }
+    const okCount=accepted.length;
+    const total=submissions.length;
+    $("solved").textContent=solved.size.toLocaleString();
+    $("submissions").textContent=total.toLocaleString();
+    $("accuracy").textContent=(total?100*okCount/total:0).toFixed(1)+"%";
+    $("rating").textContent=(user.rating ?? "—")+" / "+(user.maxRating ?? "—");
+    $("rank").textContent=(user.rank||"unrated")+" · 最高 "+(user.maxRank||"—");
+    $("status").textContent="数据加载成功 · 最近提交记录 "+total.toLocaleString()+" 条";
+    drawHeatmap(daily);
+
+    chart("ratingChart","line",
+      ratings.map(r=>new Date(r.ratingUpdateTimeSeconds*1000).toLocaleDateString()),
+      [{label:"Rating",data:ratings.map(r=>r.newRating),borderColor:"#4776d0",backgroundColor:"#4776d0",tension:.2,pointRadius:2}]
+    );
+    chart("difficultyChart","bar",
+      [...difficulty.keys()].sort((a,b)=>parseInt(a)-parseInt(b)),
+      [{label:"已解决题目",data:[...difficulty.entries()].sort((a,b)=>parseInt(a[0])-parseInt(b[0])).map(x=>x[1]),backgroundColor:"#6aa8df"}]
+    );
+    $("tags").replaceChildren();
+    [...tags.entries()].sort((a,b)=>b[1]-a[1]).slice(0,30).forEach(([name,count])=>{
+      const el=document.createElement("span");
+      el.className="tag";
+      el.textContent=name;
+      const b=document.createElement("b");
+      b.textContent=count;
+      el.appendChild(b);
+      $("tags").appendChild(el);
+    });
+  } catch (e) {
+    $("status").textContent="数据加载失败："+e.message+
+      "。请稍后重试；如果持续失败，可能是 Codeforces API 网络、跨域或请求限制问题。";
+  }
+}
+main();
+</script>
+</body>
+</html>
