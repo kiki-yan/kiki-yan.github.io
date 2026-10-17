@@ -28,6 +28,12 @@ copyright = ""
   weight = 20
   identifier = "cf-problems"
   url = "/cf-problems/"
+  
+[[menu.main]]
+name = "Statistics"
+weight = 30
+identifier = "cf-statistics"
+url = "/cf-problems/statistics/"
 
 [params]
   version = "4.x"
