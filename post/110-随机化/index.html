@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>随机化 - kiki_yan</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="kiki_yan" /><meta name="description" content="构造题的应用 在 $n$ 较小时，确定一个随机数的seed mt19937 rng(SOME_SEED);，如果在本地成功跑出来结果，就直接把这个seed交上去，这样" /><meta name="keywords" content="kiki_yan, blog, Codeforces" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
+
+
+<link rel="canonical" href="https://kiki-yan.github.io/post/110-%E9%9A%8F%E6%9C%BA%E5%8C%96/" />
+<link rel="manifest" href="/manifest.json">
+
+
+
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="随机化" />
+<meta property="og:description" content="构造题的应用 在 $n$ 较小时，确定一个随机数的seed mt19937 rng(SOME_SEED);，如果在本地成功跑出来结果，就直接把这个seed交上去，这样" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kiki-yan.github.io/post/110-%E9%9A%8F%E6%9C%BA%E5%8C%96/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2023-05-27T09:22:42-04:00" />
+<meta property="article:modified_time" content="2023-05-27T09:22:42-04:00" />
+
+<meta itemprop="name" content="随机化">
+<meta itemprop="description" content="构造题的应用 在 $n$ 较小时，确定一个随机数的seed mt19937 rng(SOME_SEED);，如果在本地成功跑出来结果，就直接把这个seed交上去，这样"><meta itemprop="datePublished" content="2023-05-27T09:22:42-04:00" />
+<meta itemprop="dateModified" content="2023-05-27T09:22:42-04:00" />
+<meta itemprop="wordCount" content="4532">
+<meta itemprop="keywords" content=",," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="随机化"/>
+<meta name="twitter:description" content="构造题的应用 在 $n$ 较小时，确定一个随机数的seed mt19937 rng(SOME_SEED);，如果在本地成功跑出来结果，就直接把这个seed交上去，这样"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">kiki_yan</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF Problems</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">kiki_yan</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF Problems</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">随机化</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2023-05-27 09:22:42 -0400 -0400"> 2023-05-27 </span>
+        <div class="post-category">
+            <a href="/categories//">  </a>
+            </div>
+        
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#构造题的应用">构造题的应用</a></li>
+        <li><a href="#color-coding">color coding</a></li>
+        <li><a href="#破坏input的性质">破坏input的性质</a></li>
+        <li><a href="#例题">例题</a>
+          <ul>
+            <li><a href="#例1-cf364d-ghdhttpscodeforcescomproblemsetproblem364d">例1 CF364D. <a href="https://codeforces.com/problemset/problem/364/D">Ghd</a></a></li>
+            <li><a href="#例2-vacuum-tubeshttpsopenkattiscomproblemsvacuum">例2 <a href="https://open.kattis.com/problems/vacuum">Vacuum Tubes</a></a></li>
+            <li><a href="#例3-dragon-ball-iihttpsopenkattiscomproblemsdragonball2">例3 <a href="https://open.kattis.com/problems/dragonball2">Dragon Ball II</a></a></li>
+            <li><a href="#例4-spooky-scary-skeletonshttpsbuckeyecodeclubsubmissionview1687134435389270">例4 <a href="https://buckeyecode.club/submission/view/1687134435389270">Spooky Scary Skeletons</a></a></li>
+            <li><a href="#例5-zero-sumhttpsqojacproblem4238">例5 <a href="https://qoj.ac/problem/4238">Zero Sum</a></a></li>
+            <li><a href="#例6-kth-challenge-2014---pizza-problemshttpsopenkattiscomproblemspizzaproblems">例6 <a href="https://open.kattis.com/problems/pizzaproblems">KTH Challenge 2014 - Pizza Problems</a></a></li>
+          </ul>
+        </li>
+        <li><a href="#参考pdf">参考PDF</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="构造题的应用">构造题的应用</h2>
+<p>在 $n$ 较小时，确定一个随机数的seed <code>mt19937 rng(SOME_SEED);</code>，如果在本地成功跑出来结果，就直接把这个seed交上去，这样就可以deterministic保证答案是对的。</p>
+<h2 id="color-coding">color coding</h2>
+<p>一个很有趣的概念，意思是对于一个很难解决的问题，可以考虑先将问题中的一些变量染色，对于不同颜色分别解决。或者是染色后，根据某些与颜色有关的性质进行操作。</p>
+<p>例题见例2和例3。</p>
+<h2 id="破坏input的性质">破坏input的性质</h2>
+<p>如果input是一些较小的正整数，并且它们之间可能有一定规律，将input map到一个较大的范围可以破坏掉input的一些限制。从而获得一些有用的特性。</p>
+<h2 id="例题">例题</h2>
+<h3 id="例1-cf364d-ghdhttpscodeforcescomproblemsetproblem364d">例1 CF364D. <a href="https://codeforces.com/problemset/problem/364/D" target="_blank">Ghd</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个长度为 $n$ 的数组 $a_1,a_2,&hellip;,a_n$，定义其ghd为：</p>
+<p>最大的一个数 $g$，使得 $a_i$ 中有至少一半的数 divisible by $g$。</p>
+<p>求一个数组的 ghd。</p>
+<p>其中，$n \leq 10^6, a_i \in [1,10^{12}]$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>好题。考虑随机化：</p>
+<p>显然，我们随机选一个 $a_i$，并且求出它的所有因数，那么有 50% 的概率使得ghd在 $a_i$ 的因数中。</p>
+<p>但众所周知一个数的因数数量是 $O(n^{\frac{1}{3}})$ 级别的（证明见<a href="https://megatrio.blog.uoj.ac/blog/7430" target="_blank">这里</a>），$a_i \leq 10^{12}$，很明显这有点太大了。</p>
+<p>我们需要快速解决以下问题：</p>
+<blockquote>
+<p>给定一个数 $x$，求 $x$ 的每一个因数能够被多少个 $a_i$ 整除。</p>
+</blockquote>
+<p>有一个 $O(d^2)$ 的基于 dp 的方法（$d$ 是 $x$ 的因数数量）。</p>
+<p>先将 $x$ 的所有因数求出来，然后sort一下，我们维护一个 <code>cnt[]</code> 数组，其中 <code>cnt[i]</code> 代表 $x$ 的第 $i$ 个因数能够被多少个 $a_i$ 整除。</p>
+<p>然后将 $x$ 与每一个 $a_i$ 取 gcd，得到 $g_i$，那么 $g_i$ 就是满足 <strong>既是 $x$ 的因数，又是 $a_i$ 的因数</strong> 的最大因数。</p>
+<p>那么我们先找到 $g_i$ 对应 $x$ 的第几个因数，先让对应的 <code>cnt[j]++</code>。</p>
+<p>然后从小到大 dp，对于小的因数，如果某个更大的因数能够整除它，那么就将大的 <code>cnt</code> 加到小的上去。</p>
+<p>这样 <code>cnt[]</code> 有了就可以更新答案了。</p>
+<p>这样随机个10次左右即可（我代码中随机3秒停止）。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e6</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>;
+
+ll <span style="color:#a6e22e">gcd</span>(ll a, ll b) {
+    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>b) <span style="color:#66d9ef">return</span> a;
+    <span style="color:#66d9ef">return</span> gcd(b, a<span style="color:#f92672">%</span>b);
+}
+ll ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+<span style="color:#66d9ef">int</span> n;
+ll a[maxn];
+vector<span style="color:#f92672">&lt;</span>ll<span style="color:#f92672">&gt;</span> factorize(ll x) {
+    vector<span style="color:#f92672">&lt;</span>ll<span style="color:#f92672">&gt;</span> vec;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> sqrt(x); i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">if</span> (x <span style="color:#f92672">%</span> i <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+            vec.push_back(i);
+            <span style="color:#66d9ef">if</span> (x <span style="color:#f92672">/</span> i <span style="color:#f92672">!=</span> i)
+                vec.push_back(x<span style="color:#f92672">/</span>i);
+        }
+    }
+    sort(vec.begin(), vec.end());
+    <span style="color:#66d9ef">return</span> vec;
+}
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">solve</span>() {
+    ll x <span style="color:#f92672">=</span> a[randint(<span style="color:#ae81ff">1</span>,n)];
+    vector<span style="color:#f92672">&lt;</span>ll<span style="color:#f92672">&gt;</span> fac <span style="color:#f92672">=</span> factorize(x);
+    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> cnt(fac.size(), <span style="color:#ae81ff">0</span>);
+
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        ll g <span style="color:#f92672">=</span> gcd(x, a[i]);
+        <span style="color:#66d9ef">int</span> p <span style="color:#f92672">=</span> lower_bound(fac.begin(), fac.end(), g) <span style="color:#f92672">-</span> fac.begin();
+        cnt[p]<span style="color:#f92672">++</span>;
+    }
+    <span style="color:#75715e">// 从小到大 dp
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> cnt.size(); i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;</span> cnt.size(); j<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">if</span> (fac[j] <span style="color:#f92672">%</span> fac[i] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) cnt[i] <span style="color:#f92672">+=</span> cnt[j];
+        }
+    }
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> cnt.size()<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>; i<span style="color:#f92672">--</span>) {
+        <span style="color:#66d9ef">if</span> (cnt[i] <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">&gt;=</span> n) {
+            ans <span style="color:#f92672">=</span> max(ans, fac[i]);
+            <span style="color:#66d9ef">return</span>;
+        }
+    }
+}
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    fastio;
+    cin <span style="color:#f92672">&gt;&gt;</span> n;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) cin <span style="color:#f92672">&gt;&gt;</span> a[i];
+    <span style="color:#66d9ef">while</span> ((<span style="color:#66d9ef">double</span>)clock() <span style="color:#f92672">/</span> CLOCKS_PER_SEC <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">3</span>) {
+        solve();
+    }
+    cout <span style="color:#f92672">&lt;&lt;</span> ans <span style="color:#f92672">&lt;&lt;</span> endl;
+}
+</code></pre></div></details>
+<h3 id="例2-vacuum-tubeshttpsopenkattiscomproblemsvacuum">例2 <a href="https://open.kattis.com/problems/vacuum" target="_blank">Vacuum Tubes</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $n$ 个正整数 $a_1,a_2,&hellip;,a_n$ 和两个正整数 $L_1, L_2$。</p>
+<p>从中选出四个数，$a_i, a_j, a_l, a_k$ 使得：</p>
+<ol>
+<li>$a_i+a_j \leq L_1$</li>
+<li>$a_l+a_k \leq L_2$</li>
+<li>$i,j,l,k$ 互不相同</li>
+</ol>
+<p>并且求出 $a_i+ a_j+ a_l+ a_k$ 可能的最大值，如果无解输出 $-1$。</p>
+<p>其中，$n \leq 2000, a_i, L_1,L_2 \in [1,10000]$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>显然 $a_i,a_j$ 和 $a_l,a_k$ 是两个独立的问题。</p>
+<p>对于其中一个问题，显然可以用二分来做。但现在有两个问题。</p>
+<p>所以不妨将原数组随机分成两等份，然后分别对两份数组进行操作。</p>
+<p>假设最优答案为 $a_i',a_j',a_l',a_k'$，那么 $a_i', a_j'$ 在第一份数组，且 $a_l',a_k'$ 在第二份的数组的概率为 $\frac{1}{8}$。</p>
+<p>重复很多次即可。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e5</span><span style="color:#f92672">+</span><span style="color:#ae81ff">55</span>;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxm <span style="color:#f92672">=</span> <span style="color:#ae81ff">4e4</span><span style="color:#f92672">+</span><span style="color:#ae81ff">55</span>;
+
+<span style="color:#66d9ef">int</span> l1, l2, n, a[maxn];
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">solve</span>(<span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r, <span style="color:#66d9ef">int</span> L) {
+    sort(a<span style="color:#f92672">+</span>l, a<span style="color:#f92672">+</span>r<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>);
+    <span style="color:#66d9ef">int</span> res <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> l; i <span style="color:#f92672">&lt;=</span> r; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">int</span> p <span style="color:#f92672">=</span> upper_bound(a<span style="color:#f92672">+</span>l, a<span style="color:#f92672">+</span>r<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, L <span style="color:#f92672">-</span> a[i]) <span style="color:#f92672">-</span> a;
+        p <span style="color:#f92672">=</span> max(p, l);
+        p <span style="color:#f92672">=</span> min(p, i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>);
+        <span style="color:#66d9ef">while</span> (p<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span> <span style="color:#f92672">&gt;=</span> l <span style="color:#f92672">&amp;&amp;</span> a[p] <span style="color:#f92672">+</span> a[i] <span style="color:#f92672">&gt;</span> L) p<span style="color:#f92672">--</span>;
+        <span style="color:#66d9ef">if</span> (p <span style="color:#f92672">&lt;</span> i <span style="color:#f92672">&amp;&amp;</span> p <span style="color:#f92672">&gt;=</span> l <span style="color:#f92672">&amp;&amp;</span> a[i] <span style="color:#f92672">+</span> a[p] <span style="color:#f92672">&lt;=</span> L) res <span style="color:#f92672">=</span> max(res, a[i] <span style="color:#f92672">+</span> a[p]);
+    }
+    <span style="color:#66d9ef">return</span> res;
+}
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> l1 <span style="color:#f92672">&gt;&gt;</span> l2 <span style="color:#f92672">&gt;&gt;</span> n;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) cin <span style="color:#f92672">&gt;&gt;</span> a[i];
+
+    <span style="color:#66d9ef">int</span> ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">while</span> ((<span style="color:#66d9ef">double</span>)clock() <span style="color:#f92672">/</span> CLOCKS_PER_SEC <span style="color:#f92672">*</span> <span style="color:#ae81ff">1000</span> <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">2000</span>) {
+        shuffle(a<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, a<span style="color:#f92672">+</span>n<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, rng);
+        <span style="color:#66d9ef">int</span> r1 <span style="color:#f92672">=</span> solve(<span style="color:#ae81ff">1</span>, n<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span>, l1);
+        <span style="color:#66d9ef">int</span> r2 <span style="color:#f92672">=</span> solve(n<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, n, l2);
+
+        <span style="color:#66d9ef">if</span> (r1 <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> r2 <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>)
+            ans <span style="color:#f92672">=</span> max(ans, r1 <span style="color:#f92672">+</span> r2);
+    }
+    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>ans) cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Impossible</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+    <span style="color:#66d9ef">else</span> cout <span style="color:#f92672">&lt;&lt;</span> ans <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+}
+</code></pre></div></details>
+<h3 id="例3-dragon-ball-iihttpsopenkattiscomproblemsdragonball2">例3 <a href="https://open.kattis.com/problems/dragonball2" target="_blank">Dragon Ball II</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个 $n$ 个点，$m$ 条边的无向图。边有边权。</p>
+<p>现在有 $k$ 个龙珠，每个龙珠会拥有一个颜色 $d_i$，并且这个龙珠会存在于节点 $c_i$ 中。</p>
+<p>我们从节点 $1$ 出发，经过一个节点时会获得这个节点里的所有龙珠。</p>
+<p>求最短路径的长度，使得我们收集了至少 $7$ 个不同颜色的龙珠。如果无解输出 $-1$。</p>
+<p>其中，$n,k \leq 1000, m \leq 10000, w_i \in [0,10000], c_i, d_i \in [1,n]$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>我们只需要收集 $7$ 个不同的颜色，但原图中的颜色有 $n$ 种，怎么办？</p>
+<p>考虑 color coding 的思想：</p>
+<p>我们不妨假设只有 $7$ 种颜色，然后对于原图中的每一种颜色，将它们随机 map 到七种颜色中的一种，然后就只有 $7$ 种颜色了。</p>
+<p>只有 $7$ 种颜色后，明显可以直接维护大小为 $2^7$ 的mask，然后跑dijkstra。</p>
+<hr>
+<p>什么情况下答案会出错呢？</p>
+<p>假设答案需要颜色 $d_{i_1}, d_{i_2} &hellip; d_{i_7}$，那么如果有任意两个颜色被map到同一种，就说明答案错误了。</p>
+<p>因此，答案正确的情况有 $A_7^7 = 7!$ 种。</p>
+<p>答案正确的概率为 $\frac{7!}{7^7} = 0.006$。</p>
+<p>这个题目时限为 $16$ 秒，大概可以跑 $10^9$。这个dijkstra相当于在 $M = 10^4 * 2^7 = 1.28 * 10^6$ 的情况下跑 $O(M\log M)$（实际上吃不了这么满）。</p>
+<p>实际上大概可以跑 $800-1000$ 次。失败概率约为 $5$ % 左右，运气好还是可以跑过去的。</p>
+<p>• 另外如果我们提升随机颜色的数量，运行次数只会大幅度缩小，而成功概率不会提升很多，所以 $7$ 种颜色就是最好的。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> M <span style="color:#f92672">=</span> <span style="color:#ae81ff">7</span>;
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Edge</span> {
+    <span style="color:#66d9ef">int</span> v, w;
+};
+vector<span style="color:#f92672">&lt;</span>Edge<span style="color:#f92672">&gt;</span> adj[maxn];
+<span style="color:#66d9ef">int</span> n, m, k;
+vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> ball[maxn], cur[maxn];
+
+ll ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e18</span>;
+ll dis[maxn][(<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span>M) <span style="color:#f92672">+</span> <span style="color:#ae81ff">5</span>];
+<span style="color:#66d9ef">bool</span> vis[maxn][(<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span>M) <span style="color:#f92672">+</span> <span style="color:#ae81ff">5</span>];
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Node</span> {
+    <span style="color:#66d9ef">int</span> u;
+    ll d;
+    <span style="color:#66d9ef">int</span> mask <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">bool</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">&lt;</span>(<span style="color:#66d9ef">const</span> Node<span style="color:#f92672">&amp;</span> other) <span style="color:#66d9ef">const</span> {
+        <span style="color:#66d9ef">return</span> d <span style="color:#f92672">&gt;</span> other.d;
+    }
+};
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">solve</span>() {
+    map<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> mp;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        cur[i].clear();
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> x : ball[i]) {
+            <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>mp.count(x)) {
+                mp[x] <span style="color:#f92672">=</span> randint(<span style="color:#ae81ff">0</span>, M<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>);
+            }
+            cur[i].push_back(mp[x]);
+        }
+    }
+    memset(vis, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(vis));
+    memset(dis, <span style="color:#ae81ff">63</span>, <span style="color:#66d9ef">sizeof</span>(dis));
+
+    <span style="color:#66d9ef">int</span> smask <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> x : cur[<span style="color:#ae81ff">1</span>]) smask <span style="color:#f92672">|=</span> (<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span>x);
+    dis[<span style="color:#ae81ff">1</span>][smask] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+
+    priority_queue<span style="color:#f92672">&lt;</span>Node<span style="color:#f92672">&gt;</span> pq;
+    pq.push({<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>, smask});
+    <span style="color:#66d9ef">while</span> (pq.size()) {
+        <span style="color:#66d9ef">auto</span> [u, d, mask] <span style="color:#f92672">=</span> pq.top();
+        pq.pop();
+        <span style="color:#66d9ef">if</span> (vis[u][mask]) <span style="color:#66d9ef">continue</span>;
+        vis[u][mask] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> [v, w] <span style="color:#f92672">:</span> adj[u]) {
+            <span style="color:#66d9ef">int</span> nmask <span style="color:#f92672">=</span> mask;
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> x : cur[v]) {
+                nmask <span style="color:#f92672">|=</span> (<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span>x);
+            }
+            <span style="color:#66d9ef">if</span> (dis[v][nmask] <span style="color:#f92672">&gt;</span> dis[u][mask] <span style="color:#f92672">+</span> w) {
+                dis[v][nmask] <span style="color:#f92672">=</span> dis[u][mask] <span style="color:#f92672">+</span> w;
+                pq.push({v, dis[v][nmask], nmask});
+            }
+        }
+    }
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> mask <span style="color:#f92672">=</span> (<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">7</span>) <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>; mask <span style="color:#f92672">&lt;</span> (<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span>M); mask<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">if</span> (__builtin_popcount(mask) <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">7</span>) {
+                ans <span style="color:#f92672">=</span> min(ans, dis[i][mask]);
+            }
+        }
+    }
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> m <span style="color:#f92672">&gt;&gt;</span> k;
+
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> m; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">int</span> u, v, w; cin <span style="color:#f92672">&gt;&gt;</span> u <span style="color:#f92672">&gt;&gt;</span> v <span style="color:#f92672">&gt;&gt;</span> w;
+        adj[u].push_back({v, w});
+        adj[v].push_back({u, w});
+    }
+
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> k; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">int</span> c, d; cin <span style="color:#f92672">&gt;&gt;</span> c <span style="color:#f92672">&gt;&gt;</span> d;
+        ball[c].push_back(d);
+    }
+
+    <span style="color:#66d9ef">while</span> ((<span style="color:#66d9ef">double</span>)clock() <span style="color:#f92672">/</span> CLOCKS_PER_SEC <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">14.5</span>) {
+        solve();
+    }
+
+    cout <span style="color:#f92672">&lt;&lt;</span> (ans <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">1e16</span> <span style="color:#f92672">?</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span> <span style="color:#f92672">:</span> ans) <span style="color:#f92672">&lt;&lt;</span> endl;
+}
+</code></pre></div></details>
+<h3 id="例4-spooky-scary-skeletonshttpsbuckeyecodeclubsubmissionview1687134435389270">例4 <a href="https://buckeyecode.club/submission/view/1687134435389270" target="_blank">Spooky Scary Skeletons</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个长度为 $n$ 的正整数数组 $a_1,a_2,&hellip;,a_n$。</p>
+<p>有 $q$ 个询问，每次询问 $[L,R]$ 之间是否存在<strong>恰好一个</strong>出现次数为奇数的数字，如果存在，输出它，否则输出 $0$。</p>
+<p>其中，$n \leq 3 \times 10^6, q \leq 10^6, a_i \in [1,10^5]$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>我们知道一个区间 $[L,R]$ 内，如果恰好有一个出现次数为奇数的数字，那么这个区间的XOR和就是这个数字。</p>
+<p>但，有一些例外，比如有多个出现次数为奇数的数字时，XOR和不能说明任何问题。</p>
+<p>例如对于 $[1,2,3]$，有 <code>1 ^ 2 ^ 3 = 0</code>，更关键的是 $0$ 甚至都没出现过。</p>
+<p>所以我们考虑将每个数字随机 map 到一个很大的范围，如 $[1,2^{63}]$。</p>
+<p>这样，询问 $[L,R]$ 时，我们计算这个 XOR 和，假设为 $x$。那么 $x$ 就很有可能是我们的答案。</p>
+<p>当然，也有可能 $x$ 压根就没出现在 $[L,R]$ 这个范围内，所以我们预处理一下每一个数出现的位置，然后二分一下验证 $x$ 是否在 $[L,R]$ 范围内即可。</p>
+<hr>
+<p>什么情况下会失败？</p>
+<p>假设有 $n$ 个出现次数为奇数的数字，而我们得到的XOR和 $x$ 恰好是这 $n$ 个数字中的一个，就会错误的判断 $x$ 为答案。</p>
+<p>不过这样的概率只有 $\frac{n}{2^{63}} = 3 \times 10^{-13}$。</p>
+<p>$10^6$ 次询问均正确的概率为 $(1-3 \times 10^{-13})^{10^6} = 0.999999&hellip;$</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">3e6</span><span style="color:#f92672">+</span><span style="color:#ae81ff">55</span>;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxm <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e5</span><span style="color:#f92672">+</span><span style="color:#ae81ff">55</span>;
+
+<span style="color:#66d9ef">int</span> n, k, q;
+ll a[maxn], sum[maxn];
+unordered_map<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, ll<span style="color:#f92672">&gt;</span> mp;
+unordered_map<span style="color:#f92672">&lt;</span>ll, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> rev_mp;
+
+vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> pos[maxm];
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    fastio;
+    cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> k <span style="color:#f92672">&gt;&gt;</span> q;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        cin <span style="color:#f92672">&gt;&gt;</span> a[i];
+        pos[a[i]].push_back(i);
+        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>mp.count(a[i])) {
+            ll r <span style="color:#f92672">=</span> randll(<span style="color:#ae81ff">1</span>, (<span style="color:#ae81ff">1LL</span><span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">63</span>));
+            mp[a[i]] <span style="color:#f92672">=</span> r;
+            rev_mp[r] <span style="color:#f92672">=</span> a[i];
+        }
+        a[i] <span style="color:#f92672">=</span> mp[a[i]];
+    }
+
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) sum[i] <span style="color:#f92672">=</span> sum[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">^</span> a[i];
+    <span style="color:#66d9ef">while</span> (q<span style="color:#f92672">--</span>) {
+        <span style="color:#66d9ef">int</span> l, r; cin <span style="color:#f92672">&gt;&gt;</span> l <span style="color:#f92672">&gt;&gt;</span> r;
+        ll x <span style="color:#f92672">=</span> sum[r] <span style="color:#f92672">^</span> sum[l<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>];
+        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>x) cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+        <span style="color:#66d9ef">else</span> {
+            <span style="color:#75715e">// 答案很可能是 x，查询 x 是否在 [L,R] 中出现过？
+</span><span style="color:#75715e"></span>            x <span style="color:#f92672">=</span> rev_mp[x];  <span style="color:#75715e">// 先 map 回原来的样子
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">auto</span> itr <span style="color:#f92672">=</span> lower_bound(pos[x].begin(), pos[x].end(), l);
+            <span style="color:#66d9ef">if</span> (itr <span style="color:#f92672">!=</span> pos[x].end() <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">*</span>itr <span style="color:#f92672">&gt;=</span> l <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">*</span>itr <span style="color:#f92672">&lt;=</span> r) {
+                cout <span style="color:#f92672">&lt;&lt;</span> x <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+            } <span style="color:#66d9ef">else</span> cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+        }
+    }
+}
+</code></pre></div></details>
+<h3 id="例5-zero-sumhttpsqojacproblem4238">例5 <a href="https://qoj.ac/problem/4238" target="_blank">Zero Sum</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个 $n \times (2k+1)$ 的矩阵。column的编号是从 $-k$ 到 $k$。</p>
+<p>求一串数字 $x_1,x_2,&hellip;,x_n$，其中：</p>
+<ol>
+<li>$x_i \in [-k, k]$。</li>
+<li>$x_1+x_2+&hellip;x_n = 0$。</li>
+<li>$a_{1,x_1} + a_{2,x_2} + &hellip; + a_{n,x_n}$ 尽可能小。</li>
+</ol>
+<p>其中，$n \leq 35000, 1 \leq k \leq 3$，矩阵元素在 $[-10^9, 10^9]$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>注意到 $k$ 很小。</p>
+<p>我们想象一下，答案是一条从第一行从上到下走到最后一行的一条路径。</p>
+<p>这条路径一定是左拐右拐，最后才能保证 $x_1+x_2+&hellip;x_n = 0$。</p>
+<p>那么一个很简单的思路是 <code>dp[i][j]</code> 代表走到第 $i$ 行，当前的 column 的编号和为 $j$ 的最小值。</p>
+<p>但是 $j$ 的绝对值可能会很大，因为这条路径有可能是先拐到最右，再拐回最左。</p>
+<p>于是我们想到利用随机化打乱input。将所有的row随机shuffle以后，答案不大可能出现上述的情况。</p>
+<p>所以我们可以在shuffle之后，认为 <code>dp[i][j]</code> 里的 <code>j</code> 的绝对值不会很大。然后再跑 <code>dp</code> 就可以了。</p>
+<p>• 需要滚动数组否则 MLE。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">35000</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>;
+
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> M <span style="color:#f92672">=</span> <span style="color:#ae81ff">1500</span>;
+ll a[maxn][<span style="color:#ae81ff">9</span>];
+ll pre[maxn], dp[maxn];
+<span style="color:#66d9ef">int</span> n, k;
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> k;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>k<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>; j<span style="color:#f92672">++</span>) cin <span style="color:#f92672">&gt;&gt;</span> a[i][j];
+    }
+    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> perm;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) perm.push_back(i);
+    shuffle(perm.begin(), perm.end(), rng);
+
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>M<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>; j<span style="color:#f92672">++</span>) dp[j] <span style="color:#f92672">=</span> pre[j] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e18</span>;
+    pre[M<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">int</span> p <span style="color:#f92672">=</span> perm[i];
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>M<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>; j<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> d <span style="color:#f92672">=</span> <span style="color:#f92672">-</span>k; d <span style="color:#f92672">&lt;=</span> k; d<span style="color:#f92672">++</span>) {
+                <span style="color:#66d9ef">if</span> (j <span style="color:#f92672">+</span> d <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&amp;&amp;</span> j <span style="color:#f92672">+</span> d <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>M<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>) {
+                    dp[j<span style="color:#f92672">+</span>d] <span style="color:#f92672">=</span> min(dp[j<span style="color:#f92672">+</span>d], pre[j] <span style="color:#f92672">+</span> a[p][d<span style="color:#f92672">+</span>k<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>]);
+                }
+            }
+        }
+        memcpy(pre, dp, <span style="color:#66d9ef">sizeof</span>(dp));
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>M<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>; j<span style="color:#f92672">++</span>) dp[j] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e18</span>;
+    }
+
+    cout <span style="color:#f92672">&lt;&lt;</span> pre[M<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">&lt;&lt;</span> endl;
+}
+</code></pre></div></details>
+<h3 id="例6-kth-challenge-2014---pizza-problemshttpsopenkattiscomproblemspizzaproblems">例6 <a href="https://open.kattis.com/problems/pizzaproblems" target="_blank">KTH Challenge 2014 - Pizza Problems</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>我们有一个pizza，上面需要有一些种类的配料。</p>
+<p>有 $n$ 个人，每个人有 $[1,30]$ 个愿望，每个愿望可以是希望某一种配料存在，也可以是希望某一种配料不存在。</p>
+<p>保证一定存在一种pizza使得每个人至少有 $\frac{2}{3}$ 的愿望被满足，而我们只需要找出一种pizza使得每个人有严格大于 $\frac{1}{3}$ 的愿望被满足即可。</p>
+<p>其中，$n\leq 10000$，总配料种类不超过 $250$ 种。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>我们从没有配料的pizza开始，我们设当前pizza与理想pizza的共同点有 $k$ 个。</p>
+<p>我们每一步随机选择一个尚未被满足的人，随机的满足他的一个愿望。注意由于理想的pizza一定保证 $\frac{2}{3}$ 的愿望被满足，而这个人尚未被满足说明他被满足的愿望比例 $&lt;\frac{1}{3}$。这意味着这次修改至少有 $\frac{1}{2}$ 使得我们离理想的pizza的共同点 +1，有 $\leq \frac{1}{2}$ 的概率使得共同点 -1。</p>
+<p>接下来要解决：大概需要随机走多少步才能使得当前pizza与理想pizza的共同点数量达到一个值？（这个值最高为 $250$），我们不关心这个值具体是多少，因为我们只要走到满足题目条件停止即可，而我们知道每走一步，共同点+1的概率都是 $\geq \frac{1}{2}$ 的。</p>
+<hr>
+<p>这是一个随机游走（random walk）问题：</p>
+<blockquote>
+<p>从 $x=0$ 出发，每次随机向左/向右走一步，问第一次走到 $x=\pm n$ 的期望步数？</p>
+</blockquote>
+<p>结论：期望步数为 $O(n^2)$，证明见 <a href="https://www.zhihu.com/question/27962136/answer/38829294" target="_blank">这个知乎回答</a>。</p>
+<p>• 注意这个题不太一样，不能走到负数位置，而且要走到的是 $x=n$。我们可以理解成可以走到负数，但是走到负数时就进行一次反射，把 $x$ 轴翻了过来，所以本质上还是走到 $x=\pm n$ 的期望步数，而本题中，期望步数为 $O(250^2)$。</p>
+<hr>
+<p>最后一些注意点：</p>
+<ol>
+<li>由于有 $n=10000$ 个人，每个人至多 $30$ 个愿望，而总共 $250$ 种配料，这意味着每一种配料至多与 $10000*30/250 = 1200$ 个人有关，所以每次满足愿望以后不需要修改所有人，只要记录和这个配料有关的人即可。</li>
+<li>必须是随机满足愿望，无论这个愿望是希望某个配料存在，或者是不存在。不能将存在/不存在分开随机，否则会陷入死循环。在代码中利用了
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">fulfill</span>(<span style="color:#66d9ef">int</span> i) {
+     <span style="color:#66d9ef">int</span> r <span style="color:#f92672">=</span> randint(<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">1</span>);
+     <span style="color:#66d9ef">if</span> (r <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+         <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>fulfillgood(i)) fulfillbad(i);
+     } <span style="color:#66d9ef">else</span> {
+         <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>fulfillbad(i)) fulfillgood(i);
+     }
+ }
+</code></pre></div>来实现。</li>
+</ol>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">15000</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>;
+<span style="color:#66d9ef">int</span> n;
+vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> g[maxn], b[maxn];
+map<span style="color:#f92672">&lt;</span>string, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> mp;
+string revmp[maxn];
+<span style="color:#66d9ef">int</span> cnt[maxn], all[maxn];
+<span style="color:#66d9ef">bool</span> cur[maxn];
+vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> yes[maxn], no[maxn];
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">upd</span>(<span style="color:#66d9ef">int</span> x, <span style="color:#66d9ef">int</span> f) {
+    <span style="color:#66d9ef">if</span> (f <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>) {
+        cur[x] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i : yes[x]) cnt[i]<span style="color:#f92672">++</span>;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i : no[x]) cnt[i]<span style="color:#f92672">--</span>;
+    } <span style="color:#66d9ef">else</span> {
+        cur[x] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i : no[x]) cnt[i]<span style="color:#f92672">++</span>;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i : yes[x]) cnt[i]<span style="color:#f92672">--</span>;
+    }
+}
+
+<span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">fulfillgood</span>(<span style="color:#66d9ef">int</span> i) {
+    shuffle(g[i].begin(), g[i].end(), rng);
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> x : g[i]) {
+        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>cur[x]) {
+            upd(x, <span style="color:#ae81ff">1</span>);
+            <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+        }
+    }
+    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+
+<span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">fulfillbad</span>(<span style="color:#66d9ef">int</span> i) {
+    shuffle(b[i].begin(), b[i].end(), rng);
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> x : b[i]) {
+        <span style="color:#66d9ef">if</span> (cur[x]) {
+            upd(x, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>);
+            <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+        }
+    }
+    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">fulfill</span>(<span style="color:#66d9ef">int</span> i) {
+    <span style="color:#66d9ef">int</span> r <span style="color:#f92672">=</span> randint(<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">1</span>);
+    <span style="color:#66d9ef">if</span> (r <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>fulfillgood(i)) fulfillbad(i);
+    } <span style="color:#66d9ef">else</span> {
+        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>fulfillbad(i)) fulfillgood(i);
+    }
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    fastio;
+    cin <span style="color:#f92672">&gt;&gt;</span> n;
+    <span style="color:#66d9ef">int</span> id <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">int</span> m; cin <span style="color:#f92672">&gt;&gt;</span> m;
+        <span style="color:#66d9ef">while</span> (m<span style="color:#f92672">--</span>) {
+            string s; cin <span style="color:#f92672">&gt;&gt;</span> s;
+            <span style="color:#66d9ef">int</span> f <span style="color:#f92672">=</span> ((s[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;+&#39;</span>) <span style="color:#f92672">?</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">:</span> <span style="color:#ae81ff">0</span>);
+            s.erase(s.begin());
+            <span style="color:#66d9ef">int</span> x;
+            <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>mp.count(s)) mp[s] <span style="color:#f92672">=</span> <span style="color:#f92672">++</span>id, revmp[id] <span style="color:#f92672">=</span> s;
+            x <span style="color:#f92672">=</span> mp[s];
+            <span style="color:#66d9ef">if</span> (f) g[i].push_back(x), yes[x].push_back(i);
+            <span style="color:#66d9ef">else</span> b[i].push_back(x), no[x].push_back(i);
+        }
+        all[i] <span style="color:#f92672">=</span> g[i].size() <span style="color:#f92672">+</span> b[i].size();
+        cnt[i] <span style="color:#f92672">=</span> b[i].size();
+    }
+
+    <span style="color:#66d9ef">while</span> (<span style="color:#ae81ff">1</span>) {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">if</span> (cnt[i] <span style="color:#f92672">*</span> <span style="color:#ae81ff">3</span> <span style="color:#f92672">&lt;=</span> all[i]) {
+                fulfill(i);
+                <span style="color:#66d9ef">goto</span> nxt;
+            }
+        }
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">250</span>; j<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">if</span> (cur[j]) cout <span style="color:#f92672">&lt;&lt;</span> revmp[j] <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+        }
+        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+        nxt:;
+    }
+}
+</code></pre></div></details>
+<h2 id="参考pdf">参考PDF</h2>
+<p><a href="/files/110/randomized_napc_2023.pdf">NAC2023 - Randomized</a></p>
+
+    </div>
+
+    
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags//"></a>
+          <a href="/tags//"></a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/111-nac2023-day2/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">NAC2023 Training Camp Day2</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/109-codesprintla2023/">
+            <span class="next-text nav-default">CodeSprint UCLA 2023</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://github.com/kiki-yan" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://kiki-yan.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2026
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/kiki-yan/kiki-yan.github.io" target="_blank"></a>
+    </span> 
+    <span class="author">kiki_yan</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/base16/tomorrow.min.css" rel="stylesheet">
+  
+  <script>hljs.configure({tabReplace: '    '});</script><script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

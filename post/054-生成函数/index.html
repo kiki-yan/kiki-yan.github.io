@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>普通生成函数（OGF） - kiki_yan</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="kiki_yan" /><meta name="description" content="介绍 生成函数可以解决形如 满足XX条件的方案数共有多少种 的问题，它也能够解决 推导通项公式 等问题，生成函数常常与多项式运算结合在一起。 定义 对于一" /><meta name="keywords" content="kiki_yan, blog, Codeforces" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
+
+
+<link rel="canonical" href="https://kiki-yan.github.io/post/054-%E7%94%9F%E6%88%90%E5%87%BD%E6%95%B0/" />
+<link rel="manifest" href="/manifest.json">
+
+
+
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="普通生成函数（OGF）" />
+<meta property="og:description" content="介绍 生成函数可以解决形如 满足XX条件的方案数共有多少种 的问题，它也能够解决 推导通项公式 等问题，生成函数常常与多项式运算结合在一起。 定义 对于一" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kiki-yan.github.io/post/054-%E7%94%9F%E6%88%90%E5%87%BD%E6%95%B0/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2021-09-23T15:42:20+08:00" />
+<meta property="article:modified_time" content="2021-09-23T15:42:20+08:00" />
+
+<meta itemprop="name" content="普通生成函数（OGF）">
+<meta itemprop="description" content="介绍 生成函数可以解决形如 满足XX条件的方案数共有多少种 的问题，它也能够解决 推导通项公式 等问题，生成函数常常与多项式运算结合在一起。 定义 对于一"><meta itemprop="datePublished" content="2021-09-23T15:42:20+08:00" />
+<meta itemprop="dateModified" content="2021-09-23T15:42:20+08:00" />
+<meta itemprop="wordCount" content="4439">
+<meta itemprop="keywords" content="OGF,," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="普通生成函数（OGF）"/>
+<meta name="twitter:description" content="介绍 生成函数可以解决形如 满足XX条件的方案数共有多少种 的问题，它也能够解决 推导通项公式 等问题，生成函数常常与多项式运算结合在一起。 定义 对于一"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">kiki_yan</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF Problems</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">kiki_yan</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF Problems</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">普通生成函数（OGF）</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2021-09-23 15:42:20 &#43;0800 &#43;0800"> 2021-09-23 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
+            </div>
+        
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#介绍">介绍</a></li>
+        <li><a href="#定义">定义</a></li>
+        <li><a href="#封闭形式与展开形式">封闭形式与展开形式</a></li>
+        <li><a href="#一些常见的封闭式与展开式的对应">一些常见的封闭式与展开式的对应</a>
+          <ul>
+            <li><a href="#证明">证明</a></li>
+          </ul>
+        </li>
+        <li><a href="#计算例子">计算例子</a>
+          <ul>
+            <li><a href="#例1">例1</a></li>
+            <li><a href="#例2">例2</a></li>
+          </ul>
+        </li>
+        <li><a href="#例题">例题</a>
+          <ul>
+            <li><a href="#例1-洛谷p4721模板分治-ffthttpswwwluogucomcnproblemp4721">例1 <a href="https://www.luogu.com.cn/problem/P4721">洛谷P4721【模板】分治 FFT</a></a></li>
+            <li><a href="#例2-洛谷p4841-集训队作业2013-城市规划httpswwwluogucomcnproblemp4841">例2 <a href="https://www.luogu.com.cn/problem/P4841">洛谷P4841 集训队作业2013 城市规划</a></a></li>
+            <li><a href="#例3-cf438e-the-child-and-binary-treehttpswwwluogucomcnproblemcf438e">例3 <a href="https://www.luogu.com.cn/problem/CF438E">CF438E The Child and Binary Tree</a></a></li>
+            <li><a href="#例4-洛谷p4451-整数的lqp拆分httpswwwluogucomcnproblemp4451">例4 <a href="https://www.luogu.com.cn/problem/P4451">洛谷P4451 整数的lqp拆分</a></a></li>
+          </ul>
+        </li>
+        <li><a href="#参考链接">参考链接</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="介绍">介绍</h2>
+<p>生成函数可以解决形如 <strong>满足XX条件的方案数共有多少种</strong> 的问题，它也能够解决 <strong>推导通项公式</strong> 等问题，生成函数常常与多项式运算结合在一起。</p>
+<h2 id="定义">定义</h2>
+<p>对于一个<strong>无限数列</strong></p>
+<p>$$a = \{a_0, a_1, a_2, &hellip;\}$$</p>
+<p>它的生成函数为</p>
+<p>$$f(x) = a_0 + a_1x + a_2x^2 + &hellip; = \sum\limits_{i=0}^{\infty}a_ix^i$$</p>
+<p>其中 $x$ 的值并没有意义。</p>
+<p>• 有限数列 $\{a_0, a_1, a_2, &hellip;, a_n\}$ 的生成函数就是 $f(x) = a_0 + a_1x + a_2x^2 + &hellip; + a_nx^n = \sum\limits_{i=0}^{n}a_ix^i$</p>
+<p>• 我们定义 $[x^{k}]f(x)$ 为 $f(x)$ 表达式中，$x^k$ 的系数。（为了方便表达，有的时候也会使用 $a_k, b_k$）</p>
+<h2 id="封闭形式与展开形式">封闭形式与展开形式</h2>
+<p>生成函数有 <strong>封闭形式</strong> 和 <strong>展开形式</strong> 两种形态。</p>
+<p><strong>封闭形式</strong>适合进行<strong>生成函数之间的运算</strong>，<strong>展开形式</strong>则可以得到<strong>生成函数各项的系数</strong>（通项公式），从而获得最终的答案（方案数的统计）。</p>
+<p>例如，对于无限数列</p>
+<p>$$\{1,1,1,1,&hellip;\}$$</p>
+<p>它的生成函数展开形式为：</p>
+<p>$$f(x) = 1+x+x^2+x^3+&hellip;$$</p>
+<p>很明显这是一个等比数列，公比为 $x$，进行求和可以得到封闭形式：</p>
+<p>$$f(x) = 1+x+x^2+x^3+&hellip; = \frac{1}{1-x}$$</p>
+<h2 id="一些常见的封闭式与展开式的对应">一些常见的封闭式与展开式的对应</h2>
+<div class='center'>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">封闭形式</th>
+<th style="text-align:center">展开形式</th>
+<th style="text-align:center">数列</th>
+<th style="text-align:center">通项公式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">$\frac{1}{1-x}$</td>
+<td style="text-align:center">$\sum\limits_{i=0}^{\infty}x^i = 1+x+x^2+x^3+&hellip;$</td>
+<td style="text-align:center">$\{1,1,1,1,&hellip;\}$</td>
+<td style="text-align:center">$b_k = 1$</td>
+</tr>
+<tr>
+<td style="text-align:center">$\frac{1}{(1-x)^2}$</td>
+<td style="text-align:center">$\sum\limits_{i=0}^{\infty}(i+1)x^i = 1+2x+3x^2+4x^3+&hellip;$</td>
+<td style="text-align:center">$\{1,2,3,4,&hellip;\}$</td>
+<td style="text-align:center">$b_k = k+1$</td>
+</tr>
+<tr>
+<td style="text-align:center">$\frac{1}{1-ax}$</td>
+<td style="text-align:center">$\sum\limits_{i=0}^{\infty}a^ix^i = 1+ax+a^2x^2+a^3x^3+&hellip;$</td>
+<td style="text-align:center">$\{1,a,a^2,a^3,&hellip;\}$</td>
+<td style="text-align:center">$b_k = a^{k}$</td>
+</tr>
+<tr>
+<td style="text-align:center">$\frac{1}{(1-ax)^n}$</td>
+<td style="text-align:center">$\sum\limits_{i=0}^{\infty}C_{(n-1)+i}^{(n-1)}a^ix^i$</td>
+<td style="text-align:center">$\{1, C_{n}^{1}a^1, C_{n+1}^{2}a^2,C_{n+2}^{3}a^3,&hellip;\}$</td>
+<td style="text-align:center">$b_k = C_{n+k-1}^{k}a^k$</td>
+</tr>
+<tr>
+<td style="text-align:center">$\frac{1}{1+x}$</td>
+<td style="text-align:center">$\sum\limits_{i=0}^{\infty}(-1)^ix^i = 1-x+x^2-x^3+&hellip;$</td>
+<td style="text-align:center">$\{1,-1,1,-1,&hellip;\}$</td>
+<td style="text-align:center">$b_k = -1^k$</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="证明">证明</h3>
+<details class="admonition note"><summary class="admonition-title">证明1</summary>
+<p>$$\frac{1}{1-x} = 1+x+x^2+x^3+&hellip;$$</p>
+<p>证：等比数列，公比为 $x$。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">证明2</summary>
+<p>$$\frac{1}{(1-x)^2} = 1+2x+3x^2+4x^3+&hellip;$$</p>
+<p>证：因为</p>
+<p>$$\frac{1}{(1-x)^2} = (\frac{1}{1-x})^2 = (1+x+x^2+x^3+&hellip;)^2$$</p>
+<p>根据组合意义，对于 $x^k$，有 $(0,k),(1,k-1),&hellip;,(k,0)$ 共 $(k+1)$ 种组合方式，并且每一种的系数为 $1$，所以 $x^k$ 的系数为 $(k+1)$。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">证明3</summary>
+<p>$$\frac{1}{1-ax} = 1+ax+a^2x^2+a^3x^3+&hellip;$$</p>
+<p>证：等比数列，公比为 $ax$。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">证明4</summary>
+<p>$$\frac{1}{(1-ax)^n} = \sum\limits_{i=0}^{\infty}C_{(n-1)+i}^{(n-1)}a^ix^i$$</p>
+<p>证：因为</p>
+<p>$$\frac{1}{(1-ax)^n} = (1+ax+a^2x^2+a^3x^3+&hellip;)^n$$</p>
+<p>根据组合意义，对于 $x^k$ 而言，每个 $(1+ax+a^2x^2+a^3x^3+&hellip;)$ 都可以贡献给 $k$，而这样的式子有 $n$ 个。</p>
+<p>所以相当于：</p>
+<div class='center'>
+<p>求 $a_1+a_2+&hellip;+a_n = k$ 的非负整数解的个数。</p>
+</div>
+<p>这是 <strong>小球放盒子</strong> 模型，$k$ 个球放入 $n$ 个盒子并且允许空盒，用隔板法即可，方案数为 $C_{(n-1)+k}^{(n-1)}$，这就是 $a^kx^k$ 的系数。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">证明5</summary>
+<p>$$\frac{1}{1+x} = 1-x+x^2-x^3+&hellip;$$</p>
+<p>等比数列，公比为 $-x$。</p>
+</details>
+<h2 id="计算例子">计算例子</h2>
+<h3 id="例1">例1</h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>求无限数列 $a_i = i^2$ 的生成函数。</p>
+<p>分别求出展开式和封闭式。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">展开式 $\Rightarrow$ 封闭式</summary>
+<p>数列 $a$ 为：</p>
+<p>$$a = \{0,1,4,9,16,&hellip;\}$$</p>
+<p>那么生成函数的展开式为：</p>
+<p>$$f(x) = x + 4x^2 + 9x^3 + 16x^4 + &hellip; = \sum\limits_{i=1}^{\infty}i^2x^i$$</p>
+<blockquote>
+<p>在推导生成函数的封闭式时，一个非常重要的 trick 是给展开式 <strong>乘上一个 $x$</strong>。</p>
+</blockquote>
+<p>那么乘上 $x$ 以后，相当于整个展开式向右移动了一位，对应的生成函数就是</p>
+<p>$$xf(x) = 0 + x^2 + 4x^3 + 9x^4 + &hellip; = \sum\limits_{i=1}^{\infty}(i-1)^2x^i$$</p>
+<p>所以两者相减，可得：</p>
+<p>$$(1-x)f(x) = \sum\limits_{i=1}^{\infty}(i^2 - (i-1)^2)x^i = \sum\limits_{i=1}^{\infty}(2i-1)x^i$$</p>
+<p>$$=2\sum\limits_{i=1}^{\infty}ix^i - \sum\limits_{i=1}^{\infty}x^i$$</p>
+<p>$$=\frac{2x}{(1-x)^2} - \frac{x}{1-x}$$</p>
+<p>• 注意到因为求和是从 $i=1$ 开始的，相当于 $i=0$ 的情况整体右移了一位，所以要乘上 $x$ 得到 $\frac{2x}{(1-x)^2}$</p>
+<p>所以生成函数 $f(x)$ 的封闭式为：</p>
+<p>$$f(x) = \frac{2x}{(1-x)^3} - \frac{x}{(1-x)^2} = \frac{x(x+1)}{(1-x)^3}$$</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">封闭式 $\Rightarrow$ 展开式</summary>
+<p>已知 $f(x)$ 的封闭式为</p>
+<p>$$f(x) = \frac{x(x+1)}{(1-x)^3}$$</p>
+<p>我们将其化简为上面 <strong>常用表</strong> 里面的组合，也就是 <strong>裂项</strong>：</p>
+<p>$$f(x) = \frac{x(x+1)}{(1-x)^3} = \frac{2x}{(1-x)^3} - \frac{x}{(1-x)^2}$$</p>
+<p>考虑第 $k$ 项的系数，注意到我们可以将分子中的 $x$ 提出来，所以 $f(x)$ 的第 $k$ 项系数 $a_k$ 就等于 $g(x) = (\frac{2}{(1-x)^3} - \frac{1}{(1-x)^2})$ 的第 $(k-1)$ 项系数 $b_{k-1}$。</p>
+<p>$$\frac{2}{(1-x)^3} = 2\sum\limits_{i=0}^{\infty}C_{2+i}^{2}x^i, ~ \frac{x}{(1-x)^2} = \sum\limits_{i=0}^{\infty}(i+1)x^i$$</p>
+<p>所以 $g(x)$ 的第 $(k-1)$ 项系数为：</p>
+<p>$$b_{k-1} = [x^{k-1}]2(\sum\limits_{i=0}^{\infty}C_{2+i}^{2}x^i) - \sum\limits_{i=0}^{\infty}(i+1)x^i = 2C_{k+1}^2 - k = k^2$$</p>
+<p>所以 $f(x)$ 的第 $k$ 项系数为 $a_k = b_{k-1} = k^2$。</p>
+<p>于是生成函数的展开式为：</p>
+<p>$$f(x) = \sum\limits_{i=0}^{\infty}i^2x^i = x + 4x^2 + 9x^3 + 16x^4 + &hellip;$$</p>
+</details>
+<h3 id="例2">例2</h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>求斐波那契数列
+$$f_0 = 0, f_1 = 1, f_i = f_{i-1} + f_{i-2}$$</p>
+<p>的生成函数，分别求出展开式（通项公式）和封闭式。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">封闭式</summary>
+<p>注意到</p>
+<p>$$f(x) = f_0 + f_1x^1 + f_2x^2 + f_3x^3 + &hellip;$$</p>
+<p>$$xf(x) = 0 + f_0x^1 + f_1x^2 + f_2x^3 + &hellip;$$</p>
+<p>$$x^2f(x) = 0 + 0+ f_0x^2 + f_1x^3 + &hellip;$$</p>
+<p>由于 $f_i = f_{i-1} + f_{i-2}$，所以：</p>
+<p>$$f(x)(1-x-x^2) = f_0 + (f_1-f_0)x^1 = x$$</p>
+<p>所以 $$f(x) = \frac{x}{1-x-x^2}$$</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">封闭式$\Rightarrow$展开式</summary>
+<p>$$f(x) = \frac{x}{1-x-x^2}$$</p>
+<p>我们希望将它转为表格中存在的形式，所以我们设：</p>
+<p>$$(1-ax)(1-bx) = 1-x-x^2$$</p>
+<p>可得 $a = \frac{1 + \sqrt 5}{2}, b = \frac{1 - \sqrt 5}{2}$</p>
+<p>设</p>
+<p>$$g(x) = \frac{f(x)}{x} = \frac{1}{(1-ax)(1-bx)}$$</p>
+<p>那么要求 $f(x)$ 的第 $n$ 项系数，只要求 $g(x)$ 的第 $(n-1)$ 项系数即可。</p>
+<p>因为</p>
+<p>$$g(x) = \frac{1}{(1-ax)(1-bx)}$$
+$$= \sum\limits_{i=0}^{\infty}a^ix^i * \sum\limits_{j=0}^{\infty}b^jx^j$$
+$$= (1+ax+a^2x^2+a^3x^3+&hellip;) * (1+bx+b^2x^2+b^3x^3+&hellip;)$$</p>
+<p>这是个卷积，那么 $g(x)$ 的第 $(n-1)$ 项系数为：</p>
+<p>$$[x^{n-1}]g(x) = \sum\limits_{k=0}^{n-1}a^{k}b^{n-1-k}$$</p>
+<p>$$=b^{n-1}\sum\limits_{k=0}^{n-1}a^{k}b^{-k}$$</p>
+<p>$$=b^{n-1}\sum\limits_{k=0}^{n-1}(\frac{a}{b})^k$$</p>
+<p>右边就是个等比数列求和了，公比为 $\frac{a}{b}$，最后可得</p>
+<p>$$[x^n]f(x) = [x^{n-1}]g(x) = \frac{1}{\sqrt 5}((\frac{1+\sqrt 5}{2})^n - (\frac{1-\sqrt 5}{2})^n)$$</p>
+<p>那么求出了 $f(x)$ 的通项公式，展开式也就可以写出来了。</p>
+</details>
+<h2 id="例题">例题</h2>
+<h3 id="例1-洛谷p4721模板分治-ffthttpswwwluogucomcnproblemp4721">例1 <a href="https://www.luogu.com.cn/problem/P4721" target="_blank">洛谷P4721【模板】分治 FFT</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $n-1$ 个非负整数 $g_1, g_2, &hellip; g_{n-1}$。</p>
+<p>定义 $$f_0 = 1, f_i = \sum\limits_{j=1}^if_{i-j}g_j$$</p>
+<p>求出 $f_1, f_2, &hellip;, f_{n-1}$，答案对 $998244353$ 取模。</p>
+<p>其中，$2 \leq n \leq 10^5$</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<blockquote>
+<p>看到 $\sum\limits_{j=1}^if_{i-j}g_j$ 就想到卷积，也就是多项式乘法。</p>
+</blockquote>
+<p>那么令</p>
+<p>$$f(x) = f_0 + f_1x^1 + f_x2x^2 + &hellip; + f_{n-1}x^{n-1}$$</p>
+<p>$$g(x) = g_0 + g_1x^1 + g_x2x^2 + &hellip; + g_{n-1}x^{n-1}$$</p>
+<p>$$h(x) = f(x)g(x)$$</p>
+<p>则有：</p>
+<p>$$[x^n]h(x) = \sum\limits_{i=0}^nf_ig_{n-i}$$</p>
+<p>发现和 $f_n = \sum\limits_{j=1}^nf_{n-j}g_j$ 就差一个 $j=0$ 的情况（多了一个 $g_0f_n$），那么我们直接令 $g_0 = 0$ 就没问题了。</p>
+<p>这样的话，当 $n=0$ 时，$h_0 = 0$，其他时候 $h_n = f_n$。</p>
+<p>所以：</p>
+<p>$$f(x)g(x) = h(x) = 0 + f_1x^1 + f_x2x^2 + &hellip; + f_{n-1}x^{n-1} = f(x) - f_0 = f(x) - 1$$</p>
+<p>得到</p>
+<p>$$f(x)(1-g(x)) = 1$$</p>
+<p>$$f(x) = \frac{1}{1-g(x)}$$</p>
+<p>多项式求逆即可。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> mod <span style="color:#f92672">=</span> <span style="color:#ae81ff">998244353</span>;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> (<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">22</span>) <span style="color:#f92672">+</span> <span style="color:#ae81ff">5</span>;
+<span style="color:#75715e">// 板子省略
+</span><span style="color:#75715e"></span>ll f[maxn], g[maxn], invG[maxn];
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    <span style="color:#66d9ef">int</span> n; cin <span style="color:#f92672">&gt;&gt;</span> n;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>; i<span style="color:#f92672">++</span>) cin <span style="color:#f92672">&gt;&gt;</span> g[i];
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>; i<span style="color:#f92672">++</span>) g[i] <span style="color:#f92672">=</span> (<span style="color:#f92672">-</span>g[i] <span style="color:#f92672">+</span> mod) <span style="color:#f92672">%</span> mod;
+    g[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    poly_inverse(g, invG, n);
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>) {
+        cout <span style="color:#f92672">&lt;&lt;</span> (invG[i]) <span style="color:#f92672">%</span> mod <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; &#34;</span>;
+    }
+    cout <span style="color:#f92672">&lt;&lt;</span> endl;    
+}
+</code></pre></div></details>
+<div class="admonition info">
+  <p class="admonition-title">注意点</p>
+<p>多项式的题目中，要注意几个点：</p>
+<ol>
+<li>看到 $\sum_{i=0}^n f_ig_{n-i}$ 这种形式，即系数之和无论 $i$ 为多少，均为定值的，就想到 卷积，从而想到 多项式乘法。</li>
+<li>转化出来的新多项式要注意 <strong>常数项</strong>。也就是代入 $n=0$ 判断一下左右两边是否相等。</li>
+</ol>
+</div>
+<h3 id="例2-洛谷p4841-集训队作业2013-城市规划httpswwwluogucomcnproblemp4841">例2 <a href="https://www.luogu.com.cn/problem/P4841" target="_blank">洛谷P4841 集训队作业2013 城市规划</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>求 $n$ 个节点的 简单（无重边无自环）有标号无向 <strong>连通</strong> 图数目。答案对 $1004535809$ 取模。</p>
+<p>其中，$n \leq 130000$</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<blockquote>
+<p>小tips：计数问题可以想想 <code>dp</code> 怎么做。</p>
+</blockquote>
+<p>设 $f_n$ 为 $n$ 个节点的 简单（无重边无自环）有标号无向 <strong>连通</strong> 图数目。</p>
+<p>设 $g_n$ 为 $n$ 个节点的 简单（无重边无自环）有标号无向图数目。（区别在于不需要连通）</p>
+<p>发现在一个完全图中有 $C_n^2$ 条边，每条边可以选或者不选，那么</p>
+<p>$$g_n = 2^{C_n^2}$$</p>
+<p>我们想要用另外一种方式表示 $g_n$，可以枚举 节点 $1$ 所在的联通块的大小：</p>
+<ol>
+<li>节点 $1$ 所在联通块大小为 $1$ 时，方案数为：$f_1g_{n-1}$</li>
+<li>节点 $1$ 所在联通块大小为 $2$ 时，方案数为：$C_{n-1}^{1}f_2g_{n-2}$</li>
+<li>节点 $1$ 所在联通块大小为 $k$ 时，方案数为：$C_{n-1}^{k-1}f_kg_{n-k}$</li>
+</ol>
+<p>所以联通块大小 $1$ 枚举到 $n$，有：</p>
+<p>$$g_n = \sum\limits_{i=1}^n C_{n-1}^{i-1}f_ig_{n-i}$$</p>
+<blockquote>
+<p>看到 $f_ig_{n-i}$ 的形式马上想到 卷积，也就是 多项式乘法。</p>
+</blockquote>
+<p>但是有一个 $C_{n-1}^{i-1}$，我们把它拆开即可：</p>
+<p>$$g_n = \sum\limits_{i=1}^n C_{n-1}^{i-1}f_ig_{n-i}$$</p>
+<p>$$g_n = (n-1)!\sum\limits_{i=1}^n\frac{f_i}{(i-1)!}\frac{g_{n-i}}{(n-i)!}$$</p>
+<p>令</p>
+<p>$$F_i = \frac{f_i}{(i-1)!}, G_i = \frac{g_i}{i!}$$</p>
+<p>则有：</p>
+<p>$$\frac{g_n}{(n-1)!} = \sum\limits_{i=1}^nF_iG_{n-i}$$</p>
+<p>令</p>
+<p>$$F(x) = 0 + F_1x + F_2x^2 + &hellip; + F_{n}x^n$$</p>
+<p>$$G(x) = G_0 + G_1x + G_2x^2 + &hellip; + G_{n}x^n$$</p>
+<p>则可以发现，（注意 $F(x)$ 的常数项为 $0$）：</p>
+<p>$$[x^n]\frac{g(x)}{(n-1)!} = [x^n]F(x)G(x)$$</p>
+<p>注意到 $\frac{1}{(n-1)!}$ 是不可以提到外面去的，因为它与 $n$ 有关。</p>
+<p>定义</p>
+<p>$$H_n = \frac{g_n}{(n-1)!}, H_0 = 0$$</p>
+<p>• $H_0 = 0$ 是因为：如果我们代入 $n=0$ 进 $[x^n]\frac{g(x)}{(n-1)!} = [x^n]F(x)G(x)$，会发现右边为 $0$，所以 $H_0 = 0$。</p>
+<p>则有：</p>
+<p>$$[x^n]H(x) = [x^n]F(x)G(x)$$</p>
+<p>注意到左右两个多项式的 $n$ 次项系数对于任何 $n$ 都相等，所以有</p>
+<p>$$H(x) = F(x)G(x)$$</p>
+<p>$$F(x) = \frac{H(x)}{G(x)}$$</p>
+<p>由于 $H(x), G(x)$ 均已知，多项式求逆即可求出 $F(x)$，在每一项系数上乘以 $(n-1)!$ 即可得到 $f(x)$。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> mod <span style="color:#f92672">=</span> <span style="color:#ae81ff">1004535809</span>;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> (<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">22</span>) <span style="color:#f92672">+</span> <span style="color:#ae81ff">5</span>;
+<span style="color:#75715e">// 多项式板子部分省略
+</span><span style="color:#75715e"></span>
+ll f[maxn], g[maxn], G[maxn], invG[maxn], fac[maxn], invfac[maxn], h[maxn];
+ll <span style="color:#a6e22e">qpow</span>(ll a, ll b) {
+    ll res <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">while</span> (b) {
+        <span style="color:#66d9ef">if</span> (b <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">1</span>) res <span style="color:#f92672">=</span> res <span style="color:#f92672">*</span> a <span style="color:#f92672">%</span> mod;
+        a <span style="color:#f92672">=</span> a <span style="color:#f92672">*</span> a <span style="color:#f92672">%</span> mod;
+        b <span style="color:#f92672">&gt;&gt;=</span> <span style="color:#ae81ff">1</span>;
+    }
+    <span style="color:#66d9ef">return</span> res;
+}
+
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    <span style="color:#66d9ef">int</span> n; cin <span style="color:#f92672">&gt;&gt;</span> n;
+    g[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">for</span> (ll i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        g[i] <span style="color:#f92672">=</span> qpow(<span style="color:#ae81ff">2</span>, i <span style="color:#f92672">*</span> (i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>);
+    }
+    fac[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) fac[i] <span style="color:#f92672">=</span> fac[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">*</span> (ll)i <span style="color:#f92672">%</span> mod;
+    invfac[n] <span style="color:#f92672">=</span> qpow(fac[n], mod<span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>);
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> n<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>; i<span style="color:#f92672">--</span>) invfac[i] <span style="color:#f92672">=</span> invfac[i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">*</span> (ll)(i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>) <span style="color:#f92672">%</span> mod;
+
+    h[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) G[i] <span style="color:#f92672">=</span> g[i] <span style="color:#f92672">*</span> invfac[i] <span style="color:#f92672">%</span> mod;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) h[i] <span style="color:#f92672">=</span> g[i] <span style="color:#f92672">*</span> invfac[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">%</span> mod;
+    poly_inverse(G, invG, n<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>);
+    poly_multiply(h, n<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, invG, n<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, f);
+
+    f[n] <span style="color:#f92672">=</span> f[n] <span style="color:#f92672">*</span> fac[n<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">%</span> mod;
+    cout <span style="color:#f92672">&lt;&lt;</span> f[n] <span style="color:#f92672">&lt;&lt;</span> endl;
+}
+</code></pre></div></details>
+<div class="admonition info">
+  <p class="admonition-title">注意点</p>
+<ol>
+<li>计数问题，想想 <code>dp</code> 思路？</li>
+<li>项数不能随便提出去，尤其是与 $n$ 有关的。遇到项数就转化成一个新的多项式来处理。</li>
+<li>如果对于任何 $n$，左右两边的多项式第 $n$ 项系数相同，则这两个多项式相等。</li>
+</ol>
+</div>
+<h3 id="例3-cf438e-the-child-and-binary-treehttpswwwluogucomcnproblemcf438e">例3 <a href="https://www.luogu.com.cn/problem/CF438E" target="_blank">CF438E The Child and Binary Tree</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个包含 distinct 正整数的集合 $\{c_1, c_2, &hellip;, c_n\}$。</p>
+<p>给定整数 $m$，对于所有的 $s \in [1,m]$，求出满足以下条件的本质不同的 带点权二叉树个数：</p>
+<ol>
+<li>每个顶点的权值必须在 $\{c_1, c_2, &hellip;, c_n\}$ 中。</li>
+<li>所有顶点的权值之和为 $s$。</li>
+</ol>
+<p>答案对 $998244353$ 取模。</p>
+<p>其中，$1 \leq n,m,c_i \leq 10^5$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>首先用 <code>dp</code> 的思路：</p>
+<p>设 $f_n$ 为权值和为 $n$ 的二叉树个数（根的值 <strong>尚未确定</strong>），设 $g_n$ 为权值和为 $n$ 的二叉树个数（根的值 <strong>已经确定</strong>）。</p>
+<p>则我们可以得出：</p>
+<p>$$f_n = \sum\limits_{i=1}^n g_{n-c_i}$$</p>
+<p>$$g_n = \sum\limits_{i=0}^n f_if_{n-i}$$</p>
+<p>解释：</p>
+<p>对于第一个式子，我们枚举根的值即可。</p>
+<p>对于第二个式子，由于根的值已经确定，所以只需要枚举左右子树的权值和即可。</p>
+<p>我们看到 $g_n = \sum\limits_{i=0}^n f_if_{n-i}$，发现这就是个卷积，所以有</p>
+<p>$$g(x) = f(x)^2$$</p>
+<p>但第一个式子怎么办呢？这是个加法，无法表示为卷积？</p>
+<p>注意到本题中所有的权值 $\leq 10^5$，我们不如定义 $h_i$ 为：</p>
+<p>$$h_i = \begin{cases}
+1 ~~~~ \text{if } i \in \{c_1, c_2, &hellip;, c_n\}  \\
+0 ~~~~ \text{if } i \notin \{c_1, c_2, &hellip;, c_n\}
+\end{cases}$$</p>
+<p>则我们可以将 $f_n = \sum\limits_{i=1}^n g_{n-c_i}$ 转化为：</p>
+<p>$$f_n = \sum\limits_{i=1}^nh_ig_{n-i}$$</p>
+<p>这就又是个卷积了，代入 $n=0$ 可以发现：因为 $f_0 = g_0 = 1, h_0 = 0$，所以</p>
+<p>$$f(x) = h(x)g(x) + 1 = h(x)f(x)^2 + 1$$</p>
+<p>所以：</p>
+<p>$$h(x)f(x)^2 - f(x) + 1 = 0$$</p>
+<p>利用公式 $x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}$ 有：</p>
+<p>$$f(x) = \frac{1 \pm \sqrt{1-4h(x)}}{2h(x)}$$</p>
+<p>有个问题，$h(x)$ 的常数项 $h(0) = 0$ 没法求逆？（注意到求逆的本质是 $h(x) * h^{-1}(x) = 1$）</p>
+<p>没关系，没法求逆就乘到左边去，得到：</p>
+<p>$$2f(x)h(x) = 1 \pm \sqrt{1-4h(x)}$$</p>
+<p>代入 $x = 0$，由 $h(0) = 0$ 可以得到右边只能取 <strong>负号</strong>。</p>
+<p>所以再把 $h(x)$ 除回去，得到：</p>
+<p>$$f(x) = \frac{1 - \sqrt{1-4h(x)}}{2h(x)}$$</p>
+<p>上下同乘 $(1 + \sqrt{1-4h(x)})$ 得到：</p>
+<p>$$f(x) = \frac{2}{1 + \sqrt{1-4h(x)}}$$</p>
+<p>多项式求逆求出 $f(x)$ 即可。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> mod <span style="color:#f92672">=</span> <span style="color:#ae81ff">998244353</span>;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> (<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">21</span>) <span style="color:#f92672">+</span> <span style="color:#ae81ff">5</span>;
+
+<span style="color:#66d9ef">int</span> n,m;
+ll h[maxn], H[maxn];
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> m;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">int</span> c; cin <span style="color:#f92672">&gt;&gt;</span> c;
+        h[c] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    }
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">1e5</span>; i<span style="color:#f92672">++</span>) {
+        h[i] <span style="color:#f92672">=</span> <span style="color:#ae81ff">4LL</span> <span style="color:#f92672">*</span> h[i] <span style="color:#f92672">%</span> mod;
+        h[i] <span style="color:#f92672">=</span> (<span style="color:#f92672">-</span>h[i] <span style="color:#f92672">+</span> mod) <span style="color:#f92672">%</span> mod;
+    }
+    h[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> (h[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">%</span> mod;
+    poly_sqrt(h, H, <span style="color:#ae81ff">1e5</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>);
+    H[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> (H[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">%</span> mod;
+    memset(h, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(h));
+    poly_inverse(H, h, <span style="color:#ae81ff">1e5</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>);
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> m; i<span style="color:#f92672">++</span>) {
+        cout <span style="color:#f92672">&lt;&lt;</span> h[i] <span style="color:#f92672">*</span> <span style="color:#ae81ff">2LL</span> <span style="color:#f92672">%</span> mod <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+    }
+}
+</code></pre></div></details>
+<h3 id="例4-洛谷p4451-整数的lqp拆分httpswwwluogucomcnproblemp4451">例4 <a href="https://www.luogu.com.cn/problem/P4451" target="_blank">洛谷P4451 整数的lqp拆分</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定正整数 $N$，对于所有可能的 $m &gt; 0$，一个整数拆分是一个有序数组 $(a_1,a_2,&hellip;,a_m)$ 满足：</p>
+<ol>
+<li>$a_i &gt; 0$</li>
+<li>$a_1 + a_2 + &hellip; + a_m = N$</li>
+</ol>
+<p>我们定义斐波那契数列为：</p>
+<p>$$F_0 = 0, F_1 = 1, F_2 = 1, F_n = F_{n-1} + F_{n-2}$$</p>
+<p>对于 $N$ 而言，它的一个整数拆分 $(a_1,a_2,&hellip;,a_m)$ 的权值为：</p>
+<p>$$F_{a_1} * F_{a_2} * &hellip; * F_{a_m}$$</p>
+<p>求所有可能的整数拆分的权值之和？形式化的，求：</p>
+<p>$$\sum\limits_{(a_1,a_2,&hellip;,a_m)}\prod_{i=1}^mF_{a_i}$$</p>
+<p>答案对 $10^9 + 7$ 取模。</p>
+<p>其中，$1 \leq N \leq 10^{10000}$</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>我们发现这个 $\sum$ 和 $\prod$ 的顺序其实可以调换的。</p>
+<p>所以我们枚举一下第一个元素 $a_1$，设 $f_n$ 为我们所求的值，问题就转化为：</p>
+<p>$$f_n = \sum\limits_{j=1}^nF_j*f_{n-j}$$</p>
+<p>其中，$f_0 = 1$。</p>
+<p>所以设</p>
+<p>$$G(x) = F(x)f(x)$$</p>
+<p>$$G(0) = F(0)f(0) = 0$$</p>
+<p>所以有</p>
+<p>$$f(x) = G(x) + 1 = F(x)f(x) + 1$$</p>
+<p>得出</p>
+<p>$$f(x) = \frac{1}{1-F(x)}$$</p>
+<p>斐波那契数列的生成函数为（不记得了就手推一下）：$$F(x) = \frac{x}{1-x-x^2}$$</p>
+<p>所以得到：</p>
+<p>$$f(x) = \frac{1-x-x^2}{1-2x-x^2} = 1-\frac{x}{x^2+2x-1}$$</p>
+<p>我们发现这个常数项 $1$ 对我们的 $n$ 次项系数 $f_n$ 并没有任何影响，所以可以直接忽略。</p>
+<p>现在我们需要裂项了，转化为表里面的形式：</p>
+<p>$$f(x) = \frac{-x}{x^2+2x-1} = \frac{c}{1-ax} + \frac{d}{1-bx}$$</p>
+<p>解方程就可以得到</p>
+<p>$$b = -1\pm \sqrt 2, a = -1 \mp \sqrt 2$$</p>
+<p>发现随便取哪个符号都一样（毕竟 $a,b$ 本就是对称的），所以有：</p>
+<p>$$b = 1 + \sqrt 2, a = 1 - \sqrt 2, c = -\frac{1}{2\sqrt 2}, d = \frac{1}{2\sqrt 2}$$</p>
+<p>所以</p>
+<p>$$f(x) = \frac{c}{1-ax} + \frac{d}{1-bx}$$</p>
+<p>$f(x)$ 的第 $n$ 次项系数为：</p>
+<p>$$[x^n]f(x) = -\frac{1}{2 \sqrt 2}(a^n - b^n) = \frac{1}{2\sqrt 2}[(1+\sqrt 2)^n - (1-\sqrt 2)^n]$$</p>
+<p>最后的问题就是如何求 $(1+\sqrt 2)^n - (1-\sqrt 2)^n$ ？</p>
+<p>我们需要先知道 $\sqrt 2$ 在 $\text{mod }10^9 + 7$ 意义下的值，可以利用二次剩余解决。</p>
+<p>然后对于 $n$，我们发现它出现在指数位置，而我们由费马小定理知道 $\forall a, a^{P-1} \equiv 1 (\text{mod } P)$</p>
+<p>所以，我们只要将 $n$ 取一个 $n = n(\text{mod } (P-1))$ 即可。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> ll mod <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e9</span><span style="color:#f92672">+</span><span style="color:#ae81ff">7</span>;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e5</span><span style="color:#f92672">+</span><span style="color:#ae81ff">7</span>;
+
+<span style="color:#75715e">// 求 sqrt(a) 在 mod P 下的值
+</span><span style="color:#75715e">// 调用 solve(a, P, r1, r2)
+</span><span style="color:#75715e">// 若有解，r1, r2 分别为两个解，其中 r1 小，r2 大
+</span><span style="color:#75715e">// 若无解，r1 == -1
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">namespace</span> Quadratic_residue {
+    ll <span style="color:#a6e22e">qpow</span>(ll a, ll b, ll P) {
+        ll res <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">while</span> (b) {
+            <span style="color:#66d9ef">if</span> (b <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">1</span>) res <span style="color:#f92672">=</span> res <span style="color:#f92672">*</span> a <span style="color:#f92672">%</span> P;
+            a <span style="color:#f92672">=</span> a <span style="color:#f92672">*</span> a <span style="color:#f92672">%</span> P;
+            b <span style="color:#f92672">&gt;&gt;=</span> <span style="color:#ae81ff">1</span>;
+        }
+        <span style="color:#66d9ef">return</span> res;
+    }
+
+    <span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">check_if_residue</span>(ll x, ll P) {
+        <span style="color:#66d9ef">return</span> qpow(x, (P <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>, P) <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>;
+    }
+
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">solve</span>(ll a, ll P, ll<span style="color:#f92672">&amp;</span> r1, ll<span style="color:#f92672">&amp;</span> r2) {
+        <span style="color:#66d9ef">if</span> (a <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">1</span>) {
+            r1 <span style="color:#f92672">=</span> a, r2 <span style="color:#f92672">=</span> P <span style="color:#f92672">-</span> a; <span style="color:#66d9ef">return</span>;
+        }
+        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>check_if_residue(a, P)) {
+            r1 <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>; <span style="color:#66d9ef">return</span>;
+        }
+        ll x;
+        <span style="color:#66d9ef">while</span> (<span style="color:#ae81ff">1</span>) {
+            x<span style="color:#f92672">=</span><span style="color:#ae81ff">1ll</span><span style="color:#f92672">*</span>rand()<span style="color:#f92672">*</span>rand()<span style="color:#f92672">%</span>P;
+            <span style="color:#66d9ef">if</span> (qpow((x<span style="color:#f92672">*</span>x<span style="color:#f92672">-</span>a<span style="color:#f92672">+</span>P)<span style="color:#f92672">%</span>P,(P<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span>, P)<span style="color:#f92672">!=</span><span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">break</span>;
+        }
+        ll w<span style="color:#f92672">=</span>(x<span style="color:#f92672">*</span>x<span style="color:#f92672">-</span>a<span style="color:#f92672">+</span>P)<span style="color:#f92672">%</span>P;
+        pll res <span style="color:#f92672">=</span> {<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">0</span>}, t <span style="color:#f92672">=</span> {x,<span style="color:#ae81ff">1</span>};
+        <span style="color:#66d9ef">auto</span> Mul<span style="color:#f92672">=</span>[<span style="color:#f92672">&amp;</span>](pll a,pll b){ <span style="color:#75715e">// 复数乘法
+</span><span style="color:#75715e"></span>            ll x<span style="color:#f92672">=</span>(<span style="color:#ae81ff">1ll</span><span style="color:#f92672">*</span>a.first<span style="color:#f92672">*</span>b.first<span style="color:#f92672">+</span><span style="color:#ae81ff">1ll</span><span style="color:#f92672">*</span>a.second<span style="color:#f92672">*</span>b.second<span style="color:#f92672">%</span>P<span style="color:#f92672">*</span>w)<span style="color:#f92672">%</span>P;
+            ll y<span style="color:#f92672">=</span>(<span style="color:#ae81ff">1ll</span><span style="color:#f92672">*</span>a.first<span style="color:#f92672">*</span>b.second<span style="color:#f92672">+</span><span style="color:#ae81ff">1ll</span><span style="color:#f92672">*</span>a.second<span style="color:#f92672">*</span>b.first)<span style="color:#f92672">%</span>P;
+            <span style="color:#66d9ef">return</span> make_pair(x,y);
+        };
+        ll d<span style="color:#f92672">=</span>(P<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>)<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span>;
+        <span style="color:#66d9ef">while</span> (d) {
+            <span style="color:#66d9ef">if</span>(d<span style="color:#f92672">&amp;</span><span style="color:#ae81ff">1</span>) res<span style="color:#f92672">=</span>Mul(res,t);
+            t<span style="color:#f92672">=</span>Mul(t,t);
+            d<span style="color:#f92672">&gt;&gt;=</span><span style="color:#ae81ff">1</span>;
+        }
+        ll r <span style="color:#f92672">=</span> (res.first <span style="color:#f92672">%</span> P <span style="color:#f92672">+</span> P) <span style="color:#f92672">%</span> P;
+        r1 <span style="color:#f92672">=</span> min(r, (P <span style="color:#f92672">-</span> r) <span style="color:#f92672">%</span> P);
+        r2 <span style="color:#f92672">=</span> max(r, (P <span style="color:#f92672">-</span> r) <span style="color:#f92672">%</span> P);
+    }
+};
+
+ll s2, _;  <span style="color:#75715e">//sqrt(2)
+</span><span style="color:#75715e"></span>ll <span style="color:#a6e22e">qpow</span>(ll a, ll b) {
+    ll res <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">while</span> (b) {
+        <span style="color:#66d9ef">if</span> (b <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">1</span>) res <span style="color:#f92672">=</span> res <span style="color:#f92672">*</span> a <span style="color:#f92672">%</span> mod;
+        a <span style="color:#f92672">=</span> a <span style="color:#f92672">*</span> a <span style="color:#f92672">%</span> mod;
+        b <span style="color:#f92672">&gt;&gt;=</span> <span style="color:#ae81ff">1</span>;
+    }
+    <span style="color:#66d9ef">return</span> res;
+}
+ll <span style="color:#a6e22e">inv</span>(ll a) {
+    <span style="color:#66d9ef">return</span> qpow(a, mod<span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>);
+}
+
+ll <span style="color:#a6e22e">readBigint</span>() {
+    string s; cin <span style="color:#f92672">&gt;&gt;</span> s;
+    ll res <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> s.size(); i<span style="color:#f92672">++</span>) {
+        res <span style="color:#f92672">=</span> res <span style="color:#f92672">*</span> <span style="color:#ae81ff">10</span> <span style="color:#f92672">%</span> (mod <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>);
+        res <span style="color:#f92672">=</span> (res <span style="color:#f92672">+</span> (s[i] <span style="color:#f92672">-</span> <span style="color:#e6db74">&#39;0&#39;</span>)) <span style="color:#f92672">%</span> (mod <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>);
+    }
+    <span style="color:#66d9ef">return</span> res;
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    ll n <span style="color:#f92672">=</span> readBigint();
+    Quadratic_residue<span style="color:#f92672">::</span>solve(<span style="color:#ae81ff">2</span>, mod, s2, _);
+
+    ll ans <span style="color:#f92672">=</span> qpow((<span style="color:#ae81ff">1LL</span> <span style="color:#f92672">+</span> s2) <span style="color:#f92672">%</span> mod, n) <span style="color:#f92672">-</span> qpow((<span style="color:#ae81ff">1LL</span> <span style="color:#f92672">-</span> s2 <span style="color:#f92672">+</span> mod) <span style="color:#f92672">%</span> mod, n);
+    ans <span style="color:#f92672">=</span> (ans <span style="color:#f92672">+</span> mod) <span style="color:#f92672">%</span> mod;
+    ans <span style="color:#f92672">=</span> ans <span style="color:#f92672">*</span> inv(<span style="color:#ae81ff">2LL</span> <span style="color:#f92672">*</span> s2 <span style="color:#f92672">%</span> mod) <span style="color:#f92672">%</span> mod;
+    cout <span style="color:#f92672">&lt;&lt;</span> ans <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+}
+</code></pre></div></details>
+<div class="admonition info">
+  <p class="admonition-title">注意事项</p>
+<p>$$a^b \equiv a^{b \text{ mod } (P-1)} (\text{mod } P)$$</p>
+</div>
+<h2 id="参考链接">参考链接</h2>
+<ol>
+<li><a href="https://blog.csdn.net/a_forever_dream/article/details/102594411" target="_blank">https://blog.csdn.net/a_forever_dream/article/details/102594411</a></li>
+</ol>
+
+    </div>
+
+    
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/ogf/">OGF</a>
+          <a href="/tags//"></a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/055-%E4%BA%8C%E6%AC%A1%E5%89%A9%E4%BD%99/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">二次剩余</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/053-polynomial/">
+            <span class="next-text nav-default">多项式全家桶</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://github.com/kiki-yan" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://kiki-yan.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2026
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/kiki-yan/kiki-yan.github.io" target="_blank"></a>
+    </span> 
+    <span class="author">kiki_yan</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/base16/tomorrow.min.css" rel="stylesheet">
+  
+  <script>hljs.configure({tabReplace: '    '});</script><script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

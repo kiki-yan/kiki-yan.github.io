@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>树同构 - kiki_yan</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="kiki_yan" /><meta name="description" content="介绍 两个树同构 $\iff$ 有且仅有一种重新编号方式，使得一棵树的节点重新编号后得到另外一棵树。 • 如果是有根树同构，那么还要额外加一个限制条件：树的节点" /><meta name="keywords" content="kiki_yan, blog, Codeforces" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
+
+
+<link rel="canonical" href="https://kiki-yan.github.io/post/087-%E6%A0%91%E5%90%8C%E6%9E%84/" />
+<link rel="manifest" href="/manifest.json">
+
+
+
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="树同构" />
+<meta property="og:description" content="介绍 两个树同构 $\iff$ 有且仅有一种重新编号方式，使得一棵树的节点重新编号后得到另外一棵树。 • 如果是有根树同构，那么还要额外加一个限制条件：树的节点" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kiki-yan.github.io/post/087-%E6%A0%91%E5%90%8C%E6%9E%84/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2022-12-25T18:14:24-06:00" />
+<meta property="article:modified_time" content="2022-12-25T18:14:24-06:00" />
+
+<meta itemprop="name" content="树同构">
+<meta itemprop="description" content="介绍 两个树同构 $\iff$ 有且仅有一种重新编号方式，使得一棵树的节点重新编号后得到另外一棵树。 • 如果是有根树同构，那么还要额外加一个限制条件：树的节点"><meta itemprop="datePublished" content="2022-12-25T18:14:24-06:00" />
+<meta itemprop="dateModified" content="2022-12-25T18:14:24-06:00" />
+<meta itemprop="wordCount" content="1831">
+<meta itemprop="keywords" content=",," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="树同构"/>
+<meta name="twitter:description" content="介绍 两个树同构 $\iff$ 有且仅有一种重新编号方式，使得一棵树的节点重新编号后得到另外一棵树。 • 如果是有根树同构，那么还要额外加一个限制条件：树的节点"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">kiki_yan</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF Problems</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">kiki_yan</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF Problems</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">树同构</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2022-12-25 18:14:24 -0600 -0600"> 2022-12-25 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
+            </div>
+        
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#介绍">介绍</a></li>
+        <li><a href="#哈希方法">哈希方法</a></li>
+        <li><a href="#树同构的判断方式">树同构的判断方式</a></li>
+        <li><a href="#例题">例题</a>
+          <ul>
+            <li><a href="#例1-洛谷p5043-模板树同构httpswwwluogucomcnproblemp5043">例1 洛谷P5043 <a href="https://www.luogu.com.cn/problem/P5043">【模板】树同构</a></a></li>
+            <li><a href="#例2-cf1252f-regular-forestationhttpscodeforcescomcontest1252problemf">例2 CF1252F <a href="https://codeforces.com/contest/1252/problem/F">Regular Forestation</a></a></li>
+          </ul>
+        </li>
+        <li><a href="#参考链接">参考链接</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="介绍">介绍</h2>
+<p>两个树同构 $\iff$ 有且仅有一种重新编号方式，使得一棵树的节点重新编号后得到另外一棵树。</p>
+<p>• 如果是有根树同构，那么还要额外加一个限制条件：树的节点重新编号，必须让 $r_1$ 映射到 $r_2$，其中 $r_1,r_2$ 为这两棵树的根。</p>
+<h2 id="哈希方法">哈希方法</h2>
+<p>树哈希的方法有很多种，这里提供一位黑红老哥的方法：</p>
+<p>对于一棵以 $u$ 为根的子树，假设儿子是 $v_1,v_2,&hellip;,v_k$，定义子树的哈希</p>
+<p>$$h(u) = 1 + \sum\limits_{i \in [1,k]} f(h(v_i))$$</p>
+<p>其中 $h(v_i)$ 是 $v_i$ 对应子树的哈希，$f$ 为一个待定函数。</p>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">mt19937 <span style="color:#a6e22e">rng</span>((<span style="color:#66d9ef">uint32_t</span>)chrono<span style="color:#f92672">::</span>steady_clock<span style="color:#f92672">::</span>now().time_since_epoch().count());
+ull h[maxn], base <span style="color:#f92672">=</span> rng();
+ull <span style="color:#a6e22e">H</span>(ull x){
+	<span style="color:#66d9ef">return</span> x<span style="color:#f92672">*</span>x<span style="color:#f92672">*</span>x<span style="color:#f92672">*</span><span style="color:#ae81ff">19890535</span><span style="color:#f92672">+</span><span style="color:#ae81ff">19260817</span>;
+}
+ull <span style="color:#a6e22e">F</span>(ull x){
+	<span style="color:#66d9ef">return</span> H(x<span style="color:#f92672">&amp;</span>((<span style="color:#ae81ff">1ll</span><span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">32</span>)<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>))<span style="color:#f92672">+</span>H(x<span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">32</span>);
+}
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">dfs2</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> p, <span style="color:#66d9ef">int</span> f) {
+    h[u] <span style="color:#f92672">=</span> base;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> e <span style="color:#f92672">=</span> head[u]; e; e <span style="color:#f92672">=</span> edges[e].nxt) {
+        <span style="color:#66d9ef">int</span> v <span style="color:#f92672">=</span> edges[e].to;
+        <span style="color:#66d9ef">if</span> (v <span style="color:#f92672">==</span> p <span style="color:#f92672">||</span> v <span style="color:#f92672">==</span> f) <span style="color:#66d9ef">continue</span>;
+        dfs2(v, u, f);
+        h[u] <span style="color:#f92672">+=</span> F(h[v]);
+    }
+}
+</code></pre></div></details>
+<h2 id="树同构的判断方式">树同构的判断方式</h2>
+<p>判断两棵树是否同构，一般都是无根树的情况。而对于同一棵树来说，选定不同的节点作为根，得到的哈希值并不相同。</p>
+<p>但如果两棵树同构，意味着它们的重心是相同的，所以只要分别找到两棵树的重心，然后让重心作为根，再求哈希值，比较是否相同即可。</p>
+<p>• 需要注意的是重心可能有 $2$ 个，所以需要比较 $2$ 次，只要有一次对上了就说明同构。(如果同构，则说明第一棵树的任意一个重心 $a_1$ 的哈希值一定等于第二棵树的其中一个重心的哈希值)。</p>
+<h2 id="例题">例题</h2>
+<h3 id="例1-洛谷p5043-模板树同构httpswwwluogucomcnproblemp5043">例1 洛谷P5043 <a href="https://www.luogu.com.cn/problem/P5043" target="_blank">【模板】树同构</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $M$ 棵树，根据同构关系将它们分为等价类。</p>
+<p>其中，$n, M \leq 50$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>求出每棵树的重心，然后暴力两两对比即可。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">55</span>;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxm <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e5</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>;
+
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Edge</span> {
+    <span style="color:#66d9ef">int</span> from, to, nxt;
+} edges[maxm<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>];
+<span style="color:#66d9ef">int</span> head[maxm], ecnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">addEdge</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> v) {
+    Edge e <span style="color:#f92672">=</span> {u, v, head[u]};
+    head[u] <span style="color:#f92672">=</span> ecnt;
+    edges[ecnt<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> e;
+}
+
+<span style="color:#66d9ef">int</span> sz[maxm], cur_tr;
+<span style="color:#66d9ef">int</span> M;
+<span style="color:#66d9ef">int</span> rt[maxn], tr_sz[maxn];
+vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> cent[maxn];
+ull h[maxm], base <span style="color:#f92672">=</span> rng();
+ull <span style="color:#a6e22e">H</span>(ull x){
+	<span style="color:#66d9ef">return</span> x<span style="color:#f92672">*</span>x<span style="color:#f92672">*</span>x<span style="color:#f92672">*</span><span style="color:#ae81ff">19890535</span><span style="color:#f92672">+</span><span style="color:#ae81ff">19260817</span>;
+}
+ull <span style="color:#a6e22e">F</span>(ull x){
+	<span style="color:#66d9ef">return</span> H(x<span style="color:#f92672">&amp;</span>((<span style="color:#ae81ff">1ll</span><span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">32</span>)<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>))<span style="color:#f92672">+</span>H(x<span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">32</span>);
+}
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">dfs1</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> p) {
+    sz[u] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">int</span> mx <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> e <span style="color:#f92672">=</span> head[u]; e; e <span style="color:#f92672">=</span> edges[e].nxt) {
+        <span style="color:#66d9ef">int</span> v <span style="color:#f92672">=</span> edges[e].to;
+        <span style="color:#66d9ef">if</span> (v <span style="color:#f92672">==</span> p) <span style="color:#66d9ef">continue</span>;
+        dfs1(v, u);
+        sz[u] <span style="color:#f92672">+=</span> sz[v];
+        mx <span style="color:#f92672">=</span> max(mx, sz[v]);
+    }
+    <span style="color:#66d9ef">int</span> cur_sz <span style="color:#f92672">=</span> tr_sz[cur_tr];
+    mx <span style="color:#f92672">=</span> max(mx, cur_sz <span style="color:#f92672">-</span> sz[u]);
+    <span style="color:#66d9ef">if</span> (mx <span style="color:#f92672">&lt;=</span> cur_sz <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>) cent[cur_tr].push_back(u);
+}
+
+vector<span style="color:#f92672">&lt;</span>ull<span style="color:#f92672">&gt;</span> ha[maxn];
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">dfs2</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> p) {
+    h[u] <span style="color:#f92672">=</span> base;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> e <span style="color:#f92672">=</span> head[u]; e; e <span style="color:#f92672">=</span> edges[e].nxt) {
+        <span style="color:#66d9ef">int</span> v <span style="color:#f92672">=</span> edges[e].to;
+        <span style="color:#66d9ef">if</span> (v <span style="color:#f92672">==</span> p) <span style="color:#66d9ef">continue</span>;
+        dfs2(v, u);
+        h[u] <span style="color:#f92672">+=</span> F(h[v]);
+    }
+}
+
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> M;
+
+    <span style="color:#66d9ef">int</span> id <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;=</span> M; j<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">int</span> n; cin <span style="color:#f92672">&gt;&gt;</span> n;
+        tr_sz[j] <span style="color:#f92672">=</span> n;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">int</span> p; cin <span style="color:#f92672">&gt;&gt;</span> p;
+            <span style="color:#66d9ef">if</span> (p <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
+                p <span style="color:#f92672">+=</span> id;
+                addEdge(p, i<span style="color:#f92672">+</span>id);
+                addEdge(i<span style="color:#f92672">+</span>id, p);
+            } <span style="color:#66d9ef">else</span> {
+                rt[j] <span style="color:#f92672">=</span> i <span style="color:#f92672">+</span> id;
+            }
+        }
+        id <span style="color:#f92672">+=</span> n;
+    }
+
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;=</span> M; j<span style="color:#f92672">++</span>) {
+        cur_tr <span style="color:#f92672">=</span> j;
+        dfs1(rt[j], <span style="color:#ae81ff">0</span>);
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> c : cent[j]) {
+            dfs2(c, <span style="color:#ae81ff">0</span>);
+            ha[j].push_back(h[c]);
+        }
+    }
+
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> tj <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; tj <span style="color:#f92672">&lt;=</span> M; tj<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> ti <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; ti <span style="color:#f92672">&lt;=</span> tj; ti<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">bool</span> ok <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+            <span style="color:#66d9ef">for</span> (ull h1 : ha[tj]) {
+                <span style="color:#66d9ef">for</span> (ull h2 : ha[ti]) {
+                    <span style="color:#66d9ef">if</span> (h1 <span style="color:#f92672">==</span> h2) ok <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+                }
+            }
+            <span style="color:#66d9ef">if</span> (ok) {
+                cout <span style="color:#f92672">&lt;&lt;</span> ti <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+                <span style="color:#66d9ef">break</span>;
+            }
+        }
+    }
+}
+</code></pre></div></details>
+<h3 id="例2-cf1252f-regular-forestationhttpscodeforcescomcontest1252problemf">例2 CF1252F <a href="https://codeforces.com/contest/1252/problem/F" target="_blank">Regular Forestation</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一棵无根树，问是否存在一个点 $u$，使得将点 $u$ 移除后，得到的所有子树两两同构？</p>
+<p>如果存在，输出 degree 最大的这样的 $u$。</p>
+<p>• 要求 $u$ 的degree至少为 $2$。</p>
+<p>其中，$n \leq 4000$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>由于 $n \leq 4000$，所以先定 $1$ 为根，然后：</p>
+<ol>
+<li>找出所有子树的重心。</li>
+<li>找出对于所有 $u$，除了 $u$ 子树以外的部分的重心。</li>
+<li>然后对于每个 $u$，check它的所有子树和它以外的部分是否同构。</li>
+</ol>
+<p>第一步可以用树的重心提到的 $O(n)$ 方法来找，第二步好像没有什么好方法，只能暴力了。</p>
+<p>第三步注意一下重心可能有两个，然后拿个 map 记录一下哈希值的 count，注意到一棵子树最多贡献一次哈希值count即可。</p>
+<p>复杂度是 $O(n^2)$。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">8005</span>;
+
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Edge</span> {
+    <span style="color:#66d9ef">int</span> from, to, nxt;
+} edges[maxn<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>];
+<span style="color:#66d9ef">int</span> head[maxn], ecnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">addEdge</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> v) {
+    Edge e <span style="color:#f92672">=</span> {u, v, head[u]};
+    head[u] <span style="color:#f92672">=</span> ecnt;
+    edges[ecnt<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> e;
+}
+
+<span style="color:#66d9ef">int</span> sz[maxn], deg[maxn], son[maxn], par[maxn];
+vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> cent[maxn<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>];  <span style="color:#75715e">// cent[i]: centroids of subtree i, cent[i+n]: centroids of up[i]
+</span><span style="color:#75715e"></span>ull h[maxn], base <span style="color:#f92672">=</span> rng();
+ull <span style="color:#a6e22e">H</span>(ull x){
+	<span style="color:#66d9ef">return</span> x<span style="color:#f92672">*</span>x<span style="color:#f92672">*</span>x<span style="color:#f92672">*</span><span style="color:#ae81ff">19890535</span><span style="color:#f92672">+</span><span style="color:#ae81ff">19260817</span>;
+}
+ull <span style="color:#a6e22e">F</span>(ull x){
+	<span style="color:#66d9ef">return</span> H(x<span style="color:#f92672">&amp;</span>((<span style="color:#ae81ff">1ll</span><span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">32</span>)<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>))<span style="color:#f92672">+</span>H(x<span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">32</span>);
+}
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">dfs1</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> p) {
+    par[u] <span style="color:#f92672">=</span> p;
+    sz[u] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">int</span> mx <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> e <span style="color:#f92672">=</span> head[u]; e; e <span style="color:#f92672">=</span> edges[e].nxt) {
+        <span style="color:#66d9ef">int</span> v <span style="color:#f92672">=</span> edges[e].to;
+        <span style="color:#66d9ef">if</span> (v <span style="color:#f92672">==</span> p) <span style="color:#66d9ef">continue</span>;
+        dfs1(v, u);
+        <span style="color:#66d9ef">if</span> (sz[v] <span style="color:#f92672">&gt;</span> sz[son[u]]) {
+            son[u] <span style="color:#f92672">=</span> v;
+        }
+        sz[u] <span style="color:#f92672">+=</span> sz[v];
+        mx <span style="color:#f92672">=</span> max(mx, sz[v]);
+    }
+    <span style="color:#66d9ef">if</span> (mx <span style="color:#f92672">&lt;=</span> sz[u] <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>) cent[u].push_back(u);
+    <span style="color:#66d9ef">if</span> (cent[son[u]].size()) {
+        <span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> cent[son[u]][<span style="color:#ae81ff">0</span>];
+        <span style="color:#66d9ef">while</span> (k <span style="color:#f92672">!=</span> u) {
+            <span style="color:#66d9ef">if</span> (sz[son[k]] <span style="color:#f92672">&lt;=</span> sz[u] <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">&amp;&amp;</span> sz[u] <span style="color:#f92672">-</span> sz[k] <span style="color:#f92672">&lt;=</span> sz[u] <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>) {
+                cent[u].push_back(k);
+            }
+            <span style="color:#66d9ef">if</span> (cent[u].size() <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">||</span> sz[son[k]] <span style="color:#f92672">&gt;</span> sz[u] <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">break</span>;  <span style="color:#75715e">// 再往上不会更优了
+</span><span style="color:#75715e"></span>            k <span style="color:#f92672">=</span> par[k];
+        }
+    }
+}
+
+vector<span style="color:#f92672">&lt;</span>ull<span style="color:#f92672">&gt;</span> ha[maxn];
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">dfs2</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> p, <span style="color:#66d9ef">int</span> f) {
+    h[u] <span style="color:#f92672">=</span> base;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> e <span style="color:#f92672">=</span> head[u]; e; e <span style="color:#f92672">=</span> edges[e].nxt) {
+        <span style="color:#66d9ef">int</span> v <span style="color:#f92672">=</span> edges[e].to;
+        <span style="color:#66d9ef">if</span> (v <span style="color:#f92672">==</span> p <span style="color:#f92672">||</span> v <span style="color:#f92672">==</span> f) <span style="color:#66d9ef">continue</span>;
+        dfs2(v, u, f);
+        h[u] <span style="color:#f92672">+=</span> F(h[v]);
+    }
+}
+
+<span style="color:#66d9ef">int</span> cursz, currt;  <span style="color:#75715e">// 当前考虑部分的sz, root (如果是 i 外面的，currt 就是 i + n)
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">dfs3</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> p, <span style="color:#66d9ef">int</span> f) {
+    sz[u] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">int</span> mx <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> e <span style="color:#f92672">=</span> head[u]; e; e <span style="color:#f92672">=</span> edges[e].nxt) {
+        <span style="color:#66d9ef">int</span> v <span style="color:#f92672">=</span> edges[e].to;
+        <span style="color:#66d9ef">if</span> (v <span style="color:#f92672">==</span> p <span style="color:#f92672">||</span> v <span style="color:#f92672">==</span> f) <span style="color:#66d9ef">continue</span>;
+        dfs3(v, u, f);
+        sz[u] <span style="color:#f92672">+=</span> sz[v];
+        mx <span style="color:#f92672">=</span> max(mx, sz[v]);
+    }
+    <span style="color:#66d9ef">if</span> (mx <span style="color:#f92672">&lt;=</span> cursz <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">&amp;&amp;</span> cursz <span style="color:#f92672">-</span> sz[u] <span style="color:#f92672">&lt;=</span> cursz <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>) {
+        cent[currt].push_back(u);
+    }
+}
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">dfs4</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> p, <span style="color:#66d9ef">int</span> f) {
+    h[u] <span style="color:#f92672">=</span> base;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> e <span style="color:#f92672">=</span> head[u]; e; e <span style="color:#f92672">=</span> edges[e].nxt) {
+        <span style="color:#66d9ef">int</span> v <span style="color:#f92672">=</span> edges[e].to;
+        <span style="color:#66d9ef">if</span> (v <span style="color:#f92672">==</span> p <span style="color:#f92672">||</span> v <span style="color:#f92672">==</span> f) <span style="color:#66d9ef">continue</span>;
+        dfs4(v, u, f);
+        h[u] <span style="color:#f92672">+=</span> F(h[v]);
+    }
+}
+
+<span style="color:#66d9ef">int</span> n;
+<span style="color:#66d9ef">int</span> ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    fastio;
+    cin <span style="color:#f92672">&gt;&gt;</span> n;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">int</span> u, v; cin <span style="color:#f92672">&gt;&gt;</span> u <span style="color:#f92672">&gt;&gt;</span> v;
+        addEdge(u, v); addEdge(v, u);
+        deg[u]<span style="color:#f92672">++</span>; deg[v]<span style="color:#f92672">++</span>;
+    }
+    dfs1(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>);
+
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> c : cent[i]) {
+            dfs2(c, <span style="color:#ae81ff">0</span>, par[i]);
+            ha[i].push_back(h[c]);
+        }
+    }
+
+    <span style="color:#75715e">// 现在处理所有子树外的部分
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">if</span> (deg[i] <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">continue</span>;
+        <span style="color:#66d9ef">bool</span> ok <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        map<span style="color:#f92672">&lt;</span>ull, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> mp;  <span style="color:#75715e">// hash: count
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">int</span> s <span style="color:#f92672">=</span> sz[son[i]];
+        <span style="color:#66d9ef">if</span> (n <span style="color:#f92672">-</span> sz[i] <span style="color:#f92672">!=</span> s) ok <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> e <span style="color:#f92672">=</span> head[i]; e; e <span style="color:#f92672">=</span> edges[e].nxt) {
+            <span style="color:#66d9ef">int</span> v <span style="color:#f92672">=</span> edges[e].to;
+            <span style="color:#66d9ef">if</span> (v <span style="color:#f92672">==</span> par[i]) <span style="color:#66d9ef">continue</span>;
+            <span style="color:#66d9ef">if</span> (sz[v] <span style="color:#f92672">!=</span> s) ok <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+            <span style="color:#66d9ef">if</span> (ha[v].size() <span style="color:#f92672">==</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">&amp;&amp;</span> ha[v][<span style="color:#ae81ff">0</span>] <span style="color:#f92672">==</span> ha[v][<span style="color:#ae81ff">1</span>]) {
+                mp[ha[v][<span style="color:#ae81ff">0</span>]]<span style="color:#f92672">++</span>;
+            } <span style="color:#66d9ef">else</span> {
+                <span style="color:#66d9ef">for</span> (ull hv : ha[v]) {
+                    mp[hv]<span style="color:#f92672">++</span>;
+                }
+            }
+        }
+        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>ok) <span style="color:#66d9ef">continue</span>;
+        
+        <span style="color:#75715e">// 现在说明 i 可能为最佳切割点
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// 寻找 i 外面子树的信息 (如果有)
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> (par[i]) {
+            cursz <span style="color:#f92672">=</span> n <span style="color:#f92672">-</span> sz[i];
+            currt <span style="color:#f92672">=</span> i <span style="color:#f92672">+</span> n;
+            dfs3(par[i], <span style="color:#ae81ff">0</span>, i);
+        }
+
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> c : cent[i<span style="color:#f92672">+</span>n]) {
+            dfs4(c, <span style="color:#ae81ff">0</span>, i);
+            ha[i<span style="color:#f92672">+</span>n].push_back(h[c]);
+        }
+        <span style="color:#66d9ef">if</span> (ha[i<span style="color:#f92672">+</span>n].size() <span style="color:#f92672">==</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">&amp;&amp;</span> ha[i<span style="color:#f92672">+</span>n][<span style="color:#ae81ff">0</span>] <span style="color:#f92672">==</span> ha[i<span style="color:#f92672">+</span>n][<span style="color:#ae81ff">1</span>]) {
+            mp[ha[i<span style="color:#f92672">+</span>n][<span style="color:#ae81ff">0</span>]]<span style="color:#f92672">++</span>;
+        } <span style="color:#66d9ef">else</span> {
+            <span style="color:#66d9ef">for</span> (ull hv : ha[i<span style="color:#f92672">+</span>n]) mp[hv]<span style="color:#f92672">++</span>;
+        }
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> ptr : mp) {
+            <span style="color:#66d9ef">if</span> (ptr.second <span style="color:#f92672">==</span> deg[i]) {
+                ans <span style="color:#f92672">=</span> max(ans, deg[i]);
+            }
+        }
+    }
+    cout <span style="color:#f92672">&lt;&lt;</span> (ans <span style="color:#f92672">?</span> ans : <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+}
+</code></pre></div></details>
+<h2 id="参考链接">参考链接</h2>
+<ol>
+<li><a href="https://zh.wikipedia.org/zh-hk/%E6%A0%91%E5%90%8C%E6%9E%84" target="_blank">https://zh.wikipedia.org/zh-hk/%E6%A0%91%E5%90%8C%E6%9E%84</a></li>
+<li><a href="https://peehs-moorhsum.blog.uoj.ac/blog/7891" target="_blank">https://peehs-moorhsum.blog.uoj.ac/blog/7891</a></li>
+<li><a href="https://uoj.ac/submission/580510" target="_blank">https://uoj.ac/submission/580510</a></li>
+</ol>
+
+    </div>
+
+    
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags//"></a>
+          <a href="/tags//"></a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/088-icpc-2020-neerc-regional/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">2020-2021 ICPC NERC (NEERC), North-Western Russia Regional Contest</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/086-%E6%A0%91%E7%9A%84%E9%87%8D%E5%BF%83/">
+            <span class="next-text nav-default">树的重心</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://github.com/kiki-yan" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://kiki-yan.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2026
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/kiki-yan/kiki-yan.github.io" target="_blank"></a>
+    </span> 
+    <span class="author">kiki_yan</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/base16/tomorrow.min.css" rel="stylesheet">
+  
+  <script>hljs.configure({tabReplace: '    '});</script><script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

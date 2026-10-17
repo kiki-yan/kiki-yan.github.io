@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>三元环计数 - kiki_yan</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="kiki_yan" /><meta name="description" content="介绍 给定一个无向图，找出图中所有的三元环，每个环只能被计一次。(比如 $a,b,c$ 和 $b,a,c$ 都是同一个环)。 我们先处理出每个点的 degree，然后建一个新的图" /><meta name="keywords" content="kiki_yan, blog, Codeforces" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
+
+
+<link rel="canonical" href="https://kiki-yan.github.io/post/095-%E4%B8%89%E5%85%83%E7%8E%AF%E8%AE%A1%E6%95%B0/" />
+<link rel="manifest" href="/manifest.json">
+
+
+
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="三元环计数" />
+<meta property="og:description" content="介绍 给定一个无向图，找出图中所有的三元环，每个环只能被计一次。(比如 $a,b,c$ 和 $b,a,c$ 都是同一个环)。 我们先处理出每个点的 degree，然后建一个新的图" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kiki-yan.github.io/post/095-%E4%B8%89%E5%85%83%E7%8E%AF%E8%AE%A1%E6%95%B0/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2023-02-06T22:06:05-06:00" />
+<meta property="article:modified_time" content="2023-02-06T22:06:05-06:00" />
+
+<meta itemprop="name" content="三元环计数">
+<meta itemprop="description" content="介绍 给定一个无向图，找出图中所有的三元环，每个环只能被计一次。(比如 $a,b,c$ 和 $b,a,c$ 都是同一个环)。 我们先处理出每个点的 degree，然后建一个新的图"><meta itemprop="datePublished" content="2023-02-06T22:06:05-06:00" />
+<meta itemprop="dateModified" content="2023-02-06T22:06:05-06:00" />
+<meta itemprop="wordCount" content="1086">
+<meta itemprop="keywords" content=",," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="三元环计数"/>
+<meta name="twitter:description" content="介绍 给定一个无向图，找出图中所有的三元环，每个环只能被计一次。(比如 $a,b,c$ 和 $b,a,c$ 都是同一个环)。 我们先处理出每个点的 degree，然后建一个新的图"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">kiki_yan</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF Problems</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">kiki_yan</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF Problems</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">三元环计数</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2023-02-06 22:06:05 -0600 -0600"> 2023-02-06 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
+            </div>
+        
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#介绍">介绍</a></li>
+        <li><a href="#例题">例题</a>
+          <ul>
+            <li><a href="#例1-naq2021-l-sword-countinghttpsvjudgenetcontest540480probleml">例1 NAQ2021 L. <a href="https://vjudge.net/contest/540480#problem/L">Sword Counting</a></a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="介绍">介绍</h2>
+<p>给定一个<strong>无向图</strong>，找出图中所有的三元环，每个环只能被计一次。(比如 $a,b,c$ 和 $b,a,c$ 都是同一个环)。</p>
+<p>我们先处理出每个点的 degree，然后建一个新的图，这个图是<strong>有向图</strong>：</p>
+<p>$u \rightarrow v$ 连一条边当且仅当以下条件之一成立：</p>
+<ol>
+<li>$d_u &lt; d_v$</li>
+<li>$d_u = d_v$ 且 $u&lt;v$。</li>
+</ol>
+<p>其中，$d_u$ 是 $u$ 的degree。</p>
+<p>然后利用如下代码片段进行计数：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> adj[maxn];
+<span style="color:#66d9ef">int</span> deg[maxn];
+<span style="color:#66d9ef">int</span> n,m;
+<span style="color:#66d9ef">int</span> vis[maxn];
+
+<span style="color:#75715e">// check (u,v) 这条边是否满足以下条件之一: 
+</span><span style="color:#75715e">// (1) deg(u) &lt; deg(v)
+</span><span style="color:#75715e">// (2) deg(u) == deg(v) &amp;&amp; u &lt; v
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">valid</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> v) {
+    <span style="color:#66d9ef">return</span> deg[u] <span style="color:#f92672">&lt;</span> deg[v] <span style="color:#f92672">||</span> (deg[u] <span style="color:#f92672">==</span> deg[v] <span style="color:#f92672">&amp;&amp;</span> u <span style="color:#f92672">&lt;</span> v);
+}
+
+vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> adj2[maxn];
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">count_cycle</span>() {
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> a <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; a <span style="color:#f92672">&lt;=</span> n; a<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> b : adj[a]) {
+            <span style="color:#66d9ef">if</span> (valid(a,b)) adj2[a].push_back(b);
+        }
+    }
+
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> a <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; a <span style="color:#f92672">&lt;=</span> n; a<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> b : adj2[a]) vis[b] <span style="color:#f92672">=</span> a;  <span style="color:#75715e">// 打上时间戳
+</span><span style="color:#75715e"></span>
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> b : adj2[a]) {
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> c : adj2[b]) {
+                <span style="color:#66d9ef">if</span> (vis[c] <span style="color:#f92672">==</span> a) {
+                    <span style="color:#75715e">// (a,b,c) 是一个环
+</span><span style="color:#75715e"></span>                    ...
+                }
+            }
+        }
+    }
+}
+</code></pre></div><p>这段代码本质上是枚举了一条边 $(a,b)$，然后找和 $a,b$ 均相连的点 $c$。</p>
+<p>首先正确性不难证明，由于我们按照如上定义得出了一个新的有向图，所以每个环只会被记录一次。</p>
+<p>时间复杂度是 $O(m \sqrt m)$，以下是证明：</p>
+<p>第一步是枚举边 $a,b$，这是 $O(m)$ 的，然后我们讨论 $b$ 是一个大点（$d_b &gt; \sqrt m$）还是一个小点（$d_b \leq \sqrt m$）。</p>
+<ol>
+<li>如果 $b$ 是大点，意味着这样的 $b$ 最多就 $\sqrt m$ 个，而 $d_c \geq d_b$，所以 $c$ 也是大点，这意味着这样的 $c$ 最多也就 $\sqrt m$ 个。所以里层循环枚举 $c$ 的复杂度是 $O(\sqrt m)$，总共 $O(m \sqrt m)$。</li>
+<li>如果 $b$ 是小点，那么很明显 $d_b \leq \sqrt m$，由于 $c$ 是 $b$ 的邻居，这意味着这样的 $c$ 不超过 $d_b = \sqrt m$ 个，所以里层循环枚举 $c$ 的复杂度是 $O(\sqrt m)$，总共 $O(m \sqrt m)$。</li>
+</ol>
+<h2 id="例题">例题</h2>
+<h3 id="例1-naq2021-l-sword-countinghttpsvjudgenetcontest540480probleml">例1 NAQ2021 L. <a href="https://vjudge.net/contest/540480#problem/L" target="_blank">Sword Counting</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个无向图，求形状为如下图的 subgraph 数量：</p>
+<p><img src="/images/095/1.png" alt="img"></p>
+<p>其中，$n,m \leq 10^5$，两个subgraph被看作不同当且仅当存在至少一条边不同。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>先找 $D$，特征是 $d_D \geq 4$，再找 $B$，特征是 $d_B \geq 2$。</p>
+<p>确认完这两个点以后，我们要判断剩下 $A,C,E,F$ 有多少种选法。</p>
+<p>首先注意到，如果 $A$ 同时是 $B,D$ 的一个邻居，那么选了 $A$ 以后会让 $D$ 剩下的选择少一个，否则没有影响。</p>
+<p>所以我们只要找出 $B,D$ 共同的邻居数量，假设 $B,D$ 共同邻居共有 $x$ 个，那么答案为：</p>
+<p>$$(d_B-1-x)C_{d_D-1}^3 + xC_{d_D-2}^3$$</p>
+<p>这个 $x$ 怎么找？就找到所有的三元环即可。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+ll <span style="color:#a6e22e">C3</span>(ll a) {
+    <span style="color:#66d9ef">if</span> (a <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">3</span>) <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">return</span> a <span style="color:#f92672">*</span> (a<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) <span style="color:#f92672">*</span> (a<span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>) <span style="color:#f92672">/</span> <span style="color:#ae81ff">6</span>;
+}
+
+vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> adj[maxn];
+<span style="color:#66d9ef">int</span> deg[maxn];
+map<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> cnt[maxn];  <span style="color:#75715e">// cnt[a][b]: a,b的共同邻居数量, a&lt;b
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">int</span> n,m;
+<span style="color:#66d9ef">int</span> vis[maxn];
+
+<span style="color:#75715e">// check (u,v) 这条边是否满足以下条件之一: 
+</span><span style="color:#75715e">// (1) deg(u) &lt; deg(v)
+</span><span style="color:#75715e">// (2) deg(u) == deg(v) &amp;&amp; u &lt; v
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">valid</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> v) {
+    <span style="color:#66d9ef">return</span> deg[u] <span style="color:#f92672">&lt;</span> deg[v] <span style="color:#f92672">||</span> (deg[u] <span style="color:#f92672">==</span> deg[v] <span style="color:#f92672">&amp;&amp;</span> u <span style="color:#f92672">&lt;</span> v);
+}
+
+vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> adj2[maxn];
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">count_cycle</span>() {
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> a <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; a <span style="color:#f92672">&lt;=</span> n; a<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> b : adj[a]) {
+            <span style="color:#66d9ef">if</span> (valid(a,b)) adj2[a].push_back(b);
+        }
+    }
+
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> a <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; a <span style="color:#f92672">&lt;=</span> n; a<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> b : adj2[a]) vis[b] <span style="color:#f92672">=</span> a;
+
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> b : adj2[a]) {
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> c : adj2[b]) {
+                <span style="color:#66d9ef">if</span> (vis[c] <span style="color:#f92672">==</span> a) {
+                    <span style="color:#75715e">// (a,b,c) 是一个环
+</span><span style="color:#75715e"></span>                    cnt[min(a,b)][max(a,b)]<span style="color:#f92672">++</span>;
+                    cnt[min(a,c)][max(a,c)]<span style="color:#f92672">++</span>;
+                    cnt[min(b,c)][max(b,c)]<span style="color:#f92672">++</span>;
+                }
+            }
+        }
+    }
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> m;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> m; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">int</span> u, v; cin <span style="color:#f92672">&gt;&gt;</span> u <span style="color:#f92672">&gt;&gt;</span> v;
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+        deg[u]<span style="color:#f92672">++</span>, deg[v]<span style="color:#f92672">++</span>;
+    }
+
+    count_cycle();
+
+    ll ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> d <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; d <span style="color:#f92672">&lt;=</span> n; d<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">if</span> (deg[d] <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">4</span>) <span style="color:#66d9ef">continue</span>;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> b : adj[d]) {
+            <span style="color:#66d9ef">if</span> (deg[b] <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">continue</span>;
+            <span style="color:#66d9ef">int</span> x <span style="color:#f92672">=</span> cnt[min(d,b)][max(d,b)];
+            ans <span style="color:#f92672">=</span> ans <span style="color:#f92672">+</span> C3(deg[d]<span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>) <span style="color:#f92672">*</span> x <span style="color:#f92672">+</span> max(<span style="color:#ae81ff">0</span>, deg[b] <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> x) <span style="color:#f92672">*</span> C3(deg[d]<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>);
+        }
+    }
+    cout <span style="color:#f92672">&lt;&lt;</span> ans <span style="color:#f92672">&lt;&lt;</span> endl;
+}
+</code></pre></div></details>
+
+    </div>
+
+    
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags//"></a>
+          <a href="/tags//"></a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/096-bfs01/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">01BFS 最短路</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/094-%E5%8D%9A%E5%BC%88%E8%AE%BA/">
+            <span class="next-text nav-default">博弈论与SG函数</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://github.com/kiki-yan" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://kiki-yan.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2026
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/kiki-yan/kiki-yan.github.io" target="_blank"></a>
+    </span> 
+    <span class="author">kiki_yan</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/base16/tomorrow.min.css" rel="stylesheet">
+  
+  <script>hljs.configure({tabReplace: '    '});</script><script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

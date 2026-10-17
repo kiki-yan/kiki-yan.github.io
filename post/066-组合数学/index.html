@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>组合数学 - kiki_yan</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="kiki_yan" /><meta name="description" content="本文主要记录一些组合数学的常用模型。 组合数 $C(n,m)$ $C_n^0 = C_n^n = 1$ $C_n^k = C_{n-1}^k &#43; C_{n-1}^{k-1}$ $C_n^k = \frac{n!}{k!(n-k)!}$ $\sum\limits_{i=l}^r C_i^m = C_{r&#43;1}^{m&#43;1}-C_{l}^{m&#43;1}$ • 注：$0! = 1, (0!)^{-1} = 1$ 证明公式2 $n$ 个中选 $k$ 个， 考虑 $n$ 个元素中的" /><meta name="keywords" content="kiki_yan, blog, Codeforces" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
+
+
+<link rel="canonical" href="https://kiki-yan.github.io/post/066-%E7%BB%84%E5%90%88%E6%95%B0%E5%AD%A6/" />
+<link rel="manifest" href="/manifest.json">
+
+
+
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="组合数学" />
+<meta property="og:description" content="本文主要记录一些组合数学的常用模型。 组合数 $C(n,m)$ $C_n^0 = C_n^n = 1$ $C_n^k = C_{n-1}^k &#43; C_{n-1}^{k-1}$ $C_n^k = \frac{n!}{k!(n-k)!}$ $\sum\limits_{i=l}^r C_i^m = C_{r&#43;1}^{m&#43;1}-C_{l}^{m&#43;1}$ • 注：$0! = 1, (0!)^{-1} = 1$ 证明公式2 $n$ 个中选 $k$ 个， 考虑 $n$ 个元素中的" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kiki-yan.github.io/post/066-%E7%BB%84%E5%90%88%E6%95%B0%E5%AD%A6/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2022-01-15T21:52:47+08:00" />
+<meta property="article:modified_time" content="2022-01-15T21:52:47+08:00" />
+
+<meta itemprop="name" content="组合数学">
+<meta itemprop="description" content="本文主要记录一些组合数学的常用模型。 组合数 $C(n,m)$ $C_n^0 = C_n^n = 1$ $C_n^k = C_{n-1}^k &#43; C_{n-1}^{k-1}$ $C_n^k = \frac{n!}{k!(n-k)!}$ $\sum\limits_{i=l}^r C_i^m = C_{r&#43;1}^{m&#43;1}-C_{l}^{m&#43;1}$ • 注：$0! = 1, (0!)^{-1} = 1$ 证明公式2 $n$ 个中选 $k$ 个， 考虑 $n$ 个元素中的"><meta itemprop="datePublished" content="2022-01-15T21:52:47+08:00" />
+<meta itemprop="dateModified" content="2022-01-15T21:52:47+08:00" />
+<meta itemprop="wordCount" content="4048">
+<meta itemprop="keywords" content="数学,," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="组合数学"/>
+<meta name="twitter:description" content="本文主要记录一些组合数学的常用模型。 组合数 $C(n,m)$ $C_n^0 = C_n^n = 1$ $C_n^k = C_{n-1}^k &#43; C_{n-1}^{k-1}$ $C_n^k = \frac{n!}{k!(n-k)!}$ $\sum\limits_{i=l}^r C_i^m = C_{r&#43;1}^{m&#43;1}-C_{l}^{m&#43;1}$ • 注：$0! = 1, (0!)^{-1} = 1$ 证明公式2 $n$ 个中选 $k$ 个， 考虑 $n$ 个元素中的"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">kiki_yan</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF Problems</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">kiki_yan</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF Problems</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">组合数学</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2022-01-15 21:52:47 &#43;0800 &#43;0800"> 2022-01-15 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
+            </div>
+        
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#组合数-cnm">组合数 $C(n,m)$</a>
+              <ul>
+                <li><a href="#杨辉三角">杨辉三角</a></li>
+              </ul>
+            </li>
+            <li><a href="#二项式定理">二项式定理</a></li>
+            <li><a href="#卡特兰数-catalan">卡特兰数 (Catalan)</a></li>
+            <li><a href="#第二类斯特林数">第二类斯特林数</a></li>
+          </ul>
+        </li>
+        <li><a href="#经典例题">经典例题</a>
+          <ul>
+            <li><a href="#例1-男女生排列问题">例1 男女生排列问题</a></li>
+            <li><a href="#例2-小球放盒子问题">例2 小球放盒子问题</a></li>
+            <li><a href="#例3-整数解问题">例3 整数解问题</a></li>
+            <li><a href="#例4-错排问题">例4 错排问题</a></li>
+          </ul>
+        </li>
+        <li><a href="#例题">例题</a>
+          <ul>
+            <li><a href="#例1-ccpc威海2021-m题-810975httpscodeforcescomgym103428problemm">例1 <a href="https://codeforces.com/gym/103428/problem/M">CCPC威海2021 M题 810975</a></a></li>
+            <li><a href="#例2-atcoder-abc235g-gardenshttpsatcoderjpcontestsabc235tasksabc235_g">例2 <a href="https://atcoder.jp/contests/abc235/tasks/abc235_g">Atcoder ABC235G Gardens</a></a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>本文主要记录一些组合数学的常用模型。</p>
+<h3 id="组合数-cnm">组合数 $C(n,m)$</h3>
+<ol>
+<li>$C_n^0 = C_n^n = 1$</li>
+<li>$C_n^k = C_{n-1}^k + C_{n-1}^{k-1}$</li>
+<li>$C_n^k = \frac{n!}{k!(n-k)!}$</li>
+<li>$\sum\limits_{i=l}^r C_i^m = C_{r+1}^{m+1}-C_{l}^{m+1}$</li>
+</ol>
+<p>• 注：$0! = 1, (0!)^{-1} = 1$</p>
+<details class="admonition note"><summary class="admonition-title">证明公式2</summary>
+<p>$n$ 个中选 $k$ 个，
+考虑 $n$ 个元素中的第一个元素：</p>
+<ol>
+<li>如果它被选中，有 $C_{n-1}^{k-1}$ 种。</li>
+<li>如果它没有被选中，有 $C_{n-1}^k$ 种。</li>
+</ol>
+</details>
+<details class="admonition note"><summary class="admonition-title">证明公式4</summary>
+<p>这个对应杨辉三角中的一列。</p>
+<p>$C_{l}^{m+1} + \sum\limits_{i=l}^r C_i^m = (C_l^{m+1} + C_l^m) + \sum\limits_{i=l+1}^r = C_{l+1}^{m+1} + \sum\limits_{i=l+1}^r C_i^m = C_{l+2}^{m+1} + \sum\limits_{i=l+2}^r C_i^m = &hellip; = C_{r+1}^{m+1}$</p>
+</details>
+<h4 id="杨辉三角">杨辉三角</h4>
+<div style='max-width:50%'>
+<!-- <div style='max-width:50%''> -->
+<p><img src="/images/066/2.png" alt="img"></p>
+</div>
+<!-- </div> -->
+<p>第 $i$ 行，第 $j$ 列的数就是 $C_{i-1}^{j-1}$。这个杨辉三角也可以用于证明二项式定理和组合数的一些性质。</p>
+<h3 id="二项式定理">二项式定理</h3>
+<p>$$(a+b)^n = \sum\limits_{k=0}^n C_n^ka^kb^{n-k}$$</p>
+<h3 id="卡特兰数-catalan">卡特兰数 (Catalan)</h3>
+<p>通项公式：</p>
+<ol>
+<li>
+<p>$H_n = 1 ~ (n=0,1)$</p>
+</li>
+<li>
+<p>$H_n = \frac{C_{2n}^n}{n+1}~(n \geq 2)$</p>
+</li>
+<li>
+<p>$H_n = C_{2n}^n - C_{2n}^{n-1}$</p>
+</li>
+</ol>
+<p>递推式：</p>
+<ol>
+<li>
+<p>$H_n = \sum\limits_{i=0}^{n-1}H_{i}H_{n-i-1} = H_0H_{n-1} + H_1H_{n-2} + &hellip; + H_{n-1}H_0$</p>
+</li>
+<li>
+<p>$H_n = \frac{(4n-2)}{n+1} H_{n-1}$</p>
+</li>
+</ol>
+<h3 id="第二类斯特林数">第二类斯特林数</h3>
+<p>$S(n,m)$ 代表将 $n$ 个不同的小球，放进 $m$ 个<strong>相同，非空</strong>盒子的方案数</p>
+<p>通项公式：</p>
+<p>$$S(n,m) = \sum\limits_{i=0}^m (-1)^{m-i}\frac{i^n}{i!(m-i)!}$$</p>
+<p>递推式：</p>
+<p>$$S(n,m) = m*S(n-1,m) + S(n-1,m-1)$$</p>
+<details class="admonition note"><summary class="admonition-title">证明</summary>
+<p>考虑第一个小球，有两种情况：</p>
+<ol>
+<li>独占一个盒子：相当于，其他 $n-1$ 个小球要放进 $m-1$ 个盒子中，且盒子不为空，所以为 $S(n-1,m-1)$</li>
+<li>不独占一个盒子：相当于，先将其他 $n-1$ 个小球放进 $m$ 个盒子中，且盒子不为空，然后从 $m$ 个盒子中选一个，把当前小球放进去，所以为 $m*S(n-1,m)$</li>
+</ol>
+</details>
+<h2 id="经典例题">经典例题</h2>
+<h3 id="例1-男女生排列问题">例1 男女生排列问题</h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>三个女生和五个男生站成一排。</p>
+<ol>
+<li>
+<p>如果女生必须全排在一起，有多少种排法？</p>
+</li>
+<li>
+<p>如果女生不能相邻，有多少种排法？</p>
+</li>
+<li>
+<p>如果两端都不排女生，有多少种排法？</p>
+</li>
+<li>
+<p>如果两端不都排女生，有多少种排法？</p>
+</li>
+</ol>
+</div>
+<details class="admonition note"><summary class="admonition-title">第一题答案</summary>
+<p>将3个女生看作1个，所以就有 $A_6^6$ 种。对于女生内部的排列有 $A_3^3$ 种。所以总共为 $A_6^6A_3^3$ 种。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">第二题答案</summary>
+<p>先排男生，有 $A_5^5$ 种，然后将女生插入6个空位中，有 $A_6^3$ 种。所以总共为 $A_5^5A_6^3$ 种。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">第三题答案</summary>
+<p>先排好两个男生在两边，有 $A_5^2$ 种，两个男生中间的人就可以随便排了，就有 $A_6^6$ 种。所以总共为 $A_5^2A_6^6$ 种。</p>
+<p>也可以这么想，让女生在中间的6个位置先选好3个，有 $A_6^3$ 种，剩下的男生随便排，有 $A_5^5$ 种。所以总共为 $A_6^3A_5^5$ 种，答案和上面一样。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">第四题答案</summary>
+<p>所有排列情况有 $A_8^8$ 种，如果两边都排女生，有 $A_3^2A_6^6$ 种。所以总共为 $A_8^8 - A_3^2A_6^6$ 种。</p>
+</details>
+<h3 id="例2-小球放盒子问题">例2 小球放盒子问题</h3>
+<p>假设有 $n$ 个小球，$m$ 个盒子，要将小球放进这些盒子中，每个小球都必须放入其中一个盒子中。</p>
+<details class="admonition note"><summary class="admonition-title">小球无区别-盒子无区别-不允许空盒</summary>
+<p>略（还没遇到）</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">小球无区别-盒子无区别-允许空盒</summary>
+<p>略（还没遇到）</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">小球无区别-盒子有区别-不允许空盒</summary>
+<p>使用隔板法，在 $n$ 个小球中间放置 $m-1$ 块挡板，将小球分为不为空的 $m$ 部分。小球之间的空位有 $n-1$ 个。所以答案为</p>
+<p>$$C_{n-1}^{m-1}$$</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">小球无区别-盒子有区别-允许空盒</summary>
+<p>先多加 $m$ 个小球，转化为 <strong>不允许空盒</strong> 的问题后，再把多加的 $m$ 个小球拿出来即可。所以答案为</p>
+<p>$$C_{n+m-1}^{m-1}$$</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">小球有区别-盒子无区别-不允许空盒</summary>
+<p>答案就是第二类斯特林数 $S(n,m)$，递推式如上：</p>
+<p>$$S(n,m) = m*S(n-1,m) + S(n-1,m-1)$$</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">小球有区别-盒子无区别-允许空盒</summary>
+<p>在 <strong>不允许空盒</strong> 的基础上，枚举一下 <strong>空盒的个数</strong>。所以答案为</p>
+<p>$$\sum\limits_{i=1}^{\min(n,m)}S(n,i)$$</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">小球有区别-盒子有区别-不允许空盒</summary>
+<p>在 <strong>盒子无区别</strong> 的基础上，乘上盒子的排列 $m!$ 即可，所以答案为：</p>
+<p>$$S(n,m) * m!$$</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">小球有区别-盒子有区别-允许空盒</summary>
+<p>每个小球可以随便选，互不影响，所以答案为：</p>
+<p>$$n^m$$</p>
+</details>
+<h3 id="例3-整数解问题">例3 整数解问题</h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>$$a_1+a_2+&hellip;+a_m = n$$</p>
+<p>的解的个数，由此可以得出一系列的例题，如下：</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">$\forall i \in [1,m], a_i &gt; 0$</summary>
+<p>这就是小球放盒子问题，盒子不为空的情况，用隔板法即可得到答案为在 $n$ 个小球之间放置 $m-1$ 个隔板，等于：</p>
+<p>$$C_{n-1}^{m-1}$$</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">$\forall i \in [1,m], a_i \geq 0$</summary>
+<p>我们直接转化成：</p>
+<p>$$a_1'+a_2'+&hellip;+a_m' = n+m, ~~ \forall i \in [1,m], a_i' &gt; 0$$</p>
+<p>其中 $a_i' = a_i + 1$。</p>
+<p>所以就可以套上面那种情况了，答案为：</p>
+<p>$$C_{n+m-1}^{m-1}$$</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">求 $a_1&#43;a_2&#43;...&#43;a_m &lt; n$，其中 $\forall i \in [1,m], a_i &gt; 0$</summary>
+<p>我们直接添加一个额外的正整数元素 $a_{m+1}$，问题转化为：</p>
+<p>求</p>
+<p>$$a_1+a_2+&hellip;+a_m+a_{m+1} = n, ~~\forall i \in [1,m+1], a_i &gt; 0$$</p>
+<p>又转化成了第一种情况，答案为：</p>
+<p>$$C_{n-1}^m$$</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">$\forall i \in [1,m], a_i \geq 0$，且 $x_1 &gt; 3, x_2 \in [4,8]$</summary>
+<p>我们往最基础的模型（第一种，第二种）情况上面转，也就是尽可能让 $x_i \geq 0$ 或者 $x_i &gt; 0$ 对于所有 $i$ 都成立。</p>
+<p>首先因为 $x_2 \in [4,8]$，所以我们如果令 $x_2 \geq 3$，只要减去 $x_2 \geq 9$ 的情况即可。</p>
+<p>所以现在，我们先求出 $x_1 &gt; 3, x_2 \geq 3$ 的情况即可。</p>
+<p>由于 $x_1 &gt; 3$，我们有 $x_1 \geq 4$，那么我们令 $x_1' = x_1 - 4, x_2' = x_2 - 3$，那么就可以得到 $x_1' \geq 0, x_2' \geq 0$。</p>
+<p>所以我们只要求出：</p>
+<p>$$a_1'+a_2'+&hellip;+a_m = n - 4 - 3 = n-7$$</p>
+<p>其中每一项都 $\geq 0$ 即可。</p>
+<p>所以方案数就是：$C_{n-7+m-1}^{m-1}$。</p>
+<hr>
+<p>同理我们可以求出 $x_1 &gt; 3, x_2 \geq 9$ 的情况，即为：</p>
+<p>$$a_1'+a_2'+&hellip;+a_m = n - 4 - 9 = n-13$$</p>
+<p>所以方案数就是：$C_{n-13+m-1}^{m-1}$。</p>
+<hr>
+<p>两者相减，得到最终答案：</p>
+<p>$$C_{n-7+m-1}^{m-1} - C_{n-13+m-1}^{m-1}$$</p>
+</details>
+<h3 id="例4-错排问题">例4 错排问题</h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>有 $1,2,3,&hellip;,n$ 这些数字，重新排序使得不存在任何一个数字的位置和原来相同，有多少种方法？</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">答案</summary>
+<p>$$D_n = (n-1)(D_{n-1} + D_{n-2})$$</p>
+<p>其中 $D_1 = 0, D_2 = 1$。</p>
+<p>证明：初始情况下如图：</p>
+<p><img src="/images/017/1.jpg" alt="img"></p>
+<p>在图中，上下两行对应的元素需要错开。我们设这种情况下，排序的方法有 $f(n)$ 种。</p>
+<p>对于元素 $1$，我们可以选择除 $1$ 以外的任何一个元素，所以有 $n-1$ 种。</p>
+<p>假设我们选了 $1 \rightarrow 2$，就会变成下图：</p>
+<p><img src="/images/017/2.jpg" alt="img"></p>
+<p>那么，再看元素 $2$：</p>
+<ol>
+<li>
+<p>如果 $2 \rightarrow 1$，那么就会变成下图，即 $f(n-2)$ 种。
+<img src="/images/017/3.jpg" alt="img"></p>
+</li>
+<li>
+<p>如果 $2 \rightarrow 3 ~ or ~ 4 ~ or ~ &hellip; ~ n$，就相当于 $2$ 和 $1$ <strong>必须错开</strong>，那就相当于下图，即 $f(n-1)$ 种。</p>
+<p><img src="/images/017/4.jpg" alt="img"></p>
+</li>
+</ol>
+<p>所以最终就可以得到 $f(n) = (n-1)(f(n-1) + f(n-2))$</p>
+</details>
+<h2 id="例题">例题</h2>
+<h3 id="例1-ccpc威海2021-m题-810975httpscodeforcescomgym103428problemm">例1 <a href="https://codeforces.com/gym/103428/problem/M" target="_blank">CCPC威海2021 M题 810975</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>求 $n$ 场比赛中，胜利 $m$ 场，最长连胜恰好为 $k$ 场的方案数？答案对 $998244353$ 取模。</p>
+<p>其中，$n,m,k \in [0,10^5]$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>首先让我们求最长连胜恰好为 $k$ 连胜的方案数，那么我们就转化成求 <strong>最长连胜</strong> $\leq k$ 连胜的方案数，然后减去 $\leq (k-1)$ 的部分即可。</p>
+<p>现在问题变成：</p>
+<div class='center'>
+<p>求 $n$ 场比赛中，胜利 $m$ 场，最长连胜 $\leq k$ 场的方案数？</p>
+</div>
+<p>那么我们往小球放盒子模型 / 整数解模型 上面转化，我们把一段连胜看作是一个数字，那么因为有 $(n-m)$ 个败场，每一段连胜就相当于插在这些败场的两侧。</p>
+<p>所以就相当于有 $(n-m+1)$ 个盒子，我们把这些一段一段的胜场往盒子里面放。</p>
+<p>也就是求：</p>
+<p>$$a_1+a_2+&hellip;+a_{n-m+1} = m,~~ a_i \in [0,k]$$</p>
+<p>的解数量。</p>
+<p>为了方便，我们直接令 $n = n-m+1$，然后问题变成：</p>
+<hr>
+<p>$$a_1+a_2+&hellip;+a_{n} = m,~~ a_i \in [0,k]$$</p>
+<p>的解数量。</p>
+<p>这个不是 $\geq 0$ 或者 $&gt; 0$ 的形式，所以我们只能容斥来求。</p>
+<p>首先我们有：</p>
+<p>$$|\cap_{i=1}^n a_i \in [0,k]| = |a_i \geq 0| - |\cup_{i=1}^n a_i &gt; k|$$</p>
+<p>简单说就是 <strong>无限制</strong> 减去 <strong>至少有一个 $&gt;k$</strong> 的情况。</p>
+<p>那么怎么求第二项，<strong>至少有一个 $&gt;k$</strong> 的情况？</p>
+<p>由容斥原理我们可以得到：</p>
+<p>$$|\cup_{i=1}^n a_i &gt; k| = \sum\limits_{i=1}^n |a_i &gt; k| - \sum\limits_{i&lt;j,i,j\in [1,n]} |a_i &gt; k \cap a_j &gt; k| + &hellip; - &hellip; $$</p>
+<p>那么对于右手边的第 $j$ 项，就相当于：</p>
+<ol>
+<li>
+<p>对于 $sum$ 符号，相当于：我们首先从 $n$ 项里面选择 $j$ 项出来，使得它们 $&gt;k$，所以共有 $C_{n}^j$ 种选法（每一种选法，得到的方案数都一样，所以可以替代 sum）。</p>
+</li>
+<li>
+<p>那么对于已经确定的 $j$ 个 $&gt;k$ 的数，相当于 $\geq k+1$，所以我们把这些数先减去 $(k+1)$，剩下的就没有限制了（均为 $\geq 0$），就等同于
+$$a_1'+a_2'+&hellip;+a_j'+a_{j+1}+&hellip;+a_n = m-j(k+1)$$</p>
+<p>其中每一项 $\geq 0$ 的方案数，那也就是 $C_{n+m-j(k+1)-1}^{n-1}$</p>
+</li>
+</ol>
+<p>另外如果 $j$ 是偶数，就是加号，否则为减号，所以右手边的第 $j$ 项等于：</p>
+<p>$$(-1)^j * C_n^j * C_{n+m-j(k+1)-1}^{n-1}$$</p>
+<hr>
+<p>• 最后提一下，这个：</p>
+<p>$$a_1+a_2+&hellip;+a_{n-m+1} = m,~~ a_i \in [0,k]$$</p>
+<p>也可以用生成函数做，相当于 $f(x) = 1+x+x^2+&hellip;+x^k$，求 $f(x)^{n-m+1}$ 的第 $m$ 项系数，多项式快速幂即可。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">2e5</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>;
+
+ll f[maxn];
+ll fac[maxn], inv_fac[maxn];
+
+<span style="color:#75715e">// C(a,b) = a! / b! / (a-b)!
+</span><span style="color:#75715e"></span>ll <span style="color:#a6e22e">C</span>(ll a, ll b) {
+    <span style="color:#66d9ef">if</span> (b <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">||</span> a <span style="color:#f92672">&lt;</span> b) <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">return</span> fac[a] <span style="color:#f92672">*</span> inv_fac[b] <span style="color:#f92672">%</span> mod <span style="color:#f92672">*</span> inv_fac[a<span style="color:#f92672">-</span>b] <span style="color:#f92672">%</span> mod;
+}
+
+ll <span style="color:#a6e22e">qpow</span>(ll a, ll b) {
+    ll res <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">while</span> (b) {
+        <span style="color:#66d9ef">if</span> (b <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">1</span>) {
+            res <span style="color:#f92672">=</span> res <span style="color:#f92672">*</span> a <span style="color:#f92672">%</span> mod;
+        }
+        a <span style="color:#f92672">=</span> a <span style="color:#f92672">*</span> a <span style="color:#f92672">%</span> mod;
+        b <span style="color:#f92672">&gt;&gt;=</span> <span style="color:#ae81ff">1</span>;
+    }
+    <span style="color:#66d9ef">return</span> res;
+}
+
+<span style="color:#75715e">// 计算最大连续 &lt;= k 的情况数
+</span><span style="color:#75715e"></span>ll <span style="color:#a6e22e">cal</span>(ll n, ll m, ll k) {
+    <span style="color:#66d9ef">if</span> (k <span style="color:#f92672">&gt;</span> m <span style="color:#f92672">||</span> m <span style="color:#f92672">&gt;</span> n) <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">if</span> (k <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">return</span> (m <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>);
+    <span style="color:#75715e">// n-m+1 个空里面 插 m 个球，限制为 [0,k]
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// a_1 + a_2 + ... a_{n-m+1} = m, a_i in [0,k]
+</span><span style="color:#75715e"></span>    n <span style="color:#f92672">=</span> n <span style="color:#f92672">-</span> m <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+     <span style="color:#75715e">// a_1 + a_2 + ... a_{n} = m, a_i in [0,k]
+</span><span style="color:#75715e"></span>
+    ll ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (ll j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;=</span> n; j<span style="color:#f92672">++</span>) {
+        ll res <span style="color:#f92672">=</span> C(n,p) <span style="color:#f92672">*</span> C(n<span style="color:#f92672">+</span>m<span style="color:#f92672">-</span>j<span style="color:#f92672">*</span>(k<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>)<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, n<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>);
+        <span style="color:#66d9ef">if</span> (p <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">1</span>) ans <span style="color:#f92672">=</span> (ans <span style="color:#f92672">-</span> res <span style="color:#f92672">+</span> mod) <span style="color:#f92672">%</span> mod;
+        <span style="color:#66d9ef">else</span> ans <span style="color:#f92672">=</span> (ans <span style="color:#f92672">+</span> res) <span style="color:#f92672">%</span> mod;
+    }
+
+    <span style="color:#66d9ef">return</span> ans;
+}
+
+ll n,m,k;
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> m <span style="color:#f92672">&gt;&gt;</span> k;
+    <span style="color:#66d9ef">if</span> (n<span style="color:#f92672">-</span>m<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">0</span>) {
+        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+    }
+
+    fac[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> inv_fac[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">for</span> (ll i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> maxn<span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>; i<span style="color:#f92672">++</span>) {
+        fac[i] <span style="color:#f92672">=</span> fac[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">*</span> i <span style="color:#f92672">%</span> mod;
+    }
+    inv_fac[maxn<span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>] <span style="color:#f92672">=</span> qpow(fac[maxn<span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>], mod<span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>);
+    <span style="color:#66d9ef">for</span> (ll i <span style="color:#f92672">=</span> maxn<span style="color:#f92672">-</span><span style="color:#ae81ff">3</span>; i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">1</span>; i<span style="color:#f92672">--</span>) {
+        inv_fac[i] <span style="color:#f92672">=</span> inv_fac[i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">*</span> (i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>) <span style="color:#f92672">%</span> mod;
+    }
+
+    cout <span style="color:#f92672">&lt;&lt;</span> (cal(n,m,k) <span style="color:#f92672">-</span> cal(n,m,k<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) <span style="color:#f92672">+</span> mod) <span style="color:#f92672">%</span> mod <span style="color:#f92672">&lt;&lt;</span> endl;
+}
+</code></pre></div></details>
+<h3 id="例2-atcoder-abc235g-gardenshttpsatcoderjpcontestsabc235tasksabc235_g">例2 <a href="https://atcoder.jp/contests/abc235/tasks/abc235_g" target="_blank">Atcoder ABC235G Gardens</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $a$ 个苹果种子，$b$ 个香蕉种子，$c$ 个樱桃种子，同类型的种子之间没有区别。</p>
+<p>有 $n$ 个花园（花园之间是有区别的），我们要满足以下条件：</p>
+<ol>
+<li>每个花园至少种下一个种子。</li>
+<li>对于每个花园，每一类的种子最多只能有一个。</li>
+<li>不一定需要使用完所有种子。</li>
+</ol>
+<p>求所有方案数？答案对 $998244353$ 取模。</p>
+<p>其中，$1 \leq n \leq 5 \times 10^6, a,b,c \in [0,n]$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>先膜<a href="https://www.bilibili.com/video/BV1Uq4y1y7L7" target="_blank">jiangly的神仙讲解</a>。</p>
+<p>对于容斥的问题，一种常见的套路是 <strong>先去掉一个条件</strong>。</p>
+<p>我们如果<strong>去掉第一个条件</strong>的话，我们会发现每一类的种子其实是<strong>独立</strong>的！</p>
+<p>所以我们考虑苹果种子，我们可以枚举使用种子的数量 $i$，$i$ 的取值范围是 $i \in [0, \min \{n,a\}]$。</p>
+<p>如果我们用了 $i$ 个苹果种子，那么方案数就有 $C_n^i$ 种。</p>
+<p>那么对于苹果种子来说，总方案数就是：</p>
+<p>$$\sum\limits_{i=0}^{\min \{n,a\}} C_n^i$$</p>
+<p>有两种情况：</p>
+<ol>
+<li>如果 $a \geq n$，总方案数就是 $\sum\limits_{i=0}^{n} C_n^i = 2^n$。</li>
+<li>如果 $a &lt; n$，总方案数就是 $\sum\limits_{i=0}^{a} C_n^i$。</li>
+</ol>
+<p>其他两类种子一样，乘起来即可。</p>
+<hr>
+<p>现在我们需要考虑上第一种条件了。</p>
+<p>这个容斥跟上一题很像，因为这个 <strong>每个花园至少种一个种子</strong> 实际上就是 <strong>花园 $i$ 种子数 $\geq 1$ 的并集</strong>（从 $1$ 并到 $n$），所以方案数是</p>
+<div class='center'>
+<p>无限制 - 一个为空 + 两个为空 - 三个为空 ……</p>
+</div>
+<p>写成数学表达式就是：</p>
+<p>$$\sum\limits_{j=0}^n \{(-1)^j * C_n^j * (\sum\limits_{i=0}^{\min \{n,a\}} C_n^i) * (\sum\limits_{i=0}^{\min \{n,b\}} C_n^i) * (\sum\limits_{i=0}^{\min \{n,c\}} C_n^i)\}$$</p>
+<p>这里 $j$ 代表有多少个花园是空的。$C_n^j$ 就是 $n$ 个中选择 $j$ 个花园作为空花园。</p>
+<hr>
+<p>不过还剩下一个问题，这看起来是个 $O(n^2)$ 的做法，我们需要快速计算</p>
+<p>$$\sum\limits_{i=0}^{\min \{n,a\}} C_n^i$$</p>
+<p>因为我们只需要考虑 $a &lt; n$ 的情况，所以只要计算：</p>
+<p>$$\sum\limits_{i=0}^{a} C_n^i$$</p>
+<p>根据组合数的性质：</p>
+<p>$$C_n^m = C_{n-1}^{m-1} + C_{n-1}^m$$</p>
+<p>那么上式就可以化简为：</p>
+<p>$$\sum\limits_{i=0}^{a} C_n^i = \sum\limits_{i=0}^{a} (C_{n-1}^{i-1} + C_{n-1}^i) = \sum\limits_{i=0}^{a-1}C_{n-1}^i + \sum\limits_{i=0}^{a} C_{n-1}^i = 2 * \sum\limits_{i=0}^{a} C_{n-1}^i - C_{n-1}^a$$</p>
+<p>所以我们只要算出 $\sum\limits_{i=0}^{a} C_{n-1}^i$，我们可以在 $O(1)$ 时间内算出 $\sum\limits_{i=0}^{a} C_{n}^i$。</p>
+<p>所以 $j$ 从 $n$ 往 $0$ 枚举即可。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">5e6</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>;
+
+<span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">T</span><span style="color:#f92672">&gt;</span>
+T qpow(T a, <span style="color:#66d9ef">int</span> b) {
+    T res <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">while</span> (b) {
+        <span style="color:#66d9ef">if</span> (b <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">1</span>) res <span style="color:#f92672">*=</span> a;
+        a <span style="color:#f92672">*=</span> a;
+        b <span style="color:#f92672">&gt;&gt;=</span> <span style="color:#ae81ff">1</span>;
+    }
+    <span style="color:#66d9ef">return</span> res;
+}
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">norm</span>(<span style="color:#66d9ef">int</span> x) {
+    <span style="color:#66d9ef">if</span> (x <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) {
+        x <span style="color:#f92672">+=</span> mod;
+    }
+    <span style="color:#66d9ef">if</span> (x <span style="color:#f92672">&gt;=</span> mod) {
+        x <span style="color:#f92672">-=</span> mod;
+    }
+    <span style="color:#66d9ef">return</span> x;
+}
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Z</span> {
+    <span style="color:#66d9ef">int</span> x;
+    Z(<span style="color:#66d9ef">int</span> x <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>) <span style="color:#f92672">:</span> x(norm(x)) {}
+    <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">val</span>() <span style="color:#66d9ef">const</span> {
+        <span style="color:#66d9ef">return</span> x;
+    }
+    Z <span style="color:#66d9ef">operator</span><span style="color:#f92672">-</span>() <span style="color:#66d9ef">const</span> {
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">Z</span>(norm(mod <span style="color:#f92672">-</span> x));
+    }
+    Z <span style="color:#a6e22e">inv</span>() <span style="color:#66d9ef">const</span> {
+        assert(x <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>);
+        <span style="color:#66d9ef">return</span> qpow(<span style="color:#f92672">*</span><span style="color:#66d9ef">this</span>, mod <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>);
+    }
+    Z <span style="color:#f92672">&amp;</span><span style="color:#66d9ef">operator</span><span style="color:#f92672">*=</span>(<span style="color:#66d9ef">const</span> Z <span style="color:#f92672">&amp;</span>rhs) {
+        x <span style="color:#f92672">=</span> (ll)(x) <span style="color:#f92672">*</span> rhs.x <span style="color:#f92672">%</span> mod;
+        <span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">this</span>;
+    }
+    Z <span style="color:#f92672">&amp;</span><span style="color:#66d9ef">operator</span><span style="color:#f92672">+=</span>(<span style="color:#66d9ef">const</span> Z <span style="color:#f92672">&amp;</span>rhs) {
+        x <span style="color:#f92672">=</span> norm(x <span style="color:#f92672">+</span> rhs.x);
+        <span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">this</span>;
+    }
+    Z <span style="color:#f92672">&amp;</span><span style="color:#66d9ef">operator</span><span style="color:#f92672">-=</span>(<span style="color:#66d9ef">const</span> Z <span style="color:#f92672">&amp;</span>rhs) {
+        x <span style="color:#f92672">=</span> norm(x <span style="color:#f92672">-</span> rhs.x);
+        <span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">this</span>;
+    }
+    Z <span style="color:#f92672">&amp;</span><span style="color:#66d9ef">operator</span><span style="color:#f92672">/=</span>(<span style="color:#66d9ef">const</span> Z <span style="color:#f92672">&amp;</span>rhs) {
+        <span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">this</span> <span style="color:#f92672">*=</span> rhs.inv();
+    }
+    <span style="color:#66d9ef">friend</span> Z <span style="color:#66d9ef">operator</span><span style="color:#f92672">*</span>(<span style="color:#66d9ef">const</span> Z <span style="color:#f92672">&amp;</span>lhs, <span style="color:#66d9ef">const</span> Z <span style="color:#f92672">&amp;</span>rhs) {
+        Z res <span style="color:#f92672">=</span> lhs;
+        res <span style="color:#f92672">*=</span> rhs;
+        <span style="color:#66d9ef">return</span> res;
+    }
+    <span style="color:#66d9ef">friend</span> Z <span style="color:#66d9ef">operator</span><span style="color:#f92672">+</span>(<span style="color:#66d9ef">const</span> Z <span style="color:#f92672">&amp;</span>lhs, <span style="color:#66d9ef">const</span> Z <span style="color:#f92672">&amp;</span>rhs) {
+        Z res <span style="color:#f92672">=</span> lhs;
+        res <span style="color:#f92672">+=</span> rhs;
+        <span style="color:#66d9ef">return</span> res;
+    }
+    <span style="color:#66d9ef">friend</span> Z <span style="color:#66d9ef">operator</span><span style="color:#f92672">-</span>(<span style="color:#66d9ef">const</span> Z <span style="color:#f92672">&amp;</span>lhs, <span style="color:#66d9ef">const</span> Z <span style="color:#f92672">&amp;</span>rhs) {
+        Z res <span style="color:#f92672">=</span> lhs;
+        res <span style="color:#f92672">-=</span> rhs;
+        <span style="color:#66d9ef">return</span> res;
+    }
+    <span style="color:#66d9ef">friend</span> Z <span style="color:#66d9ef">operator</span><span style="color:#f92672">/</span>(<span style="color:#66d9ef">const</span> Z <span style="color:#f92672">&amp;</span>lhs, <span style="color:#66d9ef">const</span> Z <span style="color:#f92672">&amp;</span>rhs) {
+        Z res <span style="color:#f92672">=</span> lhs;
+        res <span style="color:#f92672">/=</span> rhs;
+        <span style="color:#66d9ef">return</span> res;
+    }
+};
+
+Z fac[maxn], inv_fac[maxn], P[maxn], pre[<span style="color:#ae81ff">3</span>];
+Z <span style="color:#a6e22e">C</span>(<span style="color:#66d9ef">int</span> n, <span style="color:#66d9ef">int</span> m) {
+    <span style="color:#66d9ef">return</span> fac[n] <span style="color:#f92672">*</span> inv_fac[n<span style="color:#f92672">-</span>m] <span style="color:#f92672">*</span> inv_fac[m];
+}
+
+<span style="color:#66d9ef">int</span> n, a, b, c;
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> a <span style="color:#f92672">&gt;&gt;</span> b <span style="color:#f92672">&gt;&gt;</span> c;
+    fac[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> inv_fac[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> P[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) fac[i] <span style="color:#f92672">=</span> fac[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">*</span> i, P[i] <span style="color:#f92672">=</span> P[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span>;
+    inv_fac[n] <span style="color:#f92672">=</span> qpow(fac[n], mod<span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>);
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> n<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">1</span>; i<span style="color:#f92672">--</span>) inv_fac[i] <span style="color:#f92672">=</span> inv_fac[i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">*</span> (i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>);
+    Z ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> n; j <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>; j<span style="color:#f92672">--</span>) {
+        <span style="color:#66d9ef">int</span> flag <span style="color:#f92672">=</span> (j <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">?</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span> <span style="color:#f92672">:</span> <span style="color:#ae81ff">1</span>;
+        Z res <span style="color:#f92672">=</span> flag;
+        res <span style="color:#f92672">*=</span> C(n, j);
+        Z asum <span style="color:#f92672">=</span> (a <span style="color:#f92672">&gt;=</span> n<span style="color:#f92672">-</span>j) <span style="color:#f92672">?</span> (P[n<span style="color:#f92672">-</span>j]) <span style="color:#f92672">:</span> (pre[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">-</span> C(n<span style="color:#f92672">-</span>j<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, a));
+        Z bsum <span style="color:#f92672">=</span> (b <span style="color:#f92672">&gt;=</span> n<span style="color:#f92672">-</span>j) <span style="color:#f92672">?</span> (P[n<span style="color:#f92672">-</span>j]) <span style="color:#f92672">:</span> (pre[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">-</span> C(n<span style="color:#f92672">-</span>j<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, b));
+        Z csum <span style="color:#f92672">=</span> (c <span style="color:#f92672">&gt;=</span> n<span style="color:#f92672">-</span>j) <span style="color:#f92672">?</span> (P[n<span style="color:#f92672">-</span>j]) <span style="color:#f92672">:</span> (pre[<span style="color:#ae81ff">2</span>] <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">-</span> C(n<span style="color:#f92672">-</span>j<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, c));
+        res <span style="color:#f92672">*=</span> asum <span style="color:#f92672">*</span> bsum <span style="color:#f92672">*</span> csum;
+        pre[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> asum, pre[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> bsum, pre[<span style="color:#ae81ff">2</span>] <span style="color:#f92672">=</span> csum;
+        ans <span style="color:#f92672">+=</span> res;
+    }
+    cout <span style="color:#f92672">&lt;&lt;</span> ans.val() <span style="color:#f92672">&lt;&lt;</span> endl;
+}
+</code></pre></div></details>
+
+    </div>
+
+    
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E6%95%B0%E5%AD%A6/">数学</a>
+          <a href="/tags//"></a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/067-%E6%A0%91%E5%A5%97%E6%A0%91/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">树套树</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/065-%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E6%8F%92%E5%80%BC/">
+            <span class="next-text nav-default">拉格朗日插值</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://github.com/kiki-yan" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://kiki-yan.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2026
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/kiki-yan/kiki-yan.github.io" target="_blank"></a>
+    </span> 
+    <span class="author">kiki_yan</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/base16/tomorrow.min.css" rel="stylesheet">
+  
+  <script>hljs.configure({tabReplace: '    '});</script><script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

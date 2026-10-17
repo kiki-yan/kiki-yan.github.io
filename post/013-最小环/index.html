@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>最小环 - kiki_yan</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="kiki_yan" /><meta name="description" content="定义 最小环：指图中的一个环，它不包含任何更小的环。 在无向图中，最小的最小环为3个节点。在有向图中，最小的最小环为2个节点。（不考虑self-" /><meta name="keywords" content="kiki_yan, blog, Codeforces" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
+
+
+<link rel="canonical" href="https://kiki-yan.github.io/post/013-%E6%9C%80%E5%B0%8F%E7%8E%AF/" />
+<link rel="manifest" href="/manifest.json">
+
+
+
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="最小环" />
+<meta property="og:description" content="定义 最小环：指图中的一个环，它不包含任何更小的环。 在无向图中，最小的最小环为3个节点。在有向图中，最小的最小环为2个节点。（不考虑self-" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kiki-yan.github.io/post/013-%E6%9C%80%E5%B0%8F%E7%8E%AF/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2021-02-25T23:41:02+08:00" />
+<meta property="article:modified_time" content="2021-02-25T23:41:02+08:00" />
+
+<meta itemprop="name" content="最小环">
+<meta itemprop="description" content="定义 最小环：指图中的一个环，它不包含任何更小的环。 在无向图中，最小的最小环为3个节点。在有向图中，最小的最小环为2个节点。（不考虑self-"><meta itemprop="datePublished" content="2021-02-25T23:41:02+08:00" />
+<meta itemprop="dateModified" content="2021-02-25T23:41:02+08:00" />
+<meta itemprop="wordCount" content="1659">
+<meta itemprop="keywords" content="图论,最小环,dfs," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="最小环"/>
+<meta name="twitter:description" content="定义 最小环：指图中的一个环，它不包含任何更小的环。 在无向图中，最小的最小环为3个节点。在有向图中，最小的最小环为2个节点。（不考虑self-"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">kiki_yan</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF Problems</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">kiki_yan</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF Problems</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">最小环</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2021-02-25 23:41:02 &#43;0800 &#43;0800"> 2021-02-25 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
+            </div>
+        
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#定义">定义</a>
+          <ul>
+            <li><a href="#无权无向图求最小环">无权无向图求最小环</a></li>
+            <li><a href="#无权有向图求最小环">无权有向图求最小环</a></li>
+            <li><a href="#有权图求最小环">有权图求最小环</a></li>
+          </ul>
+        </li>
+        <li><a href="#无向图有向图找环">无向图/有向图找环</a>
+          <ul>
+            <li><a href="#无向图找环">无向图找环</a></li>
+            <li><a href="#有向图找环">有向图找环</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="定义">定义</h2>
+<p>最小环：指图中的一个环，它<strong>不包含任何更小</strong>的环。</p>
+<p>在无向图中，最小的最小环为3个节点。在有向图中，最小的最小环为2个节点。（不考虑self-loop的情况）</p>
+<h3 id="无权无向图求最小环">无权无向图求最小环</h3>
+<p>例题: <a href="https://codeforces.com/contest/1364/problem/D" target="_blank">https://codeforces.com/contest/1364/problem/D</a></p>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个 <strong>connected undirected</strong> graph:</p>
+<p>$n$个vertex, 和一个int $k$, 其中 $3 \leq k \leq n$, 请找出 以下的其中之一:</p>
+<ol>
+<li>
+<p>一个独立集(set of vertex， 两两之间没有edge)， 包含 $\lceil\frac{k}{2}\rceil$ 个vertex</p>
+</li>
+<li>
+<p>一个simple cycle (set of vertex, 不包含重复vertex)， 其中 $len \leq k$</p>
+</li>
+</ol>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<ol>
+<li>
+<p>如果这是一个tree ($m = n-1$), 则 (1)很容易找, 只要dfs一下，做一个图的染色 (染成 $0,1$)即可, 最后取 全部的 $0$ 或者 全部的 $1$</p>
+</li>
+<li>
+<p>如果不是tree, 必然存在cycle, 那么我们可以找到一个最小环, 最小环必然满足 (1) 或者 (2)！（易证）</p>
+</li>
+</ol>
+<p>•怎么找最小环? 用DFS!</p>
+<ol>
+<li>维护一个环的长度 <code>len</code></li>
+<li>维护一个 <code>dep[]</code> 数组, 代表每个vertex的depth</li>
+<li>维护一个 <code>pre[]</code> 数组, <code>pre[u]</code> 代表dfs过程中 u的parent</li>
+<li>维护一个 <code>int c</code>, 代表找到的cycle的 终点!</li>
+</ol>
+<p>然后，</p>
+<ol>
+<li>
+<p>从vertex 1开始dfs， <code>dep[to] = dep[cur] + 1</code> 这样来更新 <code>dep[]</code></p>
+</li>
+<li>
+<p>当我们找到一个backward edge时, 更新最小环长度</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">len <span style="color:#f92672">=</span> min(len, abs(dep[to] <span style="color:#f92672">-</span> dep[cur]) <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>))
+</code></pre></div><p>并且更新<code>c</code>, 使得 <code>c = cur</code>, 然后继续探索！</p>
+</li>
+<li>
+<p>dfs结束后, 直接用</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> cycle;
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">findcycle</span>() {
+    <span style="color:#66d9ef">while</span> (len<span style="color:#f92672">--</span>) cycle.push_back(c), c <span style="color:#f92672">=</span> pre[c];
+}
+</code></pre></div><p>即可找到最小环！</p>
+</li>
+</ol>
+<p>时间复杂度：$O(n+m)$</p>
+</details>
+<h3 id="无权有向图求最小环">无权有向图求最小环</h3>
+<p>例题：<a href="https://atcoder.jp/contests/abc142/tasks/abc142_f" target="_blank">https://atcoder.jp/contests/abc142/tasks/abc142_f</a></p>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个 <strong>directed</strong> graph，求它的一个 subgraph 满足：</p>
+<ol>
+<li>$V'$ 是 $V$ 的 non-empty subset</li>
+<li>$E'$ 是 $E$ 中，所有两端均在 $V'$ 内的edges</li>
+<li>$V'$ 中，所有的 vertex 的 in-degree 和 out-degree 均为1</li>
+</ol>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>易知，最小环满足这个条件！</p>
+<p>如何求最小环？可以用 $N$ 次 DFS！</p>
+<ol>
+<li>维护 <code>ed</code> 代表环的终点，维护最小环长度 <code>final</code></li>
+<li>维护一个 <code>dep[]</code> 数组, 代表每个vertex的depth</li>
+<li>维护一个 <code>par[]</code> 数组, <code>par[u]</code> 代表dfs过程中 u的parent</li>
+<li><strong>维护一个 <code>in[]</code></strong> 数组，代表在dfs过程中，当前的某个vertex<strong>是否存在于递归stack中</strong>！</li>
+</ol>
+<p>dfs过程如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">int</span> n,m, dep[maxn], par[maxn];
+<span style="color:#66d9ef">int</span> ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e9</span>, ed <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#66d9ef">final</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e8</span>;
+vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> cycle;
+<span style="color:#66d9ef">bool</span> in[maxn];
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">dfs</span>(<span style="color:#66d9ef">int</span> cur) {
+    in[cur] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    dep[cur] <span style="color:#f92672">=</span> dep[par[cur]] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> e <span style="color:#f92672">=</span> head[cur]; e; e <span style="color:#f92672">=</span> edges[e].nxt) {
+        <span style="color:#66d9ef">int</span> to <span style="color:#f92672">=</span> edges[e].to;
+        <span style="color:#66d9ef">if</span> (dep[to]) {
+            <span style="color:#66d9ef">if</span> (in[to]) {  <span style="color:#75715e">// 必须得在递归栈内
+</span><span style="color:#75715e"></span>                <span style="color:#66d9ef">int</span> res <span style="color:#f92672">=</span> abs(dep[cur] <span style="color:#f92672">-</span> dep[to]) <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+                <span style="color:#66d9ef">if</span> (res <span style="color:#f92672">&lt;</span> ans) {
+                    ans <span style="color:#f92672">=</span> res;
+                    ed <span style="color:#f92672">=</span> cur;
+                }
+            }
+        } <span style="color:#66d9ef">else</span> {
+            par[to] <span style="color:#f92672">=</span> cur;
+            dfs(to);
+        }
+    }
+    in[cur] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+}
+</code></pre></div><blockquote>
+<p>为什么要加 <strong><code>in[]</code></strong> 数组？</p>
+</blockquote>
+<p>如下图：</p>
+<p><img src="/images/013/1.jpg" alt="image"></p>
+<p>我们需要保证这个环必然全部同时出现在递归stack内，否则可能会出问题！</p>
+<p>（如上图，如果不考虑 <code>in[]</code> 数组的话，就有可能<strong>错误的</strong>把 <code>1-&gt;3-&gt;2</code> 当作一个环！</p>
+<blockquote>
+<p>为什么要使用 $N$ 次 dfs ？</p>
+</blockquote>
+<p>如下图：</p>
+<p><img src="/images/013/2.jpg" alt="image"></p>
+<p>如果我们从 $1$ 开始进行 dfs，那么如果是按照图上的访问顺序，会导致我们<strong>找不到</strong>最小环！</p>
+<p>但是如果从 $7$ 开始进行 dfs，就可以找到了！</p>
+<p>所以我们需要每一个点都开始一次dfs，总共 $N$ 次 dfs。</p>
+<blockquote>
+<p>注：优化：可以在每次dfs中找到的环中找最小环，如果不是环中的节点，就不需要考虑了。</p>
+</blockquote>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt; </span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">#define abs(a) ((a&gt;0)?a:-(a))
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> mod <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e9</span><span style="color:#f92672">+</span><span style="color:#ae81ff">7</span>;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e3</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxm <span style="color:#f92672">=</span> <span style="color:#ae81ff">2e3</span><span style="color:#f92672">+</span><span style="color:#ae81ff">10</span>;
+
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Edge</span> {
+    <span style="color:#66d9ef">int</span> to,nxt;
+} edges[maxm];
+<span style="color:#66d9ef">int</span> head[maxn], ecnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+
+<span style="color:#66d9ef">int</span> n,m, dep[maxn], par[maxn];
+<span style="color:#66d9ef">int</span> ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e9</span>, ed <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#66d9ef">final</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e8</span>;
+vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> cycle;
+<span style="color:#66d9ef">bool</span> in[maxn];
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">add</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> v) {
+    Edge e <span style="color:#f92672">=</span> {v, head[u]};
+    edges[ecnt] <span style="color:#f92672">=</span> e;
+    head[u] <span style="color:#f92672">=</span> ecnt<span style="color:#f92672">++</span>;
+}
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">init</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> m;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> m; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">int</span> u,v; cin <span style="color:#f92672">&gt;&gt;</span> u <span style="color:#f92672">&gt;&gt;</span> v;
+        add(u,v);
+    }
+}
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">dfs</span>(<span style="color:#66d9ef">int</span> cur) {
+    in[cur] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    dep[cur] <span style="color:#f92672">=</span> dep[par[cur]] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> e <span style="color:#f92672">=</span> head[cur]; e; e <span style="color:#f92672">=</span> edges[e].nxt) {
+        <span style="color:#66d9ef">int</span> to <span style="color:#f92672">=</span> edges[e].to;
+        <span style="color:#66d9ef">if</span> (dep[to]) {
+            <span style="color:#66d9ef">if</span> (in[to]) {
+                <span style="color:#66d9ef">int</span> res <span style="color:#f92672">=</span> abs(dep[cur] <span style="color:#f92672">-</span> dep[to]) <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+                <span style="color:#66d9ef">if</span> (res <span style="color:#f92672">&lt;</span> ans) {
+                    ans <span style="color:#f92672">=</span> res;
+                    ed <span style="color:#f92672">=</span> cur;
+                }
+            }
+        } <span style="color:#66d9ef">else</span> {
+            par[to] <span style="color:#f92672">=</span> cur;
+            dfs(to);
+        }
+    }
+    in[cur] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+}
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">renew</span>() {
+    fill(dep, dep<span style="color:#f92672">+</span>n<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>);
+    fill(par, par<span style="color:#f92672">+</span>n<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>);
+    fill(in, in<span style="color:#f92672">+</span>n<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>);
+    ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e9</span>;
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    fastio;
+    init();
+
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        dfs(i);
+        <span style="color:#66d9ef">if</span> (ans <span style="color:#f92672">&lt;</span> <span style="color:#66d9ef">final</span>) {
+            <span style="color:#66d9ef">final</span> <span style="color:#f92672">=</span> ans;
+            cycle.clear();
+            <span style="color:#66d9ef">while</span> (ans<span style="color:#f92672">--</span>) cycle.push_back(ed), ed <span style="color:#f92672">=</span> par[ed];
+        }
+        renew();
+    }
+
+    <span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">final</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">1e8</span>) cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+    <span style="color:#66d9ef">else</span> {
+        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#66d9ef">final</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> a : cycle) cout <span style="color:#f92672">&lt;&lt;</span> a <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+    }
+}
+</code></pre></div></details>
+<h3 id="有权图求最小环">有权图求最小环</h3>
+<p>Floyd $O(n^3)$ 可求！</p>
+<h2 id="无向图有向图找环">无向图/有向图找环</h2>
+<h3 id="无向图找环">无向图找环</h3>
+<p>如果有重边的话，dfs记录的应该是parent的边，而不是点！</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> cycle;  
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">dfs1</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> in_edge) {  <span style="color:#75715e">// 这里的参数是 e的编号！
+</span><span style="color:#75715e"></span>    vis[u] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> e <span style="color:#f92672">=</span> head[u]; e; e <span style="color:#f92672">=</span> edges[e].nxt) {
+        <span style="color:#66d9ef">if</span> (e <span style="color:#f92672">==</span> (in_edge <span style="color:#f92672">^</span> <span style="color:#ae81ff">1</span>)) <span style="color:#66d9ef">continue</span>;  <span style="color:#75715e">// 特意处理了大小为2的环，注意这里 (in_edge^1) 需要加括号！
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">int</span> v <span style="color:#f92672">=</span> edges[e].to;
+        <span style="color:#66d9ef">if</span> (vis[v]) {
+            <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>cycle.size()) {  <span style="color:#75715e">// 只跑一个cycle！因为有重边！
+</span><span style="color:#75715e"></span>                <span style="color:#66d9ef">int</span> c <span style="color:#f92672">=</span> u;
+                <span style="color:#66d9ef">while</span> (c <span style="color:#f92672">!=</span> v) {
+                    cycle.push_back(c);
+                    c <span style="color:#f92672">=</span> pre[c];
+                }
+                cycle.push_back(c);
+                <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j : cycle) iscycle[j] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+            }
+        } <span style="color:#66d9ef">else</span> {
+            pre[v] <span style="color:#f92672">=</span> u;
+            dfs1(v, e);  <span style="color:#75715e">// 注意这里参数是 e
+</span><span style="color:#75715e"></span>        }
+    }
+}
+</code></pre></div><h3 id="有向图找环">有向图找环</h3>
+<p>只考虑没有重边的情况，那么就用染色来做。没有访问的染色为 $0$，已经访问了并且在栈里的染色为 $1$，已经访问了，但不在栈里的染色为 $2$。</p>
+<p>然后只用做一次 dfs 就可以了（最小环需要 $n$ 次）。</p>
+
+    </div>
+
+    
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E5%9B%BE%E8%AE%BA/">图论</a>
+          <a href="/tags/%E6%9C%80%E5%B0%8F%E7%8E%AF/">最小环</a>
+          <a href="/tags/dfs/">dfs</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/014-at-abc162e/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Atcoder ABC 162E（数学，计数）</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/012-cf-1395e/">
+            <span class="next-text nav-default">CF 1395E(集合哈希)</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://github.com/kiki-yan" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://kiki-yan.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2026
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/kiki-yan/kiki-yan.github.io" target="_blank"></a>
+    </span> 
+    <span class="author">kiki_yan</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/base16/tomorrow.min.css" rel="stylesheet">
+  
+  <script>hljs.configure({tabReplace: '    '});</script><script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

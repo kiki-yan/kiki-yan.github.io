@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>二分图 &amp; 二分图匹配 - kiki_yan</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="kiki_yan" /><meta name="description" content="二分图 - 定义 二分图是一种特殊的无向图，可以将点集划分为两部分，在同一集合中的节点之间没有 edge。 二分图 - 性质 二分图 $\iff$ 图中没有奇环（指节点个" /><meta name="keywords" content="kiki_yan, blog, Codeforces" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
+
+
+<link rel="canonical" href="https://kiki-yan.github.io/post/046-%E4%BA%8C%E5%88%86%E5%9B%BE/" />
+<link rel="manifest" href="/manifest.json">
+
+
+
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="二分图 &amp; 二分图匹配" />
+<meta property="og:description" content="二分图 - 定义 二分图是一种特殊的无向图，可以将点集划分为两部分，在同一集合中的节点之间没有 edge。 二分图 - 性质 二分图 $\iff$ 图中没有奇环（指节点个" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kiki-yan.github.io/post/046-%E4%BA%8C%E5%88%86%E5%9B%BE/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2021-05-30T22:31:30+08:00" />
+<meta property="article:modified_time" content="2021-05-30T22:31:30+08:00" />
+
+<meta itemprop="name" content="二分图 &amp; 二分图匹配">
+<meta itemprop="description" content="二分图 - 定义 二分图是一种特殊的无向图，可以将点集划分为两部分，在同一集合中的节点之间没有 edge。 二分图 - 性质 二分图 $\iff$ 图中没有奇环（指节点个"><meta itemprop="datePublished" content="2021-05-30T22:31:30+08:00" />
+<meta itemprop="dateModified" content="2021-05-30T22:31:30+08:00" />
+<meta itemprop="wordCount" content="5752">
+<meta itemprop="keywords" content="二分图,二分图匹配," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="二分图 &amp; 二分图匹配"/>
+<meta name="twitter:description" content="二分图 - 定义 二分图是一种特殊的无向图，可以将点集划分为两部分，在同一集合中的节点之间没有 edge。 二分图 - 性质 二分图 $\iff$ 图中没有奇环（指节点个"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">kiki_yan</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF Problems</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">kiki_yan</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF Problems</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">二分图 &amp; 二分图匹配</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2021-05-30 22:31:30 &#43;0800 &#43;0800"> 2021-05-30 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
+            </div>
+        
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#二分图---定义">二分图 - 定义</a></li>
+        <li><a href="#二分图---性质">二分图 - 性质</a></li>
+        <li><a href="#二分图染色">二分图染色</a></li>
+        <li><a href="#模型转化">模型转化</a>
+          <ul>
+            <li><a href="#网格二分图">网格二分图</a></li>
+          </ul>
+        </li>
+        <li><a href="#例题">例题</a>
+          <ul>
+            <li><a href="#例1-cf741c-arpas-overnight-party-and-mehrdads-silent-enteringhttpswwwluogucomcnproblemcf741c">例1 <a href="https://www.luogu.com.cn/problem/CF741C">CF741C Arpa’s overnight party and Mehrdad’s silent entering</a></a></li>
+            <li><a href="#例2-cf553c-love-triangleshttpscodeforcescomcontest553problemc">例2 <a href="https://codeforces.com/contest/553/problem/C">CF553C Love Triangles</a></a></li>
+          </ul>
+        </li>
+        <li><a href="#二分图匹配---定义">二分图匹配 - 定义</a></li>
+        <li><a href="#匈牙利算法求最大匹配">匈牙利算法求最大匹配</a></li>
+        <li><a href="#最大匹配最小点覆盖最大独立集最小边覆盖">最大匹配，最小点覆盖，最大独立集，最小边覆盖</a>
+          <ul>
+            <li><a href="#最小点覆盖">最小点覆盖</a></li>
+            <li><a href="#最大独立集">最大独立集</a></li>
+            <li><a href="#最小边覆盖">最小边覆盖</a></li>
+          </ul>
+        </li>
+        <li><a href="#hopcroft-karp-算法求二分图匹配">Hopcroft-Karp 算法求二分图匹配</a></li>
+        <li><a href="#例题-1">例题</a>
+          <ul>
+            <li><a href="#例1-洛谷p1963-noi2009-变换序列httpswwwluogucomcnproblemp1963">例1 <a href="https://www.luogu.com.cn/problem/P1963">洛谷P1963 NOI2009 变换序列</a></a></li>
+            <li><a href="#例2-洛谷-p2825-heoi2016tjoi2016游戏httpswwwluogucomcnproblemp2825">例2 <a href="https://www.luogu.com.cn/problem/P2825">洛谷 P2825 [HEOI2016/TJOI2016]游戏</a></a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="二分图---定义">二分图 - 定义</h2>
+<p>二分图是一种特殊的<strong>无向图</strong>，可以将点集划分为两部分，在同一集合中的节点之间没有 edge。</p>
+<h2 id="二分图---性质">二分图 - 性质</h2>
+<ol>
+<li>二分图 $\iff$ 图中<strong>没有奇环</strong>（指节点个数为奇数的环） $\iff$ 可以进行二分图染色</li>
+</ol>
+<h2 id="二分图染色">二分图染色</h2>
+<p>给定一个二分图，我们可以仅用两种颜色将每个节点染上色，并且保证每个 edge 的两端颜色一定不同。</p>
+<p>同理，如果一个图可以进行二分图染色，那么它就是一个二分图（这用于 <strong>判断一个图是否为二分图</strong>）</p>
+<p>染色的方法：用 DFS 即可。（记得要从每个节点都开始 DFS 一次）</p>
+<ol>
+<li>随机选择一个点 $u$ 作为出发点，它的颜色为 $c_u = 0$。</li>
+<li>看它的 neighbor $v$ 的颜色，如果等于 $c_u$ ^ $1$，或者没染色，就染成 $c_u$ ^ $1$。否则的话产生冲突，说明这不是二分图。</li>
+</ol>
+<h2 id="模型转化">模型转化</h2>
+<h3 id="网格二分图">网格二分图</h3>
+<p>一个常见的套路，$n \times m$ 的矩阵中，某些格子之间有冲突（比如相邻的格子）。我们按照格子 $(i,j)$ 的和 $(i+j)$ 的<strong>奇偶性</strong> 将格子分为左部分的点和右部分的点，冲突的连边。</p>
+<p>• 在二分图匹配时，一定要分成左右两边的点，并且从左边的点连 <strong>单向边</strong> 到右边的点。</p>
+<h2 id="例题">例题</h2>
+<h3 id="例1-cf741c-arpas-overnight-party-and-mehrdads-silent-enteringhttpswwwluogucomcnproblemcf741c">例1 <a href="https://www.luogu.com.cn/problem/CF741C" target="_blank">CF741C Arpa’s overnight party and Mehrdad’s silent entering</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $n$ 对情侣 $(a_i, b_i)$（$a_i, b_i \in [1,2n]$），总共有 $2n$ 个人，每个人的编号是从 $1$ 到 $2n$。现在有 $2$ 种食物（$1$ 或者 $2$），求一种分配方式使得：</p>
+<ol>
+<li>每对情侣 $(a_i, b_i)$ 不能吃同一种食物。</li>
+<li>相邻的 $3$ 个编号，食物不能完全相同。（编号是环形的，这意味着 $2n, 1, 2$ 也算是相邻的 $3$ 个人）。</li>
+</ol>
+<p>如果无解，输出 $-1$。</p>
+<p>其中，$1 \leq n \leq 10^5$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>每对情侣 $(a_i, b_i)$ 的食物不同，让我们想到二分图。但是第二个条件怎么办？</p>
+<p>直觉上来说，这个题一定是有解的。</p>
+<p>所以，我们可以做一个特殊的限制，直接强制 $2i-1, 2i$ 的食物不同，这个条件就满足了。</p>
+<p>接下来我们要证明，将第二个限制条件转化以后，仍然有解。</p>
+<hr>
+<p>对于这个模型建图，将每个人作为一个节点，每对情侣 $(a_i, b_i)$ 作为一条边连起来。然后再将 $(2i-1, 2i)$ 作为一条边连起来。</p>
+<p>那么只要这个图是<strong>二分图</strong>，就有解。（因为二分图保证了每条边两端的颜色不同）</p>
+<p>如果图中有环，那么必然是由 $x$ 对情侣组成的一个环。所以环的节点数量为 $2x$。所以不可能有奇环。所以这个图是二分图。</p>
+<p>所以建完图以后，跑一个二分图染色即可。</p>
+<p>• 注意，二分图染色的 DFS 要从每一个节点都开始一次。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">2e5</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxm <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e6</span>;
+
+<span style="color:#66d9ef">int</span> n;
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Edge</span> {
+    <span style="color:#66d9ef">int</span> to, nxt;
+} edges[maxn<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>];
+<span style="color:#66d9ef">int</span> head[maxn], ecnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+<span style="color:#66d9ef">int</span> color[maxn];
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">addEdge</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> v) {
+    Edge e <span style="color:#f92672">=</span> {v, head[u]};
+    edges[ecnt] <span style="color:#f92672">=</span> e;
+    head[u] <span style="color:#f92672">=</span> ecnt<span style="color:#f92672">++</span>;
+}
+<span style="color:#66d9ef">int</span> a[maxn], b[maxn];
+<span style="color:#66d9ef">bool</span> vis[maxn];
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">dfs</span>(<span style="color:#66d9ef">int</span> u) {
+    <span style="color:#66d9ef">if</span> (vis[u]) <span style="color:#66d9ef">return</span>;
+    vis[u] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> e <span style="color:#f92672">=</span> head[u]; e; e <span style="color:#f92672">=</span> edges[e].nxt) {
+        <span style="color:#66d9ef">int</span> to <span style="color:#f92672">=</span> edges[e].to;
+        color[to] <span style="color:#f92672">=</span> color[u] <span style="color:#f92672">^</span> <span style="color:#ae81ff">1</span>;
+        dfs(to);
+    }
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> n;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        cin <span style="color:#f92672">&gt;&gt;</span> a[i] <span style="color:#f92672">&gt;&gt;</span> b[i];
+        addEdge(a[i], b[i]);
+        addEdge(b[i], a[i]);
+    }
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>n; i<span style="color:#f92672">+=</span><span style="color:#ae81ff">2</span>) {
+        addEdge(i, i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>);
+        addEdge(i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, i);
+    }
+    vis[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>n; i<span style="color:#f92672">++</span>) dfs(i);
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>color[a[i]]) cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; &#34;</span>;
+        <span style="color:#66d9ef">else</span> cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; &#34;</span>;
+
+        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>color[b[i]]) cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+        <span style="color:#66d9ef">else</span> cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+    }
+}
+</code></pre></div></details>
+<h3 id="例2-cf553c-love-triangleshttpscodeforcescomcontest553problemc">例2 <a href="https://codeforces.com/contest/553/problem/C" target="_blank">CF553C Love Triangles</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $n$ 个人，每两个人之间，要么互相love，要么互相hate。</p>
+<p>现在已知 $m$ 个关系，每个关系的格式为 $a ~ b ~ c$，代表 $a$ 和 $b$ 互相 love（$c = 1$），或者互相 hate（$c = 0$）。</p>
+<p>请求出，有<strong>多少个方案</strong>使得整个关系网满足以下条件（答案对 $10^9+7$ 取模）</p>
+<blockquote>
+<p>对于任意三个人 $a,b,c$，要么这三个人互相 love，要么 $a,b$ 互相love，而 $a,c$ 和 $b,c$ 互相hate。</p>
+</blockquote>
+<p>其中，$3 \leq n \leq 10^5, 0 \leq m \leq 10^5$</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>首先我们会发现，love是有传递性的：如果 $a,b$ 互相love，$b,c$ 互相love，那么根据定义，一定有 $a,c$ 互相love。</p>
+<p>所以对于love的关系，我们可以求出一个连通块，使得这个块内每个人互相love，那就可以缩点了。（当然需要注意的是 hate 不具有传递性）。</p>
+<p>于是，我们只需要考虑一下 hate 怎么处理。</p>
+<hr>
+<p>先放一个结论：</p>
+<blockquote>
+<p>如果我们把这个问题考虑为图染色问题，那么两个互相hate，说明颜色不同。而互相love，说明颜色相同。</p>
+<p>如果存在一个合法的染色方式，则说明有解。（本质上是二分图染色，互相love的在同一侧，互相hate的在两侧）</p>
+</blockquote>
+<p>证明：存在染色方式 $\rightarrow$ 有解：</p>
+<p>任取三个节点 $a,b,c$，有两种情况：</p>
+<ol>
+<li>$a,b,c$ 在同一侧，所以满足 $a,b,c$ 互相love。</li>
+<li>$a,b$ 在同一侧，$c$ 在另外一侧。这也刚好满足了 $a,b$ 互相love，而 $a,c$ 和 $b,c$ 互相hate。</li>
+</ol>
+<p>证明：有解 $\rightarrow$ 存在染色方式：</p>
+<p>根据定义染色即可，我们会发现没有冲突情况。</p>
+<hr>
+<p>方案数怎么计算？</p>
+<p>我们先进行 DFS，求出图中的连通块。</p>
+<p>如果每个连通块内，都没有冲突情况（也就是说，每个连通块都可以做二分图染色）的话，说明有解，否则无解（$ans = 0$）。</p>
+<p>同时我们发现，对于任何一个连通块，我们只要给其中一个节点染上色，这个连通块内的其他所有节点的颜色也都确定了。</p>
+<p>所以我们只需要给每个连通块染色即可。</p>
+<p>设连通块的数量为 $c$，那么答案就是 $2^{c-1}$。</p>
+<p>• 为什么不是 $2^c$？我们只要确定了第一个块的颜色，剩下的 $(c-1)$ 个块随便选颜色。我们答案是否合法，实际上与第一个块的颜色无关。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e5</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>;
+
+<span style="color:#66d9ef">int</span> n,m;
+<span style="color:#66d9ef">int</span> head[maxn], ecnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, color[maxn];
+
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Edge</span> {
+    <span style="color:#66d9ef">int</span> to, nxt, w;
+} edges[maxn<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>];
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">addEdge</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> v, <span style="color:#66d9ef">int</span> w) {
+    Edge e <span style="color:#f92672">=</span> {v, head[u], w};
+    edges[ecnt] <span style="color:#f92672">=</span> e;
+    head[u] <span style="color:#f92672">=</span> ecnt<span style="color:#f92672">++</span>;
+}
+
+ll ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">dfs</span>(<span style="color:#66d9ef">int</span> u) {
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> e <span style="color:#f92672">=</span> head[u]; e; e <span style="color:#f92672">=</span> edges[e].nxt) {
+        <span style="color:#66d9ef">int</span> to <span style="color:#f92672">=</span> edges[e].to, w <span style="color:#f92672">=</span> edges[e].w;
+        <span style="color:#66d9ef">if</span> (color[to] <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>) {
+            <span style="color:#66d9ef">if</span> (color[to] <span style="color:#f92672">!=</span> (color[u] <span style="color:#f92672">^</span> w <span style="color:#f92672">^</span> <span style="color:#ae81ff">1</span>)) ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        } <span style="color:#66d9ef">else</span> {
+            color[to] <span style="color:#f92672">=</span> (color[u] <span style="color:#f92672">^</span> w <span style="color:#f92672">^</span> <span style="color:#ae81ff">1</span>);
+            dfs(to);
+        }
+    }
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> m;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> m; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">int</span> u,v,w; cin <span style="color:#f92672">&gt;&gt;</span> u <span style="color:#f92672">&gt;&gt;</span> v <span style="color:#f92672">&gt;&gt;</span> w;
+        addEdge(u,v,w); addEdge(v,u,w);
+    }
+    fill(color, color<span style="color:#f92672">+</span>maxn, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>);
+    <span style="color:#66d9ef">int</span> cnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">if</span> (color[i] <span style="color:#f92672">==</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) {
+            cnt<span style="color:#f92672">++</span>;
+            color[i] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+            dfs(i);
+        }
+    }
+    cnt<span style="color:#f92672">--</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> cnt; i<span style="color:#f92672">++</span>) {
+        ans <span style="color:#f92672">=</span> ans <span style="color:#f92672">*</span> <span style="color:#ae81ff">2LL</span> <span style="color:#f92672">%</span> mod;
+    }
+    cout <span style="color:#f92672">&lt;&lt;</span> ans <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+}
+</code></pre></div></details>
+<hr>
+<h2 id="二分图匹配---定义">二分图匹配 - 定义</h2>
+<p>一个 <strong>匹配</strong> 的定义是一个 <strong>边集</strong>，并且这个边集中，每两个边之间没有共同的顶点。二分图的最大匹配是指 边的数量 最多的一个匹配。</p>
+<p>二分图匹配常用的算法是 <strong>匈牙利算法</strong> $O(nm)$，或者 <strong>最大流</strong>（dinic的复杂度为 $O(\sqrt n m)$。</p>
+<h2 id="匈牙利算法求最大匹配">匈牙利算法求最大匹配</h2>
+<p>匈牙利算法本质上是一个个求增广路（增广路指的是 <strong>从左开始，到右结束的路径</strong>，其中 左 $\rightarrow$ 右都是未匹配边，右 $\rightarrow$ 左都是匹配边）的过程。</p>
+<p>如果我们以男女配对为例子：</p>
+<p>对于每一个男生 $i$（$i$ 在二分图的 <strong>左侧点集</strong> 中），遍历他每一个心仪的女生 $j$ （$j$ 在二分图的 <strong>右侧点集</strong> 中）（这说明 $(i,j)$ 是一条边）。那么有两种情况：</p>
+<ol>
+<li>女生 $j$ 未配对，那么他们两个就配对在一起，<code>match[j] = i</code>。</li>
+<li>女生 $j$ 已配对，那么就让女生 $j$ 去问一下她当前的男朋友 <code>match[j]</code>，让她男朋友尝试再换一个新的女朋友（所以就变成一个新的男生尝试配对，那么这就是一个递归的过程）。如果她男朋友成功换掉了女朋友，那么这个男生 $i$ 就可以和 女生 $j$ 配对了。否则 $i$ 就只能单着。</li>
+</ol>
+<p>代码片段如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">int</span> n, m, adj[maxn][maxn];
+<span style="color:#66d9ef">int</span> match[maxn], vis[maxn], id <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+<span style="color:#75715e">// match[j] 代表女生j 当前的男朋友 i, vis[j] 代表这个女生在当前男生 i 的配对过程中，是否访问过了
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">dfs</span>(<span style="color:#66d9ef">int</span> i) {
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;=</span> m; j<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>adj[i][j] <span style="color:#f92672">||</span> vis[j] <span style="color:#f92672">==</span> id) <span style="color:#66d9ef">continue</span>;
+
+        vis[j] <span style="color:#f92672">=</span> id;
+        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>match[j] <span style="color:#f92672">||</span> dfs(match[j])) {
+            match[j] <span style="color:#f92672">=</span> i;
+            <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+        }
+    }
+    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    <span style="color:#66d9ef">int</span> ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        id<span style="color:#f92672">++</span>;
+        ans <span style="color:#f92672">+=</span> dfs(i);
+    }
+}
+</code></pre></div><p>有几个需要注意的点：</p>
+<ol>
+<li>利用 <code>int vis[]</code> 来代表这个女生 $j$ 在当前男生 $i$ 的配对过程中，是否访问过了。（因为对于每个男生 $i$ 而言，对于每个女生 $j$ 只需要问一次即可）。</li>
+<li>利用 <code>id</code> 来记录这是第几次 $dfs(i)$，然后只要判断 $vis[j]$ 是否等于 $id$ 就可以判断，本次 DFS 中是否询问过女生 $j$ 了。（这样就不用每次 DFS 结束都 <code>memset()</code> 一次）。</li>
+</ol>
+<p><strong>时间复杂度</strong>：每个男生都要询问所有女生，所以是 $O(nm)$（这里 $n$ 代表左边点集的数量，$m$ 代表右边点集）。</p>
+<h2 id="最大匹配最小点覆盖最大独立集最小边覆盖">最大匹配，最小点覆盖，最大独立集，最小边覆盖</h2>
+<p>以下的 $N$ 指<strong>所有节点</strong>的数量，就是左节点和右节点的数量和。</p>
+<h3 id="最小点覆盖">最小点覆盖</h3>
+<p>定义：选择一个最小的<strong>点集</strong> $S\subset V$ 使得每一条边至少有一个端点在 $S$ 中。</p>
+<p>性质：最小点覆盖 $=$ 最大匹配。</p>
+<p>构造方法：从左边的每一个非匹配点（且未打上标记的）出发，沿着非匹配边正向（从左往右）进行遍历，沿着匹配边反向（从右往左）进行遍历。遍历到的所有点进行标记。</p>
+<p>选取左部分中没有被标记过的点，右部分中被标记过的点，则这些点可以形成该二分图的最小点覆盖。</p>
+<p><img src="/images/046/1.jpg" alt="img"></p>
+<p>证明：</p>
+<ol>
+<li>这个集合的大小等于最大匹配</li>
+</ol>
+<p>一条匹配的边两侧一定都有标记（在增广路上）或都没有标记（不在增广路上），如果有标记，右边的点会被算进去，没有标记的话，左边的点会被算进去，无论如何答案等于最大匹配。</p>
+<ol start="2">
+<li>所有边都被覆盖到了</li>
+</ol>
+<p>对于匹配边，肯定有一个端点被选中了（理由同上）。对于没有匹配的边，它一定会成为增广路的一部分（如果没有，说明增广路遍历过程尚未结束）。</p>
+<ol start="3">
+<li>它是最小的点覆盖</li>
+</ol>
+<p>为了覆盖所有边，不可能比最大匹配更小了，否则违反了最大匹配的定义。</p>
+<h3 id="最大独立集">最大独立集</h3>
+<p>定义：选择一个最大的<strong>点集</strong> $S \subset V$，使得 $\forall u,v \in S$，$(u,v)$ 之间没有边。</p>
+<p>性质：最大独立集 $= N -$ 最大匹配。</p>
+<p>构造方法：直接求最小点覆盖，然后取补集即可。</p>
+<p>证明：我们考虑一下每条边 $(u,v)$，根据定义，$u,v$ 中至少有一个在最小点覆盖中，所以 $u,v$ 中最多只能有一个在最小点覆盖的补集中。</p>
+<p>所以最小点覆盖的补集两两之间没有边。</p>
+<h3 id="最小边覆盖">最小边覆盖</h3>
+<p>定义：选择一个最小的<strong>边集</strong> $A \subset E$，使得这些边能够覆盖到所有的点。</p>
+<p>性质：最小边覆盖 $= N - $ 最大匹配。</p>
+<p>构造方式：设最大匹配为 $M$。先取所有的匹配边，每次能解决 $2$ 个点。对于剩下的没覆盖的点，随便取它的一条非匹配边来覆盖它。</p>
+<p>证明：根据以上构造，匹配边选了 $M$ 条，非匹配边选了 $N-2M$ 条。总共是 $M + N-2M = N-M$。</p>
+<h2 id="hopcroft-karp-算法求二分图匹配">Hopcroft-Karp 算法求二分图匹配</h2>
+<p>我们提到了二分图匹配可以用网络流来 $O(m\sqrt n)$ 的做，但这样不好输出方案，还不好写，但是我们有一个 HK 算法可以在同样的时间复杂度解决这个问题，并且好写。</p>
+<p>大体思路和匈牙利算法一样，只不过限定了只增广最短路，大致分为三步：</p>
+<ol>
+<li>从所有未匹配的左点出发，进行 bfs，求出所有左点的距离。这个bfs过程中，不能经过未匹配的右点（所以只能走增广路）</li>
+<li>和匈牙利算法一样进行 dfs 增广，但只能走 $d_v = d_u + 1$ 的增广路（其中 $u,v$ 均为左点）</li>
+<li>重复，直到无法继续增广。</li>
+</ol>
+<p>时间复杂度：$O(m\sqrt n)$，因为最多增广 $O(\sqrt n)$ 次。</p>
+<p>证明：见 <a href="https://my.oschina.net/u/4279909/blog/4331296" target="_blank">这里</a>。</p>
+<p>大致思想：利用了 “每一轮增广路的长度都比上一轮要长“ 的结论，先跑 $O(\sqrt n)$ 轮将长度 $\leq \sqrt n$ 的增广路都跑完了，并且增广路长度 $&gt; \sqrt n$ 的路径最多只有 $O(\sqrt n)$ 条，因为最大匹配所需要的边最多是 $O(n)$ 级别的。</p>
+<p>• 顺带一提，这个方法能够很方便的求出最小点覆盖的方案，但原理我没搞清楚。</p>
+<p>• 测试 $n=10^5$ 情况的板子：<a href="https://judge.yosupo.jp/problem/bipartitematching" target="_blank">链接</a></p>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e5</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>;
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">HopcroftKarp</span> {
+    <span style="color:#66d9ef">int</span> n, m, res <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;  <span style="color:#75715e">// n: 左点数，m: 右点数, res: 最大匹配
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> lmatch[maxn], rmatch[maxn], dis[maxn];  <span style="color:#75715e">// lmatch[u] -&gt; v, rmatch[v] -&gt; u
+</span><span style="color:#75715e"></span>    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> adj[maxn];
+    HopcroftKarp(<span style="color:#66d9ef">int</span> n, <span style="color:#66d9ef">int</span> m)<span style="color:#f92672">:</span> n(n), m(m) {
+        memset(dis, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#66d9ef">sizeof</span>(dis));
+    }
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">addEdge</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> v) {
+        adj[u].push_back(v);
+    }
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">bfs</span>() {
+        queue<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> q;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>lmatch[i]) {
+                q.push(i), dis[i] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+            } <span style="color:#66d9ef">else</span> dis[i] <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+        }
+        <span style="color:#66d9ef">while</span> (q.size()) {
+            <span style="color:#66d9ef">int</span> u <span style="color:#f92672">=</span> q.front(); q.pop();
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> v : adj[u]) {
+                <span style="color:#66d9ef">if</span> (rmatch[v] <span style="color:#f92672">&amp;&amp;</span> dis[rmatch[v]] <span style="color:#f92672">==</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) {
+                    dis[rmatch[v]] <span style="color:#f92672">=</span> dis[u] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+                    q.push(rmatch[v]);
+                }
+            }
+        }
+    }
+    <span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">dfs</span>(<span style="color:#66d9ef">int</span> u) {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> v : adj[u]) {
+            <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>rmatch[v] <span style="color:#f92672">||</span> (dis[rmatch[v]] <span style="color:#f92672">==</span> dis[u] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&amp;&amp;</span> dfs(rmatch[v]))) {  <span style="color:#75715e">// 注意这里括号
+</span><span style="color:#75715e"></span>                lmatch[u] <span style="color:#f92672">=</span> v; rmatch[v] <span style="color:#f92672">=</span> u; 
+                <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+            }
+        }
+        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+    }
+    <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">max_matching</span>() {
+        <span style="color:#66d9ef">int</span> ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        <span style="color:#66d9ef">while</span> (<span style="color:#ae81ff">1</span>) {
+            bfs();
+            <span style="color:#66d9ef">int</span> d <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+                <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>lmatch[i]) d <span style="color:#f92672">+=</span> dfs(i);
+            }
+            <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>d) <span style="color:#66d9ef">break</span>;
+            ans <span style="color:#f92672">+=</span> d;
+        }
+        <span style="color:#66d9ef">return</span> ans;
+    }
+    pair<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span>, vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> minimum_vertex_cover() {  <span style="color:#75715e">// 最小点覆盖
+</span><span style="color:#75715e"></span>        vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> L, R;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">if</span> (dis[i] <span style="color:#f92672">==</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) L.push_back(i);
+            <span style="color:#66d9ef">else</span> <span style="color:#a6e22e">if</span> (lmatch[i]) R.push_back(lmatch[i]);
+        }
+        <span style="color:#66d9ef">return</span> {L, R};
+    }
+};
+
+<span style="color:#66d9ef">int</span> n, m, M;  <span style="color:#75715e">// n,m: 左右点的数量，M：边的数量
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> m <span style="color:#f92672">&gt;&gt;</span> M;
+    HopcroftKarp hk(n, m);
+    <span style="color:#66d9ef">while</span> (M<span style="color:#f92672">--</span>) {
+        <span style="color:#66d9ef">int</span> u, v; cin <span style="color:#f92672">&gt;&gt;</span> u <span style="color:#f92672">&gt;&gt;</span> v;
+        hk.addEdge(u, v);
+    }
+    cout <span style="color:#f92672">&lt;&lt;</span> hk.max_matching() <span style="color:#f92672">&lt;&lt;</span> endl;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">if</span> (hk.lmatch[i]) cout <span style="color:#f92672">&lt;&lt;</span> i <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; &#34;</span> <span style="color:#f92672">&lt;&lt;</span> hk.lmatch[i] <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+    }
+}
+</code></pre></div></details>
+<h2 id="例题-1">例题</h2>
+<h3 id="例1-洛谷p1963-noi2009-变换序列httpswwwluogucomcnproblemp1963">例1 <a href="https://www.luogu.com.cn/problem/P1963" target="_blank">洛谷P1963 NOI2009 变换序列</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个序列 $0,1,&hellip;,N-1$，我们需要求出一个变换序列 $T$，其中 $T$ 是 $0$ 到 $N-1$ 的一个 permutation。</p>
+<p>同时，我们定义任意两个数字 $i,j$ 之间的距离 $D(i,j) = \min \{ |i-j|, N-|i-j|\}$。</p>
+<p>现在给定原序列 和 变换序列 $T$ 之间，每个元素的距离 $D_i$，求出一个字典序最小的变换序列 $T$，如果无解，则输出 &ldquo;No Answer&rdquo;。</p>
+<p>其中，$N \leq 10^4$。</p>
+<hr>
+<p>样例：</p>
+<p>Input:</p>
+<pre tabindex="0"><code>5
+1 1 2 2 1
+</code></pre><p>Output:</p>
+<pre tabindex="0"><code>1 2 4 0 3
+</code></pre><p>解释：原序列是 <code>[0,1,2,3,4]</code>，距离序列是 <code>[1,1,2,2,1]</code>，所以最终的变换序列可能是 <code>[0+1, 1+1, 2+2, 3-|5-2|, 4-1] = [1,2,4,0,3]</code>。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>将 <strong>原序列</strong> 作为二分图的左部分，<strong>变换序列</strong>作为二分图右部分。连边的方式就根据 <strong>距离序列</strong> 来。</p>
+<p>例如原序列的第一个位置是 $0$，对应的距离序列第一个位置是 $1$，所以变换序列对应的值可能是 $1$ 或者 $4$。所以 $0 \rightarrow 1, 0 \rightarrow 4$ 连边即可。</p>
+<p>连完边，跑一个最大匹配即可，如果最大匹配的数量等于 $N$ 说明有解，否则无解。</p>
+<hr>
+<p>最后考虑一下 <strong>字典序最小</strong> 怎么解决？</p>
+<p>一般来说，看到 <strong>字典序最小</strong> 就想到 <strong>贪心</strong>。所以第一个贪心思路是每次匹配的时候都 <strong>从小到大</strong> 找配对点。</p>
+<p>然而这样有一个问题，比如 $0 \rightarrow 1$ 以后，有可能因为后续的匹配导致 $0 \rightarrow 4$。</p>
+<p>所以我们按照编号大小，<strong>从后往前</strong>进行 DFS 即可。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> n; i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">1</span>; i<span style="color:#f92672">--</span>) {  <span style="color:#75715e">// 注意这里是从 n 到 1
+</span><span style="color:#75715e"></span>    id<span style="color:#f92672">++</span>;
+    dfs(i);
+}
+</code></pre></div></details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e4</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>;
+
+<span style="color:#66d9ef">int</span> match[maxn], vis[maxn], id <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, d[maxn], n;
+set<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> adj[maxn];
+
+<span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">dfs</span>(<span style="color:#66d9ef">int</span> i) {
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j : adj[i]) {
+        <span style="color:#66d9ef">if</span> (vis[j] <span style="color:#f92672">==</span> id) <span style="color:#66d9ef">continue</span>;
+        vis[j] <span style="color:#f92672">=</span> id;
+        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>match[j]) {
+            match[j] <span style="color:#f92672">=</span> i;
+            <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+        }
+        <span style="color:#66d9ef">if</span> (dfs(match[j])) {
+            match[j] <span style="color:#f92672">=</span> i;
+            <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+        }
+    }
+    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+
+<span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">ok</span>(<span style="color:#66d9ef">int</span> i) { <span style="color:#66d9ef">return</span> i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&amp;&amp;</span> i <span style="color:#f92672">&lt;=</span> n; }
+
+<span style="color:#66d9ef">int</span> ans[maxn];
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> n;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) cin <span style="color:#f92672">&gt;&gt;</span> d[i];
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> (i <span style="color:#f92672">-</span> d[i]);
+        <span style="color:#66d9ef">if</span> (ok(j)) adj[i].insert(j);
+        j <span style="color:#f92672">=</span> (i <span style="color:#f92672">+</span> d[i]);
+        <span style="color:#66d9ef">if</span> (ok(j)) adj[i].insert(j);
+        j <span style="color:#f92672">=</span> (i <span style="color:#f92672">+</span> (n <span style="color:#f92672">-</span> d[i]));
+        <span style="color:#66d9ef">if</span> (ok(j)) adj[i].insert(j);
+        j <span style="color:#f92672">=</span> (i <span style="color:#f92672">-</span> (n <span style="color:#f92672">-</span> d[i]));
+        <span style="color:#66d9ef">if</span> (ok(j)) adj[i].insert(j);
+    }
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> n; i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">1</span>; i<span style="color:#f92672">--</span>) {
+        id<span style="color:#f92672">++</span>;
+        dfs(i);
+    }
+    <span style="color:#66d9ef">int</span> cnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">if</span> (match[i]) cnt<span style="color:#f92672">++</span>;
+    }
+    <span style="color:#66d9ef">if</span> (cnt <span style="color:#f92672">&lt;</span> n) {
+        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;No Answer&#34;</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+    } <span style="color:#66d9ef">else</span> {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) ans[match[i]] <span style="color:#f92672">=</span> i;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) cout <span style="color:#f92672">&lt;&lt;</span> ans[i]<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; &#34;</span>;
+        cout <span style="color:#f92672">&lt;&lt;</span> endl;
+    }
+}
+</code></pre></div></details>
+<h3 id="例2-洛谷-p2825-heoi2016tjoi2016游戏httpswwwluogucomcnproblemp2825">例2 <a href="https://www.luogu.com.cn/problem/P2825" target="_blank">洛谷 P2825 [HEOI2016/TJOI2016]游戏</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>在游戏 &ldquo;泡泡堂&rdquo; 中，给定一个 $n \times m$ 的网格，其中 <code>*</code> 代表空地，<code>x</code> 代表软石头，<code>#</code> 代表硬石头。</p>
+<p>每个炸弹会影响它所在的行与列。炸弹可以穿透软石头，但是无法穿透硬石头。</p>
+<p>给定一个地图，求最多放置多少个炸弹，使得每两个炸弹之间不会互相炸到？</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>二分图匹配的一个常见套路就是应用在 <strong>网格地图</strong> 中。</p>
+<p>我们把 <strong>每一行</strong> 看作一个节点，<strong>每一列</strong> 也看作一个节点，而<strong>每个网格就看作一条边</strong>。</p>
+<p>如果我们不考虑硬石头的情况，那么这个题非常简单。把每个空地看作一条边，连起来以后跑一个最大匹配即可。</p>
+<p>但是现在有硬石头。我们会发现一个硬石头可以 <strong>隔断纵向的和横向的</strong> 炸弹威力。那么，我们把硬石头隔断的部分，也看作是一个节点即可。</p>
+<p>也就是说，现在不再是每一行/每一列作为节点，而是以 <strong>横向/纵向 线段</strong> 作为单位，每个线段是一个节点。</p>
+<p>现在，每个网格里有 $3$ 种情况：</p>
+<ol>
+<li>空地：看作一个正常的边</li>
+<li>软石头：忽略不计</li>
+<li>硬石头：作为分界点，上下是两个不同的线段，左右是两个不同的线段。</li>
+</ol>
+<p>图建好了，再跑一个最大匹配即可。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">55</span>;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxm <span style="color:#f92672">=</span> <span style="color:#ae81ff">2505</span>;
+
+<span style="color:#66d9ef">int</span> n,m;
+<span style="color:#66d9ef">char</span> arr[maxn][maxn];
+vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> adj[maxm];
+
+<span style="color:#66d9ef">int</span> id, lcnt, rcnt;
+<span style="color:#66d9ef">int</span> l[maxn][maxn], r[maxn][maxn];
+<span style="color:#66d9ef">int</span> match[maxm], vis[maxm], vis_id;
+
+<span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">dfs</span>(<span style="color:#66d9ef">int</span> i) {
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j : adj[i]) {
+        <span style="color:#66d9ef">if</span> (vis[j] <span style="color:#f92672">==</span> vis_id) <span style="color:#66d9ef">continue</span>;
+        vis[j] <span style="color:#f92672">=</span> vis_id;
+        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>match[j] <span style="color:#f92672">||</span> dfs(match[j])) {
+            match[j] <span style="color:#f92672">=</span> i;
+            <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+        }
+    }
+    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> m;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;=</span> m; j<span style="color:#f92672">++</span>) {
+            cin <span style="color:#f92672">&gt;&gt;</span> arr[i][j];
+        }
+    }
+    id <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        id<span style="color:#f92672">++</span>;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;=</span> m; j<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">if</span> (arr[i][j] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;#&#39;</span>) {
+                id<span style="color:#f92672">++</span>;
+                <span style="color:#66d9ef">continue</span>;
+            }
+            l[i][j] <span style="color:#f92672">=</span> id;
+        }
+    }
+    lcnt <span style="color:#f92672">=</span> id;
+    id <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;=</span> m; j<span style="color:#f92672">++</span>) {
+        id<span style="color:#f92672">++</span>;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">if</span> (arr[i][j] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;#&#39;</span>) {
+                id<span style="color:#f92672">++</span>;
+                <span style="color:#66d9ef">continue</span>;
+            }
+            r[i][j] <span style="color:#f92672">=</span> id;
+        }
+    }
+    rcnt <span style="color:#f92672">=</span> id;
+
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;=</span> m; j<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">if</span> (arr[i][j] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;*&#39;</span>) {
+                adj[l[i][j]].push_back(r[i][j]);
+            }
+        }
+    }
+    <span style="color:#66d9ef">int</span> ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> lcnt; i<span style="color:#f92672">++</span>) {
+        vis_id<span style="color:#f92672">++</span>;
+        ans <span style="color:#f92672">+=</span> dfs(i);
+    }
+    cout <span style="color:#f92672">&lt;&lt;</span> ans <span style="color:#f92672">&lt;&lt;</span> endl;
+}
+</code></pre></div></details>
+
+    </div>
+
+    
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E4%BA%8C%E5%88%86%E5%9B%BE/">二分图</a>
+          <a href="/tags/%E4%BA%8C%E5%88%86%E5%9B%BE%E5%8C%B9%E9%85%8D/">二分图匹配</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/047-%E7%BD%91%E7%BB%9C%E6%B5%81/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">网络流</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/045-%E6%8D%A2%E6%A0%B9dp/">
+            <span class="next-text nav-default">换根DP</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://github.com/kiki-yan" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://kiki-yan.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2026
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/kiki-yan/kiki-yan.github.io" target="_blank"></a>
+    </span> 
+    <span class="author">kiki_yan</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/base16/tomorrow.min.css" rel="stylesheet">
+  
+  <script>hljs.configure({tabReplace: '    '});</script><script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

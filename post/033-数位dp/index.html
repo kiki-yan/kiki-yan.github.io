@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>数位DP - kiki_yan</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="kiki_yan" /><meta name="description" content="介绍 数位DP是指这样一类题型： 给定一些限定条件，求 $[L,R]$ 内满足这些条件的数字数量，一般 $L,R$ 可能非常大（例如$10^{18}, 10^{1000}$）" /><meta name="keywords" content="kiki_yan, blog, Codeforces" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
+
+
+<link rel="canonical" href="https://kiki-yan.github.io/post/033-%E6%95%B0%E4%BD%8Ddp/" />
+<link rel="manifest" href="/manifest.json">
+
+
+
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="数位DP" />
+<meta property="og:description" content="介绍 数位DP是指这样一类题型： 给定一些限定条件，求 $[L,R]$ 内满足这些条件的数字数量，一般 $L,R$ 可能非常大（例如$10^{18}, 10^{1000}$）" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kiki-yan.github.io/post/033-%E6%95%B0%E4%BD%8Ddp/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2021-03-18T10:53:51+08:00" />
+<meta property="article:modified_time" content="2021-03-18T10:53:51+08:00" />
+
+<meta itemprop="name" content="数位DP">
+<meta itemprop="description" content="介绍 数位DP是指这样一类题型： 给定一些限定条件，求 $[L,R]$ 内满足这些条件的数字数量，一般 $L,R$ 可能非常大（例如$10^{18}, 10^{1000}$）"><meta itemprop="datePublished" content="2021-03-18T10:53:51+08:00" />
+<meta itemprop="dateModified" content="2021-03-18T10:53:51+08:00" />
+<meta itemprop="wordCount" content="7738">
+<meta itemprop="keywords" content="数位dp,数学,dp," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="数位DP"/>
+<meta name="twitter:description" content="介绍 数位DP是指这样一类题型： 给定一些限定条件，求 $[L,R]$ 内满足这些条件的数字数量，一般 $L,R$ 可能非常大（例如$10^{18}, 10^{1000}$）"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">kiki_yan</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF Problems</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">kiki_yan</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF Problems</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">数位DP</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2021-03-18 10:53:51 &#43;0800 &#43;0800"> 2021-03-18 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
+            </div>
+        
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#介绍">介绍</a></li>
+        <li><a href="#算法">算法</a>
+          <ul>
+            <li><a href="#记忆化搜索">记忆化搜索</a></li>
+            <li><a href="#dp">DP</a></li>
+          </ul>
+        </li>
+        <li><a href="#例题">例题</a>
+          <ul>
+            <li><a href="#例1-洛谷p2657-windy数httpswwwluogucomcnproblemp2657">例1 <a href="https://www.luogu.com.cn/problem/P2657">洛谷P2657 Windy数</a></a></li>
+            <li><a href="#例2-洛谷p2602-数字计数httpswwwluogucomcnproblemp2602"><a href="https://www.luogu.com.cn/problem/P2602">例2 洛谷P2602 数字计数</a></a></li>
+            <li><a href="#例3-洛谷p3413-萌数httpswwwluogucomcnproblemp3413"><a href="https://www.luogu.com.cn/problem/P3413">例3 洛谷P3413 萌数</a></a></li>
+            <li><a href="#例4-洛谷p4127-同类分布httpswwwluogucomcnproblemp4127"><a href="https://www.luogu.com.cn/problem/P4127">例4 洛谷P4127 同类分布</a></a></li>
+            <li><a href="#例5-cf55d-beautiful-numbershttpswwwluogucomcnproblemcf55d"><a href="https://www.luogu.com.cn/problem/CF55D">例5 CF55D Beautiful numbers</a></a></li>
+            <li><a href="#例6-hdu4507-恨7不成妻httpacmhdueducnshowproblemphppid4507"><a href="http://acm.hdu.edu.cn/showproblem.php?pid=4507">例6 HDU4507 恨7不成妻</a></a></li>
+            <li><a href="#例7-cf1073e-segment-sumhttpscodeforcescomcontest1073probleme">例7 <a href="https://codeforces.com/contest/1073/problem/E">CF1073E Segment Sum</a></a></li>
+            <li><a href="#例8-cfgym104053m-xor-sumhttpscodeforcescomgym104053problemm">例8 CFgym104053M. <a href="https://codeforces.com/gym/104053/problem/M">XOR Sum</a></a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="介绍">介绍</h2>
+<p>数位DP是指这样一类题型：</p>
+<p>给定一些限定条件，求 $[L,R]$ 内满足这些条件的数字数量，一般 $L,R$ 可能非常大（例如$10^{18}, 10^{1000}$）</p>
+<p>限定条件的一些例子：</p>
+<p>例1. 不含前导0，相邻两个数字差至少为2</p>
+<p>例2. 不包含4，不包含62</p>
+<p>例3. 存在长度至少为2的回文子串</p>
+<h2 id="算法">算法</h2>
+<p>首先，求 $[L,R]$ 内满足条件的数字数量，可以转化为 <strong>先求 $[1,R]$，再减去 $[1,L-1]$ 的部分</strong>。</p>
+<p>然后，因为数字很大，所以把它拆成每一位数来看，就可以进行 <strong>DP</strong> 或者 <strong>记忆化搜索</strong> 了。</p>
+<h3 id="记忆化搜索">记忆化搜索</h3>
+<p>经典的搜索状态有：</p>
+<ol>
+<li>当前在第几位数：<code>int pos</code></li>
+<li>是否含有前导0：<code>bool zero</code></li>
+<li>当前数字的前面部分，是否受到最大值限制：<code>bool limit</code></li>
+<li>前一位使用的数字 <code>int pre</code></li>
+</ol>
+<p>• 上述部分状态，有可能用不到。</p>
+<p>• 可能有额外状态，根据题目具体来定。</p>
+<p>• 一般来说，记忆化用到的 <code>dp</code> 数组，<strong>不需要记录</strong> <code>zero</code> 和 <code>limit</code>。</p>
+<p>• 记忆化搜索的代码难度远远小于递推。</p>
+<hr>
+<p>记忆化搜索时，有以下需要注意的点：</p>
+<ol>
+<li>将数位 <strong>从低到高</strong> 进行排列（因为也许可以重复利用），从高位开始，往低位搜。</li>
+<li>有前缀 $0$ 时（<code>zero = 1</code>），注意其他的搜索状态全部清零。（因为有前缀 $0$ 就相当于我们刚刚开始搜索）</li>
+<li><code>dp</code> 数组初始化为 <code>-1</code>，一般每次搜索都要重新 <code>memset(dp, -1, sizeof(dp))</code></li>
+<li><code>dp</code> 数组记录的状态是 <code>(!limit &amp;&amp; !zero)</code> 的状态（即，无任何限制的情况），这样才可以利用。当 <code>(limit || zero)</code> 时，我们需要继续搜索。</li>
+</ol>
+<h3 id="dp">DP</h3>
+<details class="admonition note"><summary class="admonition-title">DP</summary>
+<p>• 因为不推荐这么写，所以折叠了。</p>
+<p>本质和记忆化搜索相同，DP速度可能较快，但是一般很难写，一般有两种写法：</p>
+<hr>
+<p>写法一：</p>
+<p>令 <code>dp</code> 数组记录 <strong>严格小于数字 $x$</strong> 的满足条件的数量。</p>
+<p>将数位按照 <strong>高位到低位</strong> 排好，然后对于前缀等于 $x$ 的那些数，进行单独处理。</p>
+<p>这种写法可以见 <a href="/post/023-at-abc194f/">ABC194F的题解</a></p>
+<hr>
+<p>写法二：</p>
+<p>将数位按照 <strong>低位到高位</strong> 排好。（注意，和上面相反）</p>
+<p>预处理出 <code>dp</code> 数组（不带任何限制）。</p>
+<p>预处理以后，对于每一个询问，都直接进行处理，有3种情况：</p>
+<p>(以下的 $n$ 指的是当前询问数字 $x$ 的数位个数)</p>
+<ol>
+<li>数字使用的位数 $&lt; n$，则没有任何限制，直接加上即可。</li>
+<li>数字使用的位数 $= n$，且最高位的数字 $&lt; arr[n]$，也没有任何限制，直接加上即可。</li>
+<li>数字使用的位数 $= n$，且最高位的数字 $= arr[n]$，则我们需要从最高位的前一位 <code>n-1</code> 开始，对于每一位 <code>i</code>，都枚举当前使用的数字 <code>j = 0,1,...,arr[i]-1</code>，然后再到前一位 <code>i-1</code>。</li>
+</ol>
+<blockquote>
+<p>为什么不枚举 <code>j = arr[i]</code> 的情况？</p>
+</blockquote>
+<p>注意到 <code>dp</code> 数组里表示的是不带任何限制的数量，当 <code>j = arr[i]</code> 时，更高位的数字都被固定为 $x$ 的高位部分了，所以是有限制的，不能算进去。</p>
+<p>以下给出 <a href="https://www.luogu.com.cn/problem/P2657" target="_blank">SCOI2009 windy 数</a> 的写法：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">ll dp[<span style="color:#ae81ff">12</span>][<span style="color:#ae81ff">12</span>];
+<span style="color:#66d9ef">int</span> arr[<span style="color:#ae81ff">12</span>];
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">init</span>() {  <span style="color:#75715e">// 处理无限制的部分
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">9</span>; j<span style="color:#f92672">++</span>) dp[<span style="color:#ae81ff">1</span>][j] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>; i <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">11</span>; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">9</span>; j<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; k <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">9</span>; k<span style="color:#f92672">++</span>) {
+                <span style="color:#66d9ef">if</span> (abs(j<span style="color:#f92672">-</span>k) <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">continue</span>;
+                dp[i][j] <span style="color:#f92672">+=</span> dp[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>][k];
+            }
+        }
+    }
+}
+
+ll <span style="color:#a6e22e">solve</span>(<span style="color:#66d9ef">int</span> a) {
+    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>a) <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+    p <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">while</span> (a) {
+        arr[<span style="color:#f92672">++</span>p] <span style="color:#f92672">=</span> a <span style="color:#f92672">%</span> <span style="color:#ae81ff">10</span>;
+        a <span style="color:#f92672">/=</span> <span style="color:#ae81ff">10</span>;
+    }
+    ll ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> p<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">9</span>; j<span style="color:#f92672">++</span>) ans <span style="color:#f92672">+=</span> dp[i][j];  <span style="color:#75715e">// Case1: 位数 &lt; p
+</span><span style="color:#75715e"></span>    }
+
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;</span> arr[p]; j<span style="color:#f92672">++</span>) ans <span style="color:#f92672">+=</span> dp[p][j];  <span style="color:#75715e">// Case2: 位数 = p，最高位 &lt; p
+</span><span style="color:#75715e"></span>
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> p<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">1</span>; i<span style="color:#f92672">--</span>) {  <span style="color:#75715e">// Case3: 位数 = p，最高位 == arr[p]
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;=</span> arr[i]<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>; j<span style="color:#f92672">++</span>) {  <span style="color:#75715e">// 枚举第i位 &lt; arr[i]的情况 (等于的情况需要单独来处理)
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">if</span> (abs(j <span style="color:#f92672">-</span> arr[i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>]) <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">continue</span>;
+            ans <span style="color:#f92672">+=</span> dp[i][j];
+        }
+        <span style="color:#75715e">// 第i位 == arr[i] 时, 如果高位固定的部分已经不满足了，就不用看后面了
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> (abs(arr[i] <span style="color:#f92672">-</span> arr[i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>]) <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">break</span>;
+    }
+    <span style="color:#66d9ef">if</span> (check()) ans<span style="color:#f92672">++</span>;  <span style="color:#75715e">// 检查一下这个数字 arr[] 本身是否满足条件
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> ans;
+}
+</code></pre></div><p>注：在DP处理<strong>高位 等于 $x$的高位</strong> 时，一定要注意 <strong>高位的数字都已经被固定了</strong>，所以需要算进答案里，或者需要检查一下被固定的数是否满足条件了。</p>
+<p>注：最后要单独检查一下 这个数字 $x$ <strong>本身是否满足条件</strong>。</p>
+</details>
+<h2 id="例题">例题</h2>
+<h3 id="例1-洛谷p2657-windy数httpswwwluogucomcnproblemp2657">例1 <a href="https://www.luogu.com.cn/problem/P2657" target="_blank">洛谷P2657 Windy数</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $a,b \leq 2 \times 10^9$，求 $[a,b]$ 内满足以下条件的数字数量：</p>
+<ol>
+<li>不含前导 $0$</li>
+<li>两个数字之差至少为 $2$</li>
+</ol>
+</div>
+<details class="admonition note"><summary class="admonition-title">代码-DP法二</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+ll dp[<span style="color:#ae81ff">12</span>][<span style="color:#ae81ff">12</span>];
+<span style="color:#66d9ef">int</span> arr[<span style="color:#ae81ff">12</span>];
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">init</span>() {
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">9</span>; j<span style="color:#f92672">++</span>) dp[<span style="color:#ae81ff">1</span>][j] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>; i <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">11</span>; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">9</span>; j<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; k <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">9</span>; k<span style="color:#f92672">++</span>) {
+                <span style="color:#66d9ef">if</span> (abs(j<span style="color:#f92672">-</span>k) <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">continue</span>;
+                dp[i][j] <span style="color:#f92672">+=</span> dp[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>][k];
+            }
+        }
+    }
+}
+
+<span style="color:#66d9ef">int</span> p;
+<span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">check</span>() {
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>; i <span style="color:#f92672">&lt;=</span> p; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">if</span> (abs(arr[i] <span style="color:#f92672">-</span> arr[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]) <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+    }
+    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+}
+ll <span style="color:#a6e22e">solve</span>(<span style="color:#66d9ef">int</span> a) {
+    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>a) <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+    p <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">while</span> (a) {
+        arr[<span style="color:#f92672">++</span>p] <span style="color:#f92672">=</span> a <span style="color:#f92672">%</span> <span style="color:#ae81ff">10</span>;
+        a <span style="color:#f92672">/=</span> <span style="color:#ae81ff">10</span>;
+    }
+    ll ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> p<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">9</span>; j<span style="color:#f92672">++</span>) ans <span style="color:#f92672">+=</span> dp[i][j];  <span style="color:#75715e">// Case1: 位数 &lt; p
+</span><span style="color:#75715e"></span>    }
+
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;</span> arr[p]; j<span style="color:#f92672">++</span>) ans <span style="color:#f92672">+=</span> dp[p][j];  <span style="color:#75715e">// Case2: 位数=p，最高位 &lt; p
+</span><span style="color:#75715e"></span>
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> p<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">1</span>; i<span style="color:#f92672">--</span>) {  <span style="color:#75715e">// Case3: 位数=p，最高位=p
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;=</span> arr[i]<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>; j<span style="color:#f92672">++</span>) {  <span style="color:#75715e">// 枚举第i位 &lt; arr[i]的情况 (等于的情况需要单独来处理)
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">if</span> (abs(j <span style="color:#f92672">-</span> arr[i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>]) <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">continue</span>;
+            ans <span style="color:#f92672">+=</span> dp[i][j];
+        }
+        <span style="color:#75715e">// 第i位 == arr[i] 时, 如果前缀已经不满足了，就不用看后面了
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> (abs(arr[i] <span style="color:#f92672">-</span> arr[i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>]) <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">break</span>;
+    }
+    <span style="color:#66d9ef">if</span> (check()) ans<span style="color:#f92672">++</span>;
+    <span style="color:#66d9ef">return</span> ans;
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    init();
+    <span style="color:#66d9ef">int</span> a,b; cin <span style="color:#f92672">&gt;&gt;</span> b <span style="color:#f92672">&gt;&gt;</span> a;
+    <span style="color:#66d9ef">int</span> r <span style="color:#f92672">=</span> solve(a) <span style="color:#f92672">-</span> solve(b<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>);
+    cout <span style="color:#f92672">&lt;&lt;</span> r <span style="color:#f92672">&lt;&lt;</span> endl;
+}
+</code></pre></div></details>
+<h3 id="例2-洛谷p2602-数字计数httpswwwluogucomcnproblemp2602"><a href="https://www.luogu.com.cn/problem/P2602" target="_blank">例2 洛谷P2602 数字计数</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定两个正整数 $a \leq b \leq 10^{12}$，求 $[a,b]$ 内的所有整数中，每个 digit 出现的次数。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>我们枚举每一个digit，然后进行记忆化搜索即可。</p>
+<p>记忆化搜索一般比较模版化，其中 <code>zero, limit</code> 的套路是可以背下来的。</p>
+<p>对于本题，枚举每一个digit  $cur$，令 $dp[i][j]$ 表示到了 第 $i$ 位，包含 $j$ 个 $cur$的数字数量。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+ll a,b;
+ll dp[<span style="color:#ae81ff">14</span>][<span style="color:#ae81ff">14</span>];  <span style="color:#75715e">// dp[i][j]: 到第i位，包含j个cur的数的数量
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">int</span> arr[<span style="color:#ae81ff">14</span>];  <span style="color:#75715e">// 数字x的各个数位 （从低位到高位）
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> n;  <span style="color:#75715e">// 数字x的长度
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> cur;  <span style="color:#75715e">// 当前枚举的数字 (0...9)
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">// pos: 当前到了第几位
+</span><span style="color:#75715e">// cnt: 当前数字包含了 cnt 个 cur
+</span><span style="color:#75715e">// zero: 是否有前缀 0
+</span><span style="color:#75715e">// limit: 前面部分是否完全等于高位
+</span><span style="color:#75715e"></span>ll <span style="color:#a6e22e">dfs</span>(<span style="color:#66d9ef">int</span> pos, <span style="color:#66d9ef">int</span> cnt, <span style="color:#66d9ef">bool</span> zero, <span style="color:#66d9ef">bool</span> limit) {
+    <span style="color:#66d9ef">if</span> (pos <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">0</span>) {
+        <span style="color:#66d9ef">return</span> cnt;
+    }
+    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>zero <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span>limit <span style="color:#f92672">&amp;&amp;</span> dp[pos][cnt] <span style="color:#f92672">!=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)  <span style="color:#75715e">// 只有在 (!zero &amp;&amp; !limit) 时获得dp值，否则继续往下搜索
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">return</span> dp[pos][cnt];  
+    <span style="color:#66d9ef">int</span> ed <span style="color:#f92672">=</span> <span style="color:#ae81ff">9</span>;
+    <span style="color:#66d9ef">if</span> (limit) ed <span style="color:#f92672">=</span> arr[pos];  <span style="color:#75715e">// 如果前面完全等于高位，那么这一位不能超过当前位
+</span><span style="color:#75715e"></span>
+    ll res <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;=</span> ed; j<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>j <span style="color:#f92672">&amp;&amp;</span> zero) res <span style="color:#f92672">+=</span> dfs(pos<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>);  <span style="color:#75715e">// 如果仍然保持前缀 0，那么记得将 cnt 清零，limit也要清零。
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">else</span> {
+            res <span style="color:#f92672">+=</span> dfs(pos<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, cnt <span style="color:#f92672">+</span> (j <span style="color:#f92672">==</span> cur), <span style="color:#ae81ff">0</span>, limit <span style="color:#f92672">&amp;&amp;</span> (j <span style="color:#f92672">==</span> arr[pos]));
+        }
+    }
+    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>zero <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span>limit) dp[pos][cnt] <span style="color:#f92672">=</span> res;  <span style="color:#75715e">// 只有在 (!zero &amp;&amp; !limit) 时记录dp值
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> res;
+}
+
+ll <span style="color:#a6e22e">solve</span>(ll x) {
+    n <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    memset(dp, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#66d9ef">sizeof</span>(dp));
+    <span style="color:#66d9ef">while</span> (x) {
+        arr[<span style="color:#f92672">++</span>n] <span style="color:#f92672">=</span> x <span style="color:#f92672">%</span> <span style="color:#ae81ff">10</span>;
+        x <span style="color:#f92672">/=</span> <span style="color:#ae81ff">10</span>;
+    }
+    <span style="color:#66d9ef">return</span> dfs(n, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>);  <span style="color:#75715e">// 从高位开始
+</span><span style="color:#75715e"></span>}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> a <span style="color:#f92672">&gt;&gt;</span> b;
+    <span style="color:#66d9ef">for</span> (cur <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; cur <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">9</span>; cur<span style="color:#f92672">++</span>) {
+        cout <span style="color:#f92672">&lt;&lt;</span> solve(b) <span style="color:#f92672">-</span> solve(a<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; &#34;</span>;
+    }
+    cout <span style="color:#f92672">&lt;&lt;</span> endl;
+}
+</code></pre></div></details>
+<h3 id="例3-洛谷p3413-萌数httpswwwluogucomcnproblemp3413"><a href="https://www.luogu.com.cn/problem/P3413" target="_blank">例3 洛谷P3413 萌数</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定两个正整数 $L \leq R \leq 10^{1000}$，求满足以下条件的数字数量：</p>
+<ol>
+<li>$x \in [L,R]$</li>
+<li>$x$ 包含长度至少为2的回文子串</li>
+<li>$x$ 没有前缀 $0$</li>
+</ol>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>我们只需要考虑长度为 $2$ 或者 $3$ 的回文子串即可（因为 $&gt;3$ 的情况已经被它们两个包含了）。</p>
+<p>那么我们可以设定 <code>dp</code> 数组为：</p>
+<p>$dp[i][j][k][0/1]$：我们当前在第 $i$ 位，往前 $2$ 位的数字为 $j$，往前 $1$ 位的数字为 $k$，且 <strong>不包含（0）/ 包含（1） 回文子串</strong> 的数字数量。</p>
+<p>注意到，最后一维度判断了是否包含回文子串。因为一个数有可能 <strong>前面几位没有回文子串</strong>，但是 <strong>后来又有了</strong>。如果我们只记录 <strong>包含</strong> 的情况，会漏掉很多答案。</p>
+<p>而 <code>dfs()</code> 函数的意思是：我们从当前这个状态出发，能获得多少符合条件的数字。</p>
+<blockquote>
+<p>注：有的时候，前 $1$ 位，前 $2$ 位上可能没有数字，我们可以设定这些空着的位为 $10$。</p>
+</blockquote>
+<blockquote>
+<p>注：因为本题数字过大，所以不采用减去 $dfs(L-1)$ 的形式，而是 减去 $dfs(L)$，然后特判一下 $L$ 本身是否满足。</p>
+</blockquote>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+
+ll dp[<span style="color:#ae81ff">1002</span>][<span style="color:#ae81ff">11</span>][<span style="color:#ae81ff">11</span>][<span style="color:#ae81ff">2</span>]; 
+string s;
+<span style="color:#66d9ef">int</span> n;
+
+ll <span style="color:#a6e22e">dfs</span>(<span style="color:#66d9ef">int</span> pos, <span style="color:#66d9ef">int</span> pre2, <span style="color:#66d9ef">int</span> pre1, <span style="color:#66d9ef">bool</span> zero, <span style="color:#66d9ef">bool</span> limit, <span style="color:#66d9ef">bool</span> moe) {
+    <span style="color:#66d9ef">if</span> (pos <span style="color:#f92672">&gt;=</span> n) {
+        <span style="color:#66d9ef">return</span> moe;
+    }
+    <span style="color:#66d9ef">int</span> ed <span style="color:#f92672">=</span> <span style="color:#ae81ff">9</span>;
+    <span style="color:#66d9ef">if</span> (limit) ed <span style="color:#f92672">=</span> s[pos] <span style="color:#f92672">-</span> <span style="color:#e6db74">&#39;0&#39;</span>;
+    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>limit <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span>zero <span style="color:#f92672">&amp;&amp;</span> dp[pos][pre2][pre1][moe] <span style="color:#f92672">!=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">return</span> dp[pos][pre2][pre1][moe];
+
+    ll res <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;=</span> ed; j<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>j <span style="color:#f92672">&amp;&amp;</span> zero) (res <span style="color:#f92672">+=</span> dfs(pos<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>)) <span style="color:#f92672">%=</span> mod;
+        <span style="color:#66d9ef">else</span> {
+            (res <span style="color:#f92672">+=</span> dfs(pos<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, pre1, j, <span style="color:#ae81ff">0</span>, limit <span style="color:#f92672">&amp;&amp;</span> (j <span style="color:#f92672">==</span> ed), moe <span style="color:#f92672">||</span> (j <span style="color:#f92672">==</span> pre1 <span style="color:#f92672">||</span> j <span style="color:#f92672">==</span> pre2))) <span style="color:#f92672">%=</span> mod;
+        }
+    }
+    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>limit <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span>zero) dp[pos][pre2][pre1][moe] <span style="color:#f92672">=</span> res;
+    <span style="color:#66d9ef">return</span> res;
+}
+
+ll <span style="color:#a6e22e">solve</span>(string a) {
+    n <span style="color:#f92672">=</span> a.size();
+    <span style="color:#66d9ef">if</span> (n <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+    memset(dp, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#66d9ef">sizeof</span>(dp));
+    s <span style="color:#f92672">=</span> a;
+    <span style="color:#66d9ef">return</span> dfs(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>);
+}
+
+<span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">check</span>(string s) {
+    <span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> s.size();
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">if</span> (s[i] <span style="color:#f92672">==</span> s[i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>]) <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">if</span> (i<span style="color:#f92672">+</span><span style="color:#ae81ff">2</span> <span style="color:#f92672">&lt;</span> n <span style="color:#f92672">&amp;&amp;</span> s[i] <span style="color:#f92672">==</span> s[i<span style="color:#f92672">+</span><span style="color:#ae81ff">2</span>]) <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+    }
+    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    string a,b;
+    cin <span style="color:#f92672">&gt;&gt;</span> a <span style="color:#f92672">&gt;&gt;</span> b;
+    ll r <span style="color:#f92672">=</span> solve(b) <span style="color:#f92672">-</span> solve(a);
+    r <span style="color:#f92672">+=</span> check(a);
+    cout <span style="color:#f92672">&lt;&lt;</span> (r <span style="color:#f92672">%</span> mod <span style="color:#f92672">+</span> mod) <span style="color:#f92672">%</span> mod <span style="color:#f92672">&lt;&lt;</span> endl;
+}
+</code></pre></div></details>
+<h3 id="例4-洛谷p4127-同类分布httpswwwluogucomcnproblemp4127"><a href="https://www.luogu.com.cn/problem/P4127" target="_blank">例4 洛谷P4127 同类分布</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定两个正整数 $a,b \leq 10^{18}$，求 $[a,b]$ 中，<strong>各位置上数字之和 能够整除该数字</strong> 的数字个数。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>可以发现最大的数字只有 $18$ 个 $9$，所以最大的数位和就是 $18 \times 9 = 162$。</p>
+<p>所以我们可以枚举数位和 $cur$，然后找到符合以下条件的数字 $x$ 的数量：</p>
+<ol>
+<li>$x \in [a,b]$</li>
+<li>$x$ 各位置上数位和 等于 $cur$</li>
+<li>$x \text{ mod } cur = 0$</li>
+</ol>
+<p>令 <code>dp</code> 数组为：</p>
+<p>$dp[i][j][k]$：当前到了第 $i$ 位，数位和为 $j$，数字本身 $\text{mod } cur = k$ 的数字数量。</p>
+<hr>
+<p>注意到本题不关心前缀 $0$，因为就算有前缀 $0$，也不会对 <code>dfs()</code> 内的其他参数 $sum, v$ 产生任何影响，也不会对枚举当前位使用的数字 $j$ 产生影响，所以可以舍去了。</p>
+<hr>
+<p>有一个很重要的优化（在多testcase的情况下，优化程度极大）：</p>
+<p>注意到代码里面：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">for</span> (cur <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; cur <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">162</span>; cur<span style="color:#f92672">++</span>) {
+    memset(dp, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#66d9ef">sizeof</span>(dp));
+    ans <span style="color:#f92672">+=</span> solve(b) <span style="color:#f92672">-</span> solve(a<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>);
+}
+</code></pre></div><p>我们在 <code>solve(b)</code> 结束后，并没有 <code>memset(dp, -1, sizeof(dp));</code></p>
+<p>这是因为我们的 <code>dfs()</code> 是从高位开始，枚举到低位。因为 <code>dp[]</code> 数组里保存的都是 <code>!limit</code> 的无限制情况，所以这里面的内容是<strong>可以重复利用的</strong>！</p>
+<p>但是对于 <strong>不同的 <code>cur</code> 就不能重复利用了</strong>，因为数组本身的意义已经不同了。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+
+ll dp[<span style="color:#ae81ff">19</span>][<span style="color:#ae81ff">163</span>][<span style="color:#ae81ff">163</span>];
+<span style="color:#66d9ef">int</span> arr[<span style="color:#ae81ff">19</span>];
+<span style="color:#66d9ef">int</span> n;
+<span style="color:#66d9ef">int</span> cur;
+
+ll <span style="color:#a6e22e">dfs</span>(<span style="color:#66d9ef">int</span> pos, <span style="color:#66d9ef">int</span> sum, <span style="color:#66d9ef">int</span> v, <span style="color:#66d9ef">bool</span> limit) {  <span style="color:#75715e">// sum为数位和，v为 x % cur 的值
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>pos) {
+        <span style="color:#66d9ef">return</span> (sum <span style="color:#f92672">==</span> cur) <span style="color:#f92672">&amp;&amp;</span> (<span style="color:#f92672">!</span>v);
+    }
+    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>limit <span style="color:#f92672">&amp;&amp;</span> dp[pos][sum][v] <span style="color:#f92672">!=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">return</span> dp[pos][sum][v];
+    <span style="color:#66d9ef">int</span> ed <span style="color:#f92672">=</span> <span style="color:#ae81ff">9</span>;
+    <span style="color:#66d9ef">if</span> (limit) ed <span style="color:#f92672">=</span> arr[pos];
+
+    ll res <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;=</span> ed; j<span style="color:#f92672">++</span>) {
+        res <span style="color:#f92672">+=</span> dfs(pos<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, sum <span style="color:#f92672">+</span> j, (v <span style="color:#f92672">*</span> <span style="color:#ae81ff">10</span> <span style="color:#f92672">+</span> j) <span style="color:#f92672">%</span> cur, limit <span style="color:#f92672">&amp;&amp;</span> (j <span style="color:#f92672">==</span> ed));
+    }
+    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>limit) dp[pos][sum][v] <span style="color:#f92672">=</span> res;
+    <span style="color:#66d9ef">return</span> res;
+}
+
+ll <span style="color:#a6e22e">solve</span>(ll x) {
+    n <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">while</span> (x) {
+        arr[<span style="color:#f92672">++</span>n] <span style="color:#f92672">=</span> x <span style="color:#f92672">%</span> <span style="color:#ae81ff">10</span>;
+        x <span style="color:#f92672">/=</span> <span style="color:#ae81ff">10</span>;
+    }
+    <span style="color:#66d9ef">return</span> dfs(n, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>);
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    memset(dp, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#66d9ef">sizeof</span>(dp));
+    ll a,b; cin <span style="color:#f92672">&gt;&gt;</span> a <span style="color:#f92672">&gt;&gt;</span> b;
+    ll ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (cur <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; cur <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">162</span>; cur<span style="color:#f92672">++</span>) {
+        memset(dp, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#66d9ef">sizeof</span>(dp));
+        ans <span style="color:#f92672">+=</span> solve(b) <span style="color:#f92672">-</span> solve(a<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>);
+    }
+    cout <span style="color:#f92672">&lt;&lt;</span> ans <span style="color:#f92672">&lt;&lt;</span> endl;
+}
+</code></pre></div></details>
+<h3 id="例5-cf55d-beautiful-numbershttpswwwluogucomcnproblemcf55d"><a href="https://www.luogu.com.cn/problem/CF55D" target="_blank">例5 CF55D Beautiful numbers</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定正整数 $L \leq R \leq 9 \times 10^{18}$，求满足以下条件的数字 $x$ 的数量：</p>
+<ol>
+<li>$x \in [L,R]$</li>
+<li>$x$ 能够被它每一位上的数字整除</li>
+</ol>
+<p>共有 $T \leq 10$ 个 testcase</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>$x$ 可以被每一位上的数字整除 $\iff$ $x \text { mod } lcm = 0$</p>
+<p>其中 $lcm$ 是 $x$ 每一位上的数字的 $lcm$。</p>
+<p>发现 $lcm(1,2,&hellip;,9) = 2520$，所以我们可以大致得出以下的状态：</p>
+<p>$dp[i][j][k]$：我们来到了第 $i$ 位，$j$ 表示我们使用了哪些数字，$k$ 代表当前数字 $x \text { mod } 2520$ 的值。</p>
+<p>这样最后在 <code>pos == 0</code> 时，判断一下 $j$ 对应的 $lcm$，然后判断 $k \text { mod } lcm_j = 0$ 是否成立即可。</p>
+<hr>
+<p>现在问题是，这个 $j$ 怎么表示？（$j$ 代表 $x$ 用了 $0,1,2,&hellip;9$ 中的哪些数字）</p>
+<p>可以用状压来实现，其中忽略掉 $0,1$，只记录是否包含 $2,3,&hellip;,9$。大概有 $2^8 - 1$ 种状态，但是这样仍然会 $TLE$，怎么办？</p>
+<p>我们发现，记录使用了哪些数字，只是为了求出这些数字的 $lcm$，那我们直接记录 $lcm$ 作为状态即可！</p>
+<p>但是好像维度反而变大了，因为 $lcm$ 最大可以达到 $2520$，比之前状压的 $2^8 - 1$ 还大。</p>
+<hr>
+<p>再观察一下，发现我们只关心有效的 $lcm$ 值，$2520$ 内的绝大多数值是无效的，所以我们可以枚举出<strong>所有 有效的 $lcm$</strong>，而这些有效的 $lcm$ 就是 <strong>$2520$ 的所有因子</strong>。总共只有 $48$ 个。</p>
+<p>所以我们只需要进行一次 <strong>离散化</strong> 的操作，将这些因子 map 到 $0,1,2,&hellip;,47$，这样 $j$ 就可以只用 $48$ 个数字来表示了。</p>
+<hr>
+<p>最后就是 <code>memset(dp, -1, sizeof(dp))</code> 的优化了，因为本题的 <code>dp[]</code> 数组在不同的 case 之间的含义没有任何变化（都是 $\text {mod } 2520$），所以只在一开始 <code>memset</code> 一次，之后就一直重复利用。</p>
+<p>• 本题的 <code>memset</code> 优化非常重要，因为有 $T = 10$ 个 case ，大概会有 $2 \times T = 20$ 倍左右的速度差（如果不优化会 $TLE$ 的很惨）。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> mod <span style="color:#f92672">=</span> <span style="color:#ae81ff">2520</span>;
+
+ll dp[<span style="color:#ae81ff">20</span>][<span style="color:#ae81ff">49</span>][<span style="color:#ae81ff">2520</span>];
+<span style="color:#66d9ef">int</span> idx[<span style="color:#ae81ff">2521</span>];
+<span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, arr[<span style="color:#ae81ff">20</span>];
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">gcd</span>(<span style="color:#66d9ef">int</span> a, <span style="color:#66d9ef">int</span> b) {
+    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>b) <span style="color:#66d9ef">return</span> a;
+    <span style="color:#66d9ef">return</span> gcd(b, a<span style="color:#f92672">%</span>b);
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">LCM</span>(<span style="color:#66d9ef">int</span> a, <span style="color:#66d9ef">int</span> b) {
+    <span style="color:#66d9ef">return</span> a<span style="color:#f92672">/</span>gcd(a,b)<span style="color:#f92672">*</span>b;
+}
+
+vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> fac;
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">init</span>() {
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> sqrt(mod); i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">if</span> (mod <span style="color:#f92672">%</span> i <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+            fac.push_back(i);
+            <span style="color:#66d9ef">if</span> (i <span style="color:#f92672">!=</span> mod<span style="color:#f92672">/</span>i) fac.push_back(mod<span style="color:#f92672">/</span>i);
+        }
+    }
+    sort(fac.begin(), fac.end());
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> fac.size(); i<span style="color:#f92672">++</span>) {
+        idx[fac[i]] <span style="color:#f92672">=</span> i;  <span style="color:#75715e">// 离散化，例如 idx[1] = 0, idx[2520] = 47
+</span><span style="color:#75715e"></span>    }
+}
+
+<span style="color:#75715e">// lc 代表当前的 lcm, v 代表 x % 2520 的值
+</span><span style="color:#75715e"></span>ll <span style="color:#a6e22e">dfs</span>(<span style="color:#66d9ef">int</span> pos, <span style="color:#66d9ef">int</span> lc, <span style="color:#66d9ef">int</span> v, <span style="color:#66d9ef">bool</span> limit) {
+    <span style="color:#66d9ef">if</span> (pos <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">0</span>) {
+        <span style="color:#66d9ef">return</span> v <span style="color:#f92672">%</span> lc <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>;  <span style="color:#75715e">// 注意，只有在 pos == 0时，才判断 % lc，其余情况都是 % 2520
+</span><span style="color:#75715e"></span>    }
+
+    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>limit <span style="color:#f92672">&amp;&amp;</span> dp[pos][idx[lc]][v] <span style="color:#f92672">!=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) 
+        <span style="color:#66d9ef">return</span> dp[pos][idx[lc]][v];
+
+    <span style="color:#66d9ef">int</span> ed <span style="color:#f92672">=</span> <span style="color:#ae81ff">9</span>;
+    <span style="color:#66d9ef">if</span> (limit) ed <span style="color:#f92672">=</span> arr[pos];
+    ll res <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;=</span> ed; j<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">int</span> newval <span style="color:#f92672">=</span> (v <span style="color:#f92672">*</span> <span style="color:#ae81ff">10</span> <span style="color:#f92672">+</span> j) <span style="color:#f92672">%</span> mod;
+        <span style="color:#66d9ef">if</span> (j <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">2</span>) res <span style="color:#f92672">+=</span> dfs(pos<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, lc, newval, limit <span style="color:#f92672">&amp;&amp;</span> (j <span style="color:#f92672">==</span> ed));
+        <span style="color:#66d9ef">else</span> res <span style="color:#f92672">+=</span> dfs(pos<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, lcm(lc, j), newval, limit <span style="color:#f92672">&amp;&amp;</span> (j <span style="color:#f92672">==</span> ed));
+    }
+
+    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>limit) dp[pos][idx[lc]][v] <span style="color:#f92672">=</span> res;
+    <span style="color:#66d9ef">return</span> res;
+}
+
+ll <span style="color:#a6e22e">solve</span>(ll x) {
+    n <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">while</span> (x) {
+        arr[<span style="color:#f92672">++</span>n] <span style="color:#f92672">=</span> x <span style="color:#f92672">%</span> <span style="color:#ae81ff">10</span>;
+        x <span style="color:#f92672">/=</span> <span style="color:#ae81ff">10</span>;
+    }
+    <span style="color:#66d9ef">return</span> dfs(n,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">1</span>);
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    init();
+    <span style="color:#66d9ef">int</span> T; cin <span style="color:#f92672">&gt;&gt;</span> T;
+    memset(dp, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#66d9ef">sizeof</span>(dp));  <span style="color:#75715e">// 注意，只进行一次 memset
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">while</span> (T<span style="color:#f92672">--</span>) {
+        ll l,r; cin <span style="color:#f92672">&gt;&gt;</span> l <span style="color:#f92672">&gt;&gt;</span> r;
+        l<span style="color:#f92672">--</span>;
+        cout <span style="color:#f92672">&lt;&lt;</span> solve(r) <span style="color:#f92672">-</span> solve(l) <span style="color:#f92672">&lt;&lt;</span> endl;
+    }
+}
+</code></pre></div></details>
+<h3 id="例6-hdu4507-恨7不成妻httpacmhdueducnshowproblemphppid4507"><a href="http://acm.hdu.edu.cn/showproblem.php?pid=4507" target="_blank">例6 HDU4507 恨7不成妻</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定两个正整数 $L \leq R \leq 10^{18}$，求满足以下条件的数字的<strong>平方之和</strong>：</p>
+<ol>
+<li>整数中不含 $7$</li>
+<li>整数中每一位加起来的和 不是 $7$ 的整数倍</li>
+<li>这个整数不被 $7$ 整除</li>
+</ol>
+<p>输出对 $10^9+7$ 取模的结果，共有 $T \leq 50$ 个 testcase</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">错误做法</summary>
+<p>$dp[i][j][k]$：使用到 $i$ 位，每一位的和 $\text{mod } 7 = j$，数字本身 $\text{mod } 7 = k$ 的<strong>平方和</strong>。</p>
+<p>将返回值设定为该数字的平方，然后将 <code>dp</code> 数组的值作为平方之和。</p>
+<blockquote>
+<p>为什么是错的？</p>
+</blockquote>
+<p>考虑记忆化状态：</p>
+<p>那么，数字 $10,80$ 的状态完全相同，但是因为我们先 <code>dfs</code> 到了 $10$，然后到了 $80$ 的时候就会直接返回，没有计算 $80^2$ 的值，导致答案错误。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">正确做法</summary>
+<p>注意这个题和其他例题完全不一样，因为其他题求的都是 <strong>数字的数量</strong>，而只有这个题求的是 <strong>平方之和</strong>。</p>
+<p>这直接导致，我们在状态转移的时候 <strong>不能简单的相加</strong>。</p>
+<p>上面做法的 <code>dp</code> 状态没有问题：</p>
+<p>$dp[i][j][k]$：使用到 $i$ 位，每一位的和 $\text{mod } 7 = j$，数字本身 $\text{mod } 7 = k$</p>
+<p>但是 <code>dp[]</code> 数组对应的值，不能简单的设定为平方和。</p>
+<hr>
+<blockquote>
+<p>如果这个题求的是满足条件的数字数量，是不是就可以了？</p>
+</blockquote>
+<p>是的！比如 $2$ 和 $9$ 对应的状态相同，无论后缀是什么，只要满足条件，它们就完全等价。</p>
+<p>比如后缀是数字 $3$，那么 $23, 93$ 就完全等价，所以我们来到前缀 $9$ 的时候就可以直接利用前缀 $2$ 的信息。</p>
+<p>但是在本题中，$23$ 和 $93$ 并不等价，因为 $23^2 \neq 93^2$。</p>
+<hr>
+<p>所以我们要考虑一下组合数学/计数题中的 <strong>贡献</strong> 套路。</p>
+<p>我们在 <code>dfs</code> 过程中，先算出来了前缀 $2$ 的相关信息。我们假设前缀 $2$ 有着 三个有效的后缀 $2,3,4$，那么数字就是 $22,23,24$。</p>
+<p>此时，我们已经算出了这些后缀的相关信息，怎么把它合并上去？</p>
+<p>$$22^2 + 23 ^ 2 + 24^2 = (20+2)^2 + (20+3)^2 + (20+4)^2$$
+$$= 3\times 20^2 + 2 \times 20 \times (2+3+4) + (2^2+3^2+4^2)$$</p>
+<p>如果这里还不太清楚，还可以再举一个例子：</p>
+<p>我们有一个前缀 $1$，后缀是 $21,22$，那么合并的过程就是：</p>
+<p>$$121^2+122^2 = (100+21)^2 + (100+22)^2 $$
+$$=2 \times 100^2 + 2 \times 100 \times (21+22) + (21^2+22^2)$$</p>
+<hr>
+<p>更 General 的写法是，给定一个digit $a$（$a$ 实际上就是 <code>dfs()</code> 过程中，当前使用的数字），然后假设我们有 $n$ 个后缀 $b_1,b_2,&hellip;,b_n$，那么：</p>
+<p>$$(ab_1)^2 + (ab_2)^2 + &hellip; + (ab_n)^2 = (a \times 10^p + b_1) ^ 2 + (a \times 10^p + b_2) ^ 2 + &hellip;+(a \times 10^p + b_n) ^ 2$$</p>
+<p>$$= n \times a^2 \times 10^{2p} + 2\times10^p \times (b_1+b_2+&hellip;+b_n) + (b_1^2+b_2^2+&hellip;+b_n^2)$$</p>
+<p>$$= \sum\limits_{i=1}^n ((a^2\times 10^{2p}) + (2\times10^p\times b_i) + (b_i^2))$$</p>
+<p>• 其中，$p$ 就是 $pos-1$</p>
+<p>但是注意到，$b_i$ 是一个后缀，它代表的是 <code>dp[]</code> 数组里面，<code>pos-1</code> 的部分，所以它<strong>本身也是一个贡献</strong>（它并不是一个数字）。</p>
+<p>比如上面的第二个例子中，前缀为 $1$，后缀 $b_1$ 实际上是 $2$，这个 $b_1$ 有两个后缀 $2,3$，所以 $c_1 = 2, c_2 = 3$</p>
+<hr>
+<p>那么，我们单独看一下每一个 $b$ 带来的贡献是多少。</p>
+<p>对于某一个后缀 $b$，我们继续考虑它的后缀 $c_j$，$b$ 带给 前缀 $a$ 的贡献可以这么表示：</p>
+<p>$$\sum\limits_{j=1}^m ((a^2\times 10^{2p}) + (2\times10^p\times c_j) + (c_j^2))$$</p>
+<p>$$=m\times a^2\times 10^{2p} + (2\times 10^p \times \sum\limits_{j=1}^mc_j) + (\sum\limits_{j=1}^m c_j^2)$$</p>
+<p>其中，$m$ 是 $b$ 的 <strong>后缀数量</strong>，$\sum\limits_{j=1}^mc_j$ 是 $b$ 的后缀的值之和， $\sum\limits_{j=1}^m c_j^2$ 是 $b$ 的后缀的平方和。</p>
+<hr>
+<p>由上，我们可以看出，对于每一个后缀 $b$，我们都要维护它的</p>
+<ol>
+<li>后缀 <strong>数量</strong> $cnt$</li>
+<li>后缀值 <strong>之和</strong>  $sum_1$</li>
+<li>后缀值的 <strong>平方和</strong>  $sum_2$</li>
+</ol>
+<p>则，这个 $b$ 带给 $a$ 的 <strong>平方和</strong> 的贡献就是：</p>
+<p>$$\sum ((a^2\times 10^{2p}) + (2\times10^p\times c_j) + (c_j^2))$$</p>
+<p>$$= (\sum a^2\times 10^{2p}) + (2\times10^p\times \sum c_j) + \sum c_j^2$$</p>
+<p>$$ = cnt \times (a^2\times 10^{2p}) + (2\times10^p\times sum_1) + (sum_2)$$</p>
+<hr>
+<p>那么 $b$ 带给 $a$ 的 <strong>后缀和</strong> 的贡献呢？</p>
+<p>$$a \times 10^p + b$$</p>
+<p>$$= \sum (a \times 10^p) + \sum c_j$$</p>
+<p>$$= (cnt \times a \times 10^p) + sum_1$$</p>
+<hr>
+<p>那么 $b$ 带给 $a$ 的 <strong>后缀数量</strong> 的贡献呢？</p>
+<p>$$1= \sum_j 1 = cnt$$</p>
+<hr>
+<p>下面会给一个并不严谨，但是比较好理解的公式推导。</p>
+<blockquote>
+<p>注：实现过程中，我们用 <code>struct node</code> 来维护这些信息。</p>
+</blockquote>
+</details>
+<details class="admonition note"><summary class="admonition-title">公式</summary>
+<p><strong>平方和</strong>：</p>
+<p>$$(a \times 10^p + b)^2$$</p>
+<p>$$= (a^2\times 10^{2p}) + (2\times10^p) \times b + (b^2)$$</p>
+<p>然后对其进行求和操作，有：</p>
+<p>$$\sum (a^2\times 10^{2p}) + (2\times10^p) \times \sum b + \sum b^2$$</p>
+<p>$$= cnt \times (a^2\times 10^{2p}) + (2\times10^p\times sum_1) + (sum_2)$$</p>
+<hr>
+<p><strong>值的和</strong>：</p>
+<p>$$(a \times 10^p + b)$$</p>
+<p>对其进行求和操作：</p>
+<p>$$\sum a\times10^p + \sum b$$</p>
+<p>$$=cnt \times a \times 10^p + sum_1$$</p>
+<hr>
+<p><strong>数量之和</strong>：</p>
+<p>$$1$$</p>
+<p>对其进行求和：</p>
+<p>$$\sum 1$$</p>
+<p>$$=cnt$$</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">node</span> {
+    ll cnt, sum1, sum2;
+};
+
+ll pow10[<span style="color:#ae81ff">20</span>];
+node dp[<span style="color:#ae81ff">20</span>][<span style="color:#ae81ff">7</span>][<span style="color:#ae81ff">7</span>];
+<span style="color:#66d9ef">bool</span> vis[<span style="color:#ae81ff">20</span>][<span style="color:#ae81ff">7</span>][<span style="color:#ae81ff">7</span>];
+<span style="color:#66d9ef">int</span> n, arr[<span style="color:#ae81ff">20</span>];
+node <span style="color:#a6e22e">dfs</span>(<span style="color:#66d9ef">int</span> pos, <span style="color:#66d9ef">int</span> sum, <span style="color:#66d9ef">int</span> md, <span style="color:#66d9ef">bool</span> limit) {
+    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>pos) {
+        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>md) <span style="color:#66d9ef">return</span> {<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">0</span>};
+        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>sum) <span style="color:#66d9ef">return</span> {<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">0</span>};
+        <span style="color:#66d9ef">return</span> {<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">0</span>};  <span style="color:#75715e">// 注意这里是 {1,0,0}，因为没有选择任何值
+</span><span style="color:#75715e"></span>    }
+    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>limit <span style="color:#f92672">&amp;&amp;</span> vis[pos][sum][md]) {
+        <span style="color:#66d9ef">return</span> dp[pos][sum][md];
+    }
+    ll cnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, sum1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, sum2 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">int</span> ed <span style="color:#f92672">=</span> <span style="color:#ae81ff">9</span>;
+    <span style="color:#66d9ef">if</span> (limit) ed <span style="color:#f92672">=</span> arr[pos];
+    <span style="color:#66d9ef">for</span> (ll j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;=</span> ed; j<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">if</span> (j <span style="color:#f92672">==</span> <span style="color:#ae81ff">7</span>) <span style="color:#66d9ef">continue</span>;
+
+        node res <span style="color:#f92672">=</span> dfs(pos<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, (sum<span style="color:#f92672">+</span>j) <span style="color:#f92672">%</span> <span style="color:#ae81ff">7</span>, (md<span style="color:#f92672">*</span><span style="color:#ae81ff">10</span><span style="color:#f92672">+</span>j) <span style="color:#f92672">%</span> <span style="color:#ae81ff">7</span>, limit <span style="color:#f92672">&amp;&amp;</span> (j<span style="color:#f92672">==</span>ed));
+        ll c <span style="color:#f92672">=</span> res.cnt, s1 <span style="color:#f92672">=</span> res.sum1, s2 <span style="color:#f92672">=</span> res.sum2;
+
+        cnt <span style="color:#f92672">=</span> (cnt <span style="color:#f92672">+</span> c) <span style="color:#f92672">%</span> mod;
+
+        sum1 <span style="color:#f92672">=</span> (sum1 <span style="color:#f92672">+</span> j <span style="color:#f92672">*</span> pow10[pos<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">%</span> mod <span style="color:#f92672">*</span> c <span style="color:#f92672">%</span> mod <span style="color:#f92672">+</span> s1) <span style="color:#f92672">%</span> mod;
+
+        sum2 <span style="color:#f92672">=</span> (sum2 <span style="color:#f92672">+</span> j <span style="color:#f92672">*</span> j <span style="color:#f92672">*</span> pow10[pos<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">%</span> mod <span style="color:#f92672">*</span> pow10[pos<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">%</span> mod <span style="color:#f92672">*</span> c <span style="color:#f92672">%</span> mod) <span style="color:#f92672">%</span> mod;
+        sum2 <span style="color:#f92672">=</span> (sum2 <span style="color:#f92672">+</span> <span style="color:#ae81ff">2LL</span> <span style="color:#f92672">*</span> j <span style="color:#f92672">*</span> pow10[pos<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">%</span> mod <span style="color:#f92672">*</span> s1 <span style="color:#f92672">%</span> mod) <span style="color:#f92672">%</span> mod;
+        sum2 <span style="color:#f92672">=</span> (sum2 <span style="color:#f92672">+</span> s2) <span style="color:#f92672">%</span> mod;
+    }
+    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>limit) {
+        vis[pos][sum][md] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        dp[pos][sum][md] <span style="color:#f92672">=</span> {cnt, sum1, sum2};
+    }
+    
+    <span style="color:#66d9ef">return</span> {cnt, sum1, sum2};
+}
+
+node <span style="color:#a6e22e">solve</span>(ll x) {
+    n <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">while</span> (x) {
+        arr[<span style="color:#f92672">++</span>n] <span style="color:#f92672">=</span> x <span style="color:#f92672">%</span> <span style="color:#ae81ff">10</span>;
+        x <span style="color:#f92672">/=</span> <span style="color:#ae81ff">10</span>;
+    }
+    <span style="color:#66d9ef">return</span> dfs(n, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>);
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    memset(vis, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(vis));
+    pow10[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1LL</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">19</span>; i<span style="color:#f92672">++</span>) pow10[i] <span style="color:#f92672">=</span> pow10[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">*</span> <span style="color:#ae81ff">10LL</span> <span style="color:#f92672">%</span> mod;
+    <span style="color:#66d9ef">int</span> T; cin <span style="color:#f92672">&gt;&gt;</span> T;
+
+    <span style="color:#66d9ef">while</span> (T<span style="color:#f92672">--</span>) {
+        ll l,r; cin <span style="color:#f92672">&gt;&gt;</span> l <span style="color:#f92672">&gt;&gt;</span> r;
+        ll ans <span style="color:#f92672">=</span> solve(r).sum2 <span style="color:#f92672">-</span> solve(l<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>).sum2;  <span style="color:#75715e">// 如果是求值的和，改成 sum1 即可
+</span><span style="color:#75715e"></span>        ans <span style="color:#f92672">=</span> (ans <span style="color:#f92672">+</span> (ll)(mod)) <span style="color:#f92672">%</span> mod;
+        cout <span style="color:#f92672">&lt;&lt;</span> ans <span style="color:#f92672">&lt;&lt;</span> endl;
+    }
+}
+</code></pre></div></details>
+<p>• 这个代码中，一定要注意到 base case 返回的是 <code>{1, 0, 0}</code>（后面两个 <code>0</code> 是因为 <code>sum1, sum2</code> 是在选择当前digit时才计算）。</p>
+<h3 id="例7-cf1073e-segment-sumhttpscodeforcescomcontest1073probleme">例7 <a href="https://codeforces.com/contest/1073/problem/E" target="_blank">CF1073E Segment Sum</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定正整数 $L, R, K$，求 $[L,R]$ 之间满足：distinct digit 的数量 $\leq K$ 的数字之和。</p>
+<p>其中，$1 \leq L \leq R \leq 10^{18}, K \leq 10$</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>和例6是一样的做法，更简单了一些。</p>
+<p>回顾一下状态转移：</p>
+<p>如果当前 digit 为 $a$，后缀为 $b$，则 $b$ 给 $a_{sum}$ 带来的贡献为：</p>
+<p>$$\sum_{i=1}^{cnt} (a * 10^p + b_i) = cnt * a * 10^p + b_{sum}$$</p>
+<p>而 $a_{sum}$ 就等于所有后缀 $b$ 的贡献之和。</p>
+<hr>
+<p>状态比较容易想：</p>
+<p><code>dp[i][mask]</code> 代表到了第 $i$ 个字符，当前使用的digit组成了 $mask$，<code>dp</code> 的值就是 <code>{cnt, sum}</code>。</p>
+<p>• 这里需要注意，在写 <code>dfs()</code> 函数时要考虑是否有前导 $0$。因为如果有前导 $0$，这个 $mask$ 不应包含前导 $0$。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> mod <span style="color:#f92672">=</span> <span style="color:#ae81ff">998244353</span>;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">4e5</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>;
+
+<span style="color:#66d9ef">int</span> K;
+<span style="color:#66d9ef">int</span> a[<span style="color:#ae81ff">20</span>], n;
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">node</span> {
+    ll cnt, sum;
+};
+node dp[<span style="color:#ae81ff">20</span>][(<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">10</span>)<span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>];
+<span style="color:#66d9ef">bool</span> vis[<span style="color:#ae81ff">20</span>][(<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">10</span>)<span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>];
+<span style="color:#66d9ef">inline</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">popcount</span>(<span style="color:#66d9ef">int</span> mask) {
+    <span style="color:#66d9ef">int</span> res <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">while</span> (mask) {
+        res <span style="color:#f92672">+=</span> (mask <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">1</span>);
+        mask <span style="color:#f92672">&gt;&gt;=</span> <span style="color:#ae81ff">1</span>;
+    }
+    <span style="color:#66d9ef">return</span> res;
+}
+
+ll ten[<span style="color:#ae81ff">20</span>];
+node <span style="color:#a6e22e">dfs</span>(<span style="color:#66d9ef">int</span> i, <span style="color:#66d9ef">int</span> mask, <span style="color:#66d9ef">bool</span> zero, <span style="color:#66d9ef">bool</span> limit) {
+    <span style="color:#66d9ef">if</span> (i <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">return</span> {<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>};
+    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>limit <span style="color:#f92672">&amp;&amp;</span> vis[i][mask]) <span style="color:#66d9ef">return</span> dp[i][mask];
+    ll cnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, sum <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">int</span> ed <span style="color:#f92672">=</span> (limit <span style="color:#f92672">?</span> a[i] <span style="color:#f92672">:</span> <span style="color:#ae81ff">9</span>);
+    <span style="color:#66d9ef">for</span> (ll j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;=</span> ed; j<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">if</span> (popcount(mask <span style="color:#f92672">|</span> (<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span>j)) <span style="color:#f92672">&lt;=</span> K) {
+            <span style="color:#66d9ef">int</span> newmask <span style="color:#f92672">=</span> mask <span style="color:#f92672">|</span> (<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span>j);
+            <span style="color:#66d9ef">if</span> (zero <span style="color:#f92672">&amp;&amp;</span> (<span style="color:#f92672">!</span>j)) newmask <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+            node res <span style="color:#f92672">=</span> dfs(i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, newmask, zero <span style="color:#f92672">&amp;&amp;</span> (<span style="color:#f92672">!</span>j), limit <span style="color:#f92672">&amp;&amp;</span> (j <span style="color:#f92672">==</span> ed));
+            cnt <span style="color:#f92672">+=</span> res.cnt, cnt <span style="color:#f92672">%=</span> mod;
+            sum <span style="color:#f92672">=</span> ((res.sum <span style="color:#f92672">+</span> (ten[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">*</span> res.cnt <span style="color:#f92672">%</span> mod <span style="color:#f92672">*</span> j <span style="color:#f92672">%</span> mod)) <span style="color:#f92672">%</span> mod <span style="color:#f92672">+</span> sum) <span style="color:#f92672">%</span> mod;
+        }
+    }
+    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>limit) vis[i][mask] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, dp[i][mask] <span style="color:#f92672">=</span> {cnt, sum};
+    <span style="color:#66d9ef">return</span> {cnt, sum};
+}
+
+ll <span style="color:#a6e22e">solve</span>(ll x) {
+    n <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    memset(a, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(a));
+    memset(dp, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(dp));
+    memset(vis, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(vis));
+    <span style="color:#66d9ef">while</span> (x) {
+        a[<span style="color:#f92672">++</span>n] <span style="color:#f92672">=</span> x <span style="color:#f92672">%</span> <span style="color:#ae81ff">10</span>;
+        x <span style="color:#f92672">/=</span> <span style="color:#ae81ff">10</span>;
+    }
+    <span style="color:#66d9ef">return</span> dfs(n, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>).sum;
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    fastio;
+    ll L,R;
+    cin <span style="color:#f92672">&gt;&gt;</span> L <span style="color:#f92672">&gt;&gt;</span> R <span style="color:#f92672">&gt;&gt;</span> K;
+    ten[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">19</span>; i<span style="color:#f92672">++</span>) ten[i] <span style="color:#f92672">=</span> ten[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">*</span> <span style="color:#ae81ff">10LL</span> <span style="color:#f92672">%</span> mod;
+    ll ans <span style="color:#f92672">=</span> (solve(R) <span style="color:#f92672">-</span> solve(L<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) <span style="color:#f92672">+</span> mod) <span style="color:#f92672">%</span> mod;
+    cout <span style="color:#f92672">&lt;&lt;</span> ans <span style="color:#f92672">&lt;&lt;</span> endl;
+}
+</code></pre></div></details>
+<h3 id="例8-cfgym104053m-xor-sumhttpscodeforcescomgym104053problemm">例8 CFgym104053M. <a href="https://codeforces.com/gym/104053/problem/M" target="_blank">XOR Sum</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>对于一个数组 $A = [a_1,a_2,&hellip;,a_k]$，定义</p>
+<p>$$f(A) = \sum\limits_{i=1}^k \sum\limits_{j=1}^{i-1} a_i \text{ XOR } a_j$$</p>
+<p>给定 $n,m,k$，求有多少个数组 $A$ 满足以下所有条件：</p>
+<ol>
+<li>$A$ 的长度为 $k$。</li>
+<li>$f(A) = n$。</li>
+<li>$\forall i, a_i \in [0, m]$。</li>
+</ol>
+<p>其中，$n \in [0, 10^{15}], m \in [0, 10^{12}], k \in [1,18]$，答案对 $10^9 + 7$ 取模。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>以前的数位dp都只针对一个数。</p>
+<p>而这次的数位dp需要考虑 $k$ 个数，所以比起一个数的情况，记录一个 <code>bool limit</code> 代表是否碰到上限 $m$，我们这次记录一个 $j$ 代表有 $j$ 个数顶到了 $m$ 的上限。</p>
+<p><img src="/images/033/1.jpg" alt="img"></p>
+<p>如图，每一列代表一个 $a_i$，而每一行就是每一个 $a_i$ 的每一位上的bit。</p>
+<p>注意到我们只关心每一行有几个 $1$ 几个 $0$，这样贡献就可以计算出来。</p>
+<p>我们要求：</p>
+<ol>
+<li>所有行的贡献之和 $=n$。</li>
+<li>每一列不能超过 $m$。</li>
+</ol>
+<p>所以我们设计数位dp的状态就是：</p>
+<p><code>dp[i][j][k]</code>：代表到了第 $i$ 位（从高位到低位），有 $j$ 个数顶到了 $m$ 的上限。</p>
+<p>而 $k$ 就代表到当前位的贡献和。但 $k$ 可能会非常大，所以我们需要剪枝。</p>
+<p>注意到我们可以令 $k$ 等于 $\frac{n-sum}{2^i}$，其中 $sum$ 为之前的贡献之和，这样我们规定 $k \leq 81$ 即可，因为如果 $k &gt; 81$ 那么后面每一行就算贡献最大也不可能使得 $f(A) = n$ 了。</p>
+<p>• 实际操作的时候保险一点设定 $k \leq 200$。</p>
+<p>• 注意到在数位 dp 中，我们不一定要找出这个数 $m$ 有多少位，直接假设它位数最大（本题中为 $40$）开始处理也可以的。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">70</span>;
+ 
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> M <span style="color:#f92672">=</span> <span style="color:#ae81ff">200</span>;
+<span style="color:#66d9ef">int</span> sm[maxn], sn[maxn];
+Z dp[<span style="color:#ae81ff">43</span>][<span style="color:#ae81ff">20</span>][M<span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>];
+Z C[<span style="color:#ae81ff">105</span>][<span style="color:#ae81ff">105</span>];
+ll n, m, len;  <span style="color:#75715e">// len: length
+</span><span style="color:#75715e"></span> 
+<span style="color:#75715e">// i: 从高到低第几位
+</span><span style="color:#75715e">// j: 有几个数来到了m的上限
+</span><span style="color:#75715e">// k: (n - 前面贡献的和) / 2^(40-i), 如果 k &gt; M 则不行
+</span><span style="color:#75715e"></span>Z <span style="color:#a6e22e">dfs</span>(<span style="color:#66d9ef">int</span> i, <span style="color:#66d9ef">int</span> j, <span style="color:#66d9ef">int</span> k) {
+    <span style="color:#66d9ef">if</span> (i <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">0</span>) {
+        <span style="color:#66d9ef">return</span> k <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>;
+    }
+    <span style="color:#66d9ef">if</span> (dp[i][j][k].val() <span style="color:#f92672">!=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">return</span> dp[i][j][k];
+    Z res <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">if</span> (sm[i] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {  <span style="color:#75715e">// 这 j 个数只能选 0
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> a <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; a <span style="color:#f92672">&lt;=</span> len <span style="color:#f92672">-</span> j; a<span style="color:#f92672">++</span>) {  <span style="color:#75715e">// 剩下 K - j 个数里面，有 a 个选 1
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">int</span> new_k <span style="color:#f92672">=</span> k <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">-</span> a <span style="color:#f92672">*</span> (len <span style="color:#f92672">-</span> a) <span style="color:#f92672">+</span> sn[i];
+            <span style="color:#66d9ef">if</span> (new_k <span style="color:#f92672">&lt;=</span> M <span style="color:#f92672">&amp;&amp;</span> new_k <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>) {
+                res <span style="color:#f92672">=</span> res <span style="color:#f92672">+</span> C[len<span style="color:#f92672">-</span>j][a] <span style="color:#f92672">*</span> dfs(i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, j, new_k);
+            }
+        }
+    } <span style="color:#66d9ef">else</span> {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> a <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; a <span style="color:#f92672">&lt;=</span> len <span style="color:#f92672">-</span> j; a<span style="color:#f92672">++</span>) {   <span style="color:#75715e">// a 个 1
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> b <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; b <span style="color:#f92672">&lt;=</span> j; b<span style="color:#f92672">++</span>) {   <span style="color:#75715e">// b 个 1 (到了上限)
+</span><span style="color:#75715e"></span>                <span style="color:#66d9ef">int</span> new_k <span style="color:#f92672">=</span> k <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">-</span> (a <span style="color:#f92672">+</span> b) <span style="color:#f92672">*</span> (len <span style="color:#f92672">-</span> a <span style="color:#f92672">-</span> b) <span style="color:#f92672">+</span> sn[i];
+                <span style="color:#66d9ef">if</span> (new_k <span style="color:#f92672">&lt;=</span> M <span style="color:#f92672">&amp;&amp;</span> new_k <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>) {
+                    res <span style="color:#f92672">=</span> res <span style="color:#f92672">+</span> C[len<span style="color:#f92672">-</span>j][a] <span style="color:#f92672">*</span> C[j][b] <span style="color:#f92672">*</span> dfs(i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, b, new_k);
+                }
+            }
+        }
+    }
+    
+    <span style="color:#66d9ef">return</span> dp[i][j][k] <span style="color:#f92672">=</span> res;
+}
+ 
+ 
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> m <span style="color:#f92672">&gt;&gt;</span> len;
+    memset(dp, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#66d9ef">sizeof</span>(dp));
+ 
+    C[<span style="color:#ae81ff">0</span>][<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">100</span>; i<span style="color:#f92672">++</span>) {
+        C[i][<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;=</span> i; j<span style="color:#f92672">++</span>) {
+            C[i][j] <span style="color:#f92672">=</span> C[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>][j<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> C[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>][j];
+        }
+    }
+ 
+    <span style="color:#66d9ef">if</span> ((n <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">40</span>) <span style="color:#f92672">&gt;</span> M) {
+        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+    }
+ 
+    <span style="color:#66d9ef">int</span> id <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    ll tn <span style="color:#f92672">=</span> n;
+    <span style="color:#66d9ef">while</span> (tn) {
+        sn[<span style="color:#f92672">++</span>id] <span style="color:#f92672">=</span> (tn <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">1</span>);
+        tn <span style="color:#f92672">&gt;&gt;=</span> <span style="color:#ae81ff">1</span>;
+    }
+ 
+    id <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    ll tm <span style="color:#f92672">=</span> m;
+    <span style="color:#66d9ef">while</span> (tm) {
+        sm[<span style="color:#f92672">++</span>id] <span style="color:#f92672">=</span> (tm <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">1</span>);
+        tm <span style="color:#f92672">&gt;&gt;=</span> <span style="color:#ae81ff">1</span>;
+    }
+ 
+    cout <span style="color:#f92672">&lt;&lt;</span> dfs(<span style="color:#ae81ff">40</span>, len, n <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">40</span>) <span style="color:#f92672">&lt;&lt;</span> endl;
+ 
+}
+</code></pre></div></details>
+
+    </div>
+
+    
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E6%95%B0%E4%BD%8Ddp/">数位dp</a>
+          <a href="/tags/%E6%95%B0%E5%AD%A6/">数学</a>
+          <a href="/tags/dp/">dp</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/034-cf-1499d/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">CF 1499D（数学，筛法）</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/032-%E7%BA%BF%E6%AE%B5%E6%A0%91%E4%BE%8B%E9%A2%98/">
+            <span class="next-text nav-default">线段树/树状数组/分块 例题</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://github.com/kiki-yan" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://kiki-yan.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2026
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/kiki-yan/kiki-yan.github.io" target="_blank"></a>
+    </span> 
+    <span class="author">kiki_yan</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/base16/tomorrow.min.css" rel="stylesheet">
+  
+  <script>hljs.configure({tabReplace: '    '});</script><script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

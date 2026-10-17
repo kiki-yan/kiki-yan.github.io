@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>树形dp - kiki_yan</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="kiki_yan" /><meta name="description" content="介绍 树形dp就是在树上进行dp，常用于 &amp;ldquo;树上选一组点/边，满足某些条件，且使得某些权值和最大&amp;rdquo; 的问题。 一般来说，DP" /><meta name="keywords" content="kiki_yan, blog, Codeforces" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
+
+
+<link rel="canonical" href="https://kiki-yan.github.io/post/008-%E6%A0%91%E5%BD%A2dp/" />
+<link rel="manifest" href="/manifest.json">
+
+
+
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="树形dp" />
+<meta property="og:description" content="介绍 树形dp就是在树上进行dp，常用于 &ldquo;树上选一组点/边，满足某些条件，且使得某些权值和最大&rdquo; 的问题。 一般来说，DP" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kiki-yan.github.io/post/008-%E6%A0%91%E5%BD%A2dp/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2021-02-18T15:42:09+08:00" />
+<meta property="article:modified_time" content="2021-02-18T15:42:09+08:00" />
+
+<meta itemprop="name" content="树形dp">
+<meta itemprop="description" content="介绍 树形dp就是在树上进行dp，常用于 &ldquo;树上选一组点/边，满足某些条件，且使得某些权值和最大&rdquo; 的问题。 一般来说，DP"><meta itemprop="datePublished" content="2021-02-18T15:42:09+08:00" />
+<meta itemprop="dateModified" content="2021-02-18T15:42:09+08:00" />
+<meta itemprop="wordCount" content="5418">
+<meta itemprop="keywords" content="树形dp,dp优化," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="树形dp"/>
+<meta name="twitter:description" content="介绍 树形dp就是在树上进行dp，常用于 &ldquo;树上选一组点/边，满足某些条件，且使得某些权值和最大&rdquo; 的问题。 一般来说，DP"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">kiki_yan</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF Problems</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">kiki_yan</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF Problems</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">树形dp</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2021-02-18 15:42:09 &#43;0800 &#43;0800"> 2021-02-18 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
+            </div>
+        
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#介绍">介绍</a></li>
+        <li><a href="#优化">优化</a>
+          <ul>
+            <li><a href="#子树-size-优化">子树 size 优化</a></li>
+            <li><a href="#dfs序--背包-优化">DFS序 + 背包 优化</a></li>
+          </ul>
+        </li>
+        <li><a href="#例题">例题</a>
+          <ul>
+            <li><a href="#例1-洛谷p2014httpswwwluogucomcnproblemp2014">例1 <a href="https://www.luogu.com.cn/problem/P2014">洛谷P2014</a></a></li>
+            <li><a href="#例2-洛谷p2515-haoi2010软件安装httpswwwluogucomcnproblemp2515">例2 <a href="https://www.luogu.com.cn/problem/P2515">洛谷P2515 [HAOI2010]软件安装</a></a></li>
+            <li><a href="#例3-洛谷p4395-boi2003gem-气垫车httpswwwluogucomcnproblemp4395">例3 <a href="https://www.luogu.com.cn/problem/P4395">洛谷P4395 [BOI2003]Gem 气垫车</a></a></li>
+            <li><a href="#例4-洛谷p3177-haoi2015树上染色httpswwwluogucomcnproblemp3177">例4 <a href="https://www.luogu.com.cn/problem/P3177">洛谷P3177 [HAOI2015]树上染色</a></a></li>
+            <li><a href="#例5-1到n经过特定点的最短路">例5 [1到n经过特定点的最短路]</a></li>
+            <li><a href="#例6-naq2017e-company-picnichttpsvjudgenetcontest539014probleme">例6 NAQ2017E. <a href="https://vjudge.net/contest/539014#problem/E">Company Picnic</a></a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="介绍">介绍</h2>
+<p>树形dp就是在树上进行dp，常用于 <strong>&ldquo;树上选一组点/边，满足某些条件，且使得某些权值和最大&rdquo;</strong> 的问题。</p>
+<p>一般来说，DP的形式为：</p>
+<p>设 $dp[i][j]$ 为: 以 $i$ 为根的子树当中，选了 $j$ 个元素得到的最大值。</p>
+<p>这样，状态转移就有：</p>
+<p>$$dp[u][j] = \max\limits_{to} \{ dp[u][j-k] + dp[to][k]\}$$</p>
+<p>代码如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> m; j <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">1</span>; j<span style="color:#f92672">--</span>) {
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; k <span style="color:#f92672">&lt;=</span> j<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>; k<span style="color:#f92672">++</span>) {
+        dp[cur][j] <span style="color:#f92672">=</span> max(dp[cur][j], dp[cur][j<span style="color:#f92672">-</span>k] <span style="color:#f92672">+</span> dp[nei][k]);
+    }
+}
+</code></pre></div><p>需要注意的点：</p>
+<ol>
+<li>类似于 $01$ 背包，在枚举 <code>j</code> 的值时，要<strong>从大到小</strong>，防止一个child被重复选择。</li>
+<li>对于依赖关系（例如，child需要依赖parent），可以利用DP过程中，调整状态转移的 <strong>上下限</strong> 来达到！</li>
+</ol>
+<p>时间复杂度：$O(nm^2)$，其中 $n$ 为节点数，$m$ 为第二维的大小。</p>
+<h2 id="优化">优化</h2>
+<h3 id="子树-size-优化">子树 size 优化</h3>
+<p>对于一个子树，可能它第二维的上限并没有这么高，我们需要尽量避免枚举一些无用的范围。</p>
+<p>我们可以优化一下：</p>
+<p>对于每一个root节点 <code>cur</code>，我们记录一下 <code>int sz[cur]</code>，代表 <strong>以<code>cur</code>为根的子树的节点数量</strong>， 这样枚举的时候我们就可以优化成这样：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> min(m, sz[cur]); j <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">1</span>; j<span style="color:#f92672">--</span>) {  <span style="color:#75715e">//优化
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; k <span style="color:#f92672">&lt;=</span> min(j<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, sz[nei]); k<span style="color:#f92672">++</span>) {  <span style="color:#75715e">//优化
+</span><span style="color:#75715e"></span>        dp[cur][j] <span style="color:#f92672">=</span> max(dp[cur][j], dp[cur][j<span style="color:#f92672">-</span>k] <span style="color:#f92672">+</span> dp[nei][k]);
+    }
+}
+</code></pre></div><p>例题可见 <a href="/post/008-%e6%a0%91%e5%bd%a2dp/#%e4%be%8b1-%e6%b4%9b%e8%b0%b7p2014httpswwwluogucomcnproblemp2014">例1</a></p>
+<p>复杂度：$O(nm)$</p>
+<h3 id="dfs序--背包-优化">DFS序 + 背包 优化</h3>
+<p>有的时候，第二维表示的不一定是 <strong>选择 $j$ 个元素</strong>，而可能是<strong>背包的一个容量</strong>，此时上面的优化的效果就不显著了。</p>
+<p>我们可以利用 DFS序 进行优化。</p>
+<p>令 $i$ 为 $u$ 的DFS序编号，则对于当前节点 $u$，我们有两种选择：</p>
+<ol>
+<li>
+<p>选择当前节点：$dp[i+1][j+w_u] = \max \{dp[i][j] + v_u \}$</p>
+</li>
+<li>
+<p>不选当前节点：$dp[i + sz_i][j] = \max \{ dp[i][j]\}$</p>
+</li>
+</ol>
+<p>• 第一维度是选到了dfs序中的前 $i$ 项，第二维度就是背包的容量。</p>
+<p>解释：</p>
+<p>如果选择当前节点，说明可以继续往<strong>子树</strong>里传递，所以传递到 $dp[i+1][j+w_u]$。</p>
+<p>如果不选择当前节点，由于依赖关系，就必须<strong>跳过子树</strong>，所以传递到 $dp[i + sz_i][j]$。</p>
+<p>最终的答案就是 $ans = \max\limits_{j=0}^m \{dp[n+1][j] \}$。</p>
+<p>复杂度：$O(nm)$</p>
+<p>例题可见 <a href="/post/008-%E6%A0%91%E5%BD%A2dp/#%E4%BE%8B2-%E6%B4%9B%E8%B0%B7p2515-haoi2010%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85httpswwwluogucomcnproblemp2515">例2</a></p>
+<h2 id="例题">例题</h2>
+<h3 id="例1-洛谷p2014httpswwwluogucomcnproblemp2014">例1 <a href="https://www.luogu.com.cn/problem/P2014" target="_blank">洛谷P2014</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>有 $N$ 门课程，每门课程有 $1$ 或 $0$ 门前置课程，需要上了前置课程才能上这门课。每门课 $i$ 有 $s_i$ 学分。</p>
+<p>现要选 $M$ 门课，使得学分总和最大。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>设 $dp[i][j]$ 为: 以 $i$ 为根的子树当中，选了 $j$ 个课程得到的最大值</p>
+<p>根据前置课程的关系建图(会发现这是一棵树)，因为有前置课程，所以必须选了root才能选别的，故:</p>
+<p>$$dp[i][1] = s_i$$</p>
+<p>在处理某一个节点i的时候，$dp[i][j]$ 代表的是： 以它为root的 <strong>&ldquo;已探索&rdquo; 子树</strong>中的最大值，所以在探索各个子树过程中有：</p>
+<p>$dp\left[cur\right]\left[j\right]=\max\left(dp\left[cur\right]\left[j\right],dp\left[cur\right]\left[k\right]+dp\left[nei\right]\left[j-k\right]\right),\ k=\left[1,j-1\right]$</p>
+<hr>
+<p><strong>实现细节</strong></p>
+<ol>
+<li>我们利用 $dp[i][1] = s_i$ 来<strong>处理前置课程</strong>，是非常高效的做法！</li>
+<li>状态转移的时候，要 <strong>倒序枚举 $j$</strong>， 也就是 $j = m &hellip; 1$， 因为此时 $dp[cur][k]$ 代表的是已探索的部分，不能包括 $nei$ (因为 $nei$ 正在被探索)。为了防止同一个 $nei$ 被考虑多次，要倒序枚举！</li>
+<li>给定的图可能是一个森林，所以创建一个<strong>超级root $0$</strong>，并且将 $M$++ (因为 $0$ 肯定要包含进去)，最终答案就是 $dp[0][M+1]$</li>
+</ol>
+<hr>
+<p><strong>算法优化</strong></p>
+<p>注意，在dp状态转移的时候，我们可能用的是如下loop:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> m; j <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">1</span>; j<span style="color:#f92672">--</span>) {
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; k <span style="color:#f92672">&lt;=</span> j<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>; k<span style="color:#f92672">++</span>) {
+        dp[cur][j] <span style="color:#f92672">=</span> max(dp[cur][j], dp[cur][j<span style="color:#f92672">-</span>k] <span style="color:#f92672">+</span> dp[nei][k]);
+    }
+}
+</code></pre></div><p>每个节点 <code>cur</code> 都这样loop一次，总复杂度是 $O(nm^2)$，看起来不可接受。</p>
+<p>我们可以优化一下：</p>
+<p>对于每一个root节点 <code>cur</code>，我们记录一下 <code>int sz[cur]</code>，代表 <strong>以<code>cur</code>为根的子树的节点数量</strong>， 这样枚举的时候我们就可以优化成这样：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> min(m, sz[cur]); j <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">1</span>; j<span style="color:#f92672">--</span>) {  <span style="color:#75715e">//优化
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; k <span style="color:#f92672">&lt;=</span> min(j<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, sz[nei]); k<span style="color:#f92672">++</span>) {  <span style="color:#75715e">//优化
+</span><span style="color:#75715e"></span>        dp[cur][j] <span style="color:#f92672">=</span> max(dp[cur][j], dp[cur][j<span style="color:#f92672">-</span>k] <span style="color:#f92672">+</span> dp[nei][k]);
+    }
+}
+</code></pre></div><p>时间复杂度：$O(n^2)$</p>
+<p>证明：我们考虑每一个 <code>nei</code> <strong>被用来转移</strong> 的次数，会发现它只会在计算它的 parent 的dp值时才会被拿来统计，又因为每一个节点只有1个parent，所以每个节点对应的子树都只会被统计一次。</p>
+<p>所以时间复杂度就是 $T(\sum\limits_{i=1}^n i * sz[i]) = O(n^2)$</p>
+<p>更严谨的数学证明可以参见 <a href="https://www.luogu.com.cn/blog/Chenxiao-Yan/solution-p4322" target="_blank">https://www.luogu.com.cn/blog/Chenxiao-Yan/solution-p4322</a></p>
+</details>
+<details class="admonition note"><summary class="admonition-title">luogu-P2014-AC代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">305</span>;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxm <span style="color:#f92672">=</span> <span style="color:#ae81ff">305</span>;
+
+<span style="color:#66d9ef">int</span> n,m;
+<span style="color:#66d9ef">int</span> s[maxn];
+<span style="color:#66d9ef">int</span> dp[maxn][maxn];
+<span style="color:#66d9ef">int</span> sz[maxn];  <span style="color:#75715e">//记录i的子树大小
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Edge</span> {
+    <span style="color:#66d9ef">int</span> to, nxt;
+} edges[maxm];
+<span style="color:#66d9ef">int</span> head[maxn], ecnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">add</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> v) {
+    Edge e <span style="color:#f92672">=</span> {v, head[u]};
+    edges[ecnt] <span style="color:#f92672">=</span> e;
+    head[u] <span style="color:#f92672">=</span> ecnt<span style="color:#f92672">++</span>;
+}
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">init</span>() {
+    scanf(<span style="color:#e6db74">&#34;%d%d&#34;</span>,<span style="color:#f92672">&amp;</span>n,<span style="color:#f92672">&amp;</span>m);
+    fill(head, head<span style="color:#f92672">+</span>n<span style="color:#f92672">+</span><span style="color:#ae81ff">2</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>);  <span style="color:#75715e">//因为存在编号为0的节点，所以初始化为-1
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">int</span> sc,k;
+        scanf(<span style="color:#e6db74">&#34;%d%d&#34;</span>,<span style="color:#f92672">&amp;</span>k,<span style="color:#f92672">&amp;</span>sc);
+        s[i] <span style="color:#f92672">=</span> sc;
+        add(k, i);
+    }
+}
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">dfs</span>(<span style="color:#66d9ef">int</span> cur, <span style="color:#66d9ef">int</span> par) {
+    <span style="color:#66d9ef">if</span> (sz[cur]) <span style="color:#66d9ef">return</span>;  <span style="color:#75715e">// visited
+</span><span style="color:#75715e"></span>    dp[cur][<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> s[cur];
+    sz[cur] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> e <span style="color:#f92672">=</span> head[cur]; <span style="color:#f92672">~</span>e; e <span style="color:#f92672">=</span> edges[e].nxt) {
+        <span style="color:#66d9ef">int</span> nei <span style="color:#f92672">=</span> edges[e].to;
+        <span style="color:#66d9ef">if</span> (par <span style="color:#f92672">==</span> nei) <span style="color:#66d9ef">continue</span>;
+
+        dfs(nei, cur);
+        sz[cur] <span style="color:#f92672">+=</span> sz[nei];
+
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> min(m, sz[cur]); j <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">1</span>; j<span style="color:#f92672">--</span>) {  <span style="color:#75715e">//优化
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; k <span style="color:#f92672">&lt;=</span> min(j<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, sz[nei]); k<span style="color:#f92672">++</span>) {  <span style="color:#75715e">//优化
+</span><span style="color:#75715e"></span>                dp[cur][j] <span style="color:#f92672">=</span> max(dp[cur][j], dp[cur][j<span style="color:#f92672">-</span>k] <span style="color:#f92672">+</span> dp[nei][k]);
+            }
+        }
+    }
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    init();
+    m<span style="color:#f92672">++</span>;
+    dfs(<span style="color:#ae81ff">0</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>);
+    printf(<span style="color:#e6db74">&#34;%d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, dp[<span style="color:#ae81ff">0</span>][m]);
+}
+</code></pre></div></details>
+<blockquote>
+<p>如果每门课的前置课程不止1门，就不再是一棵树了，这样的话似乎可以用状压dp来解，leetcode某次比赛中出现过。</p>
+</blockquote>
+<h3 id="例2-洛谷p2515-haoi2010软件安装httpswwwluogucomcnproblemp2515">例2 <a href="https://www.luogu.com.cn/problem/P2515" target="_blank">洛谷P2515 [HAOI2010]软件安装</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $N$ 个软件，每个软件 $i$ 要占用 $W_i$ 的空间，价值为 $V_i$，并且每个软件 $i$ 会依赖最多一个软件 $D_i$。</p>
+<p>如果要安装软件 $i$，必须要安装所有的直接/间接依赖软件。</p>
+<p>电脑的空间为 $M$，求最大价值。</p>
+<p>其中，$1 \leq N \leq 100, 0 \leq M \leq 500, 0 \leq W_i \leq M, 0 \leq V_i \leq 1000, D_i \in [0,N], D_i \neq i$</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>注意到，本题可能有 <strong>循环依赖</strong>。</p>
+<p>对于循环依赖，直接用 SCC 缩点，剩下的就是一个标准的有依赖背包（本质上，树形DP）问题了：</p>
+<p>如果 $i$ 依赖 $D_i$，那么将 $D_i$ 所在的 SCC 连一条有向边，指向 $i$ 所在的 SCC 即可。</p>
+<p>另外需要注意，本题可能是一个森林。所以缩点后，对于所有入度为 $0$ 的点 $u$，需要用 $0$ 连一条有向边指向 $u$。</p>
+<p>最后，从 $0$ 开始 DP 即可。</p>
+<hr>
+<p>DP 的核心代码：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">dfs</span>(<span style="color:#66d9ef">int</span> u) {
+    <span style="color:#66d9ef">if</span> (wei[u] <span style="color:#f92672">&lt;=</span> m) dp[u][wei[u]] <span style="color:#f92672">=</span> val[u];
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> to : adj2[u]) {
+        dfs(to);
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> m; i <span style="color:#f92672">&gt;=</span> wei[u]; i<span style="color:#f92672">--</span>) {
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> wei[to]; j <span style="color:#f92672">&lt;=</span> i <span style="color:#f92672">-</span> wei[u]; j<span style="color:#f92672">++</span>) {
+                dp[u][i] <span style="color:#f92672">=</span> max(dp[u][i], dp[u][i<span style="color:#f92672">-</span>j] <span style="color:#f92672">+</span> dp[to][j]);
+            }
+        }
+    }
+}
+</code></pre></div><p>注意几点：</p>
+<ol>
+<li><code>dp[u][wei[u]] = val[u];</code> 放在最前面。</li>
+<li>DP的过程中，类似于 $01$ 背包，$i$ 是<strong>从大到小</strong>的，并且<strong>下限是 <code>wei[u]</code></strong>。</li>
+<li>DP的过程中，$j$ 的<strong>下限是 <code>wei[to]</code></strong>，<strong>上限是 <code>i - wei[u]</code></strong>（因为 <code>i-j</code> 的有效值必须 $\geq$ <code>wei[u]</code>）。</li>
+</ol>
+<p>• 另外，别忘记 tarjan 过程中，更新 <code>low[]</code> 要判断是否在栈内。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">树形DP（无优化版本）代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+
+<span style="color:#66d9ef">int</span> n, m, w[<span style="color:#ae81ff">105</span>], v[<span style="color:#ae81ff">105</span>], d[<span style="color:#ae81ff">105</span>];
+<span style="color:#66d9ef">int</span> dp[<span style="color:#ae81ff">103</span>][<span style="color:#ae81ff">503</span>];
+
+vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> adj1[<span style="color:#ae81ff">103</span>];
+set<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> adj2[<span style="color:#ae81ff">103</span>];
+
+<span style="color:#66d9ef">int</span> dfn[<span style="color:#ae81ff">103</span>], low[<span style="color:#ae81ff">103</span>], id <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, st[<span style="color:#ae81ff">103</span>], tail <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+<span style="color:#66d9ef">bool</span> in[<span style="color:#ae81ff">103</span>];
+<span style="color:#66d9ef">int</span> from[<span style="color:#ae81ff">103</span>], scc <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">tarjan</span>(<span style="color:#66d9ef">int</span> u) {
+    in[u] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    st[<span style="color:#f92672">++</span>tail] <span style="color:#f92672">=</span> u;
+    dfn[u] <span style="color:#f92672">=</span> low[u] <span style="color:#f92672">=</span> <span style="color:#f92672">++</span>id;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> to : adj1[u]) {
+        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>dfn[to]) {
+            tarjan(to);
+            low[u] <span style="color:#f92672">=</span> min(low[u], low[to]);
+        } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (in[to]) {  <span style="color:#75715e">// 注意这里有 in[to]
+</span><span style="color:#75715e"></span>            low[u] <span style="color:#f92672">=</span> min(low[u], dfn[to]);
+        }
+    }
+    <span style="color:#66d9ef">if</span> (low[u] <span style="color:#f92672">==</span> dfn[u]) {
+        from[u] <span style="color:#f92672">=</span> <span style="color:#f92672">++</span>scc;
+        <span style="color:#66d9ef">while</span> (tail <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> st[tail] <span style="color:#f92672">!=</span> u) {
+            <span style="color:#66d9ef">int</span> cur <span style="color:#f92672">=</span> st[tail<span style="color:#f92672">--</span>];
+            in[cur] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+            from[cur] <span style="color:#f92672">=</span> scc;
+        }
+        tail<span style="color:#f92672">--</span>;
+        in[u] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    }
+}
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">init</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> m;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) cin <span style="color:#f92672">&gt;&gt;</span> w[i];
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) cin <span style="color:#f92672">&gt;&gt;</span> v[i];
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        cin <span style="color:#f92672">&gt;&gt;</span> d[i];
+        <span style="color:#66d9ef">if</span> (d[i] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">continue</span>;
+        adj1[d[i]].push_back(i);
+    }
+
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>dfn[i]) tarjan(i);
+    }
+}
+
+<span style="color:#66d9ef">int</span> wei[<span style="color:#ae81ff">103</span>], val[<span style="color:#ae81ff">103</span>], ind[<span style="color:#ae81ff">103</span>];
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">rebuild</span>() {
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">int</span> fu <span style="color:#f92672">=</span> from[i];
+        wei[fu] <span style="color:#f92672">+=</span> w[i];
+        val[fu] <span style="color:#f92672">+=</span> v[i];
+        <span style="color:#66d9ef">int</span> fv <span style="color:#f92672">=</span> from[d[i]];
+        <span style="color:#66d9ef">if</span> (fu <span style="color:#f92672">==</span> fv <span style="color:#f92672">||</span> fv <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">continue</span>;
+        adj2[fv].insert(fu);
+        ind[fu]<span style="color:#f92672">++</span>;
+    }
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> scc; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>ind[i]) adj2[<span style="color:#ae81ff">0</span>].insert(i);
+    }
+}
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">dfs</span>(<span style="color:#66d9ef">int</span> u) {
+    <span style="color:#66d9ef">if</span> (wei[u] <span style="color:#f92672">&lt;=</span> m) dp[u][wei[u]] <span style="color:#f92672">=</span> val[u];
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> to : adj2[u]) {
+        dfs(to);
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> m; i <span style="color:#f92672">&gt;=</span> wei[u]; i<span style="color:#f92672">--</span>) {  <span style="color:#75715e">// 注意从大到小，注意下限
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> wei[to]; j <span style="color:#f92672">&lt;=</span> i <span style="color:#f92672">-</span> wei[u]; j<span style="color:#f92672">++</span>) {  <span style="color:#75715e">// 注意上下限
+</span><span style="color:#75715e"></span>                dp[u][i] <span style="color:#f92672">=</span> max(dp[u][i], dp[u][i<span style="color:#f92672">-</span>j] <span style="color:#f92672">+</span> dp[to][j]);
+            }
+        }
+    }
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    init();
+    rebuild();
+    dfs(<span style="color:#ae81ff">0</span>);
+    <span style="color:#66d9ef">int</span> ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;=</span> m; i<span style="color:#f92672">++</span>) ans <span style="color:#f92672">=</span> max(ans, dp[<span style="color:#ae81ff">0</span>][i]);
+    cout <span style="color:#f92672">&lt;&lt;</span> ans <span style="color:#f92672">&lt;&lt;</span> endl;
+}
+</code></pre></div></details>
+<details class="admonition note"><summary class="admonition-title">DFS序 优化</summary>
+<p>我们可以利用 DFS序 进行优化，让时间复杂度从 $O(nm^2)$ 降到 $O(nm)$。</p>
+<p>令 $i$ 为 $u$ 的DFS序编号，则对于当前节点 $u$，我们有两种选择：</p>
+<ol>
+<li>
+<p>选择当前节点：$dp[i+1][j+w_u] = \max \{dp[i][j] + v_u \}$</p>
+</li>
+<li>
+<p>不选当前节点：$dp[i + sz_i][j] = \max \{ dp[i][j]\}$</p>
+</li>
+</ol>
+<p>解释：</p>
+<p>如果选择当前节点，说明可以继续往<strong>子树</strong>里传递，所以传递到 $dp[i+1][j+w_u]$。</p>
+<p>如果不选择当前节点，由于依赖关系，就必须<strong>跳过子树</strong>，所以传递到 $dp[i + sz_i][j]$。</p>
+<p>最终的答案就是 $ans = \max\limits_{j=0}^m \{dp[n+1][j] \}$。</p>
+<hr>
+<p>另外需要注意，由于依赖问题，我们需要 <strong>记录每一个节点 $u$ 的所有ancestor的权值和</strong>，在枚举的时候，将下限设置为这个权值和。（在代码中，<code>pre[u]</code> 代表 $u$ 所有ancestor的权值和。）</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">优化代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">// 注意 idcnt = -1，因为我们是从 0 开始 DFS的！
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> mp[<span style="color:#ae81ff">103</span>], idcnt <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, sz[<span style="color:#ae81ff">103</span>];  <span style="color:#75715e">// mp[i]: DFS序为 i 的节点编号 u
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> pre[<span style="color:#ae81ff">103</span>];  <span style="color:#75715e">// pre[u] 代表 u 的 ancestor 的 weight的和
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">dfs</span>(<span style="color:#66d9ef">int</span> u) {
+    mp[<span style="color:#f92672">++</span>idcnt] <span style="color:#f92672">=</span> u;
+    sz[u] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> to : adj2[u]) {
+        pre[to] <span style="color:#f92672">=</span> pre[u] <span style="color:#f92672">+</span> wei[u];  <span style="color:#75715e">// ancestor的权值和
+</span><span style="color:#75715e"></span>        dfs(to);
+        sz[u] <span style="color:#f92672">+=</span> sz[to];
+    }
+}
+
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">solve</span>() {
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> scc; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">int</span> u <span style="color:#f92672">=</span> mp[i];
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> pre[u]; j <span style="color:#f92672">&lt;=</span> m; j<span style="color:#f92672">++</span>) {  <span style="color:#75715e">// 注意枚举下限从 pre[u] 开始
+</span><span style="color:#75715e"></span>            dp[i<span style="color:#f92672">+</span>sz[u]][j] <span style="color:#f92672">=</span> max(dp[i<span style="color:#f92672">+</span>sz[u]][j], dp[i][j]);  <span style="color:#75715e">// 不选
+</span><span style="color:#75715e"></span>
+            <span style="color:#66d9ef">if</span> (j <span style="color:#f92672">+</span> wei[u] <span style="color:#f92672">&lt;=</span> m)  <span style="color:#75715e">// 选择（要保证 j+wei[u] &lt;= m）
+</span><span style="color:#75715e"></span>                dp[i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>][j<span style="color:#f92672">+</span>wei[u]] <span style="color:#f92672">=</span> max(dp[i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>][j<span style="color:#f92672">+</span>wei[u]], dp[i][j] <span style="color:#f92672">+</span> val[u]);
+        }
+    }
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    init();
+    rebuild();
+    dfs(<span style="color:#ae81ff">0</span>);
+    solve();
+    <span style="color:#66d9ef">int</span> ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;=</span> m; j<span style="color:#f92672">++</span>) ans <span style="color:#f92672">=</span> max(ans, dp[scc<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>][j]);  <span style="color:#75715e">// 注意是 scc+1
+</span><span style="color:#75715e"></span>    cout <span style="color:#f92672">&lt;&lt;</span> ans <span style="color:#f92672">&lt;&lt;</span> endl;
+}
+</code></pre></div></details>
+<h3 id="例3-洛谷p4395-boi2003gem-气垫车httpswwwluogucomcnproblemp4395">例3 <a href="https://www.luogu.com.cn/problem/P4395" target="_blank">洛谷P4395 [BOI2003]Gem 气垫车</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给一棵 $n$ 个节点的树，要求给所有节点标上正整数权值，使得相邻节点不能权值相同，求最小总权值。</p>
+<p>其中，$n \leq 10^4$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>第一眼看过去是个树染色问题，要么权值为 $1$，要么为 $2$。</p>
+<p>很遗憾这个做法是错的，考虑一下这个数据，两个菊花接在一起：</p>
+<p><img src="/images/008/1.png" alt="img"></p>
+<p>这里很明显应该给 $1,2$ 分别标上 $2,3$ 的权值，其余全部标 $1$。</p>
+<p>所以我们暴力枚举一下每个节点上可能标什么权值就好了，直觉上告诉我们这个上限不会太大。</p>
+<p>然后利用树形DP来求最小值即可。</p>
+<p>代码中取了上限 $M = 55$，所以复杂度就是 $O(55^2 * n)$</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">10005</span>;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> M <span style="color:#f92672">=</span> <span style="color:#ae81ff">55</span>;
+
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Edge</span> {
+    <span style="color:#66d9ef">int</span> to, nxt;
+} edges[maxn<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>];
+<span style="color:#66d9ef">int</span> head[maxn], ecnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, n, m;
+<span style="color:#66d9ef">int</span> dp[maxn][M<span style="color:#f92672">+</span><span style="color:#ae81ff">3</span>];
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">addEdge</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> v) {
+    Edge e <span style="color:#f92672">=</span> {v, head[u]};
+    head[u] <span style="color:#f92672">=</span> ecnt;
+    edges[ecnt<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> e;
+}
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">dfs</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> p) {
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> e <span style="color:#f92672">=</span> head[u]; e; e <span style="color:#f92672">=</span> edges[e].nxt) {
+        <span style="color:#66d9ef">int</span> to <span style="color:#f92672">=</span> edges[e].to;
+        <span style="color:#66d9ef">if</span> (to <span style="color:#f92672">==</span> p) <span style="color:#66d9ef">continue</span>;
+        dfs(to, u);
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;=</span> M; j<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">int</span> r <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e9</span>;
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; k <span style="color:#f92672">&lt;=</span> M; k<span style="color:#f92672">++</span>) {
+                <span style="color:#66d9ef">if</span> (j <span style="color:#f92672">==</span> k) <span style="color:#66d9ef">continue</span>;
+                r <span style="color:#f92672">=</span> min(r, dp[to][k]);
+            }
+            dp[u][j] <span style="color:#f92672">+=</span> r;
+        }
+    }
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;=</span> M; j<span style="color:#f92672">++</span>) dp[u][j] <span style="color:#f92672">+=</span> j;
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    fastio;
+    cin <span style="color:#f92672">&gt;&gt;</span> n;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">int</span> u,v; cin <span style="color:#f92672">&gt;&gt;</span> u <span style="color:#f92672">&gt;&gt;</span> v;
+        addEdge(u,v);
+        addEdge(v,u);
+    }
+    dfs(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>);
+    <span style="color:#66d9ef">int</span> ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e9</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;=</span> M; j<span style="color:#f92672">++</span>) ans <span style="color:#f92672">=</span> min(dp[<span style="color:#ae81ff">1</span>][j], ans);
+    cout <span style="color:#f92672">&lt;&lt;</span> ans <span style="color:#f92672">&lt;&lt;</span> endl;
+}
+</code></pre></div></details>
+<h3 id="例4-洛谷p3177-haoi2015树上染色httpswwwluogucomcnproblemp3177">例4 <a href="https://www.luogu.com.cn/problem/P3177" target="_blank">洛谷P3177 [HAOI2015]树上染色</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一棵 $n$ 个节点的树，树的边上有权值。</p>
+<p>给定一个整数 $k \in [0,n]$，要求从树上选择 $k$ 个点，将其染成黑色，剩余的染成白色。</p>
+<p>染色后，获得的价值为 黑点两两之间的距离之和 + 白点两两之间的距离之和。</p>
+<p>求最大价值？</p>
+<p>其中，$n,k \leq 2000$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>数据范围看起来就非常树形DP。</p>
+<p>设 <code>dp[u][i]</code> 为在 $u$ 的子树内，染 $i$ 个黑点的总价值。</p>
+<p>现在考虑一下怎么转移？</p>
+<p>如果我们直接进行转移，就需要维护节点的深度之和，然而这很明显不现实，所以我们可以 <strong>考虑每条边</strong> 的贡献。</p>
+<p>假设考虑的子树 $v$ 中，染了 $j$ 个黑点，那么一条边 $(u,v,w)$ 的贡献刚好就是：</p>
+<p>$$w * (j * (k-j) + (sz[to] - j) * (n - k - sz[to] + j))$$</p>
+<p>其中 <code>j * (k-j)</code> 是这条边两端的黑点数量的乘积，而 <code>(sz[to] - j) * (n - k - sz[to] + j)</code> 就是这条边两端的白点数量的乘积。</p>
+<p>然后直接转移就可以了（注意第二维度的转移顺序是从 $0$ 开始，否则会导致 $dp[u][i]$ 被更新两次），注意一下使用 <code>sz[]</code> 进行时间复杂度优化到 $O(n^2)$，否则是 $O(n^3)$。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">2003</span>;
+
+ll dp[maxn][maxn];
+ll sz[maxn];
+<span style="color:#66d9ef">int</span> n,k;
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Edge</span> {
+    <span style="color:#66d9ef">int</span> to, nxt;
+    ll w;
+} edges[maxn<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>];
+<span style="color:#66d9ef">int</span> ecnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, head[maxn];
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">addEdge</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> v, ll w) {
+    Edge e <span style="color:#f92672">=</span> {v, head[u], w};
+    head[u] <span style="color:#f92672">=</span> ecnt;
+    edges[ecnt<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> e;
+}
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">dfs1</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> p) {
+    sz[u] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> e <span style="color:#f92672">=</span> head[u]; e; e <span style="color:#f92672">=</span> edges[e].nxt) {
+        <span style="color:#66d9ef">int</span> to <span style="color:#f92672">=</span> edges[e].to;
+        <span style="color:#66d9ef">if</span> (to <span style="color:#f92672">==</span> p) <span style="color:#66d9ef">continue</span>;
+        dfs1(to, u);
+        sz[u] <span style="color:#f92672">+=</span> sz[to];
+    }
+}
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">dfs</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> p) {
+    dp[u][<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> dp[u][<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> e <span style="color:#f92672">=</span> head[u]; e; e <span style="color:#f92672">=</span> edges[e].nxt) {
+        <span style="color:#66d9ef">int</span> to <span style="color:#f92672">=</span> edges[e].to;
+        <span style="color:#66d9ef">if</span> (to <span style="color:#f92672">==</span> p) <span style="color:#66d9ef">continue</span>;
+        dfs(to, u);
+        ll w <span style="color:#f92672">=</span> edges[e].w;
+
+        <span style="color:#66d9ef">for</span> (ll i <span style="color:#f92672">=</span> (ll)min((ll)k, sz[u]); i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>; i<span style="color:#f92672">--</span>) {   <span style="color:#75715e">// u 用多少个黑
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">for</span> (ll j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;=</span> min(i,sz[to]); j<span style="color:#f92672">++</span>) {  <span style="color:#75715e">// v 用多少个黑
+</span><span style="color:#75715e"></span>                ll cnt <span style="color:#f92672">=</span> j <span style="color:#f92672">*</span> (k <span style="color:#f92672">-</span> j) <span style="color:#f92672">+</span> (sz[to] <span style="color:#f92672">-</span> j) <span style="color:#f92672">*</span> (n <span style="color:#f92672">-</span> k <span style="color:#f92672">-</span> sz[to] <span style="color:#f92672">+</span> j);
+                dp[u][i] <span style="color:#f92672">=</span> (ll)max(dp[u][i], dp[u][i<span style="color:#f92672">-</span>j] <span style="color:#f92672">+</span> dp[to][j] <span style="color:#f92672">+</span> cnt <span style="color:#f92672">*</span> w);
+                <span style="color:#75715e">// j = 0 开始: dp[u][i], dp[u][i-1] ... (正确)
+</span><span style="color:#75715e"></span>                <span style="color:#75715e">// j = min(i,sz[to]) 开始: dp[u][0], dp[u][1], ..., dp[u][i] -&gt; 这导致 dp[u][i] 被更新了两次
+</span><span style="color:#75715e"></span>            }
+        }
+    }
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> k;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">int</span> u,v; ll w; cin <span style="color:#f92672">&gt;&gt;</span> u <span style="color:#f92672">&gt;&gt;</span> v <span style="color:#f92672">&gt;&gt;</span> w;
+        addEdge(u,v,w); addEdge(v,u,w);
+    }
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>)
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>; j <span style="color:#f92672">&lt;=</span> k; j<span style="color:#f92672">++</span>) dp[i][j] <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1e18</span>;
+        
+    dfs1(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>);
+    dfs(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>);
+    cout <span style="color:#f92672">&lt;&lt;</span> dp[<span style="color:#ae81ff">1</span>][k] <span style="color:#f92672">&lt;&lt;</span> endl;
+}
+</code></pre></div></details>
+<div class="admonition info">
+  <p class="admonition-title">注意事项</p>
+<ol>
+<li>本题枚举 $i,j$ 时，注意要加上 $sz[u], sz[to]$ 作为上限来优化。</li>
+<li>注意初始化 $dp[i][j]$ 为负无穷，并且设 $dp[i][0] = dp[i][1] = 0$。</li>
+<li>注意第二维度的转移顺序（第一维倒序这个是必须的）。</li>
+</ol>
+</div>
+<h3 id="例5-1到n经过特定点的最短路">例5 [1到n经过特定点的最短路]</h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $n$ 个节点的一棵树，树上有 $m$ 个点被标记了，求从节点 $1$ 走到节点 $n$，中途需要经过这些标记点的最短路长度，所有边权值为 1。</p>
+<p>其中，$n \leq 2 \times 10^5$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>• 这是一道群里传的题目，没有代码。</p>
+<hr>
+<p>首先将 $1$ 到 $n$ 的路径拉成一条链，链上所有的点一定会被经过，不用管。</p>
+<p>接下来就是挂在链上的若干子树，对于每个子树，思考如下问题：</p>
+<blockquote>
+<p>从一棵树的根出发，经过树内的所有标记点，再回到这棵树的根，需要的最短路长度？</p>
+</blockquote>
+<p>对于这个问题，我们考虑对于每个被标记的点 $u$，从根（假设为 $1$）到 $u$ 的路径一定会被经过，被经过的这些边被打上标记，代表这些边一定会被经过。</p>
+<p>打完标记后，我们知道在最优解中，每条边一定会被经过 $2$ 次，所以答案就是标记边 $*2$。</p>
+<p>如何打标记？</p>
+<p>只要一次dfs即可，每次dfs时判断这个子树里面有没有需要标记的点，如果有，这条边就打上标记。</p>
+</details>
+<h3 id="例6-naq2017e-company-picnichttpsvjudgenetcontest539014probleme">例6 NAQ2017E. <a href="https://vjudge.net/contest/539014#problem/E" target="_blank">Company Picnic</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一棵树，每个节点有权值 $w_i$。</p>
+<p>定义一组节点为：两个直接相连的节点 $i,j$，这组节点的权值定义为 $\min (w_i,w_j)$。</p>
+<p>求选出若干组节点的方法，使得每组节点用到的点各不相同，并且满足选出节点组数最多。</p>
+<p>在节点组数量最多的情况下，求出这些节点的权值和最大值。</p>
+<p>其中，$2 \leq n \leq 1000, w_i \in [2.2,5.3]$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>这个题需要维护最多节点组数，还要维护权值和最大值。所以 <code>dp</code> 数组维护两个值。</p>
+<p>定义 $dp(u,0)$ 为：$u$ 的parent没有选它，$dp(u,1)$ 则是选了它的。</p>
+<p>dp 值则是一个pair：<code>&lt;int, double&gt;</code>，代表子树中最大的节点组数，以及对应的最大权值和。</p>
+<p>在转移的时候，注意到 $dp(u,1)$ 不能选任何 $dp(v,1)$ 转移。而 $dp(u,0)$ 只能选一个 $dp(v,1)$ 转移（或者也可以不选）。</p>
+<p>转移的过程中，优先更新第一个值（节点组数），如果第一个值相等，再更新第二个值（权值和最大值）。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">2e3</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>;
+
+pair<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>,<span style="color:#66d9ef">double</span><span style="color:#f92672">&gt;</span> dp[maxn][<span style="color:#ae81ff">2</span>];
+vector<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;</span> adj[maxn];
+map<span style="color:#f92672">&lt;</span>string, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> mp;
+<span style="color:#66d9ef">double</span> sp[maxn];
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Edge</span> {
+    <span style="color:#66d9ef">int</span> to, nxt;
+} edges[maxn<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>];
+<span style="color:#66d9ef">int</span> head[maxn], ecnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">addEdge</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> v) {
+    Edge e <span style="color:#f92672">=</span> {v, head[u]};
+    edges[ecnt] <span style="color:#f92672">=</span> e;
+    head[u] <span style="color:#f92672">=</span> ecnt<span style="color:#f92672">++</span>;
+}
+<span style="color:#66d9ef">int</span> rt;
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">dfs</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> p) {
+    <span style="color:#66d9ef">int</span> cnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, b <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;  <span style="color:#75715e">// b: 最优转移 1 的点v
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">double</span> sum <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#75715e">// 0 的情况
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> e <span style="color:#f92672">=</span> head[u]; e; e <span style="color:#f92672">=</span> edges[e].nxt) {
+        <span style="color:#66d9ef">int</span> v <span style="color:#f92672">=</span> edges[e].to;
+        <span style="color:#66d9ef">if</span> (v <span style="color:#f92672">==</span> p) <span style="color:#66d9ef">continue</span>;
+        dfs(v, u);
+        cnt <span style="color:#f92672">+=</span> dp[v][<span style="color:#ae81ff">0</span>].first;
+        sum <span style="color:#f92672">+=</span> dp[v][<span style="color:#ae81ff">0</span>].second;
+        <span style="color:#66d9ef">if</span> (b <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) b <span style="color:#f92672">=</span> v;
+        <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (dp[v][<span style="color:#ae81ff">1</span>].first <span style="color:#f92672">-</span> dp[v][<span style="color:#ae81ff">0</span>].first <span style="color:#f92672">&gt;</span> dp[b][<span style="color:#ae81ff">1</span>].first <span style="color:#f92672">-</span> dp[b][<span style="color:#ae81ff">0</span>].first) {
+            b <span style="color:#f92672">=</span> v;
+        } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (dp[v][<span style="color:#ae81ff">1</span>].first <span style="color:#f92672">-</span> dp[v][<span style="color:#ae81ff">0</span>].first <span style="color:#f92672">==</span> dp[b][<span style="color:#ae81ff">1</span>].first <span style="color:#f92672">-</span> dp[b][<span style="color:#ae81ff">0</span>].first <span style="color:#f92672">&amp;&amp;</span> 
+            min(sp[u], sp[v]) <span style="color:#f92672">+</span> dp[v][<span style="color:#ae81ff">1</span>].second <span style="color:#f92672">-</span> dp[v][<span style="color:#ae81ff">0</span>].second <span style="color:#f92672">&gt;</span> min(sp[u], sp[b]) <span style="color:#f92672">+</span> dp[b][<span style="color:#ae81ff">1</span>].second <span style="color:#f92672">-</span> dp[b][<span style="color:#ae81ff">0</span>].second) {
+            b <span style="color:#f92672">=</span> v;
+        }
+        
+    }
+
+    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>b) <span style="color:#66d9ef">return</span>;
+
+    cnt <span style="color:#f92672">-=</span> dp[b][<span style="color:#ae81ff">0</span>].first;
+    cnt <span style="color:#f92672">+=</span> dp[b][<span style="color:#ae81ff">1</span>].first;
+    sum <span style="color:#f92672">-=</span> dp[b][<span style="color:#ae81ff">0</span>].second;
+    sum <span style="color:#f92672">+=</span> min(sp[u], sp[b]) <span style="color:#f92672">+</span> dp[b][<span style="color:#ae81ff">1</span>].second;
+
+    dp[u][<span style="color:#ae81ff">0</span>].first <span style="color:#f92672">=</span> cnt <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+    dp[u][<span style="color:#ae81ff">0</span>].second <span style="color:#f92672">=</span> sum;
+
+    cnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, sum <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> e <span style="color:#f92672">=</span> head[u]; e; e <span style="color:#f92672">=</span> edges[e].nxt) {
+        <span style="color:#66d9ef">int</span> v <span style="color:#f92672">=</span> edges[e].to;
+        <span style="color:#66d9ef">if</span> (v <span style="color:#f92672">==</span> p) <span style="color:#66d9ef">continue</span>;
+        cnt <span style="color:#f92672">+=</span> dp[v][<span style="color:#ae81ff">0</span>].first;
+        sum <span style="color:#f92672">+=</span> dp[v][<span style="color:#ae81ff">0</span>].second;
+    }
+    dp[u][<span style="color:#ae81ff">1</span>].first <span style="color:#f92672">=</span> cnt;
+    dp[u][<span style="color:#ae81ff">1</span>].second <span style="color:#f92672">=</span> sum;
+
+    <span style="color:#66d9ef">if</span> (cnt <span style="color:#f92672">&gt;</span> dp[u][<span style="color:#ae81ff">0</span>].first <span style="color:#f92672">||</span> (cnt <span style="color:#f92672">==</span> dp[u][<span style="color:#ae81ff">0</span>].first <span style="color:#f92672">&amp;&amp;</span> sum <span style="color:#f92672">&gt;</span> dp[u][<span style="color:#ae81ff">0</span>].second)) {
+        dp[u][<span style="color:#ae81ff">0</span>].first <span style="color:#f92672">=</span> cnt;
+        dp[u][<span style="color:#ae81ff">0</span>].second <span style="color:#f92672">=</span> sum;
+    }
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    fastio;
+    <span style="color:#66d9ef">int</span> n; cin <span style="color:#f92672">&gt;&gt;</span> n;
+    <span style="color:#66d9ef">int</span> id <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        string s; cin <span style="color:#f92672">&gt;&gt;</span> s;
+        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>mp.count(s) <span style="color:#f92672">&amp;&amp;</span> s <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#34;CEO&#34;</span>) mp[s] <span style="color:#f92672">=</span> <span style="color:#f92672">++</span>id;
+        <span style="color:#66d9ef">double</span> w; cin <span style="color:#f92672">&gt;&gt;</span> w;
+        string t; cin <span style="color:#f92672">&gt;&gt;</span> t;
+        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>mp.count(t) <span style="color:#f92672">&amp;&amp;</span> t <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#34;CEO&#34;</span>) mp[t] <span style="color:#f92672">=</span> <span style="color:#f92672">++</span>id;
+
+        <span style="color:#66d9ef">int</span> u <span style="color:#f92672">=</span> mp[s], v <span style="color:#f92672">=</span> mp[t];
+        <span style="color:#66d9ef">if</span> (t <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;CEO&#34;</span>) {
+            rt <span style="color:#f92672">=</span> u;
+        } <span style="color:#66d9ef">else</span> { 
+            addEdge(u,v);
+            addEdge(v,u);
+        }
+        sp[u] <span style="color:#f92672">=</span> w;
+    }
+    dfs(rt, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>);
+    cout <span style="color:#f92672">&lt;&lt;</span> dp[rt][<span style="color:#ae81ff">0</span>].first <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; &#34;</span> <span style="color:#f92672">&lt;&lt;</span> dp[rt][<span style="color:#ae81ff">0</span>].second <span style="color:#f92672">/</span> dp[rt][<span style="color:#ae81ff">0</span>].first <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+}
+</code></pre></div></details>
+
+    </div>
+
+    
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E6%A0%91%E5%BD%A2dp/">树形dp</a>
+          <a href="/tags/dp%E4%BC%98%E5%8C%96/">dp优化</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/009-vim/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">vim笔记</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/007-01%E5%88%86%E6%95%B0%E8%A7%84%E5%88%92/">
+            <span class="next-text nav-default">01分数规划</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://github.com/kiki-yan" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://kiki-yan.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2026
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/kiki-yan/kiki-yan.github.io" target="_blank"></a>
+    </span> 
+    <span class="author">kiki_yan</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/base16/tomorrow.min.css" rel="stylesheet">
+  
+  <script>hljs.configure({tabReplace: '    '});</script><script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

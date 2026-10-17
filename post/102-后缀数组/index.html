@@ -1,0 +1,1648 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>后缀数组 - kiki_yan</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="kiki_yan" /><meta name="description" content="模版 代码(nlogn) // sa[i]：所有的后缀排序后，第 $i$ 小的后缀的编号。（排第 $i$ 名的是 sa[i] 这个后缀）。 // rk[i]：后缀 $i$（指 s[i...n]) 的排名。" /><meta name="keywords" content="kiki_yan, blog, Codeforces" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
+
+
+<link rel="canonical" href="https://kiki-yan.github.io/post/102-%E5%90%8E%E7%BC%80%E6%95%B0%E7%BB%84/" />
+<link rel="manifest" href="/manifest.json">
+
+
+
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="后缀数组" />
+<meta property="og:description" content="模版 代码(nlogn) // sa[i]：所有的后缀排序后，第 $i$ 小的后缀的编号。（排第 $i$ 名的是 sa[i] 这个后缀）。 // rk[i]：后缀 $i$（指 s[i...n]) 的排名。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kiki-yan.github.io/post/102-%E5%90%8E%E7%BC%80%E6%95%B0%E7%BB%84/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2023-03-22T11:30:39-05:00" />
+<meta property="article:modified_time" content="2023-03-22T11:30:39-05:00" />
+
+<meta itemprop="name" content="后缀数组">
+<meta itemprop="description" content="模版 代码(nlogn) // sa[i]：所有的后缀排序后，第 $i$ 小的后缀的编号。（排第 $i$ 名的是 sa[i] 这个后缀）。 // rk[i]：后缀 $i$（指 s[i...n]) 的排名。"><meta itemprop="datePublished" content="2023-03-22T11:30:39-05:00" />
+<meta itemprop="dateModified" content="2023-03-22T11:30:39-05:00" />
+<meta itemprop="wordCount" content="10743">
+<meta itemprop="keywords" content=",," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="后缀数组"/>
+<meta name="twitter:description" content="模版 代码(nlogn) // sa[i]：所有的后缀排序后，第 $i$ 小的后缀的编号。（排第 $i$ 名的是 sa[i] 这个后缀）。 // rk[i]：后缀 $i$（指 s[i...n]) 的排名。"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">kiki_yan</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF Problems</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">kiki_yan</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF Problems</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">后缀数组</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2023-03-22 11:30:39 -0500 -0500"> 2023-03-22 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
+            </div>
+        
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#模版">模版</a></li>
+        <li><a href="#介绍">介绍</a></li>
+        <li><a href="#算法">算法</a></li>
+        <li><a href="#应用">应用</a>
+          <ul>
+            <li><a href="#求不同子串数量">求不同子串数量</a></li>
+            <li><a href="#比较字符串中两个子串的大小关系">比较字符串中，两个子串的大小关系</a></li>
+            <li><a href="#查询一个多个模式串-t-在文本串-s-中出现的所有位置">查询一个/多个模式串 $T$ 在文本串 $S$ 中出现的所有位置</a></li>
+            <li><a href="#多个字符串的最长公共子串">多个字符串的最长公共子串</a></li>
+            <li><a href="#出现至少-k-次的子串的最大长度">出现至少 $k$ 次的子串的最大长度</a></li>
+            <li><a href="#t-的每一个前缀在-s-中出现的所有位置">$t$ 的每一个前缀在 $s$ 中出现的所有位置</a></li>
+          </ul>
+        </li>
+        <li><a href="#例题">例题</a>
+          <ul>
+            <li><a href="#例1-洛谷p2408-不同子串个数httpswwwluogucomcnproblemp2408">例1 洛谷P2408 <a href="https://www.luogu.com.cn/problem/P2408">不同子串个数</a></a></li>
+            <li><a href="#例2-洛谷p2870-usaco07decbest-cow-line-ghttpswwwluogucomcnproblemp2870">例2 洛谷P2870 <a href="https://www.luogu.com.cn/problem/P2870">[USACO07DEC]Best Cow Line G</a></a></li>
+            <li><a href="#例3-最长公共子串-lcshttpswwwluogucomcnproblemsp1811">例3 <a href="https://www.luogu.com.cn/problem/SP1811">最长公共子串 LCS</a></a></li>
+            <li><a href="#例4-noi2015-品酒大会httpswwwluogucomcnproblemp2178">例4 NOI2015 <a href="https://www.luogu.com.cn/problem/P2178">品酒大会</a></a></li>
+            <li><a href="#例5-haoi2016-找相同字符httpslojacp2064">例5 HAOI2016 <a href="https://loj.ac/p/2064">找相同字符</a></a></li>
+            <li><a href="#例6-noi2016-优秀的拆分httpslojacp2083">例6 NOI2016 <a href="https://loj.ac/p/2083">优秀的拆分</a></a></li>
+            <li><a href="#例7-uva11107-life-formshttpswwwluogucomcnproblemuva11107">例7 UVA11107 <a href="https://www.luogu.com.cn/problem/UVA11107">Life Forms</a></a></li>
+            <li><a href="#例8-洛谷p2852-usaco06dec-milk-patterns-ghttpswwwluogucomcnproblemp2852">例8 洛谷P2852 <a href="https://www.luogu.com.cn/problem/P2852">[USACO06DEC] Milk Patterns G</a></a></li>
+            <li><a href="#例9-cf149e-martian-stringshttpscodeforcescomcontest149probleme">例9 CF149E <a href="https://codeforces.com/contest/149/problem/E">Martian Strings</a></a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="模版">模版</h2>
+<details class="admonition note"><summary class="admonition-title">代码(nlogn)</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">// sa[i]：所有的后缀排序后，第 $i$ 小的后缀的编号。（排第 $i$ 名的是 sa[i] 这个后缀）。
+</span><span style="color:#75715e">// rk[i]：后缀 $i$（指 s[i...n]) 的排名。（第 $i$ 个后缀的排名是 rk[i]）。
+</span><span style="color:#75715e">// height[i]: LCP(sa[i-1], sa[i])，即第 $i-1$ 名的后缀和 第 $i$ 名的后缀的最长公共前缀长度
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">SA</span> {
+    <span style="color:#66d9ef">int</span> n, sa[maxn], rk[maxn<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>], oldrk[maxn<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>], cnt[maxn], id[maxn], key1[maxn], height[maxn];  <span style="color:#75715e">// 注意 rk[maxn&lt;&lt;1] oldrk[maxn&lt;&lt;1]
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">char</span> s[maxn];
+    <span style="color:#66d9ef">int</span> m <span style="color:#f92672">=</span> <span style="color:#ae81ff">127</span>;
+    <span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">cmp</span>(<span style="color:#66d9ef">int</span> i, <span style="color:#66d9ef">int</span> j, <span style="color:#66d9ef">int</span> w) {
+        <span style="color:#66d9ef">return</span> oldrk[i] <span style="color:#f92672">==</span> oldrk[j] <span style="color:#f92672">&amp;&amp;</span> oldrk[i<span style="color:#f92672">+</span>w] <span style="color:#f92672">==</span> oldrk[j<span style="color:#f92672">+</span>w];
+    }
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">init</span>(string<span style="color:#f92672">&amp;</span> ss) {
+        n <span style="color:#f92672">=</span> ss.size();
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) s[i] <span style="color:#f92672">=</span> ss[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>];
+
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) rk[i] <span style="color:#f92672">=</span> s[i], cnt[rk[i]]<span style="color:#f92672">++</span>;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> m; i<span style="color:#f92672">++</span>) cnt[i] <span style="color:#f92672">+=</span> cnt[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>];
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> n; i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">1</span>; i<span style="color:#f92672">--</span>) sa[cnt[rk[i]]<span style="color:#f92672">--</span>] <span style="color:#f92672">=</span> i;
+
+        <span style="color:#66d9ef">int</span> p <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;  <span style="color:#75715e">// 当前值域
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> w <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; w <span style="color:#f92672">&lt;=</span> n; w <span style="color:#f92672">&lt;&lt;=</span> <span style="color:#ae81ff">1</span>) {  <span style="color:#75715e">// 注意中间没有break的条件
+</span><span style="color:#75715e"></span>            p <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> n; i <span style="color:#f92672">&gt;</span> n<span style="color:#f92672">-</span>w; i<span style="color:#f92672">--</span>) id[<span style="color:#f92672">++</span>p] <span style="color:#f92672">=</span> i;
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+                <span style="color:#66d9ef">if</span> (sa[i] <span style="color:#f92672">&gt;</span> w) id[<span style="color:#f92672">++</span>p] <span style="color:#f92672">=</span> sa[i] <span style="color:#f92672">-</span> w;
+            }
+            memset(cnt, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(cnt));
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) key1[i] <span style="color:#f92672">=</span> rk[id[i]], cnt[key1[i]]<span style="color:#f92672">++</span>;
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> m; i<span style="color:#f92672">++</span>) cnt[i] <span style="color:#f92672">+=</span> cnt[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>];
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> n; i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">1</span>; i<span style="color:#f92672">--</span>) sa[cnt[key1[i]]<span style="color:#f92672">--</span>] <span style="color:#f92672">=</span> id[i];
+            memcpy(oldrk<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, rk<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, n<span style="color:#f92672">*</span><span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">int</span>));
+            p <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+                rk[sa[i]] <span style="color:#f92672">=</span> cmp(sa[i], sa[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>], w) <span style="color:#f92672">?</span> p : (<span style="color:#f92672">++</span>p);
+            }
+            <span style="color:#66d9ef">if</span> (p <span style="color:#f92672">==</span> n) {
+                <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) sa[rk[i]] <span style="color:#f92672">=</span> i;
+                <span style="color:#66d9ef">break</span>;
+            }
+            m <span style="color:#f92672">=</span> p;
+        }
+
+        <span style="color:#75715e">// 求 height
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">if</span> (rk[i] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">continue</span>;
+            <span style="color:#66d9ef">if</span> (k <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) k<span style="color:#f92672">--</span>;
+            <span style="color:#66d9ef">while</span> (s[i<span style="color:#f92672">+</span>k] <span style="color:#f92672">==</span> s[sa[rk[i]<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]<span style="color:#f92672">+</span>k]) k<span style="color:#f92672">++</span>;
+            height[rk[i]] <span style="color:#f92672">=</span> k;
+        }
+    }
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">clear</span>() {
+        memset(sa, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(sa));
+        memset(rk, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(rk));
+        memset(oldrk, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(oldrk));
+        memset(cnt, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(cnt));
+        memset(id, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(id));
+        memset(key1, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(key1));
+        memset(height, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(height));
+        memset(s, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(s));
+        m <span style="color:#f92672">=</span> <span style="color:#ae81ff">127</span>;  <span style="color:#75715e">// 这个必须有！
+</span><span style="color:#75715e"></span>    }
+} sa;
+
+<span style="color:#66d9ef">int</span> n;
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> n;
+    string s; cin <span style="color:#f92672">&gt;&gt;</span> s;
+    sa.init(s);
+
+    ll ans <span style="color:#f92672">=</span> (ll)(n) <span style="color:#f92672">*</span> (n<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>) <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) ans <span style="color:#f92672">-=</span> sa.height[i];
+    cout <span style="color:#f92672">&lt;&lt;</span> ans <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+}
+</code></pre></div></details>
+<details class="admonition note"><summary class="admonition-title">代码(nlog^2 n)</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">// sa[i]：所有的后缀排序后，第 $i$ 小的后缀的编号。（排第 $i$ 名的是 sa[i] 这个后缀）。
+</span><span style="color:#75715e">// rk[i]：后缀 $i$（指 s[i...n]) 的排名。（第 $i$ 个后缀的排名是 rk[i]）。
+</span><span style="color:#75715e">// height[i]: LCP(sa[i-1], sa[i])，即第 $i-1$ 名的后缀和 第 $i$ 名的后缀的最长公共前缀长度
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">SA</span> {
+    <span style="color:#66d9ef">int</span> n, sa[maxn], rk[maxn<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>], oldrk[maxn<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>], height[maxn];  <span style="color:#75715e">// 注意 rk[maxn&lt;&lt;1] oldrk[maxn&lt;&lt;1]
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> s[maxn];
+    <span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">cmp</span>(<span style="color:#66d9ef">int</span> i, <span style="color:#66d9ef">int</span> j, <span style="color:#66d9ef">int</span> w) {
+        <span style="color:#66d9ef">return</span> oldrk[i] <span style="color:#f92672">==</span> oldrk[j] <span style="color:#f92672">&amp;&amp;</span> oldrk[i<span style="color:#f92672">+</span>w] <span style="color:#f92672">==</span> oldrk[j<span style="color:#f92672">+</span>w];
+    }
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">init</span>(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> ss) {   <span style="color:#75715e">// 不再是普通的字符串，而是 vector&lt;int&gt; 了，注意长度就是 n，不要添加多余的元素！
+</span><span style="color:#75715e"></span>        n <span style="color:#f92672">=</span> ss.size();
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) s[i] <span style="color:#f92672">=</span> ss[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>], rk[i] <span style="color:#f92672">=</span> s[i], sa[i] <span style="color:#f92672">=</span> i;
+
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> w <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; w <span style="color:#f92672">&lt;=</span> n; w <span style="color:#f92672">&lt;&lt;=</span> <span style="color:#ae81ff">1</span>) {  <span style="color:#75715e">// 注意中间没有break的条件
+</span><span style="color:#75715e"></span>            sort(sa <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, sa <span style="color:#f92672">+</span> n <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, [<span style="color:#f92672">&amp;</span>](<span style="color:#66d9ef">int</span> x, <span style="color:#66d9ef">int</span> y) {
+                <span style="color:#66d9ef">return</span> rk[x] <span style="color:#f92672">==</span> rk[y] <span style="color:#f92672">?</span> rk[x <span style="color:#f92672">+</span> w] <span style="color:#f92672">&lt;</span> rk[y <span style="color:#f92672">+</span> w] <span style="color:#f92672">:</span> rk[x] <span style="color:#f92672">&lt;</span> rk[y];
+            });
+
+            memcpy(oldrk<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, rk<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, n<span style="color:#f92672">*</span><span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">int</span>));
+            <span style="color:#66d9ef">int</span> p <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+                rk[sa[i]] <span style="color:#f92672">=</span> cmp(sa[i], sa[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>], w) <span style="color:#f92672">?</span> p : (<span style="color:#f92672">++</span>p);
+            }
+            <span style="color:#66d9ef">if</span> (p <span style="color:#f92672">==</span> n) {
+                <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) sa[rk[i]] <span style="color:#f92672">=</span> i;
+                <span style="color:#66d9ef">break</span>;
+            }
+        }
+
+        <span style="color:#75715e">// 求 height
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">if</span> (rk[i] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">continue</span>;
+            <span style="color:#66d9ef">if</span> (k <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) k<span style="color:#f92672">--</span>;
+            <span style="color:#66d9ef">while</span> (s[i<span style="color:#f92672">+</span>k] <span style="color:#f92672">==</span> s[sa[rk[i]<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]<span style="color:#f92672">+</span>k]) k<span style="color:#f92672">++</span>;
+            height[rk[i]] <span style="color:#f92672">=</span> k;
+        }
+    }
+
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">clear</span>() {
+        memset(sa, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(sa));
+        memset(rk, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(rk));
+        memset(oldrk, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(oldrk));
+        memset(height, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(height));
+        memset(s, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(s));
+    }
+} sa;
+
+<span style="color:#66d9ef">int</span> n;
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> n;
+    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> vec;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">int</span> x; cin <span style="color:#f92672">&gt;&gt;</span> x; vec.push_back(x);
+    }
+    sa.init(vec);
+}
+</code></pre></div></details>
+<h2 id="介绍">介绍</h2>
+<p>后缀数组可以对一个字符串的所有后缀进行排序，然后得到一些有用的信息。</p>
+<p>在处理出后缀数组后，我们会得到以下数组：</p>
+<ol>
+<li><code>sa[i]</code>：所有的后缀排序后，第 $i$ 小的后缀的编号。（排第 $i$ 名的是 <code>sa[i]</code> 这个后缀）。</li>
+<li><code>rk[i]</code>：后缀 $i$ 的排名。（第 $i$ 个后缀的排名是 <code>rk[i]</code>）。第 $i$ 个后缀指的是 $s[i&hellip;n]$。</li>
+<li><code>height[i]</code>: <code>LCP(sa[i-1], sa[i])</code>，即第 $i-1$ 名的后缀和 第 $i$ 名的后缀的最长公共前缀长度。</li>
+</ol>
+<p>• 对于第 $i$ 名的后缀和第 $j$ 名的后缀的 LCP 长度（$i&lt;j$），可以直接用 $\min\limits_{k=i+1}^j height[k]$ 求出。</p>
+<h2 id="算法">算法</h2>
+<p>暴力的思路是求出所有后缀，然后排序，复杂度是 $O(n^2 \log n)$。</p>
+<p>利用倍增可以在 $O(n \log n)$ 求出后缀数组。</p>
+<p><img src="/images/102/1.png" alt="img"></p>
+<p>如上图，我们先比较每个后缀的第一个字符。</p>
+<p><img src="/images/102/2.png" alt="img"></p>
+<p>这样我们可以得到第一个字符的排序（注意这个例子和上面那个不同了）。</p>
+<p>接下来比较第二个字符，这样和第一个字符的排序结合起来，可以得到一个双关键字的排序。</p>
+<p><img src="/images/102/4.png" alt="img"></p>
+<p>双关键字排序后，又可以得到一个排名，然后注意到此时每个排名都代表 $2$ 个字符长度的排名。</p>
+<p>所以两个排名结合起来就对应了 $4$ 个字符长度的排名，于是就可以利用倍增继续双关键字排序，如下：</p>
+<p><img src="/images/102/3.png" alt="img"></p>
+<p>由于字符串值域被ASCII码限制在 $127$ 内，如果用 counting sort，复杂度为 $O(n\log n)$。</p>
+<p>不过在一些情况下，可能需要用 <code>int</code> 来表示一个字符串，这个时候要么扩大值域范围（代码中的 <code>m=127</code>），要么使用 $O(n\log^2 n)$ 的方法。</p>
+<h2 id="应用">应用</h2>
+<h3 id="求不同子串数量">求不同子串数量</h3>
+<p>见 <a href="/post/102-%e5%90%8e%e7%bc%80%e6%95%b0%e7%bb%84/#%e4%be%8b1-%e6%b4%9b%e8%b0%b7p2408-%e4%b8%8d%e5%90%8c%e5%ad%90%e4%b8%b2%e4%b8%aa%e6%95%b0httpswwwluogucomcnproblemp2408">例1</a>。</p>
+<h3 id="比较字符串中两个子串的大小关系">比较字符串中，两个子串的大小关系</h3>
+<p>如果需要比较 $A = S[a&hellip;b]$ 和 $B = S[c&hellip;d]$ 的大小关系，那么：</p>
+<p>求出后缀 $S[a&hellip;]$ 与 $S[c&hellip;]$ 的 LCP长度，设其为 $L$。</p>
+<p>若 $L \geq \min(|A|,|B|)$，那么 $A &lt; B \iff |A| &lt; |B|$。</p>
+<p>若 $L &lt; \min(|A|,|B|)$，那么 $A &lt; B \iff rk[a] &lt; rk[c]$。</p>
+<h3 id="查询一个多个模式串-t-在文本串-s-中出现的所有位置">查询一个/多个模式串 $T$ 在文本串 $S$ 中出现的所有位置</h3>
+<p>处理出 $S$ 的后缀数组，由于后缀是 sorted 的，所以可以在后缀数组上二分 $T$ 的 <code>lower_bound</code> 和 <code>upper_bound</code> 位置。</p>
+<p>设 $L$ 为 <code>lower_bound</code>, $R$ 为 <code>upper_bound</code>，则后缀数组上 $[L,R]$ 内对应的所有位置就是 $T$ 出现的所有位置。</p>
+<p>二分时，直接用 $|T|$ 的时间暴力比较即可。</p>
+<p>• 如果 $S$ 的某个后缀长度不够 $|T|$，则仍然按正常的字符串比较方式判断大小。</p>
+<p>复杂度：$O(|T|\log |S|)$。</p>
+<p>也可以用于多模式串匹配，复杂度比哈希和 <code>bitset</code> 更加优秀，而且还支持在线。</p>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">string s, t;
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> s <span style="color:#f92672">&gt;&gt;</span> t;
+    <span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> s.size(), m <span style="color:#f92672">=</span> t.size();
+    sa.init(s);
+    <span style="color:#66d9ef">int</span> low <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, high <span style="color:#f92672">=</span> n, L <span style="color:#f92672">=</span> n<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, R <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+
+    <span style="color:#66d9ef">while</span> (low <span style="color:#f92672">&lt;=</span> high) {
+        <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> (low <span style="color:#f92672">+</span> high) <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">int</span> st <span style="color:#f92672">=</span> sa.sa[mid];
+        <span style="color:#66d9ef">int</span> cp <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> st; j <span style="color:#f92672">&lt;=</span> min(n, st <span style="color:#f92672">+</span> m <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>); j<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">if</span> (s[j<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">&lt;</span> t[j<span style="color:#f92672">-</span>st]) {
+                cp <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+                <span style="color:#66d9ef">break</span>;
+            }
+            <span style="color:#66d9ef">if</span> (s[j<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">&gt;</span> t[j<span style="color:#f92672">-</span>st]) {
+                cp <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+                <span style="color:#66d9ef">break</span>;
+            }
+        }
+
+        <span style="color:#66d9ef">if</span> (st <span style="color:#f92672">+</span> m <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&gt;</span> n <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span>cp) {  <span style="color:#75715e">// 长度不够了，但仍然相等，说明 t 更大
+</span><span style="color:#75715e"></span>            cp <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+        }
+
+        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>cp) {
+            L <span style="color:#f92672">=</span> mid;   <span style="color:#75715e">// 区别
+</span><span style="color:#75715e"></span>        }
+
+        <span style="color:#66d9ef">if</span> (cp <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>) {   <span style="color:#75715e">// 区别
+</span><span style="color:#75715e"></span>            high <span style="color:#f92672">=</span> mid <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>;
+        } <span style="color:#66d9ef">else</span> low <span style="color:#f92672">=</span> mid <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+    }
+
+    low <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, high <span style="color:#f92672">=</span> n;
+    <span style="color:#66d9ef">while</span> (low <span style="color:#f92672">&lt;=</span> high) {
+        <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> (low <span style="color:#f92672">+</span> high) <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">int</span> st <span style="color:#f92672">=</span> sa.sa[mid];
+        <span style="color:#66d9ef">int</span> cp <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> st; j <span style="color:#f92672">&lt;=</span> min(n, st <span style="color:#f92672">+</span> m <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>); j<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">if</span> (s[j<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">&lt;</span> t[j<span style="color:#f92672">-</span>st]) {
+                cp <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+                <span style="color:#66d9ef">break</span>;
+            }
+            <span style="color:#66d9ef">if</span> (s[j<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">&gt;</span> t[j<span style="color:#f92672">-</span>st]) {
+                cp <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+                <span style="color:#66d9ef">break</span>;
+            }
+        }
+
+        <span style="color:#66d9ef">if</span> (st <span style="color:#f92672">+</span> m <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&gt;</span> n <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span>cp) {
+            cp <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+        }
+
+        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>cp) {
+            R <span style="color:#f92672">=</span> mid;  <span style="color:#75715e">// 区别
+</span><span style="color:#75715e"></span>        }
+
+        <span style="color:#66d9ef">if</span> (cp <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {   <span style="color:#75715e">// 区别
+</span><span style="color:#75715e"></span>            high <span style="color:#f92672">=</span> mid <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>;
+        } <span style="color:#66d9ef">else</span> low <span style="color:#f92672">=</span> mid <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+    }
+
+    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> res;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> L; i <span style="color:#f92672">&lt;=</span> R; i<span style="color:#f92672">++</span>) {
+        res.push_back(sa.sa[i]);
+    }
+    sort(res.begin(), res.end());  <span style="color:#75715e">// 从小到大排序
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> x : res) cout <span style="color:#f92672">&lt;&lt;</span> x <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+}
+</code></pre></div></details>
+<h3 id="多个字符串的最长公共子串">多个字符串的最长公共子串</h3>
+<p>用 <strong>不同的分隔符</strong> 将这些字符串连在一起，然后利用滑动窗口，保证窗口内每一个来源的后缀都存在时，用 ST 表求窗口的 <code>height[]</code> 最小值即可。</p>
+<p>• 注意需要不同的分隔符，否则会有影响（至于分隔符是比所有字符大还是小都无所谓）。不过需要用 $O(n\log^2 n)$ 版本的算法，保证不受值域影响。</p>
+<p>见 <a href="/post/102-%e5%90%8e%e7%bc%80%e6%95%b0%e7%bb%84/#%e4%be%8b7-uva11107-life-formshttpswwwluogucomcnproblemuva11107">例7</a>。</p>
+<h3 id="出现至少-k-次的子串的最大长度">出现至少 $k$ 次的子串的最大长度</h3>
+<p>如果一个子串在母串中出现了至少 $k$ 次，设其长度为 $L$。这意味着至少有 $k$ 个后缀的LCP的长度 $\geq L$。</p>
+<p>那么二分这个长度 $L$，然后在 <code>height</code> 数组里观察，是否有连续 $(k-1)$ 个数 $\geq L$ 即可。</p>
+<p>见 <a href="/post/102-%e5%90%8e%e7%bc%80%e6%95%b0%e7%bb%84/#%e4%be%8b8-%e6%b4%9b%e8%b0%b7p2852-usaco06dec-milk-patterns-ghttpswwwluogucomcnproblemp2852">例8</a>。</p>
+<h3 id="t-的每一个前缀在-s-中出现的所有位置">$t$ 的每一个前缀在 $s$ 中出现的所有位置</h3>
+<p>给定一个字符串 $s$，每次询问给定另外一个字符串 $t$，我们需要知道 $t$ 的每一个前缀 $t[1&hellip;i]$ 在 $s$ 中的哪些位置出现了？</p>
+<p>任何字符串如果出现在 $s$ 中了，那么它出现的位置一定是后缀数组上的一个连续的区间 $[L,R]$。</p>
+<p>假设 $p[1&hellip;i]$ 对应的区间是 $[L,R]$，而 $p[1&hellip;i+1]$ 对应的区间是 $[L',R']$，那么一定有 $[L',R'] \subseteq [L,R]$。</p>
+<p>于是直接枚举前缀长度，从 $1$ 枚举到 $m$，枚举过程中缩小 $[L,R]$ 这个区间，缩小的方式就是比较当前前缀的最后一个字母与 $L,R$ 对应的后缀相应位置的字母的大小（因为我们已经保证了 $p[1&hellip;i]$ 对应的区间是 $[L,R]$，所以只需要比较当前后缀的最后一个字母）。</p>
+<p>见<a href="/post/102-%e5%90%8e%e7%bc%80%e6%95%b0%e7%bb%84/#%e4%be%8b9-cf149e-martian-stringshttpscodeforcescomcontest149probleme">例9</a>。</p>
+<h2 id="例题">例题</h2>
+<h3 id="例1-洛谷p2408-不同子串个数httpswwwluogucomcnproblemp2408">例1 洛谷P2408 <a href="https://www.luogu.com.cn/problem/P2408" target="_blank">不同子串个数</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个长度为 $n$ 的字符串 $s$，求 $s$ 内不同的子串个数。</p>
+<p>其中，$n \leq 10^5$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>答案就是 全部子串数量 $- \sum\limits_{i=2}^n height[i]$。</p>
+<p>考虑排序后排名第 $i$ 的后缀（长度为 $m$）贡献了哪些新的子串，有且仅有 $m - height[i]$。</p>
+<p>因为跟排名 $i-1$ 的后缀比较，新贡献的肯定是这么多。</p>
+<p>如果贡献的数量 $&lt; m - height[i]$，说明这个后缀的前缀在之前的某一个位置出现过了，这说明 $LCP(j, i) &gt; height[i]$，其中 $j &lt; i-1$，这与 $LCP(j,i) = \min\limits_{k=j+1}^i height[k]$ 冲突了。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<p>同模版。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">int</span> n;
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> n;
+    string s; cin <span style="color:#f92672">&gt;&gt;</span> s;
+    sa.init(s);
+
+    ll ans <span style="color:#f92672">=</span> (ll)(n) <span style="color:#f92672">*</span> (n<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>) <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) ans <span style="color:#f92672">-=</span> sa.height[i];
+    cout <span style="color:#f92672">&lt;&lt;</span> ans <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+}
+</code></pre></div></details>
+<h3 id="例2-洛谷p2870-usaco07decbest-cow-line-ghttpswwwluogucomcnproblemp2870">例2 洛谷P2870 <a href="https://www.luogu.com.cn/problem/P2870" target="_blank">[USACO07DEC]Best Cow Line G</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个长度为 $n$ 的字符串 $s$，每次可以从 $s$ 的首部和尾部字符中选一个出来，直到 $s$ 为空，求能够获得的字典序最小的字符串。</p>
+<p>其中，$n \leq 5 \times 10^5$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>当首尾字符不一样时，肯定选较小的那个。</p>
+<p>当首尾字符一样时，我们就继续看第 $2$ 个和第 $n-1$ 个字符，如果还是一样就继续对比，直到第一个不一样的为止。</p>
+<p>但这样是 $O(n^2)$ 的。</p>
+<p>我们观察一下可以发现，首尾字符一样时，本质是比较 $s$ 的一个后缀，和 $s'$ (反过来的 $s$) 的一个后缀的大小。</p>
+<p>那么比较两个字符串的后缀的大小，我们在后缀数组里可以 $O(1)$ 做到。</p>
+<p>将两个字符串拼在一起的方法是 <code>s + '@' + s'</code>，其中 <code>@</code> 是一个比所有字符都小的字符，这样保证它在后缀数组中不会影响到 $s,s'$ 后缀的计算。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">int</span> n;
+string s, ans;
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    fastio;
+    cin <span style="color:#f92672">&gt;&gt;</span> n;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">char</span> c; cin <span style="color:#f92672">&gt;&gt;</span> c; s <span style="color:#f92672">+=</span> c;
+    }
+    string t <span style="color:#f92672">=</span> s;
+    s <span style="color:#f92672">+=</span> (<span style="color:#66d9ef">char</span>)(<span style="color:#e6db74">&#39;A&#39;</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>);
+    reverse(t.begin(), t.end());
+    s <span style="color:#f92672">+=</span> t;
+    sa.init(s);
+
+    <span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, j <span style="color:#f92672">=</span> n;
+    <span style="color:#66d9ef">while</span> (i <span style="color:#f92672">&lt;=</span> j) {
+        <span style="color:#66d9ef">if</span> (s[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">&lt;</span> s[j<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]) ans <span style="color:#f92672">+=</span> s[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>], i<span style="color:#f92672">++</span>;
+        <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (s[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">&gt;</span> s[j<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]) ans <span style="color:#f92672">+=</span> s[j<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>], j<span style="color:#f92672">--</span>;
+        <span style="color:#66d9ef">else</span> {
+            <span style="color:#75715e">// 比较 s[i] 开始的后缀和 t[2n+2-j] 开始的后缀的大小
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">if</span> (sa.rk[i] <span style="color:#f92672">&lt;</span> sa.rk[<span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>n<span style="color:#f92672">+</span><span style="color:#ae81ff">2</span><span style="color:#f92672">-</span>j]) ans <span style="color:#f92672">+=</span> s[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>], i<span style="color:#f92672">++</span>;
+            <span style="color:#66d9ef">else</span> ans <span style="color:#f92672">+=</span> s[j<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>], j<span style="color:#f92672">--</span>;
+        }
+    }
+    <span style="color:#66d9ef">int</span> cnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>) {
+        cout <span style="color:#f92672">&lt;&lt;</span> ans[i];
+        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">++</span>cnt <span style="color:#f92672">==</span> <span style="color:#ae81ff">80</span>) cnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+    }
+}
+</code></pre></div></details>
+<h3 id="例3-最长公共子串-lcshttpswwwluogucomcnproblemsp1811">例3 <a href="https://www.luogu.com.cn/problem/SP1811" target="_blank">最长公共子串 LCS</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定两个字符串 $s,t$，长度分别为 $n,m$。求最长公共子串的长度。</p>
+<p>其中，$n,m \leq 2.5 * 10^5$。</p>
+<p>• 子串指的是 Substring，是连续的。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>首先利用经典套路，将 $s,t$ 中间用一个极小的字符连在一起。</p>
+<p>然后要求最长公共子串，可以发现必然来自于两个后缀的 LCP，而这两个后缀是来自于不同字符串的。</p>
+<p>而我们知道任意两个后缀的 LCP 可以用height数组计算出来，并且是取一个范围 min 的，很显然每个后缀只用考虑左边和右边第一个和它来源于不同字符串的后缀，求LCP即可。</p>
+<p>然而可以更简单：因为是取范围min，所以直接考虑排名 $i-1$ 和 $i$ 的后缀，来源的字符串是否不同，如果不同的话就 <code>ans = max(ans, height[i])</code> 即可。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">int</span> from[maxn];  <span style="color:#75715e">// from[i] = 1: s, from[i] = 2: t
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    <span style="color:#66d9ef">int</span> n, m;
+    string s, t; cin <span style="color:#f92672">&gt;&gt;</span> s <span style="color:#f92672">&gt;&gt;</span> t;
+    n <span style="color:#f92672">=</span> s.size(), m <span style="color:#f92672">=</span> t.size();
+    string S <span style="color:#f92672">=</span> s <span style="color:#f92672">+</span> (<span style="color:#66d9ef">char</span>)(<span style="color:#e6db74">&#39;a&#39;</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">+</span> t;
+    sa.init(S);
+
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        from[sa.rk[i]] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    }
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> n<span style="color:#f92672">+</span><span style="color:#ae81ff">2</span>; i <span style="color:#f92672">&lt;=</span> n<span style="color:#f92672">+</span>m<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>; i<span style="color:#f92672">++</span>) {
+        from[sa.rk[i]] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    }
+    from[sa.rk[n<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>]] <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>;
+
+    <span style="color:#66d9ef">int</span> ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>; i <span style="color:#f92672">&lt;=</span> n<span style="color:#f92672">+</span>m<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">if</span> ((from[i] <span style="color:#f92672">^</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">==</span> from[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]) ans <span style="color:#f92672">=</span> max(ans, sa.height[i]);
+    }
+    cout <span style="color:#f92672">&lt;&lt;</span> ans <span style="color:#f92672">&lt;&lt;</span> endl;
+}
+
+</code></pre></div></details>
+<h3 id="例4-noi2015-品酒大会httpswwwluogucomcnproblemp2178">例4 NOI2015 <a href="https://www.luogu.com.cn/problem/P2178" target="_blank">品酒大会</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个长度为 $n$ 的字符串 $S$，并且位置 $i$ 有权值 $a_i$。</p>
+<p>现在定义位置 $p,q$ 是 &ldquo;$r$ 相似的&rdquo; 当且仅当：</p>
+<p>$$S[p&hellip;p+r-1] = S[q&hellip;q+r-1]$$</p>
+<p>现在对于每一个 $r=0,1,2,&hellip;,n-1$，都回答以下两个问题：</p>
+<ol>
+<li>
+<p>有多少个pair $(p,q)$，使得 $p,q$ 是 &ldquo;$r$ 相似的&rdquo;？其中 $p&lt;q$。</p>
+</li>
+<li>
+<p>输出所有 &ldquo;$r$ 相似的&rdquo; 的 pair $(p,q)$ 中，$a_p * a_q$ 的最大值。</p>
+</li>
+</ol>
+<p>其中，$n \leq 3 \times 10^5, |a_i| \leq 10^9$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>如果 $(p,q)$ 是 &ldquo;$r$ 相似的&rdquo;，意味着 $p,q$ 位置的 LCP 长度 $\geq r$。</p>
+<p>先考虑第一个问题，有多少个pair是 &ldquo;$r$ 相似的&rdquo;？</p>
+<p>本质上是在问，在height数组上，有多少个 pair $(p,q)$ 的区间最小值是 $\geq r$ 的？</p>
+<p>我们不妨将整个数组视为一个拥有 $n$ 个空格子的数组，询问 $r$ 时，我们将所有 $&lt;r$ 的位置加上一个障碍物，那么剩下来的就是若干个空格子组成的一些联通块。</p>
+<p>如果一个联通块大小为 $x$，那么它就贡献了 $1+2+&hellip;+x = \frac{x(x+1)}{2}$ 的数量。</p>
+<p>然而，如果我们从小往上加障碍物，将一个大的联通块分成若干个小联通块，很明显不好计算，所以我们反过来做。</p>
+<p>从 $r=n-1$ 开始到 $0$，逐渐消掉障碍物，相当于将一些小联通块合并在一起，可以用并查集实现。</p>
+<hr>
+<p>接下来解决第二个问题，$a_p * a_q$ 的最大值。</p>
+<p>在我们得到联通块之后，答案就是每一个联通块 $[L,R]$ 内，求 $p,q \in [L,R]$，$a_p * a_q$ 的最大值。</p>
+<p>由于 $a_i$ 有正有负有 $0$，所以我们用线段树解决这个问题：</p>
+<p>每个节点里记录这个区间内，正数的最大值和最小值，负数的最大值和最小值，再记录是否存在 $0$。</p>
+<p>然后 $a_p * a_q$ 的最大值就来自于 left child 和 right child 的最大值，以及正数/负数的最大/小值的两两组合，如果有 $0$ 的话再与 $0$ 取个最大值即可。</p>
+<p>所以在并查集合并过程中，每次合并两个区间，就更新 count 和 最大值即可。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+ll <span style="color:#a6e22e">cal</span>(ll x) {
+    <span style="color:#66d9ef">return</span> x<span style="color:#f92672">*</span>(x<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>)<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span>;
+}
+ll val[maxn];
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Node</span> {
+    ll ans;  <span style="color:#75715e">// -1e18
+</span><span style="color:#75715e"></span>    ll neg[<span style="color:#ae81ff">2</span>], pos[<span style="color:#ae81ff">2</span>];  <span style="color:#75715e">// neg[0] &lt; neg[1], pos[0] &lt; pos[1], neg = {1e9, 1e9}, pos = {-1e9, -1e9}
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">bool</span> haszero;  <span style="color:#75715e">// 0
+</span><span style="color:#75715e"></span>};
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">SegmentTree</span> {
+    Node tr[maxn<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">2</span>];
+    Node <span style="color:#a6e22e">init</span>() {
+        Node res;
+        res.ans <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1e18</span>;
+        res.neg[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> res.neg[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e9</span>;  <span style="color:#75715e">// neg[0] &gt; 0, 代表这个区间不存在负数
+</span><span style="color:#75715e"></span>        res.pos[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> res.pos[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1e9</span>;  <span style="color:#75715e">// pos[0] &lt; 0, 代表这个区间不存在正数
+</span><span style="color:#75715e"></span>        res.haszero <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        <span style="color:#66d9ef">return</span> res;
+    }
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">init</span>(<span style="color:#66d9ef">int</span> cur, <span style="color:#66d9ef">int</span> p) {
+        tr[cur] <span style="color:#f92672">=</span> init();
+        tr[cur].haszero <span style="color:#f92672">=</span> (<span style="color:#f92672">!</span>val[p]);
+        <span style="color:#66d9ef">if</span> (val[p] <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) tr[cur].pos[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> tr[cur].pos[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> val[p];
+        <span style="color:#66d9ef">if</span> (val[p] <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) tr[cur].neg[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> tr[cur].neg[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> val[p];
+    }
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">push_up</span>(<span style="color:#66d9ef">int</span> cur) {
+        <span style="color:#66d9ef">int</span> lc <span style="color:#f92672">=</span> cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>, rc <span style="color:#f92672">=</span> lc <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+        tr[cur] <span style="color:#f92672">=</span> merge(tr[lc], tr[rc]);
+    }
+    Node <span style="color:#a6e22e">merge</span>(Node lc, Node rc) {
+        Node cur <span style="color:#f92672">=</span> init();
+        cur.ans <span style="color:#f92672">=</span> max(lc.ans, rc.ans);
+        <span style="color:#66d9ef">if</span> (lc.haszero <span style="color:#f92672">||</span> rc.haszero) cur.ans <span style="color:#f92672">=</span> max(cur.ans, <span style="color:#ae81ff">0LL</span>), cur.haszero <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> o1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; o1 <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">2</span>; o1<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> o2 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; o2 <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">2</span>; o2<span style="color:#f92672">++</span>) {
+                <span style="color:#66d9ef">if</span> (lc.neg[o1] <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> rc.neg[o2] <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) cur.ans <span style="color:#f92672">=</span> max(cur.ans, lc.neg[o1] <span style="color:#f92672">*</span> rc.neg[o2]);
+                <span style="color:#66d9ef">if</span> (lc.neg[o1] <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> rc.pos[o2] <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) cur.ans <span style="color:#f92672">=</span> max(cur.ans, lc.neg[o1] <span style="color:#f92672">*</span> rc.pos[o2]);
+                <span style="color:#66d9ef">if</span> (lc.pos[o1] <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> rc.neg[o2] <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) cur.ans <span style="color:#f92672">=</span> max(cur.ans, lc.pos[o1] <span style="color:#f92672">*</span> rc.neg[o2]);
+                <span style="color:#66d9ef">if</span> (lc.pos[o1] <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> rc.pos[o2] <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) cur.ans <span style="color:#f92672">=</span> max(cur.ans, lc.pos[o1] <span style="color:#f92672">*</span> rc.pos[o2]);
+            }
+        }
+        <span style="color:#66d9ef">if</span> (lc.neg[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) cur.neg[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> cur.neg[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> lc.neg[<span style="color:#ae81ff">0</span>];
+        <span style="color:#66d9ef">if</span> (rc.neg[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) cur.neg[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> cur.neg[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> rc.neg[<span style="color:#ae81ff">0</span>];
+        <span style="color:#66d9ef">if</span> (lc.pos[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) cur.pos[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> cur.pos[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> lc.pos[<span style="color:#ae81ff">0</span>];
+        <span style="color:#66d9ef">if</span> (rc.pos[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) cur.pos[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> cur.pos[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> rc.pos[<span style="color:#ae81ff">0</span>];
+
+        <span style="color:#66d9ef">if</span> (lc.neg[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) cur.neg[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> min(cur.neg[<span style="color:#ae81ff">0</span>], lc.neg[<span style="color:#ae81ff">0</span>]), cur.neg[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> max(cur.neg[<span style="color:#ae81ff">1</span>], lc.neg[<span style="color:#ae81ff">1</span>]);
+        <span style="color:#66d9ef">if</span> (rc.neg[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) cur.neg[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> min(cur.neg[<span style="color:#ae81ff">0</span>], rc.neg[<span style="color:#ae81ff">0</span>]), cur.neg[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> max(cur.neg[<span style="color:#ae81ff">1</span>], rc.neg[<span style="color:#ae81ff">1</span>]);
+        <span style="color:#66d9ef">if</span> (lc.pos[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) cur.pos[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> min(cur.pos[<span style="color:#ae81ff">0</span>], lc.pos[<span style="color:#ae81ff">0</span>]), cur.pos[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> max(cur.pos[<span style="color:#ae81ff">1</span>], lc.pos[<span style="color:#ae81ff">1</span>]);
+        <span style="color:#66d9ef">if</span> (rc.pos[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) cur.pos[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> min(cur.pos[<span style="color:#ae81ff">0</span>], rc.pos[<span style="color:#ae81ff">0</span>]), cur.pos[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> max(cur.pos[<span style="color:#ae81ff">1</span>], rc.pos[<span style="color:#ae81ff">1</span>]);
+        <span style="color:#66d9ef">return</span> cur;
+    }
+    Node <span style="color:#a6e22e">query</span>(<span style="color:#66d9ef">int</span> cur, <span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r, <span style="color:#66d9ef">int</span> L, <span style="color:#66d9ef">int</span> R) {
+        <span style="color:#66d9ef">if</span> (l <span style="color:#f92672">&gt;=</span> L <span style="color:#f92672">&amp;&amp;</span> r <span style="color:#f92672">&lt;=</span> R) <span style="color:#66d9ef">return</span> tr[cur];
+        <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> (l<span style="color:#f92672">+</span>r) <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+        Node res <span style="color:#f92672">=</span> init();
+        Node lres <span style="color:#f92672">=</span> init(), rres <span style="color:#f92672">=</span> init();
+        <span style="color:#66d9ef">if</span> (L <span style="color:#f92672">&lt;=</span> mid) lres <span style="color:#f92672">=</span> query(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>, l, mid, L, R);
+        <span style="color:#66d9ef">if</span> (R <span style="color:#f92672">&gt;</span> mid) rres <span style="color:#f92672">=</span> query(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span><span style="color:#f92672">|</span><span style="color:#ae81ff">1</span>, mid<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, r, L, R);
+
+        <span style="color:#66d9ef">if</span> (L <span style="color:#f92672">&lt;=</span> mid <span style="color:#f92672">&amp;&amp;</span> R <span style="color:#f92672">&lt;=</span> mid) <span style="color:#66d9ef">return</span> lres;
+        <span style="color:#66d9ef">if</span> (L <span style="color:#f92672">&gt;</span> mid <span style="color:#f92672">&amp;&amp;</span> R <span style="color:#f92672">&gt;</span> mid) <span style="color:#66d9ef">return</span> rres;
+        assert(L <span style="color:#f92672">&lt;=</span> mid <span style="color:#f92672">&amp;&amp;</span> R <span style="color:#f92672">&gt;</span> mid);
+        <span style="color:#66d9ef">return</span> merge(lres, rres);
+    }
+
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">build</span>(<span style="color:#66d9ef">int</span> cur, <span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r) {
+        <span style="color:#66d9ef">if</span> (l <span style="color:#f92672">==</span> r) {
+            init(cur, l);
+            <span style="color:#66d9ef">return</span>;
+        }
+        <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> (l<span style="color:#f92672">+</span>r) <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+        build(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>, l, mid);
+        build(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span><span style="color:#f92672">|</span><span style="color:#ae81ff">1</span>, mid<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, r);
+        push_up(cur);
+    }
+} tr;
+
+
+<span style="color:#66d9ef">int</span> n;
+ll cnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, ans <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1e18</span>;
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">UnionFind</span> {
+    <span style="color:#66d9ef">int</span> par[maxn], sz[maxn], L[maxn], R[maxn];
+    <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">finds</span>(<span style="color:#66d9ef">int</span> u) {
+        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>par[u]) <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+        <span style="color:#66d9ef">if</span> (par[u] <span style="color:#f92672">==</span> u) <span style="color:#66d9ef">return</span> u;
+        <span style="color:#66d9ef">return</span> par[u] <span style="color:#f92672">=</span> finds(par[u]);
+    }
+    <span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">unions</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> v) {
+        u <span style="color:#f92672">=</span> finds(u), v <span style="color:#f92672">=</span> finds(v);
+        <span style="color:#66d9ef">if</span> (u <span style="color:#f92672">==</span> v <span style="color:#f92672">||</span> <span style="color:#f92672">!</span>u <span style="color:#f92672">||</span> <span style="color:#f92672">!</span>v) <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+        <span style="color:#66d9ef">if</span> (sz[u] <span style="color:#f92672">&lt;</span> sz[v]) swap(u, v);
+        cnt <span style="color:#f92672">-=</span> (cal(sz[u]) <span style="color:#f92672">+</span> cal(sz[v]));
+        sz[u] <span style="color:#f92672">+=</span> sz[v];
+        cnt <span style="color:#f92672">+=</span> cal(sz[u]);
+        par[v] <span style="color:#f92672">=</span> u;
+        L[u] <span style="color:#f92672">=</span> min(L[u], L[v]);
+        R[u] <span style="color:#f92672">=</span> max(R[u], R[v]);
+        ans <span style="color:#f92672">=</span> max(ans, tr.query(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, n, L[u]<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, R[u]).ans);
+        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+    }
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">init</span>(<span style="color:#66d9ef">int</span> u) {
+        par[u] <span style="color:#f92672">=</span> u;
+        sz[u] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        L[u] <span style="color:#f92672">=</span> R[u] <span style="color:#f92672">=</span> u;
+        cnt<span style="color:#f92672">++</span>;
+        ans <span style="color:#f92672">=</span> max(ans, tr.query(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, n, L[u]<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, R[u]).ans);
+    }
+} uf;
+
+
+ll a[maxn];
+string s;
+
+vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> pos[maxn];
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> s;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) cin <span style="color:#f92672">&gt;&gt;</span> a[i];
+    sa.init(s);
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        pos[sa.height[i]].push_back(i);
+    }
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">int</span> r <span style="color:#f92672">=</span> sa.sa[i];
+        val[i] <span style="color:#f92672">=</span> a[r];
+    }
+    tr.build(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, n);
+
+    vector<span style="color:#f92672">&lt;</span>pll<span style="color:#f92672">&gt;</span> vec;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> n<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>; i<span style="color:#f92672">--</span>) {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> p : pos[i]) {
+            uf.init(p);
+        }
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> p : pos[i]) {
+            uf.unions(p, p<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>);
+            uf.unions(p, p<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>);
+        }
+        <span style="color:#66d9ef">if</span> (cnt <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>)
+            vec.push_back({cnt, ans});
+        <span style="color:#66d9ef">else</span>
+            vec.push_back({cnt, <span style="color:#ae81ff">0</span>});
+    }
+    reverse(vec.begin(), vec.end());
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> [x, y] <span style="color:#f92672">:</span> vec) cout <span style="color:#f92672">&lt;&lt;</span> x <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; &#34;</span> <span style="color:#f92672">&lt;&lt;</span> y <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+}
+</code></pre></div></details>
+<h3 id="例5-haoi2016-找相同字符httpslojacp2064">例5 HAOI2016 <a href="https://loj.ac/p/2064" target="_blank">找相同字符</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定两个字符串 $s,t$，求出：在两个字符串中各取出一个子串，使得这两个子串相同的方案数。</p>
+<p>其中，$|s|,|t| \leq 2 \times 10^5$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>先将两个字符串粘在一起，然后对于每个pair $(p,q)$，求出 LCP 以后，可以知道这个 pair 对答案的贡献就是对应的 LCP 的长度。</p>
+<p>所以问题转化为，求</p>
+<p>$$\sum\limits_{i&lt;j} LCP(i,j)$$</p>
+<p>不过，我们还要保证 $p,q$ 分别来自于 $s$ 和 $t$ 才行。</p>
+<p>于是我们可以先在 $s,t$ 上分别求出 $\sum\limits_{i&lt;j} LCP(i,j)$，然后在 $S = s+t$ 上再求一次，减掉即可。</p>
+<hr>
+<p>现在问题是怎么求</p>
+<p>$$\sum\limits_{i&lt;j} LCP(i,j)$$</p>
+<p>不难发现上一题已经有答案了：</p>
+<p>只要求出有多少个pair是 &ldquo;$r$ 相似的&rdquo; 即可，所以套用上题代码。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#75715e">// sa[i]：所有的后缀排序后，第 $i$ 小的后缀的编号。（排第 $i$ 名的是 sa[i] 这个后缀）。
+</span><span style="color:#75715e">// rk[i]：后缀 $i$ 的排名。（第 $i$ 个后缀的排名是 rk[i]）。
+</span><span style="color:#75715e">// height[i]: LCP(sa[i-1], sa[i])，即第 $i-1$ 名的后缀和 第 $i$ 名的后缀的最长公共前缀长度
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">SA</span> {
+    <span style="color:#66d9ef">int</span> n, sa[maxn], rk[maxn<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>], oldrk[maxn<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>], cnt[maxn], id[maxn], key1[maxn], height[maxn];  <span style="color:#75715e">// 注意 rk[maxn&lt;&lt;1] oldrk[maxn&lt;&lt;1]
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">char</span> s[maxn];
+    <span style="color:#66d9ef">int</span> m <span style="color:#f92672">=</span> <span style="color:#ae81ff">127</span>;
+    <span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">cmp</span>(<span style="color:#66d9ef">int</span> i, <span style="color:#66d9ef">int</span> j, <span style="color:#66d9ef">int</span> w) {
+        <span style="color:#66d9ef">return</span> oldrk[i] <span style="color:#f92672">==</span> oldrk[j] <span style="color:#f92672">&amp;&amp;</span> oldrk[i<span style="color:#f92672">+</span>w] <span style="color:#f92672">==</span> oldrk[j<span style="color:#f92672">+</span>w];
+    }
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">clear</span>() {
+        memset(sa, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(sa));
+        memset(rk, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(rk));
+        memset(oldrk, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(oldrk));
+        memset(cnt, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(cnt));
+        memset(id, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(id));
+        memset(key1, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(key1));
+        memset(height, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(height));
+        memset(s, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(s));
+        m <span style="color:#f92672">=</span> <span style="color:#ae81ff">127</span>;
+    }
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">init</span>(string<span style="color:#f92672">&amp;</span> ss) {
+        clear();
+        n <span style="color:#f92672">=</span> ss.size();
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) s[i] <span style="color:#f92672">=</span> ss[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>];
+
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) rk[i] <span style="color:#f92672">=</span> s[i], cnt[rk[i]]<span style="color:#f92672">++</span>;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> m; i<span style="color:#f92672">++</span>) cnt[i] <span style="color:#f92672">+=</span> cnt[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>];
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> n; i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">1</span>; i<span style="color:#f92672">--</span>) sa[cnt[rk[i]]<span style="color:#f92672">--</span>] <span style="color:#f92672">=</span> i;
+
+        <span style="color:#66d9ef">int</span> p <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;  <span style="color:#75715e">// 当前值域
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> w <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; w <span style="color:#f92672">&lt;=</span> n; w <span style="color:#f92672">&lt;&lt;=</span> <span style="color:#ae81ff">1</span>) {  <span style="color:#75715e">// 注意中间没有break的条件
+</span><span style="color:#75715e"></span>            p <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> n; i <span style="color:#f92672">&gt;</span> n<span style="color:#f92672">-</span>w; i<span style="color:#f92672">--</span>) id[<span style="color:#f92672">++</span>p] <span style="color:#f92672">=</span> i;
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+                <span style="color:#66d9ef">if</span> (sa[i] <span style="color:#f92672">&gt;</span> w) id[<span style="color:#f92672">++</span>p] <span style="color:#f92672">=</span> sa[i] <span style="color:#f92672">-</span> w;
+            }
+            memset(cnt, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(cnt));
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) key1[i] <span style="color:#f92672">=</span> rk[id[i]], cnt[key1[i]]<span style="color:#f92672">++</span>;
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> m; i<span style="color:#f92672">++</span>) cnt[i] <span style="color:#f92672">+=</span> cnt[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>];
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> n; i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">1</span>; i<span style="color:#f92672">--</span>) sa[cnt[key1[i]]<span style="color:#f92672">--</span>] <span style="color:#f92672">=</span> id[i];
+            memcpy(oldrk<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, rk<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, n<span style="color:#f92672">*</span><span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">int</span>));
+            p <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+                rk[sa[i]] <span style="color:#f92672">=</span> cmp(sa[i], sa[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>], w) <span style="color:#f92672">?</span> p : (<span style="color:#f92672">++</span>p);
+            }
+            <span style="color:#66d9ef">if</span> (p <span style="color:#f92672">==</span> n) {
+                <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) sa[rk[i]] <span style="color:#f92672">=</span> i;
+                <span style="color:#66d9ef">break</span>;
+            }
+            m <span style="color:#f92672">=</span> p;
+        }
+
+        <span style="color:#75715e">// 求 height
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">if</span> (rk[i] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">continue</span>;
+            <span style="color:#66d9ef">if</span> (k <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) k<span style="color:#f92672">--</span>;
+            <span style="color:#66d9ef">while</span> (s[i<span style="color:#f92672">+</span>k] <span style="color:#f92672">==</span> s[sa[rk[i]<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]<span style="color:#f92672">+</span>k]) k<span style="color:#f92672">++</span>;
+            height[rk[i]] <span style="color:#f92672">=</span> k;
+        }
+    }
+};
+
+ll <span style="color:#a6e22e">cal</span>(ll x) {
+    <span style="color:#66d9ef">return</span> x<span style="color:#f92672">*</span>(x<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>) <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>;
+}
+
+<span style="color:#66d9ef">int</span> n;
+ll cnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">UnionFind</span> {
+    <span style="color:#66d9ef">int</span> par[maxn], sz[maxn];
+    <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">finds</span>(<span style="color:#66d9ef">int</span> u) {
+        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>par[u]) <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+        <span style="color:#66d9ef">if</span> (par[u] <span style="color:#f92672">==</span> u) <span style="color:#66d9ef">return</span> u;
+        <span style="color:#66d9ef">return</span> par[u] <span style="color:#f92672">=</span> finds(par[u]);
+    }
+    <span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">unions</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> v) {
+        u <span style="color:#f92672">=</span> finds(u), v <span style="color:#f92672">=</span> finds(v);
+        <span style="color:#66d9ef">if</span> (u <span style="color:#f92672">==</span> v <span style="color:#f92672">||</span> <span style="color:#f92672">!</span>u <span style="color:#f92672">||</span> <span style="color:#f92672">!</span>v) <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+        <span style="color:#66d9ef">if</span> (sz[u] <span style="color:#f92672">&lt;</span> sz[v]) swap(u, v);
+        cnt <span style="color:#f92672">-=</span> (cal(sz[u]) <span style="color:#f92672">+</span> cal(sz[v]));
+        sz[u] <span style="color:#f92672">+=</span> sz[v];
+        cnt <span style="color:#f92672">+=</span> cal(sz[u]);
+        par[v] <span style="color:#f92672">=</span> u;
+        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+    }
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">init</span>(<span style="color:#66d9ef">int</span> u) {
+        par[u] <span style="color:#f92672">=</span> u;
+        sz[u] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        cnt<span style="color:#f92672">++</span>;
+    }
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">clear</span>() {
+        memset(par, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(par));
+        memset(sz, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(sz));
+    }
+};
+
+
+UnionFind uf;
+SA sa;
+vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> pos[maxn];
+ll <span style="color:#a6e22e">solve</span>(string s) {
+    sa.init(s);
+    cnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    uf.clear();
+
+    <span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> s.size();
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) pos[i].clear();
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        pos[sa.height[i]].push_back(i);
+    }
+    ll res <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> n<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">1</span>; i<span style="color:#f92672">--</span>) {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> p : pos[i]) {
+            uf.init(p);
+        }
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> p : pos[i]) {
+            uf.unions(p, p<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>);
+            uf.unions(p, p<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>);
+        }
+        res <span style="color:#f92672">+=</span> cnt;
+    }
+    <span style="color:#66d9ef">return</span> res;
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    string s, t; cin <span style="color:#f92672">&gt;&gt;</span> s <span style="color:#f92672">&gt;&gt;</span> t;
+    ll ans <span style="color:#f92672">=</span> <span style="color:#f92672">-</span>solve(s) <span style="color:#f92672">-</span> solve(t);
+    s <span style="color:#f92672">=</span> s <span style="color:#f92672">+</span> (<span style="color:#66d9ef">char</span>)(<span style="color:#e6db74">&#39;a&#39;</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">+</span> t;
+    ans <span style="color:#f92672">+=</span> solve(s);
+    cout <span style="color:#f92672">&lt;&lt;</span> ans <span style="color:#f92672">&lt;&lt;</span> endl;
+}
+</code></pre></div></details>
+<h3 id="例6-noi2016-优秀的拆分httpslojacp2083">例6 NOI2016 <a href="https://loj.ac/p/2083" target="_blank">优秀的拆分</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>如果一个字符串可以被拆分为 $\text{AABB}$ 的形式，其中 $\text{A}$ 和 $\text{B}$ 是<strong>非空</strong>字符串，则我们称该字符串的这种拆分是优秀的。</p>
+<p>一个字符串可能存在多种优秀的拆分。</p>
+<p>现在给出一个长度为 $n$ 的字符串 $S$，求出它所有子串中，优秀拆分的方案数的和。</p>
+<p>其中，$n \leq 30000$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>对于每一个位置 $i$，如果求出两个数组 <code>pre[i], suf[i]</code>。</p>
+<p><code>pre[i]</code> 表示以 $i$ 作为结尾，<code>AA</code> 类型字符串的数量。</p>
+<p><code>suf[i]</code> 代表以 $i$ 作为开头，<code>AA</code> 类型字符串的数量。</p>
+<p>那么答案就等于</p>
+<p>$$\sum\limits_{i=1}^n \text{pre}_{i-1}*\text{suf}_i$$</p>
+<p>例如 <code>&quot;aabaab&quot;</code> 这个字符串，对于位置 $1$ 来说，<code>suf[1] = 2</code>，因为位置 $1$ 作为开头，有 <code>&quot;aa&quot;</code> 和 <code>&quot;aabaab&quot;</code> 两个 &ldquo;AA&rdquo; 类型的字符串。</p>
+<p>现在问题是怎么求出 <code>pre[], suf[]</code>？</p>
+<p>我们枚举 &ldquo;AA&rdquo; 类型字符串中，&ldquo;A&rdquo; 的长度，设为 $k$。</p>
+<p>然后我们在 $1, k+1, 2k+1, 3k+1, &hellip;$ 位置设立一个特殊点。</p>
+<p>对于第 $j$ 个特殊点和第 $j-1$ 个特殊点（假设坐标分别为 $i, i-k$），让我们来看一下它们观测到了哪些 &ldquo;AA&rdquo; 类型字符串？</p>
+<p><img src="/images/102/5.jpg" alt="img"></p>
+<p>对于这两个特殊点，我们计算它们的后缀的 LCP 和前缀的 LCS（最长公共后缀）。</p>
+<p>假设 $|LCP| + |LCS| - 1 \geq k$（-1是因为观测点本身只被考虑一次）（图上画的是刚好等于的情况），就说明它观测到了至少一个 &ldquo;AA&rdquo; 类型字符串。</p>
+<p>例如图上，&ldquo;AA&rdquo; 类型字符串的 &ldquo;A&rdquo; 就是从第一个蓝色的 <code>[</code> 开始，到第一个红色的 <code>]</code> 结束。</p>
+<p>如果 $|LCP| + |LCS| - 1 &gt; k$ 的话，观测到的则是多个 &ldquo;AA&rdquo; 类型字符串，不难发现将是一整个区间都是 &ldquo;A&rdquo; 的开始点。</p>
+<p>所以利用差分数组来记录 &ldquo;A&rdquo; 的开始位置。</p>
+<p>不过也要注意，如果字符串 $S$ 是 <code>aaaaa....</code> 这种类型的，那么 LCP 和 LCS 的长度可能会非常长，长到覆盖了其他特殊点。</p>
+<p>所以我们规定，第 $i$ 个特殊点只考虑到 第 $i-1$ 个特殊点的这段区间，只考虑这段区间内计算出来的 &ldquo;A&rdquo; 的开始点。</p>
+<p><code>suf[]</code> 同理。</p>
+<p>一顿暴力手搓式子以后就可以了，代码很简洁。</p>
+<p>• 求 LCS 和 LCP 就用 ST表。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">SparseTable</span> {
+    <span style="color:#66d9ef">int</span> n;
+    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> a;
+    <span style="color:#66d9ef">int</span> st[maxn][<span style="color:#ae81ff">18</span>], bin[maxn];
+    <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">ask_st</span>(<span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r) {
+        <span style="color:#66d9ef">int</span> len <span style="color:#f92672">=</span> r<span style="color:#f92672">-</span>l<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> bin[len];
+        <span style="color:#66d9ef">return</span> min(st[l][k], st[r<span style="color:#f92672">-</span>(<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span>k)<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>][k]);
+    }
+ 
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">build_st</span>() {
+        bin[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; bin[<span style="color:#ae81ff">2</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>; i <span style="color:#f92672">&lt;</span> maxn; i<span style="color:#f92672">++</span>) bin[i] <span style="color:#f92672">=</span> bin[i<span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) st[i][<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> a[i];
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; k <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">18</span>; k<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">+</span> (<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span>k) <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>)
+                st[i][k] <span style="color:#f92672">=</span> min(st[i][k<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>], st[i<span style="color:#f92672">+</span>(<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span>(k<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>))][k<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]);
+        }
+    }
+};
+
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">SA</span> {
+    SparseTable st;
+    <span style="color:#66d9ef">int</span> n, sa[maxn], rk[maxn<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>], oldrk[maxn<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>], cnt[maxn], id[maxn], key1[maxn], height[maxn];  <span style="color:#75715e">// 注意 rk[maxn&lt;&lt;1] oldrk[maxn&lt;&lt;1]
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">char</span> s[maxn];
+    <span style="color:#66d9ef">int</span> m <span style="color:#f92672">=</span> <span style="color:#ae81ff">127</span>;
+    <span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">cmp</span>(<span style="color:#66d9ef">int</span> i, <span style="color:#66d9ef">int</span> j, <span style="color:#66d9ef">int</span> w) {
+        <span style="color:#66d9ef">return</span> oldrk[i] <span style="color:#f92672">==</span> oldrk[j] <span style="color:#f92672">&amp;&amp;</span> oldrk[i<span style="color:#f92672">+</span>w] <span style="color:#f92672">==</span> oldrk[j<span style="color:#f92672">+</span>w];
+    }
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">init</span>(string<span style="color:#f92672">&amp;</span> ss) {
+        n <span style="color:#f92672">=</span> ss.size();
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) s[i] <span style="color:#f92672">=</span> ss[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>];
+
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) rk[i] <span style="color:#f92672">=</span> s[i], cnt[rk[i]]<span style="color:#f92672">++</span>;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> m; i<span style="color:#f92672">++</span>) cnt[i] <span style="color:#f92672">+=</span> cnt[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>];
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> n; i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">1</span>; i<span style="color:#f92672">--</span>) sa[cnt[rk[i]]<span style="color:#f92672">--</span>] <span style="color:#f92672">=</span> i;
+
+        <span style="color:#66d9ef">int</span> p <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;  <span style="color:#75715e">// 当前值域
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> w <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; w <span style="color:#f92672">&lt;=</span> n; w <span style="color:#f92672">&lt;&lt;=</span> <span style="color:#ae81ff">1</span>) {  <span style="color:#75715e">// 注意中间没有break的条件
+</span><span style="color:#75715e"></span>            p <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> n; i <span style="color:#f92672">&gt;</span> n<span style="color:#f92672">-</span>w; i<span style="color:#f92672">--</span>) id[<span style="color:#f92672">++</span>p] <span style="color:#f92672">=</span> i;
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+                <span style="color:#66d9ef">if</span> (sa[i] <span style="color:#f92672">&gt;</span> w) id[<span style="color:#f92672">++</span>p] <span style="color:#f92672">=</span> sa[i] <span style="color:#f92672">-</span> w;
+            }
+            memset(cnt, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(cnt));
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) key1[i] <span style="color:#f92672">=</span> rk[id[i]], cnt[key1[i]]<span style="color:#f92672">++</span>;
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> m; i<span style="color:#f92672">++</span>) cnt[i] <span style="color:#f92672">+=</span> cnt[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>];
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> n; i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">1</span>; i<span style="color:#f92672">--</span>) sa[cnt[key1[i]]<span style="color:#f92672">--</span>] <span style="color:#f92672">=</span> id[i];
+            memcpy(oldrk<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, rk<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, n<span style="color:#f92672">*</span><span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">int</span>));
+            p <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+                rk[sa[i]] <span style="color:#f92672">=</span> cmp(sa[i], sa[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>], w) <span style="color:#f92672">?</span> p : (<span style="color:#f92672">++</span>p);
+            }
+            <span style="color:#66d9ef">if</span> (p <span style="color:#f92672">==</span> n) {
+                <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) sa[rk[i]] <span style="color:#f92672">=</span> i;
+                <span style="color:#66d9ef">break</span>;
+            }
+            m <span style="color:#f92672">=</span> p;
+        }
+
+        <span style="color:#75715e">// 求 height
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">if</span> (rk[i] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">continue</span>;
+            <span style="color:#66d9ef">if</span> (k <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) k<span style="color:#f92672">--</span>;
+            <span style="color:#66d9ef">while</span> (s[i<span style="color:#f92672">+</span>k] <span style="color:#f92672">==</span> s[sa[rk[i]<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]<span style="color:#f92672">+</span>k]) k<span style="color:#f92672">++</span>;
+            height[rk[i]] <span style="color:#f92672">=</span> k;
+        }
+
+        st.n <span style="color:#f92672">=</span> n;
+        st.a.resize(n<span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>);
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+            st.a[i] <span style="color:#f92672">=</span> height[i];
+        }
+        st.build_st();
+    }
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">clear</span>() {
+        memset(sa, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(sa));
+        memset(rk, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(rk));
+        memset(oldrk, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(oldrk));
+        memset(cnt, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(cnt));
+        memset(id, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(id));
+        memset(key1, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(key1));
+        memset(height, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(height));
+        memset(s, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(s));
+        m <span style="color:#f92672">=</span> <span style="color:#ae81ff">127</span>;
+    }
+};
+
+<span style="color:#66d9ef">int</span> n, pre[maxn], suf[maxn];
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">solve</span>() {
+    memset(pre, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(pre));
+    memset(suf, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(suf));
+    SA sa, sa2; sa.clear(); sa2.clear();
+    string s; cin <span style="color:#f92672">&gt;&gt;</span> s;
+    n <span style="color:#f92672">=</span> s.size();
+    string t <span style="color:#f92672">=</span> s; reverse(t.begin(), t.end());
+    sa.init(s), sa2.init(t);
+    
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; k <span style="color:#f92672">&lt;</span> n; k<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> k<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i <span style="color:#f92672">+=</span> k) {
+            <span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> i<span style="color:#f92672">-</span>k;
+            <span style="color:#66d9ef">int</span> ri <span style="color:#f92672">=</span> sa.rk[i], rj <span style="color:#f92672">=</span> sa.rk[j];
+            <span style="color:#66d9ef">if</span> (ri <span style="color:#f92672">&gt;</span> rj) swap(ri, rj);
+            <span style="color:#66d9ef">int</span> R <span style="color:#f92672">=</span> sa.st.ask_st(ri<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, rj);
+
+            ri <span style="color:#f92672">=</span> sa2.rk[n<span style="color:#f92672">-</span>i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>], rj <span style="color:#f92672">=</span> sa2.rk[n<span style="color:#f92672">-</span>j<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>];
+            <span style="color:#66d9ef">if</span> (ri <span style="color:#f92672">&gt;</span> rj) swap(ri, rj);
+            <span style="color:#66d9ef">int</span> L <span style="color:#f92672">=</span> sa2.st.ask_st(ri<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, rj);
+            <span style="color:#66d9ef">if</span> (L <span style="color:#f92672">+</span> R <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;</span> k) <span style="color:#66d9ef">continue</span>;
+
+            suf[max({j<span style="color:#f92672">-</span>L<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, j<span style="color:#f92672">-</span>k<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>})]<span style="color:#f92672">++</span>, suf[min(j,j<span style="color:#f92672">+</span>R<span style="color:#f92672">-</span>k)<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>]<span style="color:#f92672">--</span>;   <span style="color:#75715e">// [j-L+1, j+R-k]
+</span><span style="color:#75715e"></span>            pre[max(i,i<span style="color:#f92672">-</span>L<span style="color:#f92672">+</span>k)]<span style="color:#f92672">++</span>, pre[min({i<span style="color:#f92672">+</span>k<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, n, i<span style="color:#f92672">+</span>R<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>})<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>]<span style="color:#f92672">--</span>;  <span style="color:#75715e">// [i-L+k, i+R-1]
+</span><span style="color:#75715e"></span>        }
+    }
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) pre[i] <span style="color:#f92672">+=</span> pre[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>], suf[i] <span style="color:#f92672">+=</span> suf[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>];
+    ll ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        ans <span style="color:#f92672">+=</span> (ll)pre[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">*</span> suf[i];
+    }
+    cout <span style="color:#f92672">&lt;&lt;</span> ans <span style="color:#f92672">&lt;&lt;</span> endl;
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    <span style="color:#66d9ef">int</span> T; cin <span style="color:#f92672">&gt;&gt;</span> T;
+    <span style="color:#66d9ef">while</span> (T<span style="color:#f92672">--</span>) {
+        solve();
+    }
+}
+</code></pre></div></details>
+<h3 id="例7-uva11107-life-formshttpswwwluogucomcnproblemuva11107">例7 UVA11107 <a href="https://www.luogu.com.cn/problem/UVA11107" target="_blank">Life Forms</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $n$ 个字符串，求最长子串，使得这个子串在超过 $\frac{n}{2}$ 个字符串中出现了。</p>
+<p>其中，$n \leq 100$，所有字符串长度 $\leq 1000$。</p>
+<p>若有多个长度相同的子串满足条件，将它们全部输出。若无答案输出 <code>?</code>。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>将所有字符串连在一起（注意需要使用 <strong>不同的分隔符</strong>！！）</p>
+<p>然后用滑动窗口，保证窗口内的后缀的来源超过 $\frac{n}{2}$ 个字符串即可，然后在滑动的过程中，窗口满足这个条件的话就用ST表求出最长子串。</p>
+<p>• 由于有100个分隔符，只能用 <code>int</code> 而不能用 <code>string</code> 了，并且使用 $O(n\log^2 n)$ 的算法。</p>
+<p>• 注意特判一下 $n=1$ 的情况。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e5</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5000</span>;
+
+<span style="color:#75715e">// sa[i]：所有的后缀排序后，第 $i$ 小的后缀的编号。（排第 $i$ 名的是 sa[i] 这个后缀）。
+</span><span style="color:#75715e">// rk[i]：后缀 $i$ 的排名。（第 $i$ 个后缀的排名是 rk[i]）。
+</span><span style="color:#75715e">// height[i]: LCP(sa[i-1], sa[i])，即第 $i-1$ 名的后缀和 第 $i$ 名的后缀的最长公共前缀长度
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">SparseTable</span> {
+    <span style="color:#66d9ef">int</span> n;
+    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> a;
+    <span style="color:#66d9ef">int</span> st[maxn][<span style="color:#ae81ff">18</span>], bin[maxn];
+    <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">ask_st</span>(<span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r) {
+        <span style="color:#66d9ef">int</span> len <span style="color:#f92672">=</span> r<span style="color:#f92672">-</span>l<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> bin[len];
+        <span style="color:#66d9ef">return</span> min(st[l][k], st[r<span style="color:#f92672">-</span>(<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span>k)<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>][k]);
+    }
+ 
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">build_st</span>() {
+        bin[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; bin[<span style="color:#ae81ff">2</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>; i <span style="color:#f92672">&lt;</span> maxn; i<span style="color:#f92672">++</span>) bin[i] <span style="color:#f92672">=</span> bin[i<span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) st[i][<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> a[i];
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; k <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">18</span>; k<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">+</span> (<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span>k) <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>)
+                st[i][k] <span style="color:#f92672">=</span> min(st[i][k<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>], st[i<span style="color:#f92672">+</span>(<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span>(k<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>))][k<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]);
+        }
+    }
+};
+
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">SA</span> {
+    SparseTable st;
+    <span style="color:#66d9ef">int</span> n, sa[maxn], rk[maxn<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>], oldrk[maxn<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>], height[maxn];  <span style="color:#75715e">// 注意 rk[maxn&lt;&lt;1] oldrk[maxn&lt;&lt;1]
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> s[maxn];
+    <span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">cmp</span>(<span style="color:#66d9ef">int</span> i, <span style="color:#66d9ef">int</span> j, <span style="color:#66d9ef">int</span> w) {
+        <span style="color:#66d9ef">return</span> oldrk[i] <span style="color:#f92672">==</span> oldrk[j] <span style="color:#f92672">&amp;&amp;</span> oldrk[i<span style="color:#f92672">+</span>w] <span style="color:#f92672">==</span> oldrk[j<span style="color:#f92672">+</span>w];
+    }
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">init</span>(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> ss) {   <span style="color:#75715e">// 不再是普通的字符串，而是 vector&lt;int&gt; 了，注意长度就是 n，不要添加多余的元素！
+</span><span style="color:#75715e"></span>        n <span style="color:#f92672">=</span> ss.size();
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) s[i] <span style="color:#f92672">=</span> ss[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>], rk[i] <span style="color:#f92672">=</span> s[i], sa[i] <span style="color:#f92672">=</span> i;
+
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> w <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; w <span style="color:#f92672">&lt;=</span> n; w <span style="color:#f92672">&lt;&lt;=</span> <span style="color:#ae81ff">1</span>) {  <span style="color:#75715e">// 注意中间没有break的条件
+</span><span style="color:#75715e"></span>            sort(sa <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, sa <span style="color:#f92672">+</span> n <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, [<span style="color:#f92672">&amp;</span>](<span style="color:#66d9ef">int</span> x, <span style="color:#66d9ef">int</span> y) {
+                <span style="color:#66d9ef">return</span> rk[x] <span style="color:#f92672">==</span> rk[y] <span style="color:#f92672">?</span> rk[x <span style="color:#f92672">+</span> w] <span style="color:#f92672">&lt;</span> rk[y <span style="color:#f92672">+</span> w] <span style="color:#f92672">:</span> rk[x] <span style="color:#f92672">&lt;</span> rk[y];
+            });
+
+            memcpy(oldrk<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, rk<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, n<span style="color:#f92672">*</span><span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">int</span>));
+            <span style="color:#66d9ef">int</span> p <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+                rk[sa[i]] <span style="color:#f92672">=</span> cmp(sa[i], sa[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>], w) <span style="color:#f92672">?</span> p : (<span style="color:#f92672">++</span>p);
+            }
+            <span style="color:#66d9ef">if</span> (p <span style="color:#f92672">==</span> n) {
+                <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) sa[rk[i]] <span style="color:#f92672">=</span> i;
+                <span style="color:#66d9ef">break</span>;
+            }
+        }
+
+        <span style="color:#75715e">// 求 height
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">if</span> (rk[i] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">continue</span>;
+            <span style="color:#66d9ef">if</span> (k <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) k<span style="color:#f92672">--</span>;
+            <span style="color:#66d9ef">while</span> (s[i<span style="color:#f92672">+</span>k] <span style="color:#f92672">==</span> s[sa[rk[i]<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]<span style="color:#f92672">+</span>k]) k<span style="color:#f92672">++</span>;
+            height[rk[i]] <span style="color:#f92672">=</span> k;
+        }
+
+        st.n <span style="color:#f92672">=</span> n;
+        st.a.resize(n<span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>);
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+            st.a[i] <span style="color:#f92672">=</span> height[i];
+        }
+        st.build_st();
+    }
+
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">clear</span>() {
+        st.n <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        memset(sa, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(sa));
+        memset(rk, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(rk));
+        memset(oldrk, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(oldrk));
+        memset(height, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(height));
+        memset(s, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(s));
+        memset(st.st, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(st.st));
+        st.a.clear();
+    }
+} sa;
+
+<span style="color:#66d9ef">int</span> n, from[maxn], cnt[maxn];
+string s[maxn];
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">solve</span>() {
+    memset(from, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(from));
+    memset(cnt, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(cnt));
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) s[i] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>;
+    sa.clear();
+
+    <span style="color:#66d9ef">int</span> N <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; 
+    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> S;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        cin <span style="color:#f92672">&gt;&gt;</span> s[i];
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> c : s[i]) S.push_back(c);
+        <span style="color:#66d9ef">if</span> (i <span style="color:#f92672">&lt;</span> n) {
+            S.push_back((<span style="color:#66d9ef">int</span>)<span style="color:#e6db74">&#39;z&#39;</span> <span style="color:#f92672">+</span> i);
+        }
+    }
+    <span style="color:#66d9ef">if</span> (n <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>) {
+        cout <span style="color:#f92672">&lt;&lt;</span> s[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+        <span style="color:#66d9ef">return</span>;
+    }
+
+    N <span style="color:#f92672">=</span> S.size();
+    sa.init(S);
+    <span style="color:#66d9ef">int</span> len <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> len <span style="color:#f92672">+</span> i; j <span style="color:#f92672">&lt;=</span> len <span style="color:#f92672">+</span> i <span style="color:#f92672">+</span> s[i].size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>; j<span style="color:#f92672">++</span>) {
+            from[sa.rk[j]] <span style="color:#f92672">=</span> i;
+        }
+        len <span style="color:#f92672">+=</span> s[i].size();
+    }
+
+    <span style="color:#66d9ef">int</span> L <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, R <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, sum <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">while</span> (R <span style="color:#f92672">&lt;=</span> N) {
+        <span style="color:#66d9ef">while</span> (R<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;=</span> N <span style="color:#f92672">&amp;&amp;</span> sum <span style="color:#f92672">&lt;</span> n<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) {
+            <span style="color:#66d9ef">if</span> (from[R<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>]) {
+                <span style="color:#66d9ef">int</span> f <span style="color:#f92672">=</span> from[R<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>];
+                cnt[f]<span style="color:#f92672">++</span>;
+                <span style="color:#66d9ef">if</span> (cnt[f] <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>) sum<span style="color:#f92672">++</span>;
+            }
+            R<span style="color:#f92672">++</span>;
+        }
+        <span style="color:#66d9ef">while</span> (L<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;=</span> R <span style="color:#f92672">&amp;&amp;</span> sum <span style="color:#f92672">&gt;=</span> n<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) {
+            <span style="color:#66d9ef">if</span> (from[L]) {
+                ans <span style="color:#f92672">=</span> max(ans, sa.st.ask_st(L<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, R));
+                <span style="color:#66d9ef">int</span> f <span style="color:#f92672">=</span> from[L];
+                cnt[f]<span style="color:#f92672">--</span>;
+                <span style="color:#66d9ef">if</span> (cnt[f] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) sum<span style="color:#f92672">--</span>;
+            }
+            L<span style="color:#f92672">++</span>;
+        }
+        <span style="color:#66d9ef">if</span> (R <span style="color:#f92672">==</span> N <span style="color:#f92672">&amp;&amp;</span> sum <span style="color:#f92672">&lt;</span> n<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">break</span>;
+    }
+    L <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, R <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, sum <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    memset(cnt, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(cnt));
+
+    set<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;</span> res;
+    <span style="color:#66d9ef">while</span> (R <span style="color:#f92672">&lt;=</span> N) {
+        <span style="color:#66d9ef">while</span> (R<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;=</span> N <span style="color:#f92672">&amp;&amp;</span> sum <span style="color:#f92672">&lt;</span> n<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) {
+            <span style="color:#66d9ef">if</span> (from[R<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>]) {
+                <span style="color:#66d9ef">int</span> f <span style="color:#f92672">=</span> from[R<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>];
+                cnt[f]<span style="color:#f92672">++</span>;
+                <span style="color:#66d9ef">if</span> (cnt[f] <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>) sum<span style="color:#f92672">++</span>;
+            }
+            R<span style="color:#f92672">++</span>;
+        }
+
+        <span style="color:#66d9ef">while</span> (L<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;=</span> R <span style="color:#f92672">&amp;&amp;</span> sum <span style="color:#f92672">&gt;=</span> n<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) {
+            <span style="color:#66d9ef">if</span> (from[L]) {
+                <span style="color:#66d9ef">if</span> (sum <span style="color:#f92672">&gt;=</span> n<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&amp;&amp;</span> ans <span style="color:#f92672">&amp;&amp;</span> sa.st.ask_st(L<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, R) <span style="color:#f92672">==</span> ans) {
+                    res.insert(string(S.begin() <span style="color:#f92672">+</span> sa.sa[R] <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>, S.begin() <span style="color:#f92672">+</span> sa.sa[R] <span style="color:#f92672">+</span> ans <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>));
+                }
+                <span style="color:#66d9ef">int</span> f <span style="color:#f92672">=</span> from[L];
+                cnt[f]<span style="color:#f92672">--</span>;
+                <span style="color:#66d9ef">if</span> (cnt[f] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) sum<span style="color:#f92672">--</span>;
+            }
+            L<span style="color:#f92672">++</span>;
+        }
+        <span style="color:#66d9ef">if</span> (R <span style="color:#f92672">==</span> N <span style="color:#f92672">&amp;&amp;</span> sum <span style="color:#f92672">&lt;</span> n<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">break</span>;
+    }
+    <span style="color:#66d9ef">if</span> (res.size()) {
+        <span style="color:#66d9ef">for</span> (string x : res) cout <span style="color:#f92672">&lt;&lt;</span> x <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+    } <span style="color:#66d9ef">else</span> cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;?</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+}
+
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    <span style="color:#66d9ef">int</span> T <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">while</span> (cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&amp;&amp;</span> n) {
+        <span style="color:#66d9ef">if</span> (T <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+        T<span style="color:#f92672">++</span>;
+        solve();
+    }
+}
+</code></pre></div></details>
+<h3 id="例8-洛谷p2852-usaco06dec-milk-patterns-ghttpswwwluogucomcnproblemp2852">例8 洛谷P2852 <a href="https://www.luogu.com.cn/problem/P2852" target="_blank">[USACO06DEC] Milk Patterns G</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个长度为 $n$ 的数组，和一个正整数 $k$。</p>
+<p>求出现了至少 $k$ 次的子数组的最大长度。</p>
+<p>其中，$n \leq 20000, k \in [2,n], a_i \in [0,10^7]$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>由于这个不是 string 了，得用 $O(n\log^2n)$ 的算法。</p>
+<p>剩下的看 <a href="/post/102-%e5%90%8e%e7%bc%80%e6%95%b0%e7%bb%84/#%e5%87%ba%e7%8e%b0%e8%87%b3%e5%b0%91-k-%e6%ac%a1%e7%9a%84%e5%ad%90%e4%b8%b2%e7%9a%84%e6%9c%80%e5%a4%a7%e9%95%bf%e5%ba%a6">上面</a> 即可。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">SA</span> {
+    <span style="color:#66d9ef">int</span> n, sa[maxn], rk[maxn<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>], oldrk[maxn<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>], height[maxn];  <span style="color:#75715e">// 注意 rk[maxn&lt;&lt;1] oldrk[maxn&lt;&lt;1]
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> s[maxn];
+    <span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">cmp</span>(<span style="color:#66d9ef">int</span> i, <span style="color:#66d9ef">int</span> j, <span style="color:#66d9ef">int</span> w) {
+        <span style="color:#66d9ef">return</span> oldrk[i] <span style="color:#f92672">==</span> oldrk[j] <span style="color:#f92672">&amp;&amp;</span> oldrk[i<span style="color:#f92672">+</span>w] <span style="color:#f92672">==</span> oldrk[j<span style="color:#f92672">+</span>w];
+    }
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">init</span>(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> ss) {   <span style="color:#75715e">// 不再是普通的字符串，而是 vector&lt;int&gt; 了，注意长度就是 n，不要添加多余的元素！
+</span><span style="color:#75715e"></span>        n <span style="color:#f92672">=</span> ss.size();
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) s[i] <span style="color:#f92672">=</span> ss[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>], rk[i] <span style="color:#f92672">=</span> s[i], sa[i] <span style="color:#f92672">=</span> i;
+
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> w <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; w <span style="color:#f92672">&lt;=</span> n; w <span style="color:#f92672">&lt;&lt;=</span> <span style="color:#ae81ff">1</span>) {  <span style="color:#75715e">// 注意中间没有break的条件
+</span><span style="color:#75715e"></span>            sort(sa <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, sa <span style="color:#f92672">+</span> n <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, [<span style="color:#f92672">&amp;</span>](<span style="color:#66d9ef">int</span> x, <span style="color:#66d9ef">int</span> y) {
+                <span style="color:#66d9ef">return</span> rk[x] <span style="color:#f92672">==</span> rk[y] <span style="color:#f92672">?</span> rk[x <span style="color:#f92672">+</span> w] <span style="color:#f92672">&lt;</span> rk[y <span style="color:#f92672">+</span> w] <span style="color:#f92672">:</span> rk[x] <span style="color:#f92672">&lt;</span> rk[y];
+            });
+
+            memcpy(oldrk<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, rk<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, n<span style="color:#f92672">*</span><span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">int</span>));
+            <span style="color:#66d9ef">int</span> p <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+                rk[sa[i]] <span style="color:#f92672">=</span> cmp(sa[i], sa[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>], w) <span style="color:#f92672">?</span> p : (<span style="color:#f92672">++</span>p);
+            }
+            <span style="color:#66d9ef">if</span> (p <span style="color:#f92672">==</span> n) {
+                <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) sa[rk[i]] <span style="color:#f92672">=</span> i;
+                <span style="color:#66d9ef">break</span>;
+            }
+        }
+
+        <span style="color:#75715e">// 求 height
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">if</span> (rk[i] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">continue</span>;
+            <span style="color:#66d9ef">if</span> (k <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) k<span style="color:#f92672">--</span>;
+            <span style="color:#66d9ef">while</span> (s[i<span style="color:#f92672">+</span>k] <span style="color:#f92672">==</span> s[sa[rk[i]<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]<span style="color:#f92672">+</span>k]) k<span style="color:#f92672">++</span>;
+            height[rk[i]] <span style="color:#f92672">=</span> k;
+        }
+    }
+
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">clear</span>() {
+        st.n <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        memset(sa, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(sa));
+        memset(rk, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(rk));
+        memset(oldrk, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(oldrk));
+        memset(height, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(height));
+        memset(s, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(s));
+        memset(st.st, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(st.st));
+        st.a.clear();
+    }
+} sa;
+
+<span style="color:#66d9ef">int</span> n, k;
+<span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">check</span>(<span style="color:#66d9ef">int</span> x) {
+    <span style="color:#66d9ef">int</span> cnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">if</span> (sa.height[i] <span style="color:#f92672">&gt;=</span> x) cnt<span style="color:#f92672">++</span>;
+        <span style="color:#66d9ef">else</span> {
+            <span style="color:#66d9ef">if</span> (cnt <span style="color:#f92672">&gt;=</span> k<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+            cnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        }
+    }
+    <span style="color:#66d9ef">if</span> (cnt <span style="color:#f92672">&gt;=</span> k<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> k;
+    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> a;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">int</span> x; cin <span style="color:#f92672">&gt;&gt;</span> x;
+        a.push_back(x);
+    }
+    sa.init(a);
+
+    <span style="color:#66d9ef">int</span> low <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, high <span style="color:#f92672">=</span> n, ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">while</span> (low <span style="color:#f92672">&lt;=</span> high) {
+        <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> (low <span style="color:#f92672">+</span> high) <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">if</span> (check(mid)) {
+            low <span style="color:#f92672">=</span> mid<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>;
+            ans <span style="color:#f92672">=</span> mid;
+        } <span style="color:#66d9ef">else</span> high <span style="color:#f92672">=</span> mid<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+    }
+    cout <span style="color:#f92672">&lt;&lt;</span> ans <span style="color:#f92672">&lt;&lt;</span> endl;
+}
+</code></pre></div></details>
+<h3 id="例9-cf149e-martian-stringshttpscodeforcescomcontest149probleme">例9 CF149E <a href="https://codeforces.com/contest/149/problem/E" target="_blank">Martian Strings</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个长度为 $n$ 的字符串 $s$，然后给定 $q$ 个询问，每次询问给一个字符串 $p$，询问是否存在 $1 \leq L_1 \leq R_1 &lt; L_2 \leq R_2 \leq n$ 使得：</p>
+<p>$$s[L_1&hellip;R_1] + s[L_2&hellip;R_2] = p$$</p>
+<p>其中，$n \leq 10^5, q \leq 100, |p_i| \leq 1000$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>我们思考以下问题：</p>
+<blockquote>
+<p>对于 $p$ 的每一个前缀 $p[1&hellip;i]$，我们是否能找出这个前缀在 $s$ 中出现的所有位置？并找到出现位置中，最靠前的那一个。</p>
+</blockquote>
+<p>如果能解决上述问题，我们可以：</p>
+<ol>
+<li>
+<p>先求出 $p$ 的每一个前缀在 $s$ 中最靠前的位置。</p>
+</li>
+<li>
+<p>将 $s$ 和 $p$ 都反过来得到 $s', p'$，然后求出 $p'$ 的每一个前缀在 $s'$ 中最靠前的位置。</p>
+</li>
+<li>
+<p>枚举 $p$ 的前缀长度 $j$（对应可得到 $p'$ 的前缀长度等于 $m-j$），然后判断一下两个出现位置是否有重叠即可，如果没有说明有解。</p>
+</li>
+</ol>
+<hr>
+<p>于是我们思考怎么解决上述问题。</p>
+<p>首先，由于后缀数组中所有后缀是 sorted 的，所以任何字符串如果出现在 $s$ 中了，那么它出现的位置一定是后缀数组上的一个连续的区间 $[L,R]$，这个特性我们在 <a href="/post/102-%e5%90%8e%e7%bc%80%e6%95%b0%e7%bb%84/#%e6%9f%a5%e8%af%a2%e4%b8%80%e4%b8%aa%e5%a4%9a%e4%b8%aa%e6%a8%a1%e5%bc%8f%e4%b8%b2-t-%e5%9c%a8%e6%96%87%e6%9c%ac%e4%b8%b2-s-%e4%b8%ad%e5%87%ba%e7%8e%b0%e7%9a%84%e6%89%80%e6%9c%89%e4%bd%8d%e7%bd%ae">利用<strong>二分</strong>来查找子串</a> 中也看到了。</p>
+<p>假设我们知道 $p[1&hellip;i]$ 对应的区间是 $[L,R]$，而 $p[1&hellip;i+1]$ 对应的区间是 $[L',R']$，那么一定有 $[L',R'] \subseteq [L,R]$，因为条件更苛刻了。</p>
+<p>由于这个特性，令 $L=1, R=n$。我们直接枚举前缀长度，从 $1$ 枚举到 $m$，枚举过程中缩小 $[L,R]$ 这个区间，缩小的方式就是比较当前前缀的最后一个字母与 $L,R$ 对应的后缀相应位置的字母的大小（因为我们已经保证了 $p[1&hellip;i]$ 对应的区间是 $[L,R]$，所以只需要比较当前后缀的最后一个字母）。</p>
+<p>这样对于 $p$ 的每一个前缀，就都可以求出它出现在 $s$ 中的所有位置了。</p>
+<p>要找到最靠前的那一个，我们用 ST 表维护 <code>sa.sa[]</code> 这个数组的区间最小值即可。</p>
+<p>复杂度：$O(n\log n + \sum m)$</p>
+<p>• 对于 $|p| = 1$ 的情况直接返回 false 即可。</p>
+<hr>
+<p>KMP做法：</p>
+<p>说到后缀就想到SA，说到前缀那必然是想到 KMP 了。</p>
+<p>KMP虽然无法求出 $p$ 的每一个前缀在 $s$ 中出现的所有位置，但是可以求出每个前缀出现的最靠前位置，在 kmp 的子串匹配中就可以很轻松的做到了。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">后缀数组代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e5</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5000</span>;
+ 
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">SparseTable</span> {
+    <span style="color:#66d9ef">int</span> n;
+    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> a;
+    <span style="color:#66d9ef">int</span> st[maxn][<span style="color:#ae81ff">18</span>], bin[maxn];
+    <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">ask_st</span>(<span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r) {
+        <span style="color:#66d9ef">int</span> len <span style="color:#f92672">=</span> r<span style="color:#f92672">-</span>l<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> bin[len];
+        <span style="color:#66d9ef">return</span> min(st[l][k], st[r<span style="color:#f92672">-</span>(<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span>k)<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>][k]);
+    }
+ 
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">build_st</span>() {
+        bin[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; bin[<span style="color:#ae81ff">2</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>; i <span style="color:#f92672">&lt;</span> maxn; i<span style="color:#f92672">++</span>) bin[i] <span style="color:#f92672">=</span> bin[i<span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) st[i][<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> a[i];
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; k <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">18</span>; k<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">+</span> (<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span>k) <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>)
+                st[i][k] <span style="color:#f92672">=</span> min(st[i][k<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>], st[i<span style="color:#f92672">+</span>(<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span>(k<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>))][k<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]);
+        }
+    }
+};
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">SA</span> {
+    SparseTable st;
+    <span style="color:#66d9ef">int</span> n, sa[maxn], rk[maxn<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>], oldrk[maxn<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>], cnt[maxn], id[maxn], key1[maxn], height[maxn];  <span style="color:#75715e">// 注意 rk[maxn&lt;&lt;1] oldrk[maxn&lt;&lt;1]
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">char</span> s[maxn];
+    <span style="color:#66d9ef">int</span> m <span style="color:#f92672">=</span> <span style="color:#ae81ff">127</span>;
+    <span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">cmp</span>(<span style="color:#66d9ef">int</span> i, <span style="color:#66d9ef">int</span> j, <span style="color:#66d9ef">int</span> w) {
+        <span style="color:#66d9ef">return</span> oldrk[i] <span style="color:#f92672">==</span> oldrk[j] <span style="color:#f92672">&amp;&amp;</span> oldrk[i<span style="color:#f92672">+</span>w] <span style="color:#f92672">==</span> oldrk[j<span style="color:#f92672">+</span>w];
+    }
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">init</span>(string<span style="color:#f92672">&amp;</span> ss) {
+        n <span style="color:#f92672">=</span> ss.size();
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) s[i] <span style="color:#f92672">=</span> ss[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>];
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) rk[i] <span style="color:#f92672">=</span> s[i], cnt[rk[i]]<span style="color:#f92672">++</span>;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> m; i<span style="color:#f92672">++</span>) cnt[i] <span style="color:#f92672">+=</span> cnt[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>];
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> n; i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">1</span>; i<span style="color:#f92672">--</span>) sa[cnt[rk[i]]<span style="color:#f92672">--</span>] <span style="color:#f92672">=</span> i;
+        <span style="color:#66d9ef">int</span> p <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;  <span style="color:#75715e">// 当前值域
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> w <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; w <span style="color:#f92672">&lt;=</span> n; w <span style="color:#f92672">&lt;&lt;=</span> <span style="color:#ae81ff">1</span>) {  <span style="color:#75715e">// 注意中间没有break的条件
+</span><span style="color:#75715e"></span>            p <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> n; i <span style="color:#f92672">&gt;</span> n<span style="color:#f92672">-</span>w; i<span style="color:#f92672">--</span>) id[<span style="color:#f92672">++</span>p] <span style="color:#f92672">=</span> i;
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+                <span style="color:#66d9ef">if</span> (sa[i] <span style="color:#f92672">&gt;</span> w) id[<span style="color:#f92672">++</span>p] <span style="color:#f92672">=</span> sa[i] <span style="color:#f92672">-</span> w;
+            }
+            memset(cnt, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(cnt));
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) key1[i] <span style="color:#f92672">=</span> rk[id[i]], cnt[key1[i]]<span style="color:#f92672">++</span>;
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> m; i<span style="color:#f92672">++</span>) cnt[i] <span style="color:#f92672">+=</span> cnt[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>];
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> n; i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">1</span>; i<span style="color:#f92672">--</span>) sa[cnt[key1[i]]<span style="color:#f92672">--</span>] <span style="color:#f92672">=</span> id[i];
+            memcpy(oldrk<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, rk<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, n<span style="color:#f92672">*</span><span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">int</span>));
+            p <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+                rk[sa[i]] <span style="color:#f92672">=</span> cmp(sa[i], sa[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>], w) <span style="color:#f92672">?</span> p : (<span style="color:#f92672">++</span>p);
+            }
+            <span style="color:#66d9ef">if</span> (p <span style="color:#f92672">==</span> n) {
+                <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) sa[rk[i]] <span style="color:#f92672">=</span> i;
+                <span style="color:#66d9ef">break</span>;
+            }
+            m <span style="color:#f92672">=</span> p;
+        }
+        <span style="color:#75715e">// 求 height
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">if</span> (rk[i] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">continue</span>;
+            <span style="color:#66d9ef">if</span> (k <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) k<span style="color:#f92672">--</span>;
+            <span style="color:#66d9ef">while</span> (s[i<span style="color:#f92672">+</span>k] <span style="color:#f92672">==</span> s[sa[rk[i]<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]<span style="color:#f92672">+</span>k]) k<span style="color:#f92672">++</span>;
+            height[rk[i]] <span style="color:#f92672">=</span> k;
+        }
+        st.n <span style="color:#f92672">=</span> n;
+        st.a.resize(n<span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>);
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+            st.a[i] <span style="color:#f92672">=</span> sa[i];
+        }
+        st.build_st();
+    }
+} sa, sa2;
+<span style="color:#66d9ef">int</span> n;
+ 
+<span style="color:#75715e">// ans[i]: t[1..i] 出现的最小位置（根据 sa 来决定是正着还是反着）
+</span><span style="color:#75715e"></span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> getans(SA<span style="color:#f92672">&amp;</span> sa, string t) {
+    <span style="color:#66d9ef">int</span> L <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, R <span style="color:#f92672">=</span> n;
+    <span style="color:#66d9ef">int</span> m <span style="color:#f92672">=</span> t.size();
+    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> ans(m<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, n<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>);
+    ans[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+ 
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;=</span> m; j<span style="color:#f92672">++</span>) {
+        <span style="color:#75715e">// 比较 t[j-1]
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">while</span> (L <span style="color:#f92672">&lt;=</span> R) {
+            <span style="color:#66d9ef">int</span> st <span style="color:#f92672">=</span> sa.sa[L];
+            <span style="color:#66d9ef">if</span> (st <span style="color:#f92672">+</span> j <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&gt;</span> n <span style="color:#f92672">||</span> sa.s[st<span style="color:#f92672">+</span>j<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">&lt;</span> t[j<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]) {  <span style="color:#75715e">// 长度不够了 或者 t 更大
+</span><span style="color:#75715e"></span>                L<span style="color:#f92672">++</span>;
+                <span style="color:#66d9ef">continue</span>;
+            }
+            st <span style="color:#f92672">=</span> sa.sa[R];
+            <span style="color:#66d9ef">if</span> (st <span style="color:#f92672">+</span> j <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&gt;</span> n <span style="color:#f92672">||</span> sa.s[st<span style="color:#f92672">+</span>j<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">&gt;</span> t[j<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]) {  <span style="color:#75715e">// 长度不够了 或者 s 更大
+</span><span style="color:#75715e"></span>                R<span style="color:#f92672">--</span>;
+                <span style="color:#66d9ef">continue</span>;
+            }
+            <span style="color:#66d9ef">break</span>;
+        }
+        <span style="color:#66d9ef">if</span> (L <span style="color:#f92672">&gt;</span> R) <span style="color:#66d9ef">break</span>;
+ 
+        ans[j] <span style="color:#f92672">=</span> sa.st.ask_st(L, R);
+    }
+    <span style="color:#66d9ef">return</span> ans;
+}
+ 
+<span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">solve</span>(string t) {
+    <span style="color:#66d9ef">if</span> (t.size() <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+    string t2 <span style="color:#f92672">=</span> t; reverse(t2.begin(), t2.end());
+    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> ans1 <span style="color:#f92672">=</span> getans(sa, t);
+    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> ans2 <span style="color:#f92672">=</span> getans(sa2, t2);
+    <span style="color:#66d9ef">int</span> m <span style="color:#f92672">=</span> t.size();
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;=</span> m; j<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">int</span> ed1 <span style="color:#f92672">=</span> ans1[j] <span style="color:#f92672">+</span> j <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">int</span> ed2 <span style="color:#f92672">=</span> (n<span style="color:#f92672">-</span>ans2[m<span style="color:#f92672">-</span>j]<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> (m<span style="color:#f92672">-</span>j) <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>);
+        <span style="color:#66d9ef">if</span> (ed1 <span style="color:#f92672">&lt;</span> ed2) {
+            <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+        }
+    }
+    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+ 
+string s, s2; 
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> s; sa.init(s);
+    n <span style="color:#f92672">=</span> s.size();
+    s2 <span style="color:#f92672">=</span> s; reverse(s2.begin(), s2.end()); sa2.init(s2);
+    <span style="color:#66d9ef">int</span> m; cin <span style="color:#f92672">&gt;&gt;</span> m;
+    <span style="color:#66d9ef">int</span> ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">while</span> (m<span style="color:#f92672">--</span>) {
+        string t; cin <span style="color:#f92672">&gt;&gt;</span> t;
+        ans <span style="color:#f92672">+=</span> solve(t);
+    }
+    cout <span style="color:#f92672">&lt;&lt;</span> ans <span style="color:#f92672">&lt;&lt;</span> endl;
+}
+</code></pre></div></details>
+<details class="admonition note"><summary class="admonition-title">KMP代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">int</span> n;
+string s, s2;
+ 
+<span style="color:#75715e">// ans[i]: t[1..i] 出现的最小位置（根据 sa 来决定是正着还是反着）
+</span><span style="color:#75715e"></span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> getans(string<span style="color:#f92672">&amp;</span> s, string t) {
+    <span style="color:#66d9ef">int</span> m <span style="color:#f92672">=</span> t.size();
+    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> ans(m<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, n<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>);
+    ans[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> kmp(m<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>);
+    <span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>; i <span style="color:#f92672">&lt;=</span> m; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">while</span> (j <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> t[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">!=</span> t[j]) j <span style="color:#f92672">=</span> kmp[j];
+        <span style="color:#66d9ef">if</span> (t[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> t[j]) j<span style="color:#f92672">++</span>;
+        kmp[i] <span style="color:#f92672">=</span> j;
+    }
+    j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">while</span> (j <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> s[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">!=</span> t[j]) j <span style="color:#f92672">=</span> kmp[j];
+        <span style="color:#66d9ef">if</span> (s[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> t[j]) j<span style="color:#f92672">++</span>;
+        ans[j] <span style="color:#f92672">=</span> min(ans[j], i<span style="color:#f92672">-</span>j<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>);
+        <span style="color:#66d9ef">if</span> (j <span style="color:#f92672">==</span> m) {
+            j <span style="color:#f92672">=</span> kmp[j];
+        }
+    }
+    <span style="color:#66d9ef">return</span> ans;
+}
+ 
+<span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">solve</span>(string t) {
+    <span style="color:#66d9ef">if</span> (t.size() <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+    string t2 <span style="color:#f92672">=</span> t; reverse(t2.begin(), t2.end());
+    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> ans1 <span style="color:#f92672">=</span> getans(s, t);
+    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> ans2 <span style="color:#f92672">=</span> getans(s2, t2);
+    <span style="color:#66d9ef">int</span> m <span style="color:#f92672">=</span> t.size();
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;=</span> m; j<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">int</span> ed1 <span style="color:#f92672">=</span> ans1[j] <span style="color:#f92672">+</span> j <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">int</span> ed2 <span style="color:#f92672">=</span> (n<span style="color:#f92672">-</span>ans2[m<span style="color:#f92672">-</span>j]<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> (m<span style="color:#f92672">-</span>j) <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>);
+        <span style="color:#66d9ef">if</span> (ed1 <span style="color:#f92672">&lt;</span> ed2) {
+            <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+        }
+    }
+    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+ 
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> s;
+    n <span style="color:#f92672">=</span> s.size();
+    s2 <span style="color:#f92672">=</span> s; reverse(s2.begin(), s2.end());
+    <span style="color:#66d9ef">int</span> m; cin <span style="color:#f92672">&gt;&gt;</span> m;
+    <span style="color:#66d9ef">int</span> ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">while</span> (m<span style="color:#f92672">--</span>) {
+        string t; cin <span style="color:#f92672">&gt;&gt;</span> t;
+        ans <span style="color:#f92672">+=</span> solve(t);
+    }
+    cout <span style="color:#f92672">&lt;&lt;</span> ans <span style="color:#f92672">&lt;&lt;</span> endl;
+}
+
+</code></pre></div></details>
+
+    </div>
+
+    
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags//"></a>
+          <a href="/tags//"></a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/103-bitset/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Bitset优化</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/101-%E4%BA%8C%E7%BB%B4st%E8%A1%A8/">
+            <span class="next-text nav-default">二维ST表</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://github.com/kiki-yan" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://kiki-yan.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2026
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/kiki-yan/kiki-yan.github.io" target="_blank"></a>
+    </span> 
+    <span class="author">kiki_yan</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/base16/tomorrow.min.css" rel="stylesheet">
+  
+  <script>hljs.configure({tabReplace: '    '});</script><script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

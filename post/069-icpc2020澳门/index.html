@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>ICPC2020澳门 - kiki_yan</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="kiki_yan" /><meta name="description" content="A. Accelerator 题意 给定 $n$ 个正整数 $a_1,a_2,&amp;hellip;,a_n$，它们总共有 $n!$ 种 permutation。 对于每一种 permutation $a_{k_1},a_" /><meta name="keywords" content="kiki_yan, blog, Codeforces" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
+
+
+<link rel="canonical" href="https://kiki-yan.github.io/post/069-icpc2020%E6%BE%B3%E9%97%A8/" />
+<link rel="manifest" href="/manifest.json">
+
+
+
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="ICPC2020澳门" />
+<meta property="og:description" content="A. Accelerator 题意 给定 $n$ 个正整数 $a_1,a_2,&hellip;,a_n$，它们总共有 $n!$ 种 permutation。 对于每一种 permutation $a_{k_1},a_" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kiki-yan.github.io/post/069-icpc2020%E6%BE%B3%E9%97%A8/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2022-01-30T23:43:21+08:00" />
+<meta property="article:modified_time" content="2022-01-30T23:43:21+08:00" />
+
+<meta itemprop="name" content="ICPC2020澳门">
+<meta itemprop="description" content="A. Accelerator 题意 给定 $n$ 个正整数 $a_1,a_2,&hellip;,a_n$，它们总共有 $n!$ 种 permutation。 对于每一种 permutation $a_{k_1},a_"><meta itemprop="datePublished" content="2022-01-30T23:43:21+08:00" />
+<meta itemprop="dateModified" content="2022-01-30T23:43:21+08:00" />
+<meta itemprop="wordCount" content="803">
+<meta itemprop="keywords" content=",," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="ICPC2020澳门"/>
+<meta name="twitter:description" content="A. Accelerator 题意 给定 $n$ 个正整数 $a_1,a_2,&hellip;,a_n$，它们总共有 $n!$ 种 permutation。 对于每一种 permutation $a_{k_1},a_"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">kiki_yan</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF Problems</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">kiki_yan</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF Problems</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">ICPC2020澳门</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2022-01-30 23:43:21 &#43;0800 &#43;0800"> 2022-01-30 </span>
+        <div class="post-category">
+            <a href="/categories/%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A/"> 解题报告 </a>
+            </div>
+        
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#a-acceleratorhttpscodeforcescomgym103119problema"><a href="https://codeforces.com/gym/103119/problem/A">A. Accelerator</a></a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h3 id="a-acceleratorhttpscodeforcescomgym103119problema"><a href="https://codeforces.com/gym/103119/problem/A" target="_blank">A. Accelerator</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $n$ 个正整数 $a_1,a_2,&hellip;,a_n$，它们总共有 $n!$ 种 permutation。</p>
+<p>对于每一种 permutation $a_{k_1},a_{k_2},&hellip;,a_{k_n}$，我们有一个初始值 $v=0$。</p>
+<p>从左向右遍历这个 permutation，每遍到一个数 $a_{k_i}$，就令 $v = (v+1) * a_{k_i}$。</p>
+<p>求所有 permutation 中，最终的 $v$ 的期望值？</p>
+<p>其中，$n \leq 10^5, a_i \in [1, 10^9]$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>期望的分母我们知道是 $n!$，我们只要求分子即可。</p>
+<p>我们先看一种简单的例子：</p>
+<p>$n=3$ 的情况下，假设一种 permutation 是 $a_1,a_3,a_2$，那么最终的答案 $v$ 就等于：</p>
+<p>$$v=(((v+1)*a_1+1)*a_3+1)*a_2=a_1a_2a_3+a_2a_3+a_2$$</p>
+<p>很容易发现规律，$v$ 由 $n$ 个数的和组成，每个数都是 $k = \{1,2,&hellip;n\}$ 个 $a_i$ 的乘积。</p>
+<p>我们设 $b_i$ 为 $i$ 个 $a$ 的乘积组成的项的和。</p>
+<p>例如，$n=3$ 时，</p>
+<p>$$b_3=a_1a_2a_3$$
+$$b_2=a_1a_2+a_1a_3+a_2a_3$$
+$$b_1=a_1+a_2+a_3$$</p>
+<p>又因为全排列总共有 $n!$ 个，而对于每一个全排列，其中的每一项，都恰好会出现 $1$ 次（比如上面例子中，对于全排列 $a_1,a_3,a_2$，出现的项就是 $a_1a_2a_3,a_2a_3,a_2$）。</p>
+<p>所以对于 $b_i$，它总共出现了 $\frac{n!}{C_n^i}$ 次。</p>
+<p>所以分子的值就是：</p>
+<p>$$\sum\limits_{i=1}^n \frac{n!}{C_n^i}b_i$$</p>
+<p>现在我们只要求出所有的 $b_i$ 即可。</p>
+<hr>
+<p>我们注意到 $b_i$ 是 <strong>乘起来，然后加起来</strong> 的形式，于是我们想到 <strong>生成函数</strong>。</p>
+<p>定义</p>
+<p>$$f(x)=(1+a_1x)(1+a_2x)&hellip;(1+a_nx)$$</p>
+<p>我们会发现 $x^i$ 的系数就是所求的 $b_i$。</p>
+<hr>
+<p>最后注意到这是 $n$ 个 deg = 1 的多项式相乘。</p>
+<p>然而，两个 deg 分别为 $n,m$ 的多项式相乘，令 $d=\max(n,m)$，则复杂度是 $O(d\log d)$ 的。</p>
+<p>所以我们不能直接把这些多项式乘一块，我们应该分治着相乘，即 <code>solve(L, R) = solve(L, mid) * solve(mid+1, R)</code>。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> mod <span style="color:#f92672">=</span> <span style="color:#ae81ff">998244353</span>;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e5</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>;
+
+Z fac[maxn], inv_fac[maxn];
+Z <span style="color:#a6e22e">C</span>(<span style="color:#66d9ef">int</span> n, <span style="color:#66d9ef">int</span> m) {
+    <span style="color:#66d9ef">return</span> fac[n] <span style="color:#f92672">*</span> inv_fac[n<span style="color:#f92672">-</span>m] <span style="color:#f92672">*</span> inv_fac[m];
+}
+Z <span style="color:#a6e22e">invC</span>(<span style="color:#66d9ef">int</span> n, <span style="color:#66d9ef">int</span> m) {
+    <span style="color:#66d9ef">return</span> inv_fac[n] <span style="color:#f92672">*</span> fac[n<span style="color:#f92672">-</span>m] <span style="color:#f92672">*</span> fac[m];
+}
+ 
+<span style="color:#66d9ef">int</span> n;
+Poly <span style="color:#a6e22e">solve</span>(<span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r) {
+    <span style="color:#66d9ef">if</span> (l <span style="color:#f92672">==</span> r) {
+        <span style="color:#66d9ef">int</span> x; cin <span style="color:#f92672">&gt;&gt;</span> x;
+        Poly f(<span style="color:#ae81ff">2</span>);
+        f[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        f[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> x;
+        <span style="color:#66d9ef">return</span> f;
+    }
+    <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> (l<span style="color:#f92672">+</span>r) <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+    Poly f <span style="color:#f92672">=</span> solve(l, mid);
+    <span style="color:#66d9ef">return</span> f <span style="color:#f92672">*</span> solve(mid<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, r);
+}
+ 
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    <span style="color:#66d9ef">int</span> T; cin <span style="color:#f92672">&gt;&gt;</span> T;
+    fac[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> inv_fac[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">1e5</span>; i<span style="color:#f92672">++</span>) fac[i] <span style="color:#f92672">=</span> fac[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">*</span> i;
+    inv_fac[<span style="color:#ae81ff">100000</span>] <span style="color:#f92672">=</span> fac[<span style="color:#ae81ff">100000</span>].inv();
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">99999</span>; i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">1</span>; i<span style="color:#f92672">--</span>) inv_fac[i] <span style="color:#f92672">=</span> inv_fac[i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">*</span> (i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>);
+    <span style="color:#66d9ef">while</span> (T<span style="color:#f92672">--</span>) {
+        cin <span style="color:#f92672">&gt;&gt;</span> n;
+        Poly f <span style="color:#f92672">=</span> solve(<span style="color:#ae81ff">1</span>, n);
+        Z res <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+            res <span style="color:#f92672">=</span> res <span style="color:#f92672">+</span> (Z(f[i].v) <span style="color:#f92672">*</span> invC(n, i));
+        }
+        cout <span style="color:#f92672">&lt;&lt;</span> res.val() <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+    }
+}
+</code></pre></div></details>
+
+    </div>
+
+    
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags//"></a>
+          <a href="/tags//"></a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/070-%E5%AD%97%E7%AC%A6%E4%B8%B2hash/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">字符串Hash</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/068-%E4%BA%8C%E7%BB%B4%E5%B7%AE%E5%88%86/">
+            <span class="next-text nav-default">二维差分</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://github.com/kiki-yan" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://kiki-yan.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2026
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/kiki-yan/kiki-yan.github.io" target="_blank"></a>
+    </span> 
+    <span class="author">kiki_yan</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/base16/tomorrow.min.css" rel="stylesheet">
+  
+  <script>hljs.configure({tabReplace: '    '});</script><script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

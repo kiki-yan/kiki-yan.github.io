@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>线性筛 - kiki_yan</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="kiki_yan" /><meta name="description" content="介绍 线性筛不仅能用 $O(n)$ 求出每一个数是否为质数，它还能求出每一个数的因数数量，因数和，甚至更加general的除数函数，莫比乌斯函数等等。 总结来" /><meta name="keywords" content="kiki_yan, blog, Codeforces" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
+
+
+<link rel="canonical" href="https://kiki-yan.github.io/post/112-%E7%BA%BF%E6%80%A7%E7%AD%9B/" />
+<link rel="manifest" href="/manifest.json">
+
+
+
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="线性筛" />
+<meta property="og:description" content="介绍 线性筛不仅能用 $O(n)$ 求出每一个数是否为质数，它还能求出每一个数的因数数量，因数和，甚至更加general的除数函数，莫比乌斯函数等等。 总结来" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kiki-yan.github.io/post/112-%E7%BA%BF%E6%80%A7%E7%AD%9B/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2023-06-04T18:25:03-05:00" />
+<meta property="article:modified_time" content="2023-06-04T18:25:03-05:00" />
+
+<meta itemprop="name" content="线性筛">
+<meta itemprop="description" content="介绍 线性筛不仅能用 $O(n)$ 求出每一个数是否为质数，它还能求出每一个数的因数数量，因数和，甚至更加general的除数函数，莫比乌斯函数等等。 总结来"><meta itemprop="datePublished" content="2023-06-04T18:25:03-05:00" />
+<meta itemprop="dateModified" content="2023-06-04T18:25:03-05:00" />
+<meta itemprop="wordCount" content="2290">
+<meta itemprop="keywords" content=",," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="线性筛"/>
+<meta name="twitter:description" content="介绍 线性筛不仅能用 $O(n)$ 求出每一个数是否为质数，它还能求出每一个数的因数数量，因数和，甚至更加general的除数函数，莫比乌斯函数等等。 总结来"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">kiki_yan</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF Problems</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">kiki_yan</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF Problems</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">线性筛</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2023-06-04 18:25:03 -0500 -0500"> 2023-06-04 </span>
+        <div class="post-category">
+            <a href="/categories//">  </a>
+            </div>
+        
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#介绍">介绍</a></li>
+        <li><a href="#原理">原理</a></li>
+        <li><a href="#应用">应用</a>
+          <ul>
+            <li><a href="#欧拉函数">欧拉函数</a></li>
+            <li><a href="#因数个数">因数个数</a></li>
+            <li><a href="#因数和">因数和</a></li>
+          </ul>
+        </li>
+        <li><a href="#例题">例题</a>
+          <ul>
+            <li><a href="#例1-loj124-除数函数求和-1httpslojacp124">例1 loj124. <a href="https://loj.ac/p/124">除数函数求和 1</a></a></li>
+            <li><a href="#例2-loj125-除数函数求和-2httpslojacp125">例2 loj125. <a href="https://loj.ac/p/125">除数函数求和 2</a></a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="介绍">介绍</h2>
+<p>线性筛不仅能用 $O(n)$ 求出每一个数是否为质数，它还能求出每一个数的因数数量，因数和，甚至更加general的除数函数，莫比乌斯函数等等。</p>
+<p>总结来说，线性筛可以在 $O(n)$ 中求出一些积性函数的值。</p>
+<h2 id="原理">原理</h2>
+<p>线性筛之所以是 $O(n)$，是因为对于每一个数 $x$，我们只考虑它 <strong>最小</strong> 的那个质因数。</p>
+<p>在当前使用 $i$ 来筛的时候，如果 <code>i % primes[j] == 0</code>，说明 $i$ 中包含了 <code>primes[j]</code>，那么再往后的话筛掉 <code>cur = i * primes[j+1]</code> 时用到的最小质因数就是 <code>primes[j]</code> 了，所以可以直接break。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> M <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e7</span>;
+<span style="color:#66d9ef">bool</span> isPrime[M<span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>];
+<span style="color:#66d9ef">int</span> small[M<span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>];
+vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> primes;
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">preprocess</span>() {   <span style="color:#75715e">// 线性筛
+</span><span style="color:#75715e"></span>    memset(isPrime, <span style="color:#ae81ff">1</span>, <span style="color:#66d9ef">sizeof</span>(isPrime));
+    small[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>; i <span style="color:#f92672">&lt;=</span> M; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">if</span> (isPrime[i]) primes.push_back(i), small[i] <span style="color:#f92672">=</span> i;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> primes.size() <span style="color:#f92672">&amp;&amp;</span> i <span style="color:#f92672">*</span> primes[j] <span style="color:#f92672">&lt;=</span> M; j<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">int</span> cur <span style="color:#f92672">=</span> i <span style="color:#f92672">*</span> primes[j];
+            isPrime[cur] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+            small[cur] <span style="color:#f92672">=</span> primes[j];   <span style="color:#75715e">// 最小的质因子
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">if</span> (i <span style="color:#f92672">%</span> primes[j] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">break</span>;
+        }
+    }
+}
+</code></pre></div><p>那么观察上述过程，其实我们发现了：</p>
+<ol>
+<li>当 <code>i % primes[j] == 0</code> 时，说明 <code>cur = i * primes[j]</code> 里面至少有 $2$ 个 $p_j$（后文中 $p_j$ 代指 <code>primes[j]</code>），并且 <code>cur</code> 与 <code>i</code> 的最小质因子均为 $p_j$。</li>
+<li>当 <code>i % primes[j] != 0</code> 时，说明 <code>cur = i * primes[j]</code> 里面只有 $1$ 个 $p_j$。</li>
+</ol>
+<p>这个重要性质在后面我们求欧拉函数，因数个数时都有重大用处。</p>
+<p>• 简单证明一下第一条中的 <code>cur</code> 与 $i$ 的最小质因子均为 $p_j$：首先 <code>cur</code> 肯定满足，因为线性筛的本质就是只用最小质因子筛掉一个数。对于 $i$ 来说，$i = \frac{cur}{p_j}$，说明 $i$ 只是比 <code>cur</code> 少了一个 $p_j$ 而已，所以 $i$ 的最小质因子也是 $p_j$。</p>
+<h2 id="应用">应用</h2>
+<h3 id="欧拉函数">欧拉函数</h3>
+<p>欧拉函数的两个性质：</p>
+<ol>
+<li>积性函数：$\varphi(mn) = \varphi(m)\varphi(n) \iff \gcd(m,n) = 1$</li>
+<li>质因数：$\forall n = p_1^{k_1}p_2^{k_2}&hellip;p_r^{k_r}$, 如果 $~\exists ~i, ~s.t. ~k_i &gt; 1$, 则 $\varphi(n) = \varphi(\frac{n}{p_i})*p_i$</li>
+</ol>
+<p>运用上面的性质就可以用线性筛了。</p>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> M <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e7</span>;
+<span style="color:#66d9ef">int</span> phi[M<span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>];
+<span style="color:#66d9ef">bool</span> isPrime[M<span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>];
+vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> primes;
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">euler_function</span>() {
+    phi[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    memset(isPrime, <span style="color:#ae81ff">1</span>, <span style="color:#66d9ef">sizeof</span>(isPrime));
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>; i <span style="color:#f92672">&lt;=</span> M; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">if</span> (isPrime[i]) {
+            phi[i] <span style="color:#f92672">=</span> i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+            primes.push_back(i);
+        }
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> primes.size() <span style="color:#f92672">&amp;&amp;</span> i <span style="color:#f92672">*</span> primes[j] <span style="color:#f92672">&lt;=</span> M; j<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">int</span> cur <span style="color:#f92672">=</span> i <span style="color:#f92672">*</span> primes[j];
+            isPrime[cur] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+            <span style="color:#66d9ef">if</span> (i <span style="color:#f92672">%</span> primes[j] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+                phi[cur] <span style="color:#f92672">=</span> phi[i] <span style="color:#f92672">*</span> primes[j];
+                <span style="color:#66d9ef">break</span>;
+            } <span style="color:#66d9ef">else</span> {
+                phi[cur] <span style="color:#f92672">=</span> phi[i] <span style="color:#f92672">*</span> phi[primes[j]];
+            }
+        }
+    }
+}
+</code></pre></div></details>
+<h3 id="因数个数">因数个数</h3>
+<p>用 $d_i$ 表示 $i$ 的因数个数（有多少个数整除它），用 <code>cnt[i]</code> 表示 $i$ 的最小质因数出现次数。</p>
+<p>$d_i$ 是积性函数，所以可以用线性筛。</p>
+<p>注意到因为 $n=\prod\limits_{i=1}^m p_i^{c_i}$，则</p>
+<p>$$d_n = \prod\limits_{i=1}^m (c_i+1) = (1+c_1)(1+c_2)&hellip;(1+c_m)$$</p>
+<p>所以需要统计 <code>cnt[i]</code> 表示 $i$ 的最小质因数个数。</p>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> M <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e7</span>;
+<span style="color:#66d9ef">int</span> d[M<span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>], cnt[M<span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>];  <span style="color:#75715e">// d[i]: i 的因数数量，cnt[i]: i 的最小质因数次数
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">bool</span> isPrime[M<span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>];
+vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> primes;
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">divisor_count</span>() {
+    cnt[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> d[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    memset(isPrime, <span style="color:#ae81ff">1</span>, <span style="color:#66d9ef">sizeof</span>(isPrime));
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>; i <span style="color:#f92672">&lt;=</span> M; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">if</span> (isPrime[i]) {
+            cnt[i] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+            d[i] <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>;
+            primes.push_back(i);
+        }
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> primes.size() <span style="color:#f92672">&amp;&amp;</span> i <span style="color:#f92672">*</span> primes[j] <span style="color:#f92672">&lt;=</span> M; j<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">int</span> cur <span style="color:#f92672">=</span> i <span style="color:#f92672">*</span> primes[j];
+            isPrime[cur] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+            <span style="color:#66d9ef">if</span> (i <span style="color:#f92672">%</span> primes[j] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+                cnt[cur] <span style="color:#f92672">=</span> cnt[i] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+                d[cur] <span style="color:#f92672">=</span> d[i] <span style="color:#f92672">/</span> (cnt[i] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">*</span> (cnt[i] <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>);  <span style="color:#75715e">// 已经有的质因数，所以把原来的次数+1除掉，再乘上次数+2
+</span><span style="color:#75715e"></span>                <span style="color:#66d9ef">break</span>;
+            } <span style="color:#66d9ef">else</span> {
+                cnt[cur] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+                d[cur] <span style="color:#f92672">=</span> d[i] <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span>;  <span style="color:#75715e">// 出现了一个新的质因数，出现次数为 1，所以直接 *2
+</span><span style="color:#75715e"></span>            }
+        }
+    }
+}
+</code></pre></div></details>
+<h3 id="因数和">因数和</h3>
+<p>对于一个数 $n$ 的因数和，我们将它质因数分解后有 $n=\prod\limits_{i=1}^m p_i^{c_i}$，则</p>
+<p>$$sum_n = \prod\limits_{i=1}^m (\sum\limits_{j=1}^{c_i} p_j) = (1+p_1+p_1^2+&hellip;+p_1^{c_1})(1+p_2+p_2^2+&hellip;+p_2^{c_2})&hellip;(1+p^m+p_m^2+&hellip;+p_m^{c_m})$$</p>
+<p>所以与因数个数不同的地方在于，我们需要处理 <code>small_sum[i]</code> 代表：</p>
+<p>若 $i$ 的最小质因数为 $p$，出现次数为 $c$，那么</p>
+<p>$$smallsum[i] = p^0 + p^1 + &hellip; + p^c$$</p>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> M <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e7</span>;
+ll sum[M<span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>], small_sum[M<span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>];  <span style="color:#75715e">// sum[i]: i 的因数和
+</span><span style="color:#75715e">// small_sum[i]: i 的最小质因数为 p，出现次数为 c，那么 small_sum[i] = p^0 + p^1 + ... + p^c
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">bool</span> isPrime[M<span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>];
+vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> primes;
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">divisor_sum</span>() {
+    sum[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> small_sum[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    memset(isPrime, <span style="color:#ae81ff">1</span>, <span style="color:#66d9ef">sizeof</span>(isPrime));
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>; i <span style="color:#f92672">&lt;=</span> M; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">if</span> (isPrime[i]) {
+            small_sum[i] <span style="color:#f92672">=</span> i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+            sum[i] <span style="color:#f92672">=</span> i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+            primes.push_back(i);
+        }
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> primes.size() <span style="color:#f92672">&amp;&amp;</span> i <span style="color:#f92672">*</span> primes[j] <span style="color:#f92672">&lt;=</span> M; j<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">int</span> cur <span style="color:#f92672">=</span> i <span style="color:#f92672">*</span> primes[j];
+            isPrime[cur] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+            <span style="color:#66d9ef">if</span> (i <span style="color:#f92672">%</span> primes[j] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+                sum[cur] <span style="color:#f92672">=</span> sum[i] <span style="color:#f92672">/</span> small_sum[i];
+                small_sum[cur] <span style="color:#f92672">=</span> small_sum[i] <span style="color:#f92672">*</span> primes[j] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+                sum[cur] <span style="color:#f92672">*=</span> small_sum[cur];
+                <span style="color:#66d9ef">break</span>;
+            } <span style="color:#66d9ef">else</span> {
+                small_sum[cur] <span style="color:#f92672">=</span> primes[j] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+                sum[cur] <span style="color:#f92672">=</span> sum[i] <span style="color:#f92672">*</span> small_sum[cur];
+            }
+        }
+    }
+}
+</code></pre></div></details>
+<h2 id="例题">例题</h2>
+<h3 id="例1-loj124-除数函数求和-1httpslojacp124">例1 loj124. <a href="https://loj.ac/p/124" target="_blank">除数函数求和 1</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>定义 $\sigma_k(n) = \sum_{d | n} d ^ k$，给定 $k$，求 $\sum\limits_{i=1}^n \sigma_k(i)$。</p>
+<p>其中，$1 \leq n,k \leq 10^7$，答案对 $10^9+7$ 取模。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">法一 因数贡献 - 题解</summary>
+<p>考虑每一个因数 $d$ 对于答案的贡献，很明显贡献为 $d^k * \lfloor \frac{n}{d} \rfloor$。</p>
+<p>那么枚举因数即可。按理来说这个复杂度应该不好过，但是居然过了？</p>
+<p>• 如果过不了，那么可以预处理每一个质因数的 $p^k$，然后通过分解质因数来计算 $d^k$。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+ll k;
+<span style="color:#66d9ef">int</span> n;
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> k;
+    Z ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        ans <span style="color:#f92672">+=</span> qpow((Z)(i), k) <span style="color:#f92672">*</span> (n <span style="color:#f92672">/</span> i);
+    }
+    cout <span style="color:#f92672">&lt;&lt;</span> ans <span style="color:#f92672">&lt;&lt;</span> endl;
+}
+</code></pre></div></details>
+<details class="admonition note"><summary class="admonition-title">法二 线性筛 - 题解</summary>
+<p>参考上面的因数和计算方式，由于 $n=\prod\limits_{i=1}^m p_i^{c_i}$，那么要求出一个数 $n$ 的 $\sigma_k(n) = \sum_{d | n} d ^ k$，我们实际上有：</p>
+<p>$$\sigma_k(n) = \sum_{d | n} d ^ k = (1^k + p_1^k + p_1^{2k} + &hellip; + p_1^{c_1k})(1^k + p_2^k + p_2^{2k} + &hellip; + p_2^{c_2k}) &hellip;$$</p>
+<p>那么可以用线性筛如法炮制上面的做法，不过这个还是需要预处理每个质因数的 $k$ 次方，不仅复杂度没改善，还难写。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e7</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>;
+
+ll k;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> M <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e7</span>;
+Z sum[M<span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>], small_sum[M<span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>];  <span style="color:#75715e">// sum[i]: i 的所有因数 d^k 之和
+</span><span style="color:#75715e">// small_sum[i]: i 的最小质因数为 p，出现次数为 c，那么 small_sum[i] = p^0k + p^1k + ... + p^ck
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">bool</span> isPrime[M<span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>];
+vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> primes;
+vector<span style="color:#f92672">&lt;</span>Z<span style="color:#f92672">&gt;</span> primes_k;  <span style="color:#75715e">// primes_k[j] = qpow(primes[j], k)
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">divisor_sum</span>() {
+    sum[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> small_sum[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    memset(isPrime, <span style="color:#ae81ff">1</span>, <span style="color:#66d9ef">sizeof</span>(isPrime));
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>; i <span style="color:#f92672">&lt;=</span> M; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">if</span> (isPrime[i]) {
+            small_sum[i] <span style="color:#f92672">=</span> qpow((Z)i, k) <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+            sum[i] <span style="color:#f92672">=</span> small_sum[i];
+            primes.push_back(i);
+            primes_k.push_back(qpow((Z)i, k));
+        }
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> primes.size() <span style="color:#f92672">&amp;&amp;</span> i <span style="color:#f92672">*</span> primes[j] <span style="color:#f92672">&lt;=</span> M; j<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">int</span> cur <span style="color:#f92672">=</span> i <span style="color:#f92672">*</span> primes[j];
+            isPrime[cur] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+            <span style="color:#66d9ef">if</span> (i <span style="color:#f92672">%</span> primes[j] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+                sum[cur] <span style="color:#f92672">=</span> sum[i] <span style="color:#f92672">/</span> small_sum[i];
+                small_sum[cur] <span style="color:#f92672">=</span> small_sum[i] <span style="color:#f92672">*</span> primes_k[j] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+                sum[cur] <span style="color:#f92672">*=</span> small_sum[cur];
+                <span style="color:#66d9ef">break</span>;
+            } <span style="color:#66d9ef">else</span> {
+                small_sum[cur] <span style="color:#f92672">=</span> primes_k[j] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+                sum[cur] <span style="color:#f92672">=</span> sum[i] <span style="color:#f92672">*</span> small_sum[cur];
+            }
+        }
+    }
+}
+
+<span style="color:#66d9ef">int</span> n;
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> k;
+    divisor_sum();
+    Z ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) ans <span style="color:#f92672">+=</span> sum[i];
+    cout <span style="color:#f92672">&lt;&lt;</span> ans <span style="color:#f92672">&lt;&lt;</span> endl;
+}
+</code></pre></div></details>
+<h3 id="例2-loj125-除数函数求和-2httpslojacp125">例2 loj125. <a href="https://loj.ac/p/125" target="_blank">除数函数求和 2</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $n$，求 $\sum_{i = 1} ^ n 2\sigma_2(i)+3\sigma_1(i)+5\sigma_0(i)$，其中 $\sigma_k(n) = \sum_{d | n} d ^ k$。</p>
+<p>答案对 998244353 取模。</p>
+<p>其中，$1 \leq n \leq 10^9$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>其实就是上一题的加强版，仍然是考虑贡献。</p>
+<blockquote>
+<p>考虑每一个因数 $d$ 对于答案的贡献，很明显贡献为 $d^k * \lfloor \frac{n}{d} \rfloor$。</p>
+</blockquote>
+<p>注意到 $\lfloor \frac{n}{d} \rfloor$ 很明显可以用数论分块。</p>
+<p>我们只要能求出在一个块 $[L,R]$ 中，$d^2$ 的和即可。</p>
+<p>这个其实就是平方和公式：</p>
+<p>$$\sum\limits_{i=1}^n i^2 = 1^2+2^2+&hellip;+n^2 = \frac{n(n+1)(2n+1)}{6}$$</p>
+</details>
+<div class="admonition info">
+  <p class="admonition-title">平方和公式推导</p>
+<p>$$(n+1)^3 - n^3 = 3n^2+3n+1$$</p>
+<p>从 $1$ 开始的话有</p>
+<p>$$2^3 - 1^3 = 3\times1^2 + 3\times1 + 1$$</p>
+<p>那么一直累加，可以得到</p>
+<p>$$(n+1)^3 - 1^3 = 3 \sum\limits_{i=1}^n i^2 + 3 \sum\limits_{i=1}^n i + \sum\limits_{i=1}^n 1$$</p>
+<p>$$= 3 \sum\limits_{i=1}^n i^2 + 3 \frac{n(n+1)}{2} + n$$</p>
+<p>那么移项可以得到</p>
+<p>$$3\sum\limits_{i=1}^n i^2 = (n+1)^3 + 3 \frac{n(n+1)}{2} + (n + 1)$$</p>
+<p>化简可得到</p>
+<p>$$\sum\limits_{i=1}^n i^2 = \frac{n(n+1)(2n+1)}{6}$$</p>
+<p><a href="https://zhuanlan.zhihu.com/p/190236854" target="_blank">参考链接</a></p>
+</div>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+ll n;
+Z inv6 <span style="color:#f92672">=</span> (Z)(<span style="color:#ae81ff">1</span>) <span style="color:#f92672">/</span> <span style="color:#ae81ff">6</span>;
+
+Z <span style="color:#a6e22e">sum2</span>(ll x) {
+    <span style="color:#66d9ef">return</span> (Z)(x) <span style="color:#f92672">*</span> (x<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>) <span style="color:#f92672">*</span> (<span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>x<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>) <span style="color:#f92672">*</span> inv6;
+}
+Z <span style="color:#a6e22e">sum2</span>(ll L, ll R) {
+    <span style="color:#66d9ef">return</span> sum2(R) <span style="color:#f92672">-</span> sum2(L<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>);
+}
+Z <span style="color:#a6e22e">sum1</span>(ll x) {
+    <span style="color:#66d9ef">return</span> (x <span style="color:#f92672">*</span> (x<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>)) <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>;
+}
+Z <span style="color:#a6e22e">sum1</span>(ll L, ll R) {
+    <span style="color:#66d9ef">return</span> sum1(R) <span style="color:#f92672">-</span> sum1(L<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>);
+}
+Z <span style="color:#a6e22e">sum0</span>(ll L, ll R) {
+    <span style="color:#66d9ef">return</span> R <span style="color:#f92672">-</span> L <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+}
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> n;
+    ll L <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    Z ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">while</span> (L <span style="color:#f92672">&lt;=</span> n) {
+        ll R <span style="color:#f92672">=</span> n <span style="color:#f92672">/</span> (n <span style="color:#f92672">/</span> L);
+        ans <span style="color:#f92672">+=</span> (<span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> sum2(L, R) <span style="color:#f92672">+</span> <span style="color:#ae81ff">3</span> <span style="color:#f92672">*</span> sum1(L, R) <span style="color:#f92672">+</span> <span style="color:#ae81ff">5</span> <span style="color:#f92672">*</span> sum0(L, R)) <span style="color:#f92672">*</span> (n <span style="color:#f92672">/</span> L);
+        L <span style="color:#f92672">=</span> R <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+    }
+    cout <span style="color:#f92672">&lt;&lt;</span> ans <span style="color:#f92672">&lt;&lt;</span> endl;
+}
+</code></pre></div></details>
+
+    </div>
+
+    
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags//"></a>
+          <a href="/tags//"></a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/113-%E6%95%B4%E4%BD%93%E4%BA%8C%E5%88%86/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">整体二分</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/111-nac2023-day2/">
+            <span class="next-text nav-default">NAC2023 Training Camp Day2</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://github.com/kiki-yan" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://kiki-yan.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2026
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/kiki-yan/kiki-yan.github.io" target="_blank"></a>
+    </span> 
+    <span class="author">kiki_yan</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/base16/tomorrow.min.css" rel="stylesheet">
+  
+  <script>hljs.configure({tabReplace: '    '});</script><script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

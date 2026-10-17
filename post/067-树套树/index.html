@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>树套树 - kiki_yan</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="kiki_yan" /><meta name="description" content="介绍 树套树常常用于解决一些二维数点问题。 经典的问题如：矩阵内查询和/最大值，更新矩阵内一个点的值等等。 在介绍树套树之前，先简单讲一下树状数组" /><meta name="keywords" content="kiki_yan, blog, Codeforces" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
+
+
+<link rel="canonical" href="https://kiki-yan.github.io/post/067-%E6%A0%91%E5%A5%97%E6%A0%91/" />
+<link rel="manifest" href="/manifest.json">
+
+
+
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="树套树" />
+<meta property="og:description" content="介绍 树套树常常用于解决一些二维数点问题。 经典的问题如：矩阵内查询和/最大值，更新矩阵内一个点的值等等。 在介绍树套树之前，先简单讲一下树状数组" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kiki-yan.github.io/post/067-%E6%A0%91%E5%A5%97%E6%A0%91/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2022-01-20T18:30:51+08:00" />
+<meta property="article:modified_time" content="2022-01-20T18:30:51+08:00" />
+
+<meta itemprop="name" content="树套树">
+<meta itemprop="description" content="介绍 树套树常常用于解决一些二维数点问题。 经典的问题如：矩阵内查询和/最大值，更新矩阵内一个点的值等等。 在介绍树套树之前，先简单讲一下树状数组"><meta itemprop="datePublished" content="2022-01-20T18:30:51+08:00" />
+<meta itemprop="dateModified" content="2022-01-20T18:30:51+08:00" />
+<meta itemprop="wordCount" content="5243">
+<meta itemprop="keywords" content="树套树,线段树,树状数组," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="树套树"/>
+<meta name="twitter:description" content="介绍 树套树常常用于解决一些二维数点问题。 经典的问题如：矩阵内查询和/最大值，更新矩阵内一个点的值等等。 在介绍树套树之前，先简单讲一下树状数组"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">kiki_yan</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF Problems</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">kiki_yan</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF Problems</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">树套树</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2022-01-20 18:30:51 &#43;0800 &#43;0800"> 2022-01-20 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
+            </div>
+        
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#介绍">介绍</a></li>
+        <li><a href="#树状数组介绍">树状数组介绍</a></li>
+        <li><a href="#树套树">树套树</a></li>
+        <li><a href="#标记永久化">标记永久化</a></li>
+        <li><a href="#例题">例题</a>
+          <ul>
+            <li><a href="#例1-洛谷p3287-scoi2014方伯伯的玉米田httpswwwluogucomcnproblemp3287">例1 <a href="https://www.luogu.com.cn/problem/P3287">洛谷P3287 [SCOI2014]方伯伯的玉米田</a></a></li>
+            <li><a href="#例2-洛谷p3437-poi2006tet-tetris-3dhttpswwwluogucomcnproblemp3437">例2 <a href="https://www.luogu.com.cn/problem/P3437">洛谷P3437 [POI2006]TET-Tetris 3D</a></a></li>
+            <li><a href="#例3-洛谷p3688-zjoi2017-树状数组httpswwwluogucomcnproblemp3688">例3 <a href="https://www.luogu.com.cn/problem/P3688">洛谷P3688 [ZJOI2017] 树状数组</a></a></li>
+          </ul>
+        </li>
+        <li><a href="#参考链接">参考链接</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="介绍">介绍</h2>
+<p>树套树常常用于解决一些二维数点问题。</p>
+<p>经典的问题如：矩阵内查询和/最大值，更新矩阵内一个点的值等等。</p>
+<p>在介绍树套树之前，先简单讲一下树状数组。</p>
+<h2 id="树状数组介绍">树状数组介绍</h2>
+<details class="admonition note"><summary class="admonition-title">树状数组</summary>
+<p>树状数组的本质就是一个数组 <code>tr[]</code>。</p>
+<p>其中 <code>tr[x]</code> 维护的是区间 <code>[x-lowbit(x)+1, x]</code> 的信息（即：以 <code>x</code> 为结尾，长度为 <code>lowbit(x)</code> 的区间）。</p>
+<p><img src="/images/067/1.png" alt="img"></p>
+<p>那么如果我们要询问 $[1,x]$ 的信息，那么可以利用 <strong>不断减去 <code>lowbit(x)</code></strong> 的形式实现。</p>
+<p>如果我们需要更新点 $x$ 的值，那么需要 <strong>不断加上 <code>lowbit(x)</code></strong> 来保证所有包含了 $x$ 的区间都被更新了。</p>
+<hr>
+<p>我们以 区间查询和，单点加值 为例：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">5e5</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>;
+
+<span style="color:#66d9ef">inline</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">lowbit</span>(<span style="color:#66d9ef">int</span> x) { <span style="color:#66d9ef">return</span> x <span style="color:#f92672">&amp;</span> <span style="color:#f92672">-</span>x; }
+<span style="color:#66d9ef">int</span> tr[maxn];
+<span style="color:#66d9ef">int</span> n, m;
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">update</span>(<span style="color:#66d9ef">int</span> p, <span style="color:#66d9ef">int</span> val) {
+	<span style="color:#66d9ef">while</span> (p <span style="color:#f92672">&lt;=</span> n) {
+		tr[p] <span style="color:#f92672">+=</span> val;
+		p <span style="color:#f92672">+=</span> lowbit(p);
+	}
+}
+
+<span style="color:#75715e">// return sum[1...p]
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">query</span>(<span style="color:#66d9ef">int</span> p) {
+	<span style="color:#66d9ef">int</span> ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+	<span style="color:#66d9ef">while</span> (p <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
+		ans <span style="color:#f92672">+=</span> tr[p];
+		p <span style="color:#f92672">-=</span> lowbit(p);
+	}
+	<span style="color:#66d9ef">return</span> ans;
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+	cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> m;
+	<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+		<span style="color:#66d9ef">int</span> x; cin <span style="color:#f92672">&gt;&gt;</span> x;
+		update(i, x);
+	}
+	<span style="color:#66d9ef">while</span> (m<span style="color:#f92672">--</span>) {
+		<span style="color:#66d9ef">int</span> op, x, y; cin <span style="color:#f92672">&gt;&gt;</span> op <span style="color:#f92672">&gt;&gt;</span> x <span style="color:#f92672">&gt;&gt;</span> y;
+		<span style="color:#66d9ef">if</span> (op <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>) update(x, y);
+		<span style="color:#66d9ef">else</span> cout <span style="color:#f92672">&lt;&lt;</span> query(y) <span style="color:#f92672">-</span> query(x<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+	}
+}
+</code></pre></div><p>• 注意一点，树状数组本质上维护的是 <strong>前缀信息</strong>，所以如果要询问<strong>区间信息</strong>，需要保证这个信息是 <strong>可减的</strong>。</p>
+<p>比如 <strong>区间最大值</strong> 就不能用树状数组了（但是 <strong>前缀最大值</strong> 仍然可以用）。</p>
+</details>
+<h2 id="树套树">树套树</h2>
+<p>所谓树套树，实际上就是将一个数据结构看作是两层线段树。</p>
+<p>比如维护二维的矩阵信息，那么这个数据结构的外层线段树维护的是 $x$ 坐标，而内层线段树维护的则是 $y$ 坐标。</p>
+<p>对于<strong>内层线段树</strong>来说，它和普通的一维线段树没有区别：每个节点维护的是一个区间，区间包含的是<strong>一些数字</strong>。</p>
+<p>对于<strong>外层线段树</strong>：每个节点维护的是一个区间，区间包含的是<strong>一些内层线段树</strong>。</p>
+<p>简单来说，相当于我们在<strong>每个 $x$ 坐标上，都开了一棵内层线段树</strong>。</p>
+<p>而我们用外层线段树，维护了 $x$ 坐标的区间。</p>
+<p>因此，我们在进行 <strong>矩阵查询/修改</strong> 时（例如 $[x_L,x_R][y_L,y_R]$），就分成了两步：</p>
+<ol>
+<li>首先在外层线段树找到 $x$ 坐标所在的区间 $[x_L,x_R]$，它在外层线段树上对应的就是<strong>若干个节点</strong>。</li>
+<li>进入这些节点（进入了以后就可以看到内层线段树了），然后对内层线段树进行 $[y_L,y_R]$ 的操作。</li>
+</ol>
+<h2 id="标记永久化">标记永久化</h2>
+<p>如果是 <strong>矩阵查询，单点修改</strong> 的话我们可以直接用树套树解决。</p>
+<p>但是如果是 <strong>矩阵查询，矩阵修改</strong> 呢？</p>
+<p>我们还是按照访问树套树的方式，但看起来我们需要对于 $[x_L,x_{L+1},&hellip;,x_R]$ 中的每一棵线段树都进行修改操作？</p>
+<p>因为我们<strong>无法对外层线段树进行 <code>pushup</code> 或者 <code>pushdown</code> 操作</strong>，因为它维护的是线段树，而不是数值。</p>
+<p>那么我们就引入了<strong>标记永久化</strong>的思想，什么意思呢？</p>
+<p>简单来说，标记永久化就是 <strong>去除了 <code>pushdown</code> 操作</strong>，对于那些被<strong>修改操作完全覆盖的区间，直接给它打上一个标记</strong>。</p>
+<p>之后，在<strong>询问</strong>的时候，当我们访问了一个节点时，我们就看一下这个节点上的标记，这时，标记的值就相当于 <strong>这个节点</strong> 之前<strong>被修改了，但是尚未下传</strong> 的信息。</p>
+<p>所以询问时：</p>
+<div class='center'>
+<ol>
+<li>
+<p><strong>无论</strong>这个节点是否完全被我们的询问覆盖，我们都要把<strong>这个节点的标记，加入到我们的询问答案</strong>。</p>
+</li>
+<li>
+<p>如果这个节点<strong>完全被覆盖</strong>，则我们直接考虑这个节点<strong>所维护的值即可，无需考虑标记</strong>了。</p>
+</li>
+</ol>
+</div>
+<p>那么，在树套树的实现中，一般是通过 <strong>开两棵树套树</strong>：</p>
+<div class='center'>
+<p>一棵树套树，专门用来维护 <strong>原来的值</strong>。</p>
+<p>另一棵树套树，专门用来维护 <strong>标记值</strong>。</p>
+</div>
+<p>然后在询问的时候，按照上面的两条规则进行操作，对内外两层线段树，写法基本一致。</p>
+<h2 id="例题">例题</h2>
+<h3 id="例1-洛谷p3287-scoi2014方伯伯的玉米田httpswwwluogucomcnproblemp3287">例1 <a href="https://www.luogu.com.cn/problem/P3287" target="_blank">洛谷P3287 [SCOI2014]方伯伯的玉米田</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $n$ 个正整数 $a_i$，并且给定一个正整数 $K$。</p>
+<p>每次操作我们可以选定一个区间 $[L,R]$，将 $[a_L &hellip; a_R]$ 内的所有值 + 1，操作最多进行 $K$ 次。</p>
+<p>求操作后，最长不下降子序列（不一定连续）的长度？</p>
+<p>其中，$n \in [1, 10000], K \in [1, 500], a_i \in [1,5000]$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>首先，每次操作一个区间的话，右端点一定为 $n$（因为右边数字越大，LIS就有可能越长，所以让右边更大一些一定更好）。</p>
+<p>然后就有了一个比较简单的 <code>dp</code> 思路：</p>
+<p>设 <code>dp[i][j]</code> 代表：当前考虑前 $i$ 个元素，已经用掉了 $j$ 次操作，恰好以 $i$ 为结尾的最长 LIS 的长度。</p>
+<p>然后我们不需要讨论当前用了多少个，我们直接用前面所有可能的状态进行转移：</p>
+<p>$$dp[i][j] = \max\sum\limits_{i' \in [1,i-1], j' \in [0,j]} \{dp[i'][j'] + 1\}, ~ 其中 a[i] + j \geq a[i'] + j'。$$</p>
+<p>总共有 $3$ 个条件（维度），这个东西怎么优化？</p>
+<p>首先，如果我们将 $i$ 从小到大枚举，那么 $i$ 这一维可以直接忽略掉。</p>
+<p>所以我们就剩下了 $a[i] + j$ 和 $j$ 这两个维度。</p>
+<p>那么我们可以将 $a[i] + j$ 的值看作 $x$ 坐标，$j$ 的值看作 $y$ 坐标，那么转移方程就是：</p>
+<p>$$dp[a[i]+j][j] = \max\sum\limits_{x \in [1,a[i] + j], y \in [0,j]} \{dp[x][y] + 1\}$$</p>
+<p>那么这个东西本质上就是一个<strong>矩阵查询最大值，支持单点修改</strong>的结构。</p>
+<p>$x$ 坐标的取值范围是 $[1,5500]$，$y$ 坐标的取值范围是 $[0,500]$。</p>
+<p>二维线段树？不对，空间复杂度 $5500 * 501 * \log (5500) * \log(501)$ 约等于 1e9。</p>
+<p>二维树状数组？空间复杂度刚好是 $5500 * 501$，可以过。</p>
+<p>注意到，虽然我们维护的是最大值，但这实际上是一个 <strong>前缀最大值</strong> 的形式，所以可以用树状数组。</p>
+<p>最后注意一下把 $y$ 变成 $[1,501]$ 即可。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">二维树状数组代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e4</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>;
+
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> N <span style="color:#f92672">=</span> <span style="color:#ae81ff">5500</span>, M <span style="color:#f92672">=</span> <span style="color:#ae81ff">501</span>;
+<span style="color:#66d9ef">int</span> tr[N<span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>][M<span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>];
+<span style="color:#66d9ef">inline</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">lowbit</span>(<span style="color:#66d9ef">int</span> x) { <span style="color:#66d9ef">return</span> x<span style="color:#f92672">&amp;-</span>x; }
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">update</span>(<span style="color:#66d9ef">int</span> x, <span style="color:#66d9ef">int</span> y, <span style="color:#66d9ef">int</span> val) {
+	<span style="color:#66d9ef">int</span> tmp <span style="color:#f92672">=</span> y;
+	<span style="color:#66d9ef">while</span> (x <span style="color:#f92672">&lt;=</span> N) {
+		y <span style="color:#f92672">=</span> tmp;	
+		<span style="color:#66d9ef">while</span> (y <span style="color:#f92672">&lt;=</span> M) {
+			tr[x][y] <span style="color:#f92672">=</span> max(tr[x][y], val);
+			y <span style="color:#f92672">+=</span> lowbit(y);
+		}
+		x <span style="color:#f92672">+=</span> lowbit(x);
+	}
+}
+
+<span style="color:#75715e">// 查询 [1...x][1...y]
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">query</span>(<span style="color:#66d9ef">int</span> x, <span style="color:#66d9ef">int</span> y) {
+	<span style="color:#66d9ef">int</span> tmp <span style="color:#f92672">=</span> y;
+	<span style="color:#66d9ef">int</span> ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+	<span style="color:#66d9ef">while</span> (x <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
+		y <span style="color:#f92672">=</span> tmp;
+		<span style="color:#66d9ef">while</span> (y <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
+			ans <span style="color:#f92672">=</span> max(ans, tr[x][y]);
+			y <span style="color:#f92672">-=</span> lowbit(y);
+		}
+		x <span style="color:#f92672">-=</span> lowbit(x);
+	}
+	<span style="color:#66d9ef">return</span> ans;
+}
+
+<span style="color:#66d9ef">int</span> n, K;
+<span style="color:#66d9ef">int</span> a[maxn];
+<span style="color:#66d9ef">int</span> ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> K;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) cin <span style="color:#f92672">&gt;&gt;</span> a[i];
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> K; j <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>; j<span style="color:#f92672">--</span>) {
+            <span style="color:#66d9ef">int</span> v <span style="color:#f92672">=</span> a[i] <span style="color:#f92672">+</span> j;
+            <span style="color:#66d9ef">int</span> res <span style="color:#f92672">=</span> query(v, j<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>);
+            ans <span style="color:#f92672">=</span> max(ans, res <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>);
+            update(v, j<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, res <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>);
+        }
+    }
+    cout <span style="color:#f92672">&lt;&lt;</span> ans <span style="color:#f92672">&lt;&lt;</span> endl;
+}
+</code></pre></div></details>
+<details class="admonition note"><summary class="admonition-title">二维线段树代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e4</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> N <span style="color:#f92672">=</span> <span style="color:#ae81ff">5500</span>, M <span style="color:#f92672">=</span> <span style="color:#ae81ff">500</span>;  <span style="color:#75715e">// x:[1, 5500], y: [0, 500]
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Node</span> {
+    <span style="color:#66d9ef">int</span> maxval, lc, rc;
+    <span style="color:#66d9ef">int</span> rt;  <span style="color:#75715e">// 这个节点所维护的线段树的根
+</span><span style="color:#75715e"></span>} tr[<span style="color:#ae81ff">2e9</span>];  <span style="color:#75715e">// 开不了这么大的！
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> rt <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, ID <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">insert_y</span>(<span style="color:#66d9ef">int</span><span style="color:#f92672">&amp;</span> cur, <span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r, <span style="color:#66d9ef">int</span> y, <span style="color:#66d9ef">int</span> val) {
+    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>cur) cur <span style="color:#f92672">=</span> <span style="color:#f92672">++</span>ID;
+    tr[cur].maxval <span style="color:#f92672">=</span> max(tr[cur].maxval, val);
+    <span style="color:#66d9ef">if</span> (l <span style="color:#f92672">==</span> r) <span style="color:#66d9ef">return</span>;
+    <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> (l<span style="color:#f92672">+</span>r) <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">if</span> (y <span style="color:#f92672">&lt;=</span> mid) insert_y(tr[cur].lc, l, mid, y, val);
+    <span style="color:#66d9ef">if</span> (y <span style="color:#f92672">&gt;</span> mid) insert_y(tr[cur].rc, mid<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, r, y, val);
+}
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">insert_x</span>(<span style="color:#66d9ef">int</span><span style="color:#f92672">&amp;</span> cur, <span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r, <span style="color:#66d9ef">int</span> x, <span style="color:#66d9ef">int</span> y, <span style="color:#66d9ef">int</span> val) {
+    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>cur) cur <span style="color:#f92672">=</span> <span style="color:#f92672">++</span>ID;
+    tr[cur].maxval <span style="color:#f92672">=</span> max(tr[cur].maxval, val);
+    insert_y(tr[cur].rt, <span style="color:#ae81ff">0</span>, M, y, val);  <span style="color:#75715e">// 从根节点开始
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> (l <span style="color:#f92672">==</span> r) <span style="color:#66d9ef">return</span>;
+    <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> (l<span style="color:#f92672">+</span>r) <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">if</span> (x <span style="color:#f92672">&lt;=</span> mid) insert_x(tr[cur].lc, l, mid, x, y, val);
+    <span style="color:#66d9ef">if</span> (x <span style="color:#f92672">&gt;</span> mid) insert_x(tr[cur].rc, mid<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, r, x, y, val);
+}
+
+<span style="color:#75715e">// change the value of (x,y) to val
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">insert</span>(<span style="color:#66d9ef">int</span> x, <span style="color:#66d9ef">int</span> y, <span style="color:#66d9ef">int</span> val) {
+    insert_x(rt, <span style="color:#ae81ff">1</span>, N, x, y, val);
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">query_y</span>(<span style="color:#66d9ef">int</span> cur, <span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r, <span style="color:#66d9ef">int</span> yl, <span style="color:#66d9ef">int</span> yr) {
+    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>cur) <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">int</span> res <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">if</span> (yl <span style="color:#f92672">&lt;=</span> l <span style="color:#f92672">&amp;&amp;</span> yr <span style="color:#f92672">&gt;=</span> r) <span style="color:#66d9ef">return</span> tr[cur].maxval;
+    <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> (l<span style="color:#f92672">+</span>r) <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">if</span> (yl <span style="color:#f92672">&lt;=</span> mid) res <span style="color:#f92672">=</span> max(res, query_y(tr[cur].lc, l, mid, yl, yr));
+    <span style="color:#66d9ef">if</span> (yr <span style="color:#f92672">&gt;</span> mid) res <span style="color:#f92672">=</span> max(res, query_y(tr[cur].rc, mid<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, r, yl, yr));
+    <span style="color:#66d9ef">return</span> res;
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">query_x</span>(<span style="color:#66d9ef">int</span> cur, <span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r, <span style="color:#66d9ef">int</span> xl, <span style="color:#66d9ef">int</span> xr, <span style="color:#66d9ef">int</span> yl, <span style="color:#66d9ef">int</span> yr) {
+    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>cur) <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">int</span> res <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">if</span> (xl <span style="color:#f92672">&lt;=</span> l <span style="color:#f92672">&amp;&amp;</span> xr <span style="color:#f92672">&gt;=</span> r) {
+        <span style="color:#66d9ef">return</span> query_y(tr[cur].rt, <span style="color:#ae81ff">0</span>, M, yl, yr);
+    }
+    <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> (l<span style="color:#f92672">+</span>r) <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">if</span> (xl <span style="color:#f92672">&lt;=</span> mid) res <span style="color:#f92672">=</span> max(res, query_x(tr[cur].lc, l, mid, xl, xr, yl, yr));
+    <span style="color:#66d9ef">if</span> (xr <span style="color:#f92672">&gt;</span> mid) res <span style="color:#f92672">=</span> max(res, query_x(tr[cur].rc, mid<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, r, xl, xr, yl, yr));
+    <span style="color:#66d9ef">return</span> res;
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">query</span>(<span style="color:#66d9ef">int</span> xl, <span style="color:#66d9ef">int</span> xr, <span style="color:#66d9ef">int</span> yl, <span style="color:#66d9ef">int</span> yr) {
+    <span style="color:#66d9ef">return</span> query_x(rt, <span style="color:#ae81ff">1</span>, N, xl, xr, yl, yr);
+}
+
+<span style="color:#66d9ef">int</span> n, K;
+<span style="color:#66d9ef">int</span> a[maxn];
+<span style="color:#66d9ef">int</span> ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> K;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) cin <span style="color:#f92672">&gt;&gt;</span> a[i];
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> K; j <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>; j<span style="color:#f92672">--</span>) {
+            <span style="color:#66d9ef">int</span> v <span style="color:#f92672">=</span> a[i] <span style="color:#f92672">+</span> j;
+            <span style="color:#66d9ef">int</span> res <span style="color:#f92672">=</span> query(<span style="color:#ae81ff">1</span>, v, <span style="color:#ae81ff">0</span>, j);
+            ans <span style="color:#f92672">=</span> max(ans, res <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>);
+            insert(v, j, res <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>);
+        }
+    }
+    cout <span style="color:#f92672">&lt;&lt;</span> ans <span style="color:#f92672">&lt;&lt;</span> endl;
+}
+</code></pre></div></details>
+<h3 id="例2-洛谷p3437-poi2006tet-tetris-3dhttpswwwluogucomcnproblemp3437">例2 <a href="https://www.luogu.com.cn/problem/P3437" target="_blank">洛谷P3437 [POI2006]TET-Tetris 3D</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个 $N \times M$ 的矩阵，有 $q$ 个询问，每次询问一个子矩阵内的最大值，并且将这个矩阵加上某个值。</p>
+<p>求所有操作后，整个矩阵内的最大值？</p>
+<p>其中，$q \leq 20000, N,M \leq 1000$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>直接二维线段树维护即可，都不需要动态开点。这题是一个很好的板子。</p>
+<p>对于最大值，我们注意到一个特性：只要一个矩阵中的任意一个元素被更新了，那么整个矩阵的最大值都要被更新。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">1005</span>;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxm <span style="color:#f92672">=</span> <span style="color:#ae81ff">30</span>;
+
+<span style="color:#75715e">// 矩阵查询最大值
+</span><span style="color:#75715e">// 矩阵修改（加上值）
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> N <span style="color:#f92672">=</span> <span style="color:#ae81ff">1000</span>;
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Node</span> {
+    <span style="color:#66d9ef">int</span> maxval;
+    <span style="color:#66d9ef">int</span> lazy;  <span style="color:#75715e">// 永久化标记（只打在内层线段树上）
+</span><span style="color:#75715e"></span>};
+
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">SegY</span> {
+    Node tr[maxn<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">2</span>];
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">update</span>(<span style="color:#66d9ef">int</span> cur, <span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r, <span style="color:#66d9ef">int</span> L, <span style="color:#66d9ef">int</span> R, <span style="color:#66d9ef">int</span> val) {
+        tr[cur].maxval <span style="color:#f92672">=</span> max(tr[cur].maxval, val);  <span style="color:#75715e">// 如果 [l,r] 与 [L,R] 有交集直接更改
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> (L <span style="color:#f92672">&lt;=</span> l <span style="color:#f92672">&amp;&amp;</span> R <span style="color:#f92672">&gt;=</span> r) {
+            tr[cur].lazy <span style="color:#f92672">=</span> max(tr[cur].lazy, val);  <span style="color:#75715e">// 完全覆盖时，记录懒标记
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">return</span>;
+        }
+        <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> (l<span style="color:#f92672">+</span>r) <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">if</span> (L <span style="color:#f92672">&lt;=</span> mid) update(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>, l, mid, L, R, val);
+        <span style="color:#66d9ef">if</span> (R <span style="color:#f92672">&gt;</span> mid) update(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span><span style="color:#f92672">|</span><span style="color:#ae81ff">1</span>, mid<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, r, L, R, val);
+    }
+    <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">query</span>(<span style="color:#66d9ef">int</span> cur, <span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r, <span style="color:#66d9ef">int</span> L, <span style="color:#66d9ef">int</span> R) {
+        <span style="color:#66d9ef">int</span> ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        ans <span style="color:#f92672">=</span> max(ans, tr[cur].lazy);  <span style="color:#75715e">// 懒标记值记录
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> (L <span style="color:#f92672">&lt;=</span> l <span style="color:#f92672">&amp;&amp;</span> R <span style="color:#f92672">&gt;=</span> r) {
+            ans <span style="color:#f92672">=</span> max(ans, tr[cur].maxval);  <span style="color:#75715e">// 正常查询
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">return</span> ans;
+        }
+        <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> (l<span style="color:#f92672">+</span>r) <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">if</span> (L <span style="color:#f92672">&lt;=</span> mid) ans <span style="color:#f92672">=</span> max(ans, query(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>, l, mid, L, R));
+        <span style="color:#66d9ef">if</span> (R <span style="color:#f92672">&gt;</span> mid) ans <span style="color:#f92672">=</span> max(ans, query(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span><span style="color:#f92672">|</span><span style="color:#ae81ff">1</span>, mid<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, r, L, R));
+        <span style="color:#66d9ef">return</span> ans;
+    }
+};
+
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">SegX</span> {
+    SegY mx[maxn<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">2</span>], tag[maxn<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">2</span>];
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">update</span>(<span style="color:#66d9ef">int</span> cur, <span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r, <span style="color:#66d9ef">int</span> xl, <span style="color:#66d9ef">int</span> xr, <span style="color:#66d9ef">int</span> yl, <span style="color:#66d9ef">int</span> yr, <span style="color:#66d9ef">int</span> val) {
+        mx[cur].update(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, N, yl, yr, val);  <span style="color:#75715e">// 有交集就更新
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> (xl <span style="color:#f92672">&lt;=</span> l <span style="color:#f92672">&amp;&amp;</span> xr <span style="color:#f92672">&gt;=</span> r) {
+            tag[cur].update(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, N, yl, yr, val);  <span style="color:#75715e">// 让被完全覆盖的这些线段树都更新一下 tag
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">return</span>;
+        }
+        <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> (l<span style="color:#f92672">+</span>r) <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">if</span> (xl <span style="color:#f92672">&lt;=</span> mid) update(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>, l, mid, xl, xr, yl, yr, val);
+        <span style="color:#66d9ef">if</span> (xr <span style="color:#f92672">&gt;</span> mid) update(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span><span style="color:#f92672">|</span><span style="color:#ae81ff">1</span>, mid<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, r, xl, xr, yl, yr, val);
+    }
+    <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">query</span>(<span style="color:#66d9ef">int</span> cur, <span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r, <span style="color:#66d9ef">int</span> xl, <span style="color:#66d9ef">int</span> xr, <span style="color:#66d9ef">int</span> yl, <span style="color:#66d9ef">int</span> yr) {
+        <span style="color:#66d9ef">int</span> ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        ans <span style="color:#f92672">=</span> max(ans, tag[cur].query(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, N, yl, yr));  <span style="color:#75715e">// 懒标记下传
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> (xl <span style="color:#f92672">&lt;=</span> l <span style="color:#f92672">&amp;&amp;</span> xr <span style="color:#f92672">&gt;=</span> r) {
+            ans <span style="color:#f92672">=</span> max(ans, mx[cur].query(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, N, yl, yr));
+            <span style="color:#66d9ef">return</span> ans;
+        }
+        <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> (l<span style="color:#f92672">+</span>r) <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">if</span> (xl <span style="color:#f92672">&lt;=</span> mid) ans <span style="color:#f92672">=</span> max(ans, query(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>, l, mid, xl, xr, yl, yr));
+        <span style="color:#66d9ef">if</span> (xr <span style="color:#f92672">&gt;</span> mid) ans <span style="color:#f92672">=</span> max(ans, query(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span><span style="color:#f92672">|</span><span style="color:#ae81ff">1</span>, mid<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, r, xl, xr, yl, yr));
+        <span style="color:#66d9ef">return</span> ans;
+    }
+} tr;
+
+<span style="color:#66d9ef">int</span> D, S, q;
+
+<span style="color:#75715e">// assign val to [xl,xr][yl,yr]
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">update</span>(<span style="color:#66d9ef">int</span> xl, <span style="color:#66d9ef">int</span> xr, <span style="color:#66d9ef">int</span> yl, <span style="color:#66d9ef">int</span> yr, <span style="color:#66d9ef">int</span> val) {
+    tr.update(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, N, xl, xr, yl, yr, val);
+}
+
+<span style="color:#75715e">// query maximum value between [xl,xr][yl,yr]
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">query</span>(<span style="color:#66d9ef">int</span> xl, <span style="color:#66d9ef">int</span> xr, <span style="color:#66d9ef">int</span> yl, <span style="color:#66d9ef">int</span> yr) {
+    <span style="color:#66d9ef">return</span> tr.query(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, N, xl, xr, yl, yr);
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> D <span style="color:#f92672">&gt;&gt;</span> S <span style="color:#f92672">&gt;&gt;</span> q;
+    <span style="color:#66d9ef">while</span> (q<span style="color:#f92672">--</span>) {
+        <span style="color:#66d9ef">int</span> n, m, h, x, y; cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> m <span style="color:#f92672">&gt;&gt;</span> h <span style="color:#f92672">&gt;&gt;</span> x <span style="color:#f92672">&gt;&gt;</span> y;
+        x<span style="color:#f92672">++</span>, y<span style="color:#f92672">++</span>; n<span style="color:#f92672">--</span>, m<span style="color:#f92672">--</span>;
+        <span style="color:#66d9ef">int</span> res <span style="color:#f92672">=</span> query(x, x<span style="color:#f92672">+</span>n, y, y<span style="color:#f92672">+</span>m);
+        update(x, x<span style="color:#f92672">+</span>n, y, y<span style="color:#f92672">+</span>m, res <span style="color:#f92672">+</span> h);
+    }
+    cout <span style="color:#f92672">&lt;&lt;</span> query(<span style="color:#ae81ff">1</span>, N, <span style="color:#ae81ff">1</span>, N) <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+}
+</code></pre></div></details>
+<h3 id="例3-洛谷p3688-zjoi2017-树状数组httpswwwluogucomcnproblemp3688">例3 <a href="https://www.luogu.com.cn/problem/P3688" target="_blank">洛谷P3688 [ZJOI2017] 树状数组</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>现在有道题：</p>
+<p>给定长度为 $n$ 的数组 $A$，初始值为 $0$，接下来进行 $m$ 次操作，每次操作有两种：</p>
+<p>$1 ~ x$：将 $A_x$ 变成 $(A_x+1) \text{ mod } 2$</p>
+<p>$2 ~ l ~ r$：询问 $\sum\limits_{i=l}^r A_i \text{ mod } 2$</p>
+<p>九条可怜用树状数组解决这个问题，然而很可惜，她把树状数组的修改和前缀和询问操作的方向写反了，她写了如下程序：</p>
+<p><img src="/images/067/2.png" alt="img"></p>
+<hr>
+<p>现在，我们需要回答以下问题：</p>
+<p>进行 $m$ 次操作，每次操作有两种：</p>
+<p>$1 ~ l ~ r$：每次在区间 $[l,r]$ 内等概率选取一个 $x$，并且执行 $Add(x)$ （这里是指执行九条可怜写的错误程序）。</p>
+<p>$2 ~ l ~ r$：询问 $Query(l,r)$ 得到正确结果的概率。</p>
+<p>将答案输出为 $\frac{p}{q}$ 的形式，模 $998244353$。</p>
+<p>其中，$n,m \leq 10^5$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>如果我们熟悉树状数组的原理的话，就知道它正确的情况下，每次修改/询问维护的是<strong>前缀和</strong>。</p>
+<p>那么现在这个错误的树状数组把两个方向都反过来了，那维护的就是后缀和了。</p>
+<p>于是每次 $Query(l,r)$ 其实返回的是 <code>suf[r] - suf[l-1]</code> 的值。</p>
+<p>当然注意到这个是在 $\text{mod } 2$ 下的，所以正负号没有区别。</p>
+<p>所以 <code>suf[r] - suf[l-1] = suf[l-1] - suf[r]</code> $= \sum\limits_{i=l-1}^{r-1} A_i$</p>
+<p>而正确的答案应该是 $\sum\limits_{i=l}^r A_i$，所以两者差的就是一个 $A_{l-1} + A_{r}$。</p>
+<p>于是，原问题可以转化为：</p>
+<div class='center'>
+<p>$1 ~ l ~ r$ 仍然是等概率修改。</p>
+<p>$2 ~ l ~ r$ 询问 $A_{l-1} = A_r$ 的概率。</p>
+</div>
+<p>怎么解决呢？一维线段树？每次修改给一个区间乘上一个概率？</p>
+<p>似乎不行，因为这个题的修改操作是 $[l,r]$ 内<strong>有且仅有一个</strong>元素被修改，而一维线段树维护的概率包含了多个元素同时被修改的可能性。</p>
+<hr>
+<p>一个神仙想法：二维线段树</p>
+<p>我们将一个二元组 $(x,y)$ 定义为：$A_x, A_y$ 相等的概率。</p>
+<p>所以每次修改 $[l,r]$，我们设 $p = \frac{1}{r-l+1}$，都会影响到三种这样的二元组：</p>
+<ol>
+<li>$x \in [l,r], y \in [l,r]$：那么 $(x,y)$ 有 $2*p$ 的概率被取反。</li>
+<li>$x \in [l,r], y \not\in [l,r]$：那么 $(x,y)$ 有 $p$ 的概率被取反。</li>
+<li>$x \not\in [l,r], y \in [l,r]$：那么 $(x,y)$ 有 $p$ 的概率被取反。</li>
+</ol>
+<p>这实际上就是矩阵修改操作了。</p>
+<p>那么对于每次询问，就只要询问 $(l-1,r)$ 这个点的概率即可。</p>
+<hr>
+<p>那么这样的概率应该怎么维护？</p>
+<p>我们给每个 node 都打上一个标记 $a$，代表 $x,y$ 相等的概率。</p>
+<p>那么现在，设有 $b$ 的概率让 $x,y$ 继续保持相等。</p>
+<p>那么 $x,y$ 在操作后，保持相等的概率就等于</p>
+<p>$$ab + (1-a)(1-b)$$</p>
+<p>所以我们定义一个特殊的乘法运算方式 $*$，其中</p>
+<p>$$a*b = ab + (1-a)(1-b)$$</p>
+<p>所以每次更新的时候，如果有 $p$ 的概率取反，那么就给所有对应的矩阵都 $*(1-p)$。</p>
+<p>• 这个就用标记永久化进行维护即可。</p>
+<p>• 因为 $n \leq 10^5$，所以必须动态开点，外层不用动态开，在外层维护一个 <code>rt[maxn&lt;&lt;2]</code> 即可，内层需要动态开点，这样总复杂度是 $O(n\log^2n)$ 的。</p>
+<hr>
+<p>最后，我们注意到，当询问操作的 $l=1$ 时，这个错误程序返回的实际上是 $$suf[r] = \sum\limits_{i=r}^n A_i$$</p>
+<p>而正确的答案是 $$pre[r] = \sum\limits_{i=1}^r A_i$$</p>
+<p>所以询问的就是 $r$ 的<strong>前缀和与后缀和相等</strong>的概率。</p>
+<p>这个可以直接用一维线段树维护，其中 $p_x$ 就代表 $x$ 的<strong>前缀和与后缀和相等</strong>的概率。</p>
+<p>我们直接把这个一维线段树，维护在 $[0,0][y_1,y_2]$ 这个矩阵上，这样就不用特殊处理了。</p>
+<p>每次修改 $[l,r]$ 时，前后缀和关系受到影响的位置有三种情况：</p>
+<ol>
+<li>$x \in [0, l-1]$：前缀和不变，后缀和一定变化，所以有 $1$ 的概率取反。</li>
+<li>$x \in [r+1, n]$：前缀和一定变化，后缀和不变，所以有 $1$ 的概率取反。</li>
+<li>$x \in [l,r]$：只有修改位置恰好在 $x$ 时，前后缀和的关系才不变，否则一定变化，所以有 $(1-\frac{1}{r-l+1})$ 的概率取反。</li>
+</ol>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e5</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>;
+
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> N <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e5</span>;
+<span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">T</span><span style="color:#f92672">&gt;</span>
+T qpow(T a, <span style="color:#66d9ef">int</span> b) {
+    T res <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">while</span> (b) {
+        <span style="color:#66d9ef">if</span> (b <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">1</span>) res <span style="color:#f92672">*=</span> a;
+        a <span style="color:#f92672">*=</span> a;
+        b <span style="color:#f92672">&gt;&gt;=</span> <span style="color:#ae81ff">1</span>;
+    }
+    <span style="color:#66d9ef">return</span> res;
+}
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">norm</span>(<span style="color:#66d9ef">int</span> x) {
+    <span style="color:#66d9ef">if</span> (x <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) {
+        x <span style="color:#f92672">+=</span> mod;
+    }
+    <span style="color:#66d9ef">if</span> (x <span style="color:#f92672">&gt;=</span> mod) {
+        x <span style="color:#f92672">-=</span> mod;
+    }
+    <span style="color:#66d9ef">return</span> x;
+}
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Z</span> {
+    <span style="color:#66d9ef">int</span> x;
+    Z(<span style="color:#66d9ef">int</span> x <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>) <span style="color:#f92672">:</span> x(norm(x)) {}
+    <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">val</span>() <span style="color:#66d9ef">const</span> {
+        <span style="color:#66d9ef">return</span> x;
+    }
+    Z <span style="color:#66d9ef">operator</span><span style="color:#f92672">-</span>() <span style="color:#66d9ef">const</span> {
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">Z</span>(norm(mod <span style="color:#f92672">-</span> x));
+    }
+    Z <span style="color:#a6e22e">inv</span>() <span style="color:#66d9ef">const</span> {
+        assert(x <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>);
+        <span style="color:#66d9ef">return</span> qpow(<span style="color:#f92672">*</span><span style="color:#66d9ef">this</span>, mod <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>);
+    }
+    Z <span style="color:#f92672">&amp;</span><span style="color:#66d9ef">operator</span><span style="color:#f92672">*=</span>(<span style="color:#66d9ef">const</span> Z <span style="color:#f92672">&amp;</span>rhs) {
+        x <span style="color:#f92672">=</span> (ll)(x) <span style="color:#f92672">*</span> rhs.x <span style="color:#f92672">%</span> mod;
+        <span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">this</span>;
+    }
+    Z <span style="color:#f92672">&amp;</span><span style="color:#66d9ef">operator</span><span style="color:#f92672">+=</span>(<span style="color:#66d9ef">const</span> Z <span style="color:#f92672">&amp;</span>rhs) {
+        x <span style="color:#f92672">=</span> norm(x <span style="color:#f92672">+</span> rhs.x);
+        <span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">this</span>;
+    }
+    Z <span style="color:#f92672">&amp;</span><span style="color:#66d9ef">operator</span><span style="color:#f92672">-=</span>(<span style="color:#66d9ef">const</span> Z <span style="color:#f92672">&amp;</span>rhs) {
+        x <span style="color:#f92672">=</span> norm(x <span style="color:#f92672">-</span> rhs.x);
+        <span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">this</span>;
+    }
+    Z <span style="color:#f92672">&amp;</span><span style="color:#66d9ef">operator</span><span style="color:#f92672">/=</span>(<span style="color:#66d9ef">const</span> Z <span style="color:#f92672">&amp;</span>rhs) {
+        <span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">this</span> <span style="color:#f92672">*=</span> rhs.inv();
+    }
+    <span style="color:#66d9ef">friend</span> Z <span style="color:#66d9ef">operator</span><span style="color:#f92672">*</span>(<span style="color:#66d9ef">const</span> Z <span style="color:#f92672">&amp;</span>lhs, <span style="color:#66d9ef">const</span> Z <span style="color:#f92672">&amp;</span>rhs) {
+        Z res <span style="color:#f92672">=</span> lhs;
+        res <span style="color:#f92672">*=</span> rhs;
+        <span style="color:#66d9ef">return</span> res;
+    }
+    <span style="color:#66d9ef">friend</span> Z <span style="color:#66d9ef">operator</span><span style="color:#f92672">+</span>(<span style="color:#66d9ef">const</span> Z <span style="color:#f92672">&amp;</span>lhs, <span style="color:#66d9ef">const</span> Z <span style="color:#f92672">&amp;</span>rhs) {
+        Z res <span style="color:#f92672">=</span> lhs;
+        res <span style="color:#f92672">+=</span> rhs;
+        <span style="color:#66d9ef">return</span> res;
+    }
+    <span style="color:#66d9ef">friend</span> Z <span style="color:#66d9ef">operator</span><span style="color:#f92672">-</span>(<span style="color:#66d9ef">const</span> Z <span style="color:#f92672">&amp;</span>lhs, <span style="color:#66d9ef">const</span> Z <span style="color:#f92672">&amp;</span>rhs) {
+        Z res <span style="color:#f92672">=</span> lhs;
+        res <span style="color:#f92672">-=</span> rhs;
+        <span style="color:#66d9ef">return</span> res;
+    }
+    <span style="color:#66d9ef">friend</span> Z <span style="color:#66d9ef">operator</span><span style="color:#f92672">/</span>(<span style="color:#66d9ef">const</span> Z <span style="color:#f92672">&amp;</span>lhs, <span style="color:#66d9ef">const</span> Z <span style="color:#f92672">&amp;</span>rhs) {
+        Z res <span style="color:#f92672">=</span> lhs;
+        res <span style="color:#f92672">/=</span> rhs;
+        <span style="color:#66d9ef">return</span> res;
+    }
+};
+
+<span style="color:#66d9ef">inline</span> Z <span style="color:#a6e22e">mul</span>(Z a, Z b) {
+    <span style="color:#66d9ef">return</span> (<span style="color:#ae81ff">1</span><span style="color:#f92672">-</span>a) <span style="color:#f92672">*</span> (<span style="color:#ae81ff">1</span><span style="color:#f92672">-</span>b) <span style="color:#f92672">+</span> a<span style="color:#f92672">*</span>b;
+}
+
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Node</span> {
+    Z p <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;  <span style="color:#75715e">// 相同的概率
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> lc, rc;
+};
+<span style="color:#66d9ef">int</span> ID <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">SegY</span> {
+    Node tr[maxn<span style="color:#f92672">*</span><span style="color:#ae81ff">400</span>];  <span style="color:#75715e">// 内层是动态开点的
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">update</span>(<span style="color:#66d9ef">int</span><span style="color:#f92672">&amp;</span> cur, <span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r, <span style="color:#66d9ef">int</span> L, <span style="color:#66d9ef">int</span> R, Z val) {
+        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>cur) cur <span style="color:#f92672">=</span> <span style="color:#f92672">++</span>ID;
+        <span style="color:#66d9ef">if</span> (L <span style="color:#f92672">&lt;=</span> l <span style="color:#f92672">&amp;&amp;</span> R <span style="color:#f92672">&gt;=</span> r) {
+            tr[cur].p <span style="color:#f92672">=</span> mul(tr[cur].p, val);
+            <span style="color:#66d9ef">return</span>;
+        }
+        <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> (l<span style="color:#f92672">+</span>r) <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">if</span> (L <span style="color:#f92672">&lt;=</span> mid) update(tr[cur].lc, l, mid, L, R, val);
+        <span style="color:#66d9ef">if</span> (R <span style="color:#f92672">&gt;</span> mid) update(tr[cur].rc, mid<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, r, L, R, val);
+    }
+    Z <span style="color:#a6e22e">query</span>(<span style="color:#66d9ef">int</span> cur, <span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r, <span style="color:#66d9ef">int</span> x) {
+        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>cur) <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">if</span> (l <span style="color:#f92672">==</span> r) <span style="color:#66d9ef">return</span> tr[cur].p;
+        <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> (l<span style="color:#f92672">+</span>r) <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">if</span> (x <span style="color:#f92672">&lt;=</span> mid) <span style="color:#66d9ef">return</span> mul(tr[cur].p, query(tr[cur].lc, l, mid, x));;
+        <span style="color:#66d9ef">return</span> mul(tr[cur].p, query(tr[cur].rc, mid<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, r, x));
+    }
+} tag;
+
+
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">SegX</span> {
+    <span style="color:#66d9ef">int</span> rt[maxn<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">2</span>];  <span style="color:#75715e">// 外层无需动态开点
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">update</span>(<span style="color:#66d9ef">int</span> cur, <span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r, <span style="color:#66d9ef">int</span> xl, <span style="color:#66d9ef">int</span> xr, <span style="color:#66d9ef">int</span> yl, <span style="color:#66d9ef">int</span> yr, Z val) {
+        <span style="color:#66d9ef">if</span> (xl <span style="color:#f92672">&lt;=</span> l <span style="color:#f92672">&amp;&amp;</span> xr <span style="color:#f92672">&gt;=</span> r) {
+            tag.update(rt[cur], <span style="color:#ae81ff">0</span>, N, yl, yr, val);
+            <span style="color:#66d9ef">return</span>;
+        }
+        <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> (l<span style="color:#f92672">+</span>r) <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">if</span> (xl <span style="color:#f92672">&lt;=</span> mid) update(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>, l, mid, xl, xr, yl, yr, val);
+        <span style="color:#66d9ef">if</span> (xr <span style="color:#f92672">&gt;</span> mid) update(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span><span style="color:#f92672">|</span><span style="color:#ae81ff">1</span>, mid<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, r, xl, xr, yl, yr, val);
+    }
+    Z <span style="color:#a6e22e">query</span>(<span style="color:#66d9ef">int</span> cur, <span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r, <span style="color:#66d9ef">int</span> x, <span style="color:#66d9ef">int</span> y) {
+        Z d <span style="color:#f92672">=</span> tag.query(rt[cur], <span style="color:#ae81ff">0</span>, N, y);
+        <span style="color:#66d9ef">if</span> (l <span style="color:#f92672">==</span> r) {
+            <span style="color:#66d9ef">return</span> d;
+        }
+        <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> (l<span style="color:#f92672">+</span>r) <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">if</span> (x <span style="color:#f92672">&lt;=</span> mid) <span style="color:#66d9ef">return</span> mul(d, query(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>, l, mid, x, y));
+        <span style="color:#66d9ef">return</span> mul(d, query(cur<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span><span style="color:#f92672">|</span><span style="color:#ae81ff">1</span>, mid<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, r, x, y));
+    }
+} tr;
+
+<span style="color:#66d9ef">int</span> n,m;
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> m;
+    <span style="color:#66d9ef">while</span> (m<span style="color:#f92672">--</span>) {
+        <span style="color:#66d9ef">int</span> op, l, r; cin <span style="color:#f92672">&gt;&gt;</span> op <span style="color:#f92672">&gt;&gt;</span> l <span style="color:#f92672">&gt;&gt;</span> r;
+        <span style="color:#66d9ef">if</span> (op <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>) {
+            Z p <span style="color:#f92672">=</span> Z(<span style="color:#ae81ff">1</span>) <span style="color:#f92672">/</span> Z(r<span style="color:#f92672">-</span>l<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>);
+            <span style="color:#75715e">// 修改二维情况，因为有规定 l &lt;= r，所以更新矩阵的时候也遵循这个规定。
+</span><span style="color:#75715e"></span>            tr.update(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>, N, l, r, l, r, <span style="color:#ae81ff">1</span><span style="color:#f92672">-</span><span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>p);
+            <span style="color:#66d9ef">if</span> (l <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">1</span>) tr.update(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>, N, <span style="color:#ae81ff">1</span>, l<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, l, r, <span style="color:#ae81ff">1</span><span style="color:#f92672">-</span>p);
+            <span style="color:#66d9ef">if</span> (r <span style="color:#f92672">&lt;</span> n) tr.update(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>, N, l, r, r<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, N, <span style="color:#ae81ff">1</span><span style="color:#f92672">-</span>p);
+
+            <span style="color:#75715e">// 修改一维情况的前后缀和
+</span><span style="color:#75715e"></span>            tr.update(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>, N, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, l<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>);  <span style="color:#75715e">// [0,l-1] 的前后缀和一定更改
+</span><span style="color:#75715e"></span>            tr.update(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>, N, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, r<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, N, <span style="color:#ae81ff">0</span>);  <span style="color:#75715e">// 一定会修改 [r+1,N] 的前后缀和一定更改
+</span><span style="color:#75715e"></span>            tr.update(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>, N, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, l, r, p);  <span style="color:#75715e">// 只有修改这个位置时，才不会改变前后缀和的区别，否则都会改
+</span><span style="color:#75715e"></span>        } <span style="color:#66d9ef">else</span> {
+            Z res <span style="color:#f92672">=</span> tr.query(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>, N, l<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, r);
+            cout <span style="color:#f92672">&lt;&lt;</span> res.val() <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+        }
+    }
+
+}
+</code></pre></div></details>
+<h2 id="参考链接">参考链接</h2>
+<ol>
+<li><a href="https://www.cnblogs.com/Mychael/p/9049136.html" target="_blank">https://www.cnblogs.com/Mychael/p/9049136.html</a></li>
+<li><a href="https://www.cnblogs.com/wozaixuexi/p/9462461.html" target="_blank">https://www.cnblogs.com/wozaixuexi/p/9462461.html</a></li>
+</ol>
+
+    </div>
+
+    
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E6%A0%91%E5%A5%97%E6%A0%91/">树套树</a>
+          <a href="/tags/%E7%BA%BF%E6%AE%B5%E6%A0%91/">线段树</a>
+          <a href="/tags/%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84/">树状数组</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/068-%E4%BA%8C%E7%BB%B4%E5%B7%AE%E5%88%86/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">二维差分</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/066-%E7%BB%84%E5%90%88%E6%95%B0%E5%AD%A6/">
+            <span class="next-text nav-default">组合数学</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://github.com/kiki-yan" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://kiki-yan.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2026
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/kiki-yan/kiki-yan.github.io" target="_blank"></a>
+    </span> 
+    <span class="author">kiki_yan</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/base16/tomorrow.min.css" rel="stylesheet">
+  
+  <script>hljs.configure({tabReplace: '    '});</script><script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>
