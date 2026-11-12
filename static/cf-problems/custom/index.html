@@ -382,7 +382,7 @@ $("divFilters").addEventListener("click",e=>{
 await loadContestMeta();
 const {data:{session}} = await supabase.auth.getSession();
 await onUser(session?.user ?? null);
-supabase.auth.onAuthStateChange((_event,session)=>{ onUser(session?.user ?? null); });
+supabase.auth.onAuthStateChange((_event,session)=>{ setTimeout(()=>{ onUser(session?.user ?? null); },0); });
 </script>
 </body>
 </html>
