@@ -22,8 +22,14 @@ button:disabled{opacity:.55;cursor:wait}.hidden{display:none!important}
 table{border-collapse:collapse;width:100%;min-width:760px}th,td{padding:10px 12px;border-bottom:1px solid var(--border);text-align:left;vertical-align:top}
 th{background:#f8fafc;font-size:13px;color:#5b6677;white-space:nowrap}td.contest{min-width:190px;width:220px}
 .problem{display:inline-flex;align-items:center;gap:5px;margin:2px 5px 2px 0;padding:4px 7px;border-radius:6px;background:var(--red);font-size:13px;white-space:nowrap}
-.problem.solved{background:var(--green)}.problem a{font-weight:650}.problem small{color:#6d7786}
+.problem.solved{background:var(--green)}.problem a{font-weight:700}.problem small{color:#6d7786}
 .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--muted);margin:10px 0}
+.stats-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:12px 0 18px}.stat{background:#f8fafc;border:1px solid var(--border);border-radius:10px;padding:12px}.stat strong{display:block;font-size:23px;line-height:1.3;font-variant-numeric:tabular-nums}.stat span{font-size:12px;color:var(--muted)}
+.rating-bars{display:flex;align-items:end;gap:6px;height:82px;padding:8px 0 0}.rating-bar{flex:1;min-width:12px;background:#dbe6fa;border-radius:4px 4px 0 0;position:relative}.rating-bar span{position:absolute;bottom:-20px;left:50%;transform:translateX(-50%);font-size:10px;color:var(--muted)}
+.matrix-controls{display:grid;grid-template-columns:minmax(180px,2fr) repeat(4,minmax(100px,1fr));gap:8px;margin:14px 0}.matrix-controls input,.matrix-controls select{width:100%;height:38px;border:1px solid var(--border);border-radius:8px;padding:0 9px;background:white;font:inherit}
+.contest-row{display:flex;align-items:stretch;gap:10px;padding:9px;border-bottom:1px solid var(--border)}.contest-label{width:190px;flex:0 0 190px;font-size:13px}.problem-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:6px;flex:1;min-width:0}
+.problem-tile{min-width:0;min-height:48px;border:1px solid var(--border);border-radius:7px;padding:5px 6px;background:#fff;display:flex;flex-direction:column;justify-content:center;position:relative}.problem-tile.solved{background:var(--green);border-color:#c9e8d2}.problem-tile.unsolved{background:var(--red);border-color:#f2d9d7}.problem-tile a{font-weight:750;font-size:13px;line-height:1.25}.problem-tile .rating{font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums}.problem-tile .bookmark{position:absolute;right:4px;top:2px;border:0;background:transparent;padding:0;color:#c28a1c;font-size:14px;line-height:1}.problem-tile .bookmark:not(.active){color:#b6bfcc}
+@media(max-width:800px){.matrix-controls{grid-template-columns:repeat(2,minmax(0,1fr))}.stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.contest-row{display:block}.contest-label{width:auto;margin-bottom:7px}.problem-grid{grid-template-columns:repeat(auto-fill,minmax(75px,1fr))}}
 @media(max-width:700px){main{padding:18px 12px}header{align-items:flex-start}.card{padding:15px}.set{align-items:flex-start;flex-wrap:wrap}.set-actions{width:100%}.set-actions button{margin:2px}}
 </style>
 </head>
@@ -82,8 +88,19 @@ th{background:#f8fafc;font-size:13px;color:#5b6677;white-space:nowrap}td.contest
    <button class="active" data-div="all">全部比赛</button>
    <button data-div="1">Div.1</button><button data-div="2">Div.2</button><button data-div="3">Div.3</button>
   </div>
-  <div class="legend"><span>🟩 曾经 AC</span><span>🟥 有提交但尚未 AC</span></div>
-  <div class="table-wrap"><table><thead><tr><th>Contest</th><th>Problems</th></tr></thead><tbody id="matrixBody"></tbody></table></div>
+  <div id="statsPanel" class="stats-grid"></div>
+  <div class="card" style="margin:0 0 12px;padding:12px">
+   <div class="matrix-controls">
+    <input id="problemSearch" placeholder="搜索题号或题目名称">
+    <input id="ratingMin" type="number" min="0" step="100" placeholder="最低 Rating">
+    <input id="ratingMax" type="number" min="0" step="100" placeholder="最高 Rating">
+    <select id="statusFilter"><option value="all">全部状态</option><option value="solved">仅 AC</option><option value="unsolved">仅未 AC</option></select>
+    <select id="tagFilter"><option value="all">全部标签</option></select>
+   </div>
+   <label class="muted" style="display:flex;align-items:center;gap:7px"><input id="bookmarkOnly" type="checkbox" style="width:16px;height:16px"> 只看收藏题目</label>
+  </div>
+  <div class="legend"><span>🟩 曾经 AC</span><span>🟥 有提交但尚未 AC</span><span>⭐ 收藏</span><span>数字为 Problem Rating</span></div>
+  <div id="matrixBody" class="table-wrap"></div>
  </section>
 </section>
 </main>
@@ -99,6 +116,8 @@ let verifiedHandles = new Set();
 let contestMap = new Map();
 let activeSet = null;
 let currentDivision = "all";
+let currentProblems = [];
+let currentBookmarks = new Set();
 
 function message(text, error=false) {
   $("message").textContent = text;
@@ -231,56 +250,31 @@ async function deleteSet(set) {
   message("题库已删除。");
 }
 async function openMatrix(set) {
-  activeSet = set;
-  $("matrixTitle").textContent = set.name;
-  $("matrixMeta").textContent = "Codeforces @" + set.codeforces_handle + " · 正在读取题目……";
-  $("matrixPanel").classList.remove("hidden");
-  const { data, error } = await supabase.from("set_problems")
-    .select("contest_id,problem_index,name,rating,solved")
-    .eq("set_id",set.id).order("contest_id",{ascending:true}).order("problem_index",{ascending:true});
-  if (error) return message(error.message,true);
-  $("matrixMeta").textContent = data.length + " 道题目 · 绿色为曾经 AC，红色为尚未 AC";
-  renderMatrix(data);
-  $("matrixPanel").scrollIntoView({behavior:"smooth",block:"start"});
+ activeSet=set;$("matrixTitle").textContent=set.name;$("matrixPanel").classList.remove("hidden");
+ $("matrixMeta").textContent="正在读取题目……";
+ try{
+  const all=[];for(let from=0;;from+=1000){const {data,error}=await supabase.from("set_problems").select("problem_key,contest_id,problem_index,name,rating,tags,solved,submission_count").eq("set_id",set.id).order("problem_index").range(from,from+999);if(error)throw error;all.push(...(data||[]));if(!data||data.length<1000)break;}
+  const {data:marks,error:markError}=await supabase.from("problem_bookmarks").select("problem_key").eq("set_id",set.id);if(markError)throw markError;
+  currentProblems=all;currentBookmarks=new Set((marks||[]).map(x=>x.problem_key));
+  const tags=[...new Set(all.flatMap(p=>p.tags||[]))].sort(),sel=$("tagFilter"),old=sel.value;sel.replaceChildren(new Option("全部标签","all"));tags.forEach(t=>sel.add(new Option(t,t)));sel.value=tags.includes(old)?old:"all";
+  $("problemSearch").value="";$("ratingMin").value="";$("ratingMax").value="";$("statusFilter").value="all";$("bookmarkOnly").checked=false;
+  $("matrixMeta").textContent=all.length+" 道题目 · @"+set.codeforces_handle+" · "+(set.last_synced_at?new Date(set.last_synced_at).toLocaleString():"尚未同步");
+  renderMatrix();$("matrixPanel").scrollIntoView({behavior:"smooth",block:"start"});
+ }catch(e){message(e.message,true);}
 }
-function renderMatrix(problems) {
-  const groups = new Map();
-  for (const p of problems) {
-    const id = Number(p.contest_id);
-    if (!groups.has(id)) groups.set(id,[]);
-    groups.get(id).push(p);
-  }
-  const body = $("matrixBody"); body.replaceChildren();
-  for (const [id, list] of groups) {
-    const meta = contestMap.get(id) || {};
-    if (!divisionMatches(meta,currentDivision)) continue;
-    const tr = document.createElement("tr");
-    const title = document.createElement("td"); title.className = "contest";
-    const link = document.createElement("a");
-    link.href = "https://codeforces.com/contest/" + id; link.target="_blank"; link.rel="noopener";
-    link.textContent = meta.name || ("Codeforces Round #" + id);
-    const sub = document.createElement("div"); sub.className="muted"; sub.textContent="CF" + id + (meta.type ? " · " + meta.type : "");
-    title.append(link,sub);
-    const cell = document.createElement("td");
-    for (const p of list) {
-      const span = document.createElement("span");
-      span.className = "problem" + (p.solved ? " solved" : "");
-      const a = document.createElement("a");
-      a.href = "https://codeforces.com/contest/" + id + "/problem/" + encodeURIComponent(p.problem_index);
-      a.target="_blank"; a.rel="noopener"; a.style.color=ratingColor(p.rating);
-      a.textContent = p.problem_index;
-      a.title = p.name + (p.rating ? " · Rating " + p.rating : "");
-      const status = document.createElement("small"); status.textContent = p.solved ? "AC" : "未AC";
-      span.append(a,status); cell.append(span);
-    }
-    tr.append(title,cell); body.append(tr);
-  }
-  if (!body.children.length) {
-    const tr=document.createElement("tr"),td=document.createElement("td");
-    td.colSpan=2;td.className="muted";td.textContent="该筛选条件下没有题目。";
-    tr.append(td);body.append(tr);
-  }
+function renderMatrix(){
+ const q=$("problemSearch").value.trim().toLowerCase(),min=$("ratingMin").value===""?null:Number($("ratingMin").value),max=$("ratingMax").value===""?null:Number($("ratingMax").value),status=$("statusFilter").value,tag=$("tagFilter").value,only=$("bookmarkOnly").checked,all=currentProblems;
+ const solved=all.filter(p=>p.solved).length,rated=all.filter(p=>p.rating!=null),bins=[800,1000,1200,1400,1600,1800,2000,2200,2400],counts=bins.map((b,i)=>rated.filter(p=>Number(p.rating)>=b&&(i===bins.length-1||Number(p.rating)<bins[i+1])).length),peak=Math.max(1,...counts);
+ $("statsPanel").innerHTML=[["总题数",all.length],["已 AC",solved],["未 AC",all.length-solved],["AC 率",all.length?(solved/all.length*100).toFixed(1)+"%":"—"]].map(([k,v])=>'<div class="stat"><span>'+k+'</span><strong>'+v+'</strong></div>').join("")+'<div class="stat" style="grid-column:1/-1"><span>Rating 分布（已评级 '+rated.length+' 题）</span><div class="rating-bars">'+counts.map((n,i)=>'<div class="rating-bar" style="height:'+Math.max(5,n/peak*58)+'px" title="'+bins[i]+'：'+n+' 题"><span>'+bins[i]+'</span></div>').join("")+'</div></div>';
+ const rows=all.filter(p=>{const r=p.rating==null?null:Number(p.rating),meta=contestMap.get(Number(p.contest_id))||{};if(q&&!((p.problem_index||"").toLowerCase().includes(q)||(p.name||"").toLowerCase().includes(q)||(p.contest_id+"-"+p.problem_index).toLowerCase().includes(q)))return false;if(min!==null&&(r===null||r<min))return false;if(max!==null&&(r===null||r>max))return false;if(status==="solved"&&!p.solved||status==="unsolved"&&p.solved)return false;if(tag!=="all"&&!(p.tags||[]).includes(tag))return false;if(only&&!currentBookmarks.has(p.problem_key))return false;return divisionMatches(meta,currentDivision);});
+ $("matrixMeta").textContent=rows.length+" / "+all.length+" 道题目 · @"+(activeSet?.codeforces_handle||"");
+ const groups=new Map();rows.forEach(p=>{const id=Number(p.contest_id);if(!groups.has(id))groups.set(id,[]);groups.get(id).push(p);});
+ const root=$("matrixBody");root.replaceChildren();
+ for(const [id,list] of groups){const meta=contestMap.get(id)||{},row=document.createElement("div");row.className="contest-row";const label=document.createElement("div");label.className="contest-label";const link=document.createElement("a");link.href="https://codeforces.com/contest/"+id;link.target="_blank";link.rel="noopener";link.textContent=meta.name||("Codeforces Round #"+id);const sub=document.createElement("div");sub.className="muted";sub.textContent="CF"+id+" · "+list.length+" 题";label.append(link,sub);const grid=document.createElement("div");grid.className="problem-grid";
+  list.forEach(p=>{const tile=document.createElement("div");tile.className="problem-tile "+(p.solved?"solved":"unsolved");const a=document.createElement("a");a.href="https://codeforces.com/contest/"+id+"/problem/"+encodeURIComponent(p.problem_index);a.target="_blank";a.rel="noopener";a.textContent=p.problem_index;a.style.color=ratingColor(p.rating);const r=document.createElement("div");r.className="rating";r.textContent=p.rating??"Unrated";const star=document.createElement("button");star.className="bookmark"+(currentBookmarks.has(p.problem_key)?" active":"");star.textContent=currentBookmarks.has(p.problem_key)?"★":"☆";star.title="收藏 / 取消收藏";star.onclick=()=>toggleBookmark(p);tile.append(a,r,star);grid.append(tile);});row.append(label,grid);root.append(row);}
+ if(!root.children.length){const empty=document.createElement("div");empty.className="muted";empty.style.padding="20px";empty.textContent="没有符合当前筛选条件的题目。";root.append(empty);}
 }
+async function toggleBookmark(p){const key=p.problem_key;try{if(currentBookmarks.has(key)){const {error}=await supabase.from("problem_bookmarks").delete().eq("set_id",activeSet.id).eq("problem_key",key);if(error)throw error;currentBookmarks.delete(key);}else{const {error}=await supabase.from("problem_bookmarks").insert({owner_id:currentUser.id,set_id:activeSet.id,problem_key:key});if(error)throw error;currentBookmarks.add(key);}renderMatrix();}catch(e){message("收藏更新失败："+e.message,true);}}
 async function startLogin() {
   $("loginBtn").disabled = true;
   try {
@@ -370,13 +364,12 @@ $("verifyBtn").addEventListener("click",verifyChallenge);
 $("copyTokenBtn").addEventListener("click",async()=>{try{await navigator.clipboard.writeText($("challengeToken").textContent);message("验证码已复制。");}catch(e){message("复制失败，请手动选择验证码。",true);}});
 $("createBtn").addEventListener("click",createSet);
 $("closeMatrix").addEventListener("click",()=>$("matrixPanel").classList.add("hidden"));
+["problemSearch","ratingMin","ratingMax","statusFilter","tagFilter","bookmarkOnly"].forEach(id=>$(id).addEventListener(id==="problemSearch"?"input":"change",renderMatrix));
 $("divFilters").addEventListener("click",e=>{
   const btn=e.target.closest("button[data-div]"); if(!btn)return;
   currentDivision=btn.dataset.div;
   $("divFilters").querySelectorAll("button").forEach(b=>b.classList.toggle("active",b===btn));
-  if(activeSet) supabase.from("set_problems").select("contest_id,problem_index,name,rating,solved")
-    .eq("set_id",activeSet.id).order("contest_id").order("problem_index")
-    .then(({data,error})=>error?message(error.message,true):renderMatrix(data||[]));
+  if(activeSet) renderMatrix();
 });
 await loadContestMeta();
 const {data:{session}} = await supabase.auth.getSession();
