@@ -28,12 +28,16 @@ copyright = ""
   weight = 20
   identifier = "cf-problems"
   url = "/cf-problems/"
-  
 [[menu.main]]
-name = "Statistics"
-weight = 30
-identifier = "cf-statistics"
-url = "/cf-problems/statistics/"
+  name = "Statistics"
+  weight = 30
+  identifier = "cf-statistics"
+  url = "/cf-problems/statistics/"
+[[menu.main]]
+  name = "自定义题库"
+  weight = 40
+  identifier = "cf-custom-sets"
+  url = "/cf-problems/custom/"
 
 [params]
   version = "4.x"
