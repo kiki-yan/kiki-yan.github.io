@@ -67,7 +67,7 @@ th{background:#f8fafc;font-size:13px;color:#5b6677;white-space:nowrap}td.contest
    <input id="setName" placeholder="题库名称（可选）" class="grow">
    <button id="createBtn" class="primary">创建并同步</button>
   </div>
-  <div class="muted" style="margin-top:9px">收录该用户提交过的所有题目（包括 WA、TLE 等）；只要曾经获得过 OK，就标记为已 AC。每个 Handle 创建一个题库，可随时重命名。</div>
+  <div class="muted" style="margin-top:9px">可以输入任意公开的 Codeforces Handle（包括他人账号）；收录该用户提交过的所有题目（包括 WA、TLE 等），只要曾经获得过 OK 就标记为已 AC。上方账号绑定仅用于证明你自己的身份，不影响创建他人题库。每个 Handle 创建一个题库，可随时重命名。</div>
  </section>
  <section class="card">
   <h2>我的题库</h2>
@@ -169,7 +169,6 @@ async function refreshSets() {
 async function createSet() {
   clearMessage();
   const handle = $("handle").value.trim();
-  if (!verifiedHandles.has(handle.toLowerCase())) return message("请先在上方验证并绑定这个 Codeforces Handle。",true);
   const name = $("setName").value.trim() || handle;
   if (!/^[A-Za-z0-9_.-]{1,24}$/.test(handle)) return message("Handle 格式不正确，请检查后重试。",true);
   $("createBtn").disabled = true;
