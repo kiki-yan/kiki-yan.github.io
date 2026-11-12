@@ -39,13 +39,27 @@ th{background:#f8fafc;font-size:13px;color:#5b6677;white-space:nowrap}td.contest
   <button id="logoutBtn" class="hidden">退出登录</button>
  </div>
  <div id="loginPanel" class="row">
-  <input id="email" class="grow" type="email" placeholder="输入邮箱，接收登录链接">
-  <button id="loginBtn" class="primary">发送登录链接</button>
+  <button id="loginBtn" class="primary">使用 GitHub 登录</button>
  </div>
- <div class="muted" id="loginHint">使用邮箱一次性登录链接，无需设置密码。首次使用请先确认邮箱。</div>
+ <div class="muted" id="loginHint">使用 GitHub 账号安全登录。登录后需要验证你拥有的 Codeforces Handle。</div>
 </section>
 <div id="message" class="hidden" role="status"></div>
 <section id="appPanel" class="hidden">
+ <section class="card" id="bindingPanel">
+  <h2>已绑定的 Codeforces 账号</h2>
+  <div id="identityList" class="muted">正在读取绑定信息……</div>
+  <div class="row" style="margin-top:14px">
+   <input id="bindHandle" class="grow" placeholder="输入自己的 Codeforces Handle" autocomplete="off">
+   <button id="challengeBtn" class="primary">生成验证</button>
+  </div>
+  <div id="challengeBox" class="hidden" style="margin-top:14px;padding:14px;background:#f6f8fb;border-radius:9px">
+   <div class="muted">请将下面的验证码临时复制到 Codeforces 个人资料的 Organization（组织）字段并保存：</div>
+   <div class="row" style="margin:9px 0"><strong id="challengeToken" style="overflow-wrap:anywhere"></strong><button id="copyTokenBtn">复制验证码</button></div>
+   <div class="row"><input id="verifyToken" class="grow" placeholder="粘贴验证码"><button id="verifyBtn" class="primary">验证并绑定</button></div>
+   <div class="muted" style="margin-top:8px">验证码 15 分钟有效。验证成功后，可以将 Codeforces 资料中的 Organization 字段恢复原值。</div>
+  </div>
+  <div class="muted" style="margin-top:10px">一个 Codeforces Handle 只能绑定到一个 CF Problems 账户。不要把验证码分享给他人。</div>
+ </section>
  <section class="card">
   <h2>创建题库</h2>
   <div class="row">
@@ -81,6 +95,7 @@ const SUPABASE_KEY = "sb_publishable_sKmoRFPmXBSqvJLfqOFk4g_XX4hIrB7";
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 const $ = (id) => document.getElementById(id);
 let currentUser = null;
+let verifiedHandles = new Set();
 let contestMap = new Map();
 let activeSet = null;
 let currentDivision = "all";
@@ -154,6 +169,7 @@ async function refreshSets() {
 async function createSet() {
   clearMessage();
   const handle = $("handle").value.trim();
+  if (!verifiedHandles.has(handle.toLowerCase())) return message("请先在上方验证并绑定这个 Codeforces Handle。",true);
   const name = $("setName").value.trim() || handle;
   if (!/^[A-Za-z0-9_.-]{1,24}$/.test(handle)) return message("Handle 格式不正确，请检查后重试。",true);
   $("createBtn").disabled = true;
@@ -267,20 +283,72 @@ function renderMatrix(problems) {
   }
 }
 async function startLogin() {
-  const email = $("email").value.trim();
-  if (!email) return message("请先输入邮箱。",true);
   $("loginBtn").disabled = true;
   try {
-    const { error } = await supabase.auth.signInWithOtp({
-      email,
-      options: { emailRedirectTo: "https://kiki-yan.github.io/cf-problems/custom/" }
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "github",
+      options: { redirectTo: "https://kiki-yan.github.io/cf-problems/custom/" }
     });
     if (error) throw error;
-    message("登录链接已发送，请检查邮箱（包括垃圾邮件文件夹），点击链接后返回本页面。");
-  } catch (e) { message(e.message,true); }
-  finally { $("loginBtn").disabled = false; }
+  } catch (e) { message(e.message,true); $("loginBtn").disabled = false; }
 }
 async function signOut() { await supabase.auth.signOut(); }
+async function refreshIdentities() {
+  const { data, error } = await supabase.from("cf_identities")
+    .select("codeforces_handle,verified_at").order("verified_at",{ascending:false});
+  if (error) throw error;
+  verifiedHandles = new Set((data || []).map(x => x.codeforces_handle.toLowerCase()));
+  const root = $("identityList"); root.replaceChildren();
+  if (!data?.length) {
+    root.textContent = "尚未绑定账号。请在下方输入你自己的 Codeforces Handle 并完成验证。";
+    return;
+  }
+  for (const identity of data) {
+    const row = document.createElement("div");
+    row.className = "set";
+    const label = document.createElement("div");
+    label.className = "set-info";
+    label.textContent = "@" + identity.codeforces_handle + " · 已验证";
+    const link = document.createElement("a");
+    link.href = "https://codeforces.com/profile/" + encodeURIComponent(identity.codeforces_handle);
+    link.target = "_blank"; link.rel = "noopener"; link.textContent = "查看资料";
+    row.append(label,link); root.append(row);
+  }
+}
+async function callBinding(action, handle, token="") {
+  const { data, error } = await supabase.functions.invoke("bind-codeforces-handle", {
+    body: { action, handle, token }
+  });
+  if (error) throw error;
+  if (data?.error) throw new Error(data.error);
+  return data;
+}
+async function createChallenge() {
+  const handle = $("bindHandle").value.trim();
+  if (!/^[A-Za-z0-9_.-]{1,24}$/.test(handle)) return message("请输入正确的 Codeforces Handle。",true);
+  $("challengeBtn").disabled = true;
+  try {
+    const data = await callBinding("challenge",handle);
+    $("challengeToken").textContent = data.token;
+    $("verifyToken").value = data.token;
+    $("challengeBox").classList.remove("hidden");
+    message(data.instruction);
+  } catch(e) { message(e.message,true); }
+  finally { $("challengeBtn").disabled = false; }
+}
+async function verifyChallenge() {
+  const handle = $("bindHandle").value.trim();
+  const token = $("verifyToken").value.trim();
+  $("verifyBtn").disabled = true;
+  try {
+    await callBinding("verify",handle,token);
+    $("challengeBox").classList.add("hidden");
+    $("bindHandle").value = ""; $("verifyToken").value = "";
+    await refreshIdentities();
+    message("Codeforces @" + handle + " 已验证并绑定。现在可以创建该账号的题库。");
+  } catch(e) { message(e.message,true); }
+  finally { $("verifyBtn").disabled = false; }
+}
 async function onUser(user) {
   currentUser = user;
   $("loginPanel").classList.toggle("hidden",!!user);
@@ -289,11 +357,18 @@ async function onUser(user) {
   $("appPanel").classList.toggle("hidden",!user);
   $("accountText").textContent = user ? "已登录：" + (user.email || "") + " · 题库将保存在云端" : "登录后可跨设备保存和同步题库";
   if (user) {
-    try { await refreshSets(); } catch(e) { message(e.message,true); }
+    try { await refreshIdentities(); await refreshSets(); }
+    catch(e) { message(e.message,true); }
+  } else {
+    verifiedHandles = new Set();
+    $("challengeBox").classList.add("hidden");
   }
 }
 $("loginBtn").addEventListener("click",startLogin);
 $("logoutBtn").addEventListener("click",signOut);
+$("challengeBtn").addEventListener("click",createChallenge);
+$("verifyBtn").addEventListener("click",verifyChallenge);
+$("copyTokenBtn").addEventListener("click",async()=>{try{await navigator.clipboard.writeText($("challengeToken").textContent);message("验证码已复制。");}catch(e){message("复制失败，请手动选择验证码。",true);}});
 $("createBtn").addEventListener("click",createSet);
 $("closeMatrix").addEventListener("click",()=>$("matrixPanel").classList.add("hidden"));
 $("divFilters").addEventListener("click",e=>{
