@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>自定义题库 · CF Problems</title>
+<style>
+:root{color-scheme:light;--bg:#f6f8fb;--card:#fff;--text:#202938;--muted:#718096;--border:#e5eaf1;--blue:#4776d0;--green:#e2f4e8;--red:#fff0ef}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+main{max-width:1180px;margin:auto;padding:28px 18px 60px}a{color:var(--blue);text-decoration:none}
+header{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:22px}h1{font-size:27px;margin:0}h2{font-size:18px;margin:0 0 14px}.muted{color:var(--muted);font-size:13px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;margin:14px 0}
+.row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.grow{flex:1;min-width:180px}
+input{height:40px;border:1px solid var(--border);border-radius:8px;padding:0 12px;font:inherit;min-width:0}
+button{border:1px solid var(--border);background:#fff;border-radius:8px;padding:8px 12px;cursor:pointer;color:var(--text);font:inherit}
+button.primary{background:var(--blue);border-color:var(--blue);color:#fff}button.danger{color:#c43d3d}
+button:disabled{opacity:.55;cursor:wait}.hidden{display:none!important}
+#message{margin:12px 0;padding:11px 14px;border-radius:9px;background:#eef3fb;color:#3b5d91;white-space:pre-wrap}
+.set{display:flex;align-items:center;gap:12px;border-top:1px solid var(--border);padding:13px 0}.set:first-child{border-top:0}.set-info{flex:1;min-width:180px}.set-name{font-weight:650}.set-meta{font-size:13px;color:var(--muted)}
+.pills{display:flex;gap:7px;flex-wrap:wrap;margin:12px 0}.pills button.active{background:#eaf1ff;border-color:#b7c9ed;color:#315ca5}
+.table-wrap{overflow:auto;border:1px solid var(--border);border-radius:10px;background:#fff}
+table{border-collapse:collapse;width:100%;min-width:760px}th,td{padding:10px 12px;border-bottom:1px solid var(--border);text-align:left;vertical-align:top}
+th{background:#f8fafc;font-size:13px;color:#5b6677;white-space:nowrap}td.contest{min-width:190px;width:220px}
+.problem{display:inline-flex;align-items:center;gap:5px;margin:2px 5px 2px 0;padding:4px 7px;border-radius:6px;background:var(--red);font-size:13px;white-space:nowrap}
+.problem.solved{background:var(--green)}.problem a{font-weight:650}.problem small{color:#6d7786}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--muted);margin:10px 0}
+@media(max-width:700px){main{padding:18px 12px}header{align-items:flex-start}.card{padding:15px}.set{align-items:flex-start;flex-wrap:wrap}.set-actions{width:100%}.set-actions button{margin:2px}}
+</style>
+</head>
+<body>
+<main>
+<header>
+ <div><h1>自定义题库</h1><div class="muted">根据 Codeforces 用户的提交记录生成专属题目矩阵</div></div>
+ <a href="/cf-problems/">← 返回 CF Problems</a>
+</header>
+<section class="card">
+ <div class="row" style="justify-content:space-between">
+  <div><h2>账户</h2><div class="muted" id="accountText">登录后可跨设备保存和同步题库</div></div>
+  <button id="logoutBtn" class="hidden">退出登录</button>
+ </div>
+ <div id="loginPanel" class="row">
+  <input id="email" class="grow" type="email" placeholder="输入邮箱，接收登录链接">
+  <button id="loginBtn" class="primary">发送登录链接</button>
+ </div>
+ <div class="muted" id="loginHint">使用邮箱一次性登录链接，无需设置密码。首次使用请先确认邮箱。</div>
+</section>
+<div id="message" class="hidden" role="status"></div>
+<section id="appPanel" class="hidden">
+ <section class="card">
+  <h2>创建题库</h2>
+  <div class="row">
+   <input id="handle" placeholder="Codeforces Handle，例如 jiangliyu" class="grow" autocomplete="off">
+   <input id="setName" placeholder="题库名称（可选）" class="grow">
+   <button id="createBtn" class="primary">创建并同步</button>
+  </div>
+  <div class="muted" style="margin-top:9px">收录该用户提交过的所有题目（包括 WA、TLE 等）；只要曾经获得过 OK，就标记为已 AC。每个 Handle 创建一个题库，可随时重命名。</div>
+ </section>
+ <section class="card">
+  <h2>我的题库</h2>
+  <div id="sets"><div class="muted">正在加载……</div></div>
+ </section>
+ <section id="matrixPanel" class="card hidden">
+  <div class="row" style="justify-content:space-between">
+   <div><h2 id="matrixTitle">题目矩阵</h2><div class="muted" id="matrixMeta"></div></div>
+   <button id="closeMatrix">收起</button>
+  </div>
+  <div class="pills" id="divFilters">
+   <button class="active" data-div="all">全部比赛</button>
+   <button data-div="1">Div.1</button><button data-div="2">Div.2</button><button data-div="3">Div.3</button>
+  </div>
+  <div class="legend"><span>🟩 曾经 AC</span><span>🟥 有提交但尚未 AC</span></div>
+  <div class="table-wrap"><table><thead><tr><th>Contest</th><th>Problems</th></tr></thead><tbody id="matrixBody"></tbody></table></div>
+ </section>
+</section>
+</main>
+<script type="module">
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.95.0";
+
+const SUPABASE_URL = "https://lpnxnralrdmcwenukqsr.supabase.co";
+const SUPABASE_KEY = "sb_publishable_sKmoRFPmXBSqvJLfqOFk4g_XX4hIrB7";
+const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+const $ = (id) => document.getElementById(id);
+let currentUser = null;
+let contestMap = new Map();
+let activeSet = null;
+let currentDivision = "all";
+
+function message(text, error=false) {
+  $("message").textContent = text;
+  $("message").classList.remove("hidden");
+  $("message").style.background = error ? "#fff0ef" : "#eef3fb";
+  $("message").style.color = error ? "#a33a3a" : "#3b5d91";
+}
+function clearMessage(){ $("message").classList.add("hidden"); }
+function escapeHtml(value) {
+  return String(value ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+async function loadContestMeta() {
+  try {
+    const response = await fetch("/contests.json");
+    if (!response.ok) return;
+    const contests = await response.json();
+    contestMap = new Map(contests.map(c => [Number(c.id), c]));
+  } catch (e) { console.warn("contest metadata unavailable", e); }
+}
+function divisionMatches(contest, div) {
+  if (div === "all") return true;
+  const text = String(contest?.name ?? "") + " " + String(contest?.type ?? "");
+  return new RegExp("Div(?:ision)?\\.?\\s*" + div, "i").test(text);
+}
+function ratingColor(rating) {
+  if (!Number.isFinite(Number(rating))) return "#687385";
+  const r = Number(rating);
+  if (r < 1200) return "#808080";
+  if (r < 1400) return "#008000";
+  if (r < 1600) return "#03a89e";
+  if (r < 1900) return "#0000ff";
+  if (r < 2100) return "#aa00aa";
+  if (r < 2400) return "#ff8c00";
+  return "#ff0000";
+}
+async function refreshSets() {
+  const { data, error } = await supabase.from("problem_sets").select("*").order("created_at",{ascending:false});
+  if (error) throw error;
+  const root = $("sets");
+  root.replaceChildren();
+  if (!data?.length) { root.innerHTML = '<div class="muted">还没有题库。输入一个 Codeforces Handle 即可创建。</div>'; return; }
+  for (const set of data) {
+    const item = document.createElement("div");
+    item.className = "set";
+    const info = document.createElement("div");
+    info.className = "set-info";
+    const name = document.createElement("div");
+    name.className = "set-name"; name.textContent = set.name;
+    const meta = document.createElement("div");
+    meta.className = "set-meta";
+    const synced = set.last_synced_at ? new Date(set.last_synced_at).toLocaleString() : "尚未完成同步";
+    meta.textContent = "@" + set.codeforces_handle + " · " + set.sync_status + " · " + synced;
+    info.append(name,meta);
+    const actions = document.createElement("div");
+    actions.className = "set-actions row";
+    const open = document.createElement("button"); open.textContent = "打开矩阵";
+    open.onclick = () => openMatrix(set);
+    const sync = document.createElement("button"); sync.textContent = "刷新提交";
+    sync.onclick = () => syncSet(set, true);
+    const rename = document.createElement("button"); rename.textContent = "重命名";
+    rename.onclick = () => renameSet(set);
+    const del = document.createElement("button"); del.textContent = "删除"; del.className = "danger";
+    del.onclick = () => deleteSet(set);
+    actions.append(open,sync,rename,del);
+    item.append(info,actions); root.append(item);
+  }
+}
+async function createSet() {
+  clearMessage();
+  const handle = $("handle").value.trim();
+  const name = $("setName").value.trim() || handle;
+  if (!/^[A-Za-z0-9_.-]{1,24}$/.test(handle)) return message("Handle 格式不正确，请检查后重试。",true);
+  $("createBtn").disabled = true;
+  try {
+    message("正在创建题库……");
+    const { data, error } = await supabase.from("problem_sets").insert({
+      owner_id: currentUser.id, name, codeforces_handle: handle
+    }).select().single();
+    if (error) throw error;
+    $("handle").value = ""; $("setName").value = "";
+    await refreshSets();
+    await syncSet(data, false);
+  } catch (e) {
+    message(e.message || "创建失败",true);
+  } finally { $("createBtn").disabled = false; }
+}
+async function syncSet(set, restart) {
+  clearMessage();
+  message("正在同步 @" + set.codeforces_handle + " 的提交记录。提交量较大时可能需要分批完成，请保持页面打开。");
+  const buttons = [...document.querySelectorAll("button")];
+  buttons.forEach(b => b.disabled = true);
+  try {
+    let complete = false, first = true, total = 0, problemCount = null;
+    while (!complete) {
+      const { data, error } = await supabase.functions.invoke("sync-codeforces-submissions", {
+        body: { set_id: set.id, restart: first && restart }
+      });
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+      complete = data.complete === true;
+      total += Number(data.submissions_processed || 0);
+      if (complete) problemCount = data.problems;
+      else message("已处理 " + total.toLocaleString() + " 条提交，继续同步历史记录……");
+      first = false;
+    }
+    message("同步完成：@" + set.codeforces_handle + "，共 " + (problemCount ?? "—") + " 道题目。");
+    await refreshSets();
+    if (activeSet?.id === set.id) await openMatrix(set);
+  } catch (e) {
+    message("同步未完成：" + (e.message || "未知错误") + "。可点击“刷新提交”继续。",true);
+    await refreshSets();
+  } finally { buttons.forEach(b => b.disabled = false); }
+}
+async function renameSet(set) {
+  const next = prompt("输入新的题库名称：",set.name);
+  if (next === null) return;
+  const name = next.trim();
+  if (!name || name.length > 80) return message("名称需为 1–80 个字符。",true);
+  const { error } = await supabase.from("problem_sets").update({name}).eq("id",set.id);
+  if (error) return message(error.message,true);
+  await refreshSets();
+  if (activeSet?.id === set.id) $("matrixTitle").textContent = name;
+}
+async function deleteSet(set) {
+  if (!confirm('确定删除题库“' + set.name + '”及其同步的题目吗？此操作无法撤销。')) return;
+  const { error } = await supabase.from("problem_sets").delete().eq("id",set.id);
+  if (error) return message(error.message,true);
+  if (activeSet?.id === set.id) { activeSet = null; $("matrixPanel").classList.add("hidden"); }
+  await refreshSets();
+  message("题库已删除。");
+}
+async function openMatrix(set) {
+  activeSet = set;
+  $("matrixTitle").textContent = set.name;
+  $("matrixMeta").textContent = "Codeforces @" + set.codeforces_handle + " · 正在读取题目……";
+  $("matrixPanel").classList.remove("hidden");
+  const { data, error } = await supabase.from("set_problems")
+    .select("contest_id,problem_index,name,rating,solved")
+    .eq("set_id",set.id).order("contest_id",{ascending:true}).order("problem_index",{ascending:true});
+  if (error) return message(error.message,true);
+  $("matrixMeta").textContent = data.length + " 道题目 · 绿色为曾经 AC，红色为尚未 AC";
+  renderMatrix(data);
+  $("matrixPanel").scrollIntoView({behavior:"smooth",block:"start"});
+}
+function renderMatrix(problems) {
+  const groups = new Map();
+  for (const p of problems) {
+    const id = Number(p.contest_id);
+    if (!groups.has(id)) groups.set(id,[]);
+    groups.get(id).push(p);
+  }
+  const body = $("matrixBody"); body.replaceChildren();
+  for (const [id, list] of groups) {
+    const meta = contestMap.get(id) || {};
+    if (!divisionMatches(meta,currentDivision)) continue;
+    const tr = document.createElement("tr");
+    const title = document.createElement("td"); title.className = "contest";
+    const link = document.createElement("a");
+    link.href = "https://codeforces.com/contest/" + id; link.target="_blank"; link.rel="noopener";
+    link.textContent = meta.name || ("Codeforces Round #" + id);
+    const sub = document.createElement("div"); sub.className="muted"; sub.textContent="CF" + id + (meta.type ? " · " + meta.type : "");
+    title.append(link,sub);
+    const cell = document.createElement("td");
+    for (const p of list) {
+      const span = document.createElement("span");
+      span.className = "problem" + (p.solved ? " solved" : "");
+      const a = document.createElement("a");
+      a.href = "https://codeforces.com/contest/" + id + "/problem/" + encodeURIComponent(p.problem_index);
+      a.target="_blank"; a.rel="noopener"; a.style.color=ratingColor(p.rating);
+      a.textContent = p.problem_index;
+      a.title = p.name + (p.rating ? " · Rating " + p.rating : "");
+      const status = document.createElement("small"); status.textContent = p.solved ? "AC" : "未AC";
+      span.append(a,status); cell.append(span);
+    }
+    tr.append(title,cell); body.append(tr);
+  }
+  if (!body.children.length) {
+    const tr=document.createElement("tr"),td=document.createElement("td");
+    td.colSpan=2;td.className="muted";td.textContent="该筛选条件下没有题目。";
+    tr.append(td);body.append(tr);
+  }
+}
+async function startLogin() {
+  const email = $("email").value.trim();
+  if (!email) return message("请先输入邮箱。",true);
+  $("loginBtn").disabled = true;
+  try {
+    const { error } = await supabase.auth.signInWithOtp({
+      email,
+      options: { emailRedirectTo: "https://kiki-yan.github.io/cf-problems/custom/" }
+    });
+    if (error) throw error;
+    message("登录链接已发送，请检查邮箱（包括垃圾邮件文件夹），点击链接后返回本页面。");
+  } catch (e) { message(e.message,true); }
+  finally { $("loginBtn").disabled = false; }
+}
+async function signOut() { await supabase.auth.signOut(); }
+async function onUser(user) {
+  currentUser = user;
+  $("loginPanel").classList.toggle("hidden",!!user);
+  $("loginHint").classList.toggle("hidden",!!user);
+  $("logoutBtn").classList.toggle("hidden",!user);
+  $("appPanel").classList.toggle("hidden",!user);
+  $("accountText").textContent = user ? "已登录：" + (user.email || "") + " · 题库将保存在云端" : "登录后可跨设备保存和同步题库";
+  if (user) {
+    try { await refreshSets(); } catch(e) { message(e.message,true); }
+  }
+}
+$("loginBtn").addEventListener("click",startLogin);
+$("logoutBtn").addEventListener("click",signOut);
+$("createBtn").addEventListener("click",createSet);
+$("closeMatrix").addEventListener("click",()=>$("matrixPanel").classList.add("hidden"));
+$("divFilters").addEventListener("click",e=>{
+  const btn=e.target.closest("button[data-div]"); if(!btn)return;
+  currentDivision=btn.dataset.div;
+  $("divFilters").querySelectorAll("button").forEach(b=>b.classList.toggle("active",b===btn));
+  if(activeSet) supabase.from("set_problems").select("contest_id,problem_index,name,rating,solved")
+    .eq("set_id",activeSet.id).order("contest_id").order("problem_index")
+    .then(({data,error})=>error?message(error.message,true):renderMatrix(data||[]));
+});
+await loadContestMeta();
+const {data:{session}} = await supabase.auth.getSession();
+await onUser(session?.user ?? null);
+supabase.auth.onAuthStateChange((_event,session)=>{ onUser(session?.user ?? null); });
+</script>
+</body>
+</html>
