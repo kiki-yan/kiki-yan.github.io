@@ -354,14 +354,13 @@ function loadLoginContent() {
 }
 
 
-/* My problem sets: overlay selected Supabase problem sets on the original contest matrix. */
+/* Custom problem sets selector and matrix overlay. */
 let mySetClient = null;
 let mySetUserId = null;
 let mySetList = [];
 let selectedMySetIds = new Set();
 let mySetProblemKeys = new Set();
 let mySetProblemSources = new Map();
-let mySetMode = "highlight";
 const MY_SET_SELECTION_KEY = "cf-problems-selected-custom-sets-v1";
 const MY_SET_SUPABASE_URL = "https://lpnxnralrdmcwenukqsr.supabase.co";
 const MY_SET_SUPABASE_KEY = "sb_publishable_sKmoRFPmXBSqvJLfqOFk4g_XX4hIrB7";
@@ -376,10 +375,11 @@ function saveMySetSelection() {
   try { window.localStorage.setItem(MY_SET_SELECTION_KEY, JSON.stringify([...selectedMySetIds])); }
   catch (_) {}
 }
-function setMySetStatus(text, isError=false) {
-  const node = document.getElementById("my-set-status");
+function setMySetMessage(message="", isError=false) {
+  const node = document.getElementById("my-set-message");
   if (!node) return;
-  node.textContent = text;
+  node.textContent = message;
+  node.hidden = !message;
   node.style.color = isError ? "#b54747" : "#718096";
 }
 function renderMySetOptions() {
@@ -388,8 +388,8 @@ function renderMySetOptions() {
   root.replaceChildren();
   if (!mySetList.length) {
     const empty = document.createElement("span");
-    empty.className = "my-set-description";
-    empty.textContent = "当前账号还没有自定义题库。";
+    empty.className = "my-set-option-empty";
+    empty.textContent = "暂无题库";
     root.appendChild(empty);
     return;
   }
@@ -402,10 +402,7 @@ function renderMySetOptions() {
     input.checked = selectedMySetIds.has(set.id);
     const name = document.createElement("span");
     name.textContent = set.name || set.codeforces_handle || "未命名题库";
-    const handle = document.createElement("span");
-    handle.className = "my-set-description";
-    handle.textContent = "@" + set.codeforces_handle;
-    label.append(input, name, handle);
+    label.append(input, name);
     root.appendChild(label);
   }
 }
@@ -425,21 +422,21 @@ async function loadSelectedMySetProblems() {
         mySetProblemKeys.add(key);
         if (!mySetProblemSources.has(key)) mySetProblemSources.set(key, []);
         const names = mySetProblemSources.get(key);
-        if (!names.includes(set.name)) names.push(set.name);
+        const setName = set.name || set.codeforces_handle || "未命名题库";
+        if (!names.includes(setName)) names.push(setName);
       }
       if (!data || data.length < 1000) break;
     }
   }
-  const count = mySetProblemKeys.size;
-  setMySetStatus(chosen.length
-    ? "已选择 " + chosen.length + " 个题库，覆盖 " + count.toLocaleString() + " 道不同题目。"
-    : "请选择一个或多个题库；未选择时完整显示原比赛矩阵。");
+  const filter = document.getElementById("my-set-filter");
+  if (filter) filter.disabled = selectedMySetIds.size === 0;
   applyMySetOverlay();
 }
 function applyMySetOverlay() {
   const table = document.getElementById("main-table");
   if (!table) return;
-  const filterMode = mySetMode === "filter" && selectedMySetIds.size > 0;
+  const filterNode = document.getElementById("my-set-filter");
+  const filterMode = !!(filterNode && filterNode.checked && selectedMySetIds.size > 0);
   table.querySelectorAll("tbody tr").forEach(row => {
     let rowHasSelected = false;
     row.querySelectorAll("td").forEach(cell => {
@@ -456,18 +453,13 @@ function applyMySetOverlay() {
           rowHasSelected = true;
           (mySetProblemSources.get(key) || []).forEach(name => sourceNames.add(name));
         }
-        if (filterMode && !included) {
-          link.hidden = true;
-          const circle = link.previousElementSibling;
-          if (circle && circle.classList.contains("difficulty-circle")) circle.hidden = true;
-          let next = link.nextElementSibling;
-          while (next && next.tagName === "BR") { next.hidden = true; next = next.nextElementSibling; }
-        } else {
-          link.hidden = false;
-          const circle = link.previousElementSibling;
-          if (circle && circle.classList.contains("difficulty-circle")) circle.hidden = false;
-          let next = link.nextElementSibling;
-          while (next && next.tagName === "BR") { next.hidden = false; next = next.nextElementSibling; }
+        link.hidden = filterMode && !included;
+        const circle = link.previousElementSibling;
+        if (circle && circle.classList.contains("difficulty-circle")) circle.hidden = filterMode && !included;
+        let next = link.nextElementSibling;
+        while (next && next.tagName === "BR") {
+          next.hidden = filterMode && !included;
+          next = next.nextElementSibling;
         }
         link.title = included ? "所属题库：" + [...(mySetProblemSources.get(key) || [])].join("、") : "";
       }
@@ -485,37 +477,53 @@ async function initMyProblemSets() {
   const panel = document.getElementById("my-set-panel");
   if (!panel) return;
   selectedMySetIds = readMySetSelection();
-  document.getElementById("my-set-options").addEventListener("change", async event => {
+  const toggle = document.getElementById("my-set-toggle");
+  const menu = document.getElementById("my-set-menu");
+  const options = document.getElementById("my-set-options");
+  const filter = document.getElementById("my-set-filter");
+
+  toggle.addEventListener("click", () => {
+    const opening = menu.hidden;
+    menu.hidden = !opening;
+    toggle.setAttribute("aria-expanded", String(opening));
+  });
+  document.addEventListener("click", event => {
+    if (!panel.contains(event.target)) {
+      menu.hidden = true;
+      toggle.setAttribute("aria-expanded", "false");
+    }
+  });
+  options.addEventListener("change", async event => {
     const input = event.target.closest("input[data-set-id]");
     if (!input) return;
     if (input.checked) selectedMySetIds.add(input.dataset.setId);
     else selectedMySetIds.delete(input.dataset.setId);
     saveMySetSelection();
     try {
-      setMySetStatus("正在读取所选题库……");
+      setMySetMessage();
       await loadSelectedMySetProblems();
     } catch (error) {
-      setMySetStatus("读取题库失败：" + (error.message || error), true);
+      setMySetMessage("读取题库失败：" + (error.message || error), true);
     }
   });
   document.getElementById("my-set-select-all").addEventListener("click", async () => {
     selectedMySetIds = new Set(mySetList.map(set => set.id));
-    saveMySetSelection(); renderMySetOptions();
+    saveMySetSelection();
+    renderMySetOptions();
     try { await loadSelectedMySetProblems(); }
-    catch (error) { setMySetStatus("读取题库失败：" + (error.message || error), true); }
+    catch (error) { setMySetMessage("读取题库失败：" + (error.message || error), true); }
   });
-  document.getElementById("my-set-clear").addEventListener("click", () => {
-    selectedMySetIds.clear(); saveMySetSelection(); renderMySetOptions();
-    mySetProblemKeys.clear(); mySetProblemSources.clear(); applyMySetOverlay();
-    setMySetStatus("已清空选择，完整比赛矩阵正常显示。");
+  document.getElementById("my-set-clear").addEventListener("click", async () => {
+    selectedMySetIds.clear();
+    saveMySetSelection();
+    renderMySetOptions();
+    mySetProblemKeys.clear();
+    mySetProblemSources.clear();
+    filter.checked = false;
+    filter.disabled = true;
+    applyMySetOverlay();
   });
-  document.querySelectorAll(".my-set-mode").forEach(button => {
-    button.addEventListener("click", () => {
-      mySetMode = button.dataset.mode;
-      document.querySelectorAll(".my-set-mode").forEach(item => item.classList.toggle("active", item === button));
-      applyMySetOverlay();
-    });
-  });
+  filter.addEventListener("change", applyMySetOverlay);
 
   try {
     const { createClient } = await import("https://esm.sh/@supabase/supabase-js@2.95.0");
@@ -528,7 +536,7 @@ async function initMyProblemSets() {
       mySetProblemKeys.clear();
       mySetProblemSources.clear();
       applyMySetOverlay();
-      setMySetStatus("请先在“自定义题库”页面使用 GitHub 登录，再刷新本页面。");
+      setMySetMessage("请先在自定义题库页面使用 GitHub 登录。", true);
       return;
     }
     mySetUserId = user.id;
@@ -541,18 +549,13 @@ async function initMyProblemSets() {
     selectedMySetIds = new Set([...selectedMySetIds].filter(id => validIds.has(id)));
     saveMySetSelection();
     renderMySetOptions();
-    if (!mySetList.length) {
-      setMySetStatus("当前账号还没有题库。可以先到“自定义题库”页面创建。");
-      return;
-    }
-    if (!selectedMySetIds.size) {
-      setMySetStatus("已读取 " + mySetList.length + " 个题库；勾选题库即可在矩阵中高亮题目。");
+    if (selectedMySetIds.size) await loadSelectedMySetProblems();
+    else {
+      filter.disabled = true;
       applyMySetOverlay();
-      return;
     }
-    await loadSelectedMySetProblems();
   } catch (error) {
-    setMySetStatus("题库读取失败：" + (error.message || error), true);
+    setMySetMessage("题库读取失败：" + (error.message || error), true);
   }
 }
 
