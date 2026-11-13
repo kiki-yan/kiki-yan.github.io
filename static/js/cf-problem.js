@@ -524,6 +524,10 @@ async function initMyProblemSets() {
     if (sessionError) throw sessionError;
     const user = sessionData?.session?.user;
     if (!user) {
+      selectedMySetIds.clear();
+      mySetProblemKeys.clear();
+      mySetProblemSources.clear();
+      applyMySetOverlay();
       setMySetStatus("请先在“自定义题库”页面使用 GitHub 登录，再刷新本页面。");
       return;
     }
