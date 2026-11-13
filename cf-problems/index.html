@@ -111,29 +111,27 @@
 
   <link rel="stylesheet" href='https://kiki-yan.github.io/css/cf-problems.css'>
   <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>
-  <script src='https://kiki-yan.github.io/js/cf-problem.js?v=1794554949'></script>
+  <script src='https://kiki-yan.github.io/js/cf-problem.js?v=1794557381'></script>
 
   <div class='navigator-wrapper'>
   </div>
 
-  <section id="my-set-panel" class="my-set-panel" aria-label="我的题库叠加显示">
-    <div class="my-set-heading">
-      <div>
-        <strong>我的题库</strong>
-        <div class="my-set-description">勾选题库后，在下方比赛矩阵中高亮其中的题目。</div>
+  <section id="my-set-panel" class="my-set-panel" aria-label="题库选择">
+    <div class="my-set-control">
+      <button type="button" id="my-set-toggle" class="my-set-toggle" aria-expanded="false" aria-controls="my-set-menu">题库 <span aria-hidden="true">▾</span></button>
+      <div id="my-set-menu" class="my-set-menu" hidden>
+        <div class="my-set-menu-actions">
+          <button type="button" id="my-set-select-all">全选</button>
+          <button type="button" id="my-set-clear">清空</button>
+        </div>
+        <div id="my-set-options" class="my-set-options"></div>
       </div>
-      <a href="/cf-problems/custom/">管理题库 ↗</a>
     </div>
-    <div id="my-set-status" class="my-set-status">正在读取登录状态……</div>
-    <div id="my-set-options" class="my-set-options"></div>
-    <div class="my-set-toolbar">
-      <button type="button" id="my-set-select-all">全选</button>
-      <button type="button" id="my-set-clear">清空</button>
-      <span class="my-set-mode-label">显示方式：</span>
-      <button type="button" class="my-set-mode active" data-mode="highlight">高亮模式</button>
-      <button type="button" class="my-set-mode" data-mode="filter">仅看所选题目</button>
-    </div>
-    <div class="my-set-legend"><span class="my-set-swatch"></span> 淡红色表示属于已选题库；AC 状态仍由左侧色条区分。</div>
+    <label class="my-set-filter-option">
+      <input type="checkbox" id="my-set-filter" disabled>
+      <span>仅看题库</span>
+    </label>
+    <span id="my-set-message" class="my-set-message" role="status" hidden></span>
   </section>
 
   <div class="main-table-wrapper">
